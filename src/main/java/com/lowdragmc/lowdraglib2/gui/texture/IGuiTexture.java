@@ -18,18 +18,19 @@ import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
 import com.lowdragmc.lowdraglib2.utils.PersistedParser;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.vfyjxf.taffy.style.AlignItems;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -40,11 +41,15 @@ import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX;
 @KJSBindings
 @FunctionalInterface
 public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDLRegisterClient<IGuiTexture, Supplier<IGuiTexture>> {
-    //region builtin textures
+
+    // region builtin textures
     @LDLRegisterClient(name = "empty", registry = "ldlib2:gui_texture", environment = RegistrationEnvironment.MANUAL)
     final class EmptyTexture implements IGuiTexture {
+
         @Override
-        public IGuiTexture copy() { return EMPTY; }
+        public IGuiTexture copy() {
+            return EMPTY;
+        }
 
         @OnlyIn(Dist.CLIENT)
         @Override
@@ -53,8 +58,11 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
 
     @LDLRegisterClient(name = "missing", registry = "ldlib2:gui_texture", environment = RegistrationEnvironment.MANUAL)
     final class MissingTexture implements IGuiTexture {
+
         @Override
-        public IGuiTexture copy() { return MISSING_TEXTURE; }
+        public IGuiTexture copy() {
+            return MISSING_TEXTURE;
+        }
 
         @OnlyIn(Dist.CLIENT)
         @Override
@@ -72,12 +80,13 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
             BufferUploader.drawWithShader(bufferbuilder.end());
         }
     }
-    //endregion
+    // endregion
 
     EmptyTexture EMPTY = new EmptyTexture();
     MissingTexture MISSING_TEXTURE = new MissingTexture();
 
     Codec<IGuiTexture> CODEC = createCodec();
+
     static Codec<IGuiTexture> createCodec() {
         if (LDLib2.isClient()) {
             return LDLib2Registries.GUI_TEXTURES.optionalCodec().dispatch(ILDLRegisterClient::getRegistryHolderOptional,
@@ -96,7 +105,7 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
         return GuiTextureGroup.of(textures);
     }
 
-    default IGuiTexture setColor(int color){
+    default IGuiTexture setColor(int color) {
         return this;
     }
 
@@ -148,6 +157,7 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
      */
     default IGuiTexture interpolate(IGuiTexture other, float lerp) {
         return new IGuiTexture() {
+
             @Override
             @OnlyIn(Dist.CLIENT)
             public void draw(GuiGraphics graphics, float mouseX, float mouseY, float x, float y, float width, float height, float partialTicks) {
@@ -166,7 +176,7 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
         draw(context.graphics, context.localMouseX, context.localMouseY, x, y, width, height, context.partialTick);
     }
 
-    // ***************** EDITOR  ***************** //
+    // ***************** EDITOR ***************** //
     @OnlyIn(Dist.CLIENT)
     default void createPreview(ConfiguratorGroup father) {
         father.addConfigurators(new Configurator("ldlib.gui.editor.group.preview")

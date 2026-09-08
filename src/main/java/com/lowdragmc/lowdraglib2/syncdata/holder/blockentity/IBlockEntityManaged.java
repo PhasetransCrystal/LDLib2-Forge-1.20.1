@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.syncdata.holder.blockentity;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.syncdata.IManaged;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.apache.commons.lang3.NotImplementedException;
@@ -14,6 +15,7 @@ import java.util.function.Consumer;
  * Interface for block entities that are managed by the sync system.
  */
 public interface IBlockEntityManaged extends IManaged {
+
     /**
      * @return the block entity that is managed by the sync system
      */

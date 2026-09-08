@@ -1,20 +1,21 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.DynamicTexture;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode;
-import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
+import com.google.common.base.Predicates;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
@@ -27,15 +28,16 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -43,7 +45,9 @@ import java.util.function.Predicate;
 @KJSBindings
 @LDLRegister(name = "structured-tag-editor", group = "basic", registry = "ldlib2:ui_element")
 public class StructuredTagEditor extends BindableUIElement<Tag> {
+
     public enum TagKind {
+
         END("End"),
         BYTE("Byte"),
         SHORT("Short"),
@@ -68,11 +72,13 @@ public class StructuredTagEditor extends BindableUIElement<Tag> {
 
     @FunctionalInterface
     private interface TagSetter {
+
         void set(Tag tag, boolean reload);
     }
 
     @FunctionalInterface
     private interface TagRemover {
+
         void remove();
     }
 
@@ -321,16 +327,16 @@ public class StructuredTagEditor extends BindableUIElement<Tag> {
             layout.heightPercent(100);
         }).style(style -> style.backgroundTexture(expandable ? (expandedPaths.contains(path) ? Icons.DOWN_ARROW_NO_BAR_S_WHITE : Icons.RIGHT_ARROW_NO_BAR_S_WHITE) : IGuiTexture.EMPTY)));
         expandButton.addEventListener(UIEvents.MOUSE_DOWN, e -> {
-                    if (e.button != 0) return;
-                    if (!expandable) return;
-                    if (expandedPaths.contains(path)) {
-                        expandedPaths.remove(path);
-                    } else {
-                        expandedPaths.add(path);
-                    }
-                    reloadRows();
-                    e.stopPropagation();
-                });
+            if (e.button != 0) return;
+            if (!expandable) return;
+            if (expandedPaths.contains(path)) {
+                expandedPaths.remove(path);
+            } else {
+                expandedPaths.add(path);
+            }
+            reloadRows();
+            e.stopPropagation();
+        });
         row.addChild(expandButton);
 
         if (key != null) {
@@ -388,11 +394,10 @@ public class StructuredTagEditor extends BindableUIElement<Tag> {
         var label = new Label().setText(key, false).textStyle(style -> style
                 .textAlignVertical(Vertical.CENTER)
                 .textAlignHorizontal(Horizontal.LEFT)
-                .textWrap(com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap.HOVER_ROLL)
-        ).layout(layout -> {
-            layout.widthPercent(100);
-            layout.heightPercent(100);
-        }).setOverflowVisible(false);
+                .textWrap(com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap.HOVER_ROLL)).layout(layout -> {
+                    layout.widthPercent(100);
+                    layout.heightPercent(100);
+                }).setOverflowVisible(false);
         label.addEventListener(UIEvents.DOUBLE_CLICK, e -> {
             if (root || keyParent == null) return;
             keyContainer.clearAllChildren();
@@ -871,26 +876,38 @@ public class StructuredTagEditor extends BindableUIElement<Tag> {
     }
 
     private static void parseByte(String text, Consumer<Byte> consumer) {
-        try { consumer.accept(Byte.parseByte(text)); } catch (NumberFormatException ignored) {}
+        try {
+            consumer.accept(Byte.parseByte(text));
+        } catch (NumberFormatException ignored) {}
     }
 
     private static void parseShort(String text, Consumer<Short> consumer) {
-        try { consumer.accept(Short.parseShort(text)); } catch (NumberFormatException ignored) {}
+        try {
+            consumer.accept(Short.parseShort(text));
+        } catch (NumberFormatException ignored) {}
     }
 
     private static void parseInt(String text, Consumer<Integer> consumer) {
-        try { consumer.accept(Integer.parseInt(text)); } catch (NumberFormatException ignored) {}
+        try {
+            consumer.accept(Integer.parseInt(text));
+        } catch (NumberFormatException ignored) {}
     }
 
     private static void parseLong(String text, Consumer<Long> consumer) {
-        try { consumer.accept(Long.parseLong(text)); } catch (NumberFormatException ignored) {}
+        try {
+            consumer.accept(Long.parseLong(text));
+        } catch (NumberFormatException ignored) {}
     }
 
     private static void parseFloat(String text, Consumer<Float> consumer) {
-        try { consumer.accept(Float.parseFloat(text)); } catch (NumberFormatException ignored) {}
+        try {
+            consumer.accept(Float.parseFloat(text));
+        } catch (NumberFormatException ignored) {}
     }
 
     private static void parseDouble(String text, Consumer<Double> consumer) {
-        try { consumer.accept(Double.parseDouble(text)); } catch (NumberFormatException ignored) {}
+        try {
+            consumer.accept(Double.parseDouble(text));
+        } catch (NumberFormatException ignored) {}
     }
 }

@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
+
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.Nullable;
@@ -15,10 +16,12 @@ import java.util.function.Supplier;
 
 @Accessors(chain = true)
 public class ValueConfigurator<T> extends Configurator {
+
     protected boolean forceUpdate;
     @Nullable
     protected T value;
-    @Nullable @Setter
+    @Nullable
+    @Setter
     protected T defaultValue;
     @Setter
     protected Consumer<@Nullable T> onUpdate;
@@ -50,8 +53,8 @@ public class ValueConfigurator<T> extends Configurator {
 
     public ValueConfigurator<T> setCopiable(Function<T, T> copyFunction) {
         setCopiable(() -> {
-           var copied = copyFunction.apply(value);
-           return () -> copyFunction.apply(copied);
+            var copied = copyFunction.apply(value);
+            return () -> copyFunction.apply(copied);
         });
         return this;
     }
@@ -63,7 +66,8 @@ public class ValueConfigurator<T> extends Configurator {
 
     /**
      * when you update value, you have to call it to notify changes.
-     * if necessary you should call {@link #onValueUpdatePassively(T)} to update the value. (e.g. do some widget update in the method)
+     * if necessary you should call {@link #onValueUpdatePassively(T)} to update the value. (e.g. do some widget update
+     * in the method)
      */
     protected void updateValue() {
         if (onUpdate != null) {

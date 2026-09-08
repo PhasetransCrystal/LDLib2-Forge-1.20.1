@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
+
 import dev.vfyjxf.taffy.style.TaffyDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class PortConnectorWithIconElement extends PortConnectorElement {
+
     // runtime
     @Getter
     protected UIElement portIcon;

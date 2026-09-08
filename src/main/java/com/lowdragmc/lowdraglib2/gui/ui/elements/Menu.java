@@ -1,19 +1,20 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.texture.DynamicTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.gui.util.ITreeNode;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
+import com.google.common.util.concurrent.Runnables;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyPosition;
@@ -22,23 +23,26 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import org.appliedenergistics.yoga.*;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
-import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 @KJSBindings
 public class Menu<K, T> extends UIElement {
+
     @Configurable(name = "MenuStyle")
     public class MenuStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.NODE_BACKGROUND,
                 PropertyRegistry.LEAF_BACKGROUND,
@@ -101,12 +105,14 @@ public class Menu<K, T> extends UIElement {
             return this;
         }
     }
+
     public final ITreeNode<K, T> root;
     @Getter
     private final MenuStyle menuStyle = new MenuStyle();
     @Nonnull
     protected UIElementProvider<K> uiProvider;
-    @Setter @Nullable
+    @Setter
+    @Nullable
     protected Consumer<ITreeNode<K, T>> onNodeClicked;
     @Setter
     protected boolean autoClose = true;
@@ -165,7 +171,7 @@ public class Menu<K, T> extends UIElement {
             } else {
                 if (parentMenu != null && parentMenu.isSelfOrOpenedMenuHover()) {
                     focus();
-                } else if(autoClose) {
+                } else if (autoClose) {
                     close();
                 }
             }
@@ -173,7 +179,7 @@ public class Menu<K, T> extends UIElement {
             if (event.relatedTarget == null && isSelfOrOpenedMenuHover()) {
                 focus();
             } else {
-                if(autoClose) {
+                if (autoClose) {
                     close();
                 }
             }
@@ -246,7 +252,7 @@ public class Menu<K, T> extends UIElement {
         return this;
     }
 
-    public void close(){
+    public void close() {
         if (opened != null) {
             opened.close();
             opened = null;
@@ -334,8 +340,7 @@ public class Menu<K, T> extends UIElement {
             var root = mui.ui.rootElement;
             var worldPos = anchor.localToWorld(new Vector2f(
                     anchor.getPositionX() + anchor.getSizeWidth(),
-                    anchor.getPositionY()
-            ));
+                    anchor.getPositionY()));
             var pos = root.worldToLocalLayoutOffset(worldPos);
             opened.getLayout().left(pos.x);
             opened.getLayout().top(pos.y);
@@ -348,7 +353,7 @@ public class Menu<K, T> extends UIElement {
             if (onNodeClicked != null) {
                 onNodeClicked.accept(node);
             }
-            if (autoClose){
+            if (autoClose) {
                 close();
             }
         });
@@ -358,5 +363,4 @@ public class Menu<K, T> extends UIElement {
             anchor.addChild(opened);
         }
     }
-
 }

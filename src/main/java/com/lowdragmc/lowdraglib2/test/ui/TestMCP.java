@@ -11,6 +11,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.NoArgsConstructor;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +25,7 @@ import java.util.Random;
 @LDLRegisterClient(name = "mcp", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestMCP implements IScreenTest {
+
     private static final int BOARD_SIZE = 20;
     private static final int STEP_INTERVAL = 6;
 
@@ -37,15 +39,15 @@ public class TestMCP implements IScreenTest {
         var headCell = SDFRectTexture.of(0xFF7CFF7C).setRadius(0).setStroke(1).setBorderColor(0xFFD4FFD4);
         var foodCell = SDFRectTexture.of(0xFFFF5A5A).setRadius(0).setStroke(1).setBorderColor(0xFFFFD0D0);
 
-        final int[] directionX = {1};
-        final int[] directionY = {0};
-        final int[] nextDirectionX = {1};
-        final int[] nextDirectionY = {0};
-        final int[] foodX = {0};
-        final int[] foodY = {0};
-        final int[] score = {0};
-        final int[] tickCounter = {0};
-        final boolean[] alive = {true};
+        final int[] directionX = { 1 };
+        final int[] directionY = { 0 };
+        final int[] nextDirectionX = { 1 };
+        final int[] nextDirectionY = { 0 };
+        final int[] foodX = { 0 };
+        final int[] foodY = { 0 };
+        final int[] score = { 0 };
+        final int[] tickCounter = { 0 };
+        final boolean[] alive = { true };
 
         var scoreLabel = label("score_label", "Score: 0", 10, Horizontal.LEFT);
         var statusLabel = label("status_label", "Status: Running", 10, Horizontal.LEFT);
@@ -175,8 +177,7 @@ public class TestMCP implements IScreenTest {
                 .addChildren(
                         scoreLabel,
                         new UIElement().layout(layout -> layout.flex(1)),
-                        restartButton
-                );
+                        restartButton);
 
         var hudBottom = new UIElement().setId("hud_bottom")
                 .layout(layout -> {
@@ -269,6 +270,6 @@ public class TestMCP implements IScreenTest {
                 .textAlignVertical(Vertical.CENTER));
         return label;
     }
-    private record Point(int x, int y) {
-    }
+
+    private record Point(int x, int y) {}
 }

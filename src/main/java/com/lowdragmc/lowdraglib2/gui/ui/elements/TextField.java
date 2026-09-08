@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSelector;
@@ -13,12 +12,12 @@ import com.lowdragmc.lowdraglib2.configurator.ui.StringConfigurator;
 import com.lowdragmc.lowdraglib2.editor.ClipboardManager;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.CommandEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
@@ -31,6 +30,8 @@ import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
 import com.lowdragmc.lowdraglib2.utils.HistoryStack;
 import com.lowdragmc.lowdraglib2.utils.TextUtilities;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
+import com.google.common.base.Predicates;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
@@ -53,11 +54,10 @@ import net.minecraft.util.Tuple;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.appliedenergistics.yoga.*;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.NumberFormat;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -65,16 +65,22 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 @KJSBindings
 @LDLRegister(name = "text-field", group = "basic", registry = "ldlib2:ui_element")
 public class TextField extends BindableUIElement<String> {
-    private record NumberStart(double value){}
-    private record CursorStart(int value){}
+
+    private record NumberStart(double value) {}
+
+    private record CursorStart(int value) {}
+
     @Configurable(name = "TextFieldStyle")
     public class TextFieldStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.FOCUS_OVERLAY,
                 PropertyRegistry.FONT,
@@ -179,7 +185,9 @@ public class TextField extends BindableUIElement<String> {
             return this;
         }
     }
+
     public enum Mode {
+
         INTERNAL,
         STRING,
         COMPOUND_TAG,
@@ -189,8 +197,7 @@ public class TextField extends BindableUIElement<String> {
         NUMBER_FLOAT,
         NUMBER_DOUBLE,
         NUMBER_SHORT,
-        NUMBER_BYTE
-        ;
+        NUMBER_BYTE;
 
         public boolean isNumber() {
             return this == Mode.NUMBER_LONG || this == Mode.NUMBER_INT || this == Mode.NUMBER_FLOAT || this == Mode.NUMBER_DOUBLE || this == Mode.NUMBER_SHORT || this == Mode.NUMBER_BYTE;
@@ -241,7 +248,8 @@ public class TextField extends BindableUIElement<String> {
     @Getter
     @Configurable(name = "value")
     private String rawText = "";
-    @Getter @Setter
+    @Getter
+    @Setter
     @Nullable
     private Function<String, Component> formatter = null;
     @Getter
@@ -300,8 +308,7 @@ public class TextField extends BindableUIElement<String> {
                 if (Mth.abs(localMouse.x - localStart.x) < 4) {
                     handleNumber(numberStart, false);
                 } else {
-                    var value = ((int)((localMouse.x - localStart.x) / 4))
-                            * (isShiftDown() ? wheelDur * 10 : wheelDur) + numberStart;
+                    var value = ((int) ((localMouse.x - localStart.x) / 4)) * (isShiftDown() ? wheelDur * 10 : wheelDur) + numberStart;
                     handleNumber(value, false);
                 }
             }
@@ -318,13 +325,13 @@ public class TextField extends BindableUIElement<String> {
     private boolean handleNumber(double value, boolean append) {
         String number = null;
         if (mode == Mode.NUMBER_INT) {
-           try {
-               if (numberInstance != null) {
-                   number = numberInstance.format(append ? (Integer.parseInt(getRawText()) + (int) (value * (isShiftDown() ? 10 : 1))) : (int) value);
-               } else {
-                   number = String.valueOf(append ? (Integer.parseInt(getRawText()) + (int) (value * (isShiftDown() ? 10 : 1))) : (int) value);
-               }
-           } catch (NumberFormatException ignored) { }
+            try {
+                if (numberInstance != null) {
+                    number = numberInstance.format(append ? (Integer.parseInt(getRawText()) + (int) (value * (isShiftDown() ? 10 : 1))) : (int) value);
+                } else {
+                    number = String.valueOf(append ? (Integer.parseInt(getRawText()) + (int) (value * (isShiftDown() ? 10 : 1))) : (int) value);
+                }
+            } catch (NumberFormatException ignored) {}
         } else if (mode == Mode.NUMBER_LONG) {
             try {
                 if (numberInstance != null) {
@@ -332,7 +339,7 @@ public class TextField extends BindableUIElement<String> {
                 } else {
                     number = String.valueOf(append ? (Long.parseLong(getRawText()) + (long) (value * (isShiftDown() ? 10 : 1))) : (long) value);
                 }
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
         } else if (mode == Mode.NUMBER_FLOAT) {
             try {
                 if (numberInstance != null) {
@@ -340,15 +347,15 @@ public class TextField extends BindableUIElement<String> {
                 } else {
                     number = String.valueOf(append ? (LocalizedNumberText.parseFloat(getRawText()) + value * (isShiftDown() ? 10 : 1)) : (float) value);
                 }
-            } catch (NumberFormatException ignored) { }
-        }  else if (mode == Mode.NUMBER_DOUBLE) {
+            } catch (NumberFormatException ignored) {}
+        } else if (mode == Mode.NUMBER_DOUBLE) {
             try {
                 if (numberInstance != null) {
                     number = numberInstance.format(append ? (LocalizedNumberText.parseDouble(getRawText()) + value * (isShiftDown() ? 10 : 1)) : value);
                 } else {
                     number = String.valueOf(append ? (LocalizedNumberText.parseDouble(getRawText()) + value * (isShiftDown() ? 10 : 1)) : value);
                 }
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
         } else if (mode == Mode.NUMBER_SHORT) {
             try {
                 if (numberInstance != null) {
@@ -356,7 +363,7 @@ public class TextField extends BindableUIElement<String> {
                 } else {
                     number = String.valueOf(append ? (Short.parseShort(getRawText()) + (short) (value * (isShiftDown() ? 10 : 1))) : (short) value);
                 }
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
         } else if (mode == Mode.NUMBER_BYTE) {
             try {
                 if (numberInstance != null) {
@@ -364,7 +371,7 @@ public class TextField extends BindableUIElement<String> {
                 } else {
                     number = String.valueOf(append ? (Byte.parseByte(getRawText()) + (byte) (value * (isShiftDown() ? 10 : 1))) : (byte) value);
                 }
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
         }
         if (number != null) {
             historyStack.record(getRawText());
@@ -548,9 +555,9 @@ public class TextField extends BindableUIElement<String> {
                         this.rawText = numberInstance.format(parsed);
                         textValue = LocalizedNumberText.normalizeDouble(value);
                     }
-                    case NUMBER_BYTE ->  this.rawText = numberInstance.format(Byte.parseByte(value));
-                    case NUMBER_SHORT ->  this.rawText = numberInstance.format(Short.parseShort(value));
-                    case NUMBER_LONG ->  this.rawText = numberInstance.format(Long.parseLong(value));
+                    case NUMBER_BYTE -> this.rawText = numberInstance.format(Byte.parseByte(value));
+                    case NUMBER_SHORT -> this.rawText = numberInstance.format(Short.parseShort(value));
+                    case NUMBER_LONG -> this.rawText = numberInstance.format(Long.parseLong(value));
                 }
             } catch (Exception e) {
                 this.rawText = "";
@@ -609,7 +616,7 @@ public class TextField extends BindableUIElement<String> {
             try {
                 TagParser.parseTag(s);
                 return true;
-            } catch (Exception ignored) { }
+            } catch (Exception ignored) {}
             return false;
         });
         style(style -> style.tooltips(Component.translatable("ldlib.gui.text_field.compound_tag")));
@@ -630,7 +637,7 @@ public class TextField extends BindableUIElement<String> {
             try {
                 long value = Long.parseLong(s);
                 if (minValue <= value && value <= maxValue) return true;
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
             return false;
         });
         setCharValidator(chr -> Character.isDigit(chr) || chr == '-' || chr == '+');
@@ -652,7 +659,7 @@ public class TextField extends BindableUIElement<String> {
             try {
                 int value = Integer.parseInt(s);
                 if (minValue <= value && value <= maxValue) return true;
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
             return false;
         });
         setCharValidator(chr -> Character.isDigit(chr) || chr == '-' || chr == '+');
@@ -674,7 +681,7 @@ public class TextField extends BindableUIElement<String> {
             try {
                 int value = Byte.parseByte(s);
                 if (minValue <= value && value <= maxValue) return true;
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
             return false;
         });
         setCharValidator(chr -> Character.isDigit(chr) || chr == '-' || chr == '+');
@@ -696,7 +703,7 @@ public class TextField extends BindableUIElement<String> {
             try {
                 int value = Short.parseShort(s);
                 if (minValue <= value && value <= maxValue) return true;
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
             return false;
         });
         setCharValidator(chr -> Character.isDigit(chr) || chr == '-' || chr == '+');
@@ -718,7 +725,7 @@ public class TextField extends BindableUIElement<String> {
             try {
                 float value = LocalizedNumberText.parseFloat(s);
                 if (minValue <= value && value <= maxValue) return true;
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
             return false;
         });
         setCharValidator(LocalizedNumberText::isFloatingPointCharacter);
@@ -740,7 +747,7 @@ public class TextField extends BindableUIElement<String> {
             try {
                 var value = LocalizedNumberText.parseDouble(s);
                 if (minValue <= value && value <= maxValue) return true;
-            } catch (NumberFormatException ignored) { }
+            } catch (NumberFormatException ignored) {}
             return false;
         });
         setCharValidator(LocalizedNumberText::isFloatingPointCharacter);
@@ -808,9 +815,9 @@ public class TextField extends BindableUIElement<String> {
         this.selectionEnd = Mth.clamp(end, 0, this.rawText.length());
     }
 
-
     /**
-     * Deletes the given number of words from the current cursor's position, unless there is currently a selection, in which case the selection is deleted instead.
+     * Deletes the given number of words from the current cursor's position, unless there is currently a selection, in
+     * which case the selection is deleted instead.
      */
     public void deleteWords(int num) {
         if (!this.rawText.isEmpty()) {
@@ -874,7 +881,8 @@ public class TextField extends BindableUIElement<String> {
     }
 
     /**
-     * Deletes the given number of characters from the current cursor's position, unless there is currently a selection, in which case the selection is deleted instead.
+     * Deletes the given number of characters from the current cursor's position, unless there is currently a selection,
+     * in which case the selection is deleted instead.
      */
     public void deleteChars(int num) {
         this.deleteCharsToPos(this.getCursorPos(num));
@@ -964,6 +972,7 @@ public class TextField extends BindableUIElement<String> {
 
     /**
      * Gets the cursor position under the mouse.
+     * 
      * @return The cursor position, -1 if not found.
      */
     public int getCursorUnderMouseX(double mouseX) {
@@ -1000,7 +1009,6 @@ public class TextField extends BindableUIElement<String> {
         return TextUtilities.withFont(formattedText, getTextFieldStyle().font());
     }
 
-
     /// rendering
     @OnlyIn(Dist.CLIENT)
     public Font getFont() {
@@ -1018,8 +1026,7 @@ public class TextField extends BindableUIElement<String> {
                     getFont(),
                     textWithFont,
                     getTextFieldStyle().fontSize(),
-                    Float.MAX_VALUE
-            );
+                    Float.MAX_VALUE);
             if (lines.isEmpty()) {
                 formattedLineCache = new Tuple<>(FormattedCharSequence.EMPTY, 0f);
             } else {
@@ -1103,7 +1110,7 @@ public class TextField extends BindableUIElement<String> {
 
     @SkipPersistedValue(field = "editorRegexValidator")
     private boolean skipEditorRegexValidator(String regex) {
-        return regex.isEmpty( ) || editorMode != Mode.STRING;
+        return regex.isEmpty() || editorMode != Mode.STRING;
     }
 
     @SkipPersistedValue(field = "editorRange")
@@ -1153,14 +1160,14 @@ public class TextField extends BindableUIElement<String> {
             configurator.inlineContainer.addChildren(
                     min = new NumberConfigurator("min", () -> editorRange.getMin(),
                             v -> editorRange = Range.of(v.floatValue(), editorRange.getMax()), 0, true),
-                    max = new NumberConfigurator("max", () ->editorRange.getMax(),
-                            v -> editorRange = Range.of(editorRange.getMin(), v.floatValue()), 0, true)
-            ).layout(layout -> {
-                layout.gapAll(2);
-                layout.marginLeft(2);
-                layout.flexDirection(FlexDirection.ROW);
-                layout.wrap(FlexWrap.WRAP);
-            });
+                    max = new NumberConfigurator("max", () -> editorRange.getMax(),
+                            v -> editorRange = Range.of(editorRange.getMin(), v.floatValue()), 0, true))
+                    .layout(layout -> {
+                        layout.gapAll(2);
+                        layout.marginLeft(2);
+                        layout.flexDirection(FlexDirection.ROW);
+                        layout.wrap(FlexWrap.WRAP);
+                    });
             min.layout(layout -> {
                 layout.flex(1);
                 layout.minWidth(40);

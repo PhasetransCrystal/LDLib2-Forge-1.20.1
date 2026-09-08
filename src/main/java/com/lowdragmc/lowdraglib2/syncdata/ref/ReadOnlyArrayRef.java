@@ -1,16 +1,17 @@
 package com.lowdragmc.lowdraglib2.syncdata.ref;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.arraylike.ArrayAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.readonly.IReadOnlyAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib2.syncdata.var.ArrayVar;
 import com.lowdragmc.lowdraglib2.syncdata.var.ReadOnlyVar;
-import lombok.Getter;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 public final class ReadOnlyArrayRef<TYPE> extends ReadOnlyManagedRef<TYPE[]> implements IArrayRef<TYPE, TYPE[]> {
+
     @Getter
     @Nullable
     private ReadOnlyRef<TYPE>[] refs;
@@ -22,7 +23,7 @@ public final class ReadOnlyArrayRef<TYPE> extends ReadOnlyManagedRef<TYPE[]> imp
 
     @SuppressWarnings("unchecked")
     public static <TYPE, TYPE_ARRAY> ReadOnlyArrayRef<TYPE> of(ReadOnlyVar<TYPE_ARRAY> var, ManagedKey key, ArrayAccessor<TYPE, TYPE_ARRAY> accessor) {
-        return new ReadOnlyArrayRef<>((ReadOnlyVar<TYPE[]>)var, key, (ArrayAccessor<TYPE, TYPE[]>)accessor);
+        return new ReadOnlyArrayRef<>((ReadOnlyVar<TYPE[]>) var, key, (ArrayAccessor<TYPE, TYPE[]>) accessor);
     }
 
     @Override

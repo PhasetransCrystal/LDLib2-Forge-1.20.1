@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.SpawnFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.SubgraphNodeModel;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -16,6 +17,7 @@ import java.util.UUID;
  * {@link com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel#getReferenceResolver()}.
  */
 public class ImportExternalSubgraphCommand extends UndoableGraphCommand {
+
     private final static Component NAME = Component.translatable("graph.commands.import_external_subgraph");
 
     private final IResourcePath path;

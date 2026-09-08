@@ -12,8 +12,9 @@ import java.lang.annotation.Target;
  * or types.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target({ ElementType.FIELD, ElementType.TYPE })
 public @interface Configurable {
+
     /**
      * Specifies a custom name for the configurable field or type.
      * If no name is provided, the default name derived from the field or type will be used.
@@ -34,7 +35,8 @@ public @interface Configurable {
      * These tips can be displayed in user interfaces or documentation to provide
      * additional information or context for a field or type.
      *
-     * @return an array of tips or hints related to the configurable field or type, or an empty array if no tips are specified
+     * @return an array of tips or hints related to the configurable field or type, or an empty array if no tips are
+     *         specified
      */
     String[] tips() default {};
 
@@ -83,9 +85,11 @@ public @interface Configurable {
     boolean subConfigurable() default false;
 
     /**
-     * Indicates whether a nested sub-configurable field or type should be flattened into the parent configuration context.
+     * Indicates whether a nested sub-configurable field or type should be flattened into the parent configuration
+     * context.
      * When set to {@code true}, the fields of the nested sub-configurable are treated as if they are directly part of
-     * the parent configuration group. This simplifies the structure and provides direct access to the nested configurations.
+     * the parent configuration group. This simplifies the structure and provides direct access to the nested
+     * configurations.
      *
      * @return {@code true} if the nested sub-configurable is to be flattened into the parent context,
      *         {@code false} otherwise.
@@ -102,7 +106,8 @@ public @interface Configurable {
     boolean subFlattenPersisted() default false;
 
     /**
-     * Indicates whether the annotated field or type should be persisted during {@link com.lowdragmc.lowdraglib2.utils.PersistedParser}
+     * Indicates whether the annotated field or type should be persisted during
+     * {@link com.lowdragmc.lowdraglib2.utils.PersistedParser}
      *
      * @return true if the field or type should be persisted, false otherwise
      */

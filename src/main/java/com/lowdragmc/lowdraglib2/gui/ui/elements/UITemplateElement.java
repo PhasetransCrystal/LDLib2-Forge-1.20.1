@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.collect.Sets;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorSelectorConfigurator;
@@ -14,6 +13,8 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.StyleRule;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
+
+import com.google.common.collect.Sets;
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
@@ -23,11 +24,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -36,6 +38,7 @@ import java.util.*;
 @KJSBindings
 @LDLRegister(name = "template", registry = "ldlib2:ui_element")
 public class UITemplateElement extends UIElement {
+
     private static final ThreadLocal<Set<UITemplate>> LOADDINGS = ThreadLocal.withInitial(Sets::newHashSet);
     @Nullable
     @Getter
@@ -136,8 +139,7 @@ public class UITemplateElement extends UIElement {
                         new BuiltinPath(""), true,
                         UIResource.INSTANCE.getResourceInstance().listAllResources().stream().map(Map.Entry::getKey).toList(),
                         IResourcePath::getResourceName,
-                        (path, group) -> super.buildConfigurator(group))
-        );
+                        (path, group) -> super.buildConfigurator(group)));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.core.mixins.ui;
 import com.lowdragmc.lowdraglib2.gui.event.ContainerMenuEvent;
 import com.lowdragmc.lowdraglib2.gui.factory.LDMenuTypes;
 import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolder;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -30,7 +31,6 @@ public abstract class MenuTypeMixin<T extends AbstractContainerMenu> {
             MinecraftForge.EVENT_BUS.post(new ContainerMenuEvent.Create(playerInventory.player, menu));
         }
     }
-
 
     @Inject(method = "create(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/FriendlyByteBuf;)Lnet/minecraft/world/inventory/AbstractContainerMenu;",
             at = @At(value = "RETURN"),

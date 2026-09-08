@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.DummyWorld;
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.TrackedDummyWorld;
+
 import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -19,9 +20,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import org.appliedenergistics.yoga.YogaEdge;
 
-@LDLRegisterClient(name="scene", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "scene", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestScene implements IScreenTest {
 
@@ -80,20 +80,19 @@ public class TestScene implements IScreenTest {
                 .useCacheBuffer()
                 .setClipContext(ClipContext.Block.VISUAL, ClipContext.Fluid.SOURCE_ONLY)
                 .layout(layout -> {
-            layout.widthPercent(100);
-            layout.flex(1);
-        }), new Button().setOnClick(event -> {
-            for (int i = 0; i < 50; i++) {
-                var x = Math.random() * 2 - 1 + 2;
-                var y = Math.random() * 2 - 1 + 2;
-                var z = Math.random() * 2 - 1;
-                var speedX = Math.random() * 0.1 - 0.05;
-                var speedY = Math.random() * 0.1 - 0.05;
-                var speedZ = Math.random() * 0.1 - 0.05;
-                dummyWorld.addParticle(ParticleTypes.ASH, x, y, z, speedX, speedY, speedZ);
-            }
-        }).setText("spawn particles"), new Button().setOnClick(event -> scene.useOrtho(!scene.isUseOrtho())).setText("toggle ortho"));
+                    layout.widthPercent(100);
+                    layout.flex(1);
+                }), new Button().setOnClick(event -> {
+                    for (int i = 0; i < 50; i++) {
+                        var x = Math.random() * 2 - 1 + 2;
+                        var y = Math.random() * 2 - 1 + 2;
+                        var z = Math.random() * 2 - 1;
+                        var speedX = Math.random() * 0.1 - 0.05;
+                        var speedY = Math.random() * 0.1 - 0.05;
+                        var speedZ = Math.random() * 0.1 - 0.05;
+                        dummyWorld.addParticle(ParticleTypes.ASH, x, y, z, speedX, speedY, speedZ);
+                    }
+                }).setText("spawn particles"), new Button().setOnClick(event -> scene.useOrtho(!scene.isUseOrtho())).setText("toggle ortho"));
         return new ModularUI(UI.of(root));
     }
-
 }

@@ -5,8 +5,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.eventbus.api.Event;
 
 public abstract class ContainerMenuEvent extends Event {
+
     public final Player player;
     public final AbstractContainerMenu menu;
+
     protected ContainerMenuEvent(Player player, AbstractContainerMenu menu) {
         this.player = player;
         this.menu = menu;
@@ -17,14 +19,17 @@ public abstract class ContainerMenuEvent extends Event {
      * This class is used to represent the creation process of a container menu,
      * allowing for further customization or handling through event listeners.
      *
-     * <p><b>Usage:</b> This event can be posted to or consumed for adding additional logic when
-     * a container menu is initialized for a player.</p>
+     * <p>
+     * <b>Usage:</b> This event can be posted to or consumed for adding additional logic when
+     * a container menu is initialized for a player.
+     * </p>
      *
      * @see ContainerMenuEvent
      * @see AbstractContainerMenu
      * @see Player
      */
     public static class Create extends ContainerMenuEvent {
+
         public Create(Player player, AbstractContainerMenu menu) {
             super(player, menu);
         }

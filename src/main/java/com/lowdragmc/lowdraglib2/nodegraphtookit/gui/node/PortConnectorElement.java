@@ -13,6 +13,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisit
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModelImpl;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
@@ -22,6 +23,7 @@ import net.minecraft.network.chat.Component;
 import java.util.stream.Stream;
 
 public class PortConnectorElement extends ModelElement {
+
     public final PortModel portModel;
     // runtime
     @Getter

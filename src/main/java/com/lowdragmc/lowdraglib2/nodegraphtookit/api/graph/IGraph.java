@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.variable.IVariable;
 import java.util.List;
 
 public interface IGraph {
+
     /**
      * @return variable models in creation order
      */

@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.configurator.ui;
 
 import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
+
 import dev.vfyjxf.taffy.style.TaffyDirection;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,7 @@ import java.util.function.Supplier;
  * the same UI slot in the accessor flow while editing that tag directly.
  */
 public class DataComponentConfigurator extends ConfiguratorGroup {
+
     public final Button resetButton = new Button();
     @Getter
     private CompoundTag prototype;

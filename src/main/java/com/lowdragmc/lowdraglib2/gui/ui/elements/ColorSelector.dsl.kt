@@ -3,15 +3,13 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement
+
 import java.util.function.IntConsumer
 
 /**
  * Specification for ColorSelector element
  */
-open class ColorSelectorSpec<T : ColorSelector>(
-    var initialColor: Int? = null,
-    var onColorChanged: IntConsumer? = null,
-) : ElementSpec<T>() {
+open class ColorSelectorSpec<T : ColorSelector>(var initialColor: Int? = null, var onColorChanged: IntConsumer? = null) : ElementSpec<T>() {
     /**
      * Set initial color (ARGB)
      */
@@ -44,13 +42,8 @@ open class ColorSelectorSpec<T : ColorSelector>(
 /**
  * ColorSelector element builder
  */
-open class ColorSelectorElement<T : ColorSelector>(
-    element: T,
-    spec: (ColorSelectorSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, ColorSelectorSpec<T>>(element, spec) {
-    override fun makeSpec(): ColorSelectorSpec<T>? {
-        return spec?.let { ColorSelectorSpec<T>().apply(it) }
-    }
+open class ColorSelectorElement<T : ColorSelector>(element: T, spec: (ColorSelectorSpec<T>.() -> Unit)? = null) : UIContainer<T, ColorSelectorSpec<T>>(element, spec) {
+    override fun makeSpec(): ColorSelectorSpec<T>? = spec?.let { ColorSelectorSpec<T>().apply(it) }
 
     override fun build(spec: ColorSelectorSpec<T>?): T {
         val e = super.build(spec)
@@ -67,25 +60,17 @@ open class ColorSelectorElement<T : ColorSelector>(
 /**
  * Top Level - Create a standalone ColorSelector element
  */
-fun colorSelector(spec: (ColorSelectorSpec<ColorSelector>.() -> Unit)? = null,
-                  init: ColorSelectorElement<ColorSelector>.() -> Unit = {}): ColorSelector {
-    return ColorSelectorElement(ColorSelector(), spec).apply(init).build()
-}
+fun colorSelector(spec: (ColorSelectorSpec<ColorSelector>.() -> Unit)? = null, init: ColorSelectorElement<ColorSelector>.() -> Unit = {}): ColorSelector = ColorSelectorElement(ColorSelector(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add ColorSelector as a child to a container
  */
-fun UIContainer<*, *>.colorSelector(spec: (ColorSelectorSpec<ColorSelector>.() -> Unit)? = null,
-                                     init: ColorSelectorElement<ColorSelector>.() -> Unit = {}) =
-    add(ColorSelectorElement(ColorSelector(), spec), init)
+fun UIContainer<*, *>.colorSelector(spec: (ColorSelectorSpec<ColorSelector>.() -> Unit)? = null, init: ColorSelectorElement<ColorSelector>.() -> Unit = {}) = add(ColorSelectorElement(ColorSelector(), spec), init)
 
 /**
  * DSL converter - Convert existing ColorSelector to DSL builder
  */
-fun <T : ColorSelector> T.dsl(spec: (ColorSelectorSpec<T>.() -> Unit)? = null,
-                              init: ColorSelectorElement<T>.() -> Unit = {}): ColorSelectorElement<T> {
-    return ColorSelectorElement(this, spec).apply(init)
-}
+fun <T : ColorSelector> T.dsl(spec: (ColorSelectorSpec<T>.() -> Unit)? = null, init: ColorSelectorElement<T>.() -> Unit = {}): ColorSelectorElement<T> = ColorSelectorElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -108,9 +93,7 @@ fun <T : ColorSelector> ColorSelectorElement<T>.withColorRgb(rgb: Int): ColorSel
 /**
  * Extension: Get current color
  */
-fun <T : ColorSelector> ColorSelectorElement<T>.getColor(): Int {
-    return element.getColor()
-}
+fun <T : ColorSelector> ColorSelectorElement<T>.getColor(): Int = element.getColor()
 
 /**
  * Extension: Set color change listener

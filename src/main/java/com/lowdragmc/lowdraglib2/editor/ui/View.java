@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.editor.ui;
 
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
@@ -11,21 +10,25 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Tab;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
+
+import com.google.common.util.concurrent.Runnables;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.network.chat.Component;
-import org.appliedenergistics.yoga.YogaDisplay;
-import org.appliedenergistics.yoga.YogaGutter;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Supplier;
 
 public class View extends UIElement {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private String name = "view";
-    @Getter @Setter
+    @Getter
+    @Setter
     private IGuiTexture icon = IGuiTexture.EMPTY;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean canRemove = false;
     private long lastClickTime = 0;
 
@@ -107,9 +110,9 @@ public class View extends UIElement {
             }).noText().buttonStyle(buttonStyle -> buttonStyle.baseTexture(Icons.CLOSE)
                     .hoverTexture(Icons.CLOSE.copy().setColor(ColorPattern.LIGHT_GRAY.color))
                     .pressedTexture(Icons.CLOSE.copy().setColor(ColorPattern.GRAY.color))).layout(layout -> {
-                layout.heightPercent(100);
-                layout.setAspectRatio(1f);
-            }));
+                        layout.heightPercent(100);
+                        layout.setAspectRatio(1f);
+                    }));
         }
         tab.addEventListener(UIEvents.MOUSE_DOWN, e -> {
             if (e.button == 0) {
@@ -124,7 +127,7 @@ public class View extends UIElement {
                 var w = tab.getSizeWidth();
                 var h = tab.getSizeHeight();
                 tab.startDrag(this, new GuiTextureGroup(ColorPattern.T_WHITE.rectTexture(), new TextTexture(name).setWidth((int) w)))
-                        .setDragTexture(- w / 2, -h / 2, w, h);
+                        .setDragTexture(-w / 2, -h / 2, w, h);
                 tab.setDisplay(false);
             }
             lastClickTime = 0;

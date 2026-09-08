@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortOrientation;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortType;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.NodeDefinitionScope;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +25,9 @@ import java.util.Map;
  * {@code NodeModel} + {@link CustomNodeModelImpl} pattern.
  */
 public class CustomContextNodeModelImpl extends ContextNodeModel implements ICustomNodeModel {
-    @Getter @Nullable
+
+    @Getter
+    @Nullable
     private Node node;
     @Getter
     private final Map<String, INodeOption> optionsById = new HashMap<>();

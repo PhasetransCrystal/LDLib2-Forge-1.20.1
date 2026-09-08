@@ -1,13 +1,15 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject;
 
 import com.lowdragmc.lowdraglib2.math.Transform;
+
 import lombok.Getter;
 import lombok.experimental.Accessors;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public class SceneObject implements ISceneObject {
+
     @Getter
     @Nullable
     private IScene scene;

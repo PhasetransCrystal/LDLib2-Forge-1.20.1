@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.integration.xei.IngredientIO;
 import com.lowdragmc.lowdraglib2.test.TestItem;
 import com.lowdragmc.lowdraglib2.test.ui.TestScene;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import net.minecraft.core.BlockPos;
@@ -20,13 +21,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
-import org.appliedenergistics.yoga.YogaFlexDirection;
-import org.appliedenergistics.yoga.YogaWrap;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestRecipe {
+
     public static int WIDTH = 170;
     public static int HEIGHT = 120;
 
@@ -52,8 +52,8 @@ public class TestRecipe {
                                                         .style(style -> style.backgroundTexture(Icons.RIGHT_ARROW_NO_BAR)),
                                                 new ItemSlot().setItem(new ItemStack(Items.CHEST, 2))
                                                         .xeiRecipeIngredient(IngredientIO.OUTPUT)
-                                                        .xeiRecipeSlot()
-                                        ).layout(layout -> layout.flexDirection(FlexDirection.ROW).wrap(FlexWrap.WRAP)),
+                                                        .xeiRecipeSlot())
+                                                .layout(layout -> layout.flexDirection(FlexDirection.ROW).wrap(FlexWrap.WRAP)),
                                         // fluids
                                         new UIElement().addChildren(
                                                 new FluidSlot().setFluid(new FluidStack(Fluids.WATER, 1000))
@@ -66,8 +66,8 @@ public class TestRecipe {
                                                         .xeiRecipeSlot(),
                                                 new FluidSlot().setFluid(new FluidStack(Fluids.WATER, 30))
                                                         .xeiRecipeIngredient(IngredientIO.OUTPUT)
-                                                        .xeiRecipeSlot(IngredientIO.OUTPUT, 0.7f)
-                                        ).layout(layout -> layout.flexDirection(FlexDirection.ROW).wrap(FlexWrap.WRAP)),
+                                                        .xeiRecipeSlot(IngredientIO.OUTPUT, 0.7f))
+                                                .layout(layout -> layout.flexDirection(FlexDirection.ROW).wrap(FlexWrap.WRAP)),
                                         new Button().setOnClick(event -> {
                                             for (int i = 0; i < 50; i++) {
                                                 var x = Math.random() * 2 - 1 + 2;
@@ -82,19 +82,19 @@ public class TestRecipe {
                                         new ItemSlot().setItem(TestItem.ITEM.getDefaultInstance())
                                                 .xeiRecipeIngredient(IngredientIO.CATALYST)
                                                 .xeiRecipeSlot(),
-                                        new Label().setText("This is a Test")
-                                )
-                        ).layout(layout -> layout.widthPercent(100).heightPercent(100)).addClass("panel_bg")).right(new UIElement().layout(layout -> layout.widthPercent(100).heightPercent(100)).addChildren(
-                            // scene
-                                new Scene().createScene(dummyWorld)
-                                        .useOrtho()
-                                        .setOrthoRange(.5f)
-                                        .setTickWorld(true)
-                                        .setRenderedCore(dummyWorld.getFilledBlocks().longStream().mapToObj(BlockPos::of).toList())
-                                        .useCacheBuffer()
-                                        .layout(layout -> layout.widthPercent(100).heightPercent(100))
-                        ).addClass("panel_bg")).setPercentage(50)
-                )
-        , List.of(StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC))));
+                                        new Label().setText("This is a Test")))
+                                .layout(layout -> layout.widthPercent(100).heightPercent(100)).addClass("panel_bg")).right(new UIElement().layout(layout -> layout.widthPercent(100).heightPercent(100))
+                                        .addChildren(
+                                                // scene
+                                                new Scene().createScene(dummyWorld)
+                                                        .useOrtho()
+                                                        .setOrthoRange(.5f)
+                                                        .setTickWorld(true)
+                                                        .setRenderedCore(dummyWorld.getFilledBlocks().longStream().mapToObj(BlockPos::of).toList())
+                                                        .useCacheBuffer()
+                                                        .layout(layout -> layout.widthPercent(100).heightPercent(100)))
+                                        .addClass("panel_bg"))
+                                .setPercentage(50)),
+                List.of(StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC))));
     }
 }

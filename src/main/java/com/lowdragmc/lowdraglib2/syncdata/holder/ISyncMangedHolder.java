@@ -3,23 +3,23 @@ package com.lowdragmc.lowdraglib2.syncdata.holder;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.async.AsyncThreadData;
 import com.lowdragmc.lowdraglib2.async.IAsyncLogic;
+import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
 import com.lowdragmc.lowdraglib2.networking.LDLNetworking;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.LazyManaged;
 import com.lowdragmc.lowdraglib2.syncdata.ref.IRef;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
 
 import java.util.BitSet;
 import java.util.concurrent.RejectedExecutionException;
-
 
 /**
  * A block entity that can be automatically synced with the client.
@@ -78,14 +78,12 @@ public interface ISyncMangedHolder extends IManagedHolder, IAsyncLogic {
     /**
      * write custom data to the packet. it will always be synced.
      */
-    default void writeCustomSyncData(HolderLookup.Provider provider, CompoundTag tag) {
-    }
+    default void writeCustomSyncData(HolderLookup.Provider provider, CompoundTag tag) {}
 
     /**
      * read custom data from the packet
      */
-    default void readCustomSyncData(HolderLookup.Provider provider, CompoundTag tag) {
-    }
+    default void readCustomSyncData(HolderLookup.Provider provider, CompoundTag tag) {}
 
     /**
      * sync tag name

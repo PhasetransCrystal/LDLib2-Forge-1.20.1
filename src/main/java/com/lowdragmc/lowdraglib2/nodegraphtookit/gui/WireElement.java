@@ -5,19 +5,19 @@ import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortDirection;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortOrientation;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.WireCommands;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.DependencyTypes;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortDirection;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortOrientation;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.NodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.PortElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.IGhostWireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +27,7 @@ import org.joml.Vector4f;
 import java.util.*;
 
 public class WireElement extends GraphElement<WireModel> {
+
     public final static String WIRE_LAYER = "Wire";
     // runtime
     @Getter
@@ -141,7 +142,7 @@ public class WireElement extends GraphElement<WireModel> {
     public static List<WireCommands.ConvertWiresToPortalsCommand.PortalData> getPortalsWireData(ArrayList<WireModel> wires, GraphView graphView) {
         return wires.stream().map(wireModel -> {
             var outputPort = graphView.getModelElement(wireModel.getFromPort());
-            var inputPort =graphView.getModelElement(wireModel.getToPort());
+            var inputPort = graphView.getModelElement(wireModel.getToPort());
             var outputNode = wireModel.getFromPort() == null ? null : graphView.getModelElement(wireModel.getFromPort().getNodeModel());
             var inputNode = wireModel.getToPort() == null ? null : graphView.getModelElement(wireModel.getToPort().getNodeModel());;
             var wire = graphView.getModelElement(wireModel);
@@ -150,15 +151,12 @@ public class WireElement extends GraphElement<WireModel> {
                 return null;
 
             var outputPos = graphView.getContentViewContainer().worldToLocal(
-                    outputPort.localToWorld(new Vector2f(outputPort.getPositionX(), outputPort.getPositionY()))
-            );
+                    outputPort.localToWorld(new Vector2f(outputPort.getPositionX(), outputPort.getPositionY())));
             var inputPos = graphView.getContentViewContainer().worldToLocal(
-                    inputPort.localToWorld(new Vector2f(inputPort.getPositionX(), inputPort.getPositionY()))
-            );
+                    inputPort.localToWorld(new Vector2f(inputPort.getPositionX(), inputPort.getPositionY())));
             return new WireCommands.ConvertWiresToPortalsCommand.PortalData(wireModel,
                     outputPos,
-                    inputPos
-            );
+                    inputPos);
         }).filter(Objects::nonNull).toList();
     }
 
@@ -168,18 +166,19 @@ public class WireElement extends GraphElement<WireModel> {
      * bar's edge instead (left edge for INPUT, right edge for OUTPUT) so wires stay visually
      * attached after the port row is hidden.
      *
-     * <p>Note: {@code getWorldMouse} expects <em>absolute</em> layout coords (the cumulative sum
+     * <p>
+     * Note: {@code getWorldMouse} expects <em>absolute</em> layout coords (the cumulative sum
      * up the parent chain that {@link com.lowdragmc.lowdraglib2.gui.ui.UIElement#getPositionX()}
      * returns) — not coords local to the element. Passing local coords here would make the wire
-     * land near the global origin.</p>
+     * land near the global origin.
+     * </p>
      */
     private Vector2f resolvePortEndpoint(PortModel port) {
         var graphView = getGraphView();
         if (graphView == null) return new Vector2f();
         var nodeModel = port.getNodeModel();
         boolean collapsed = nodeModel != null && nodeModel.isCollapsed();
-        if (collapsed && graphView.getModelElement(nodeModel) instanceof NodeElement nodeElement
-                && nodeElement.getNodeTittle() != null) {
+        if (collapsed && graphView.getModelElement(nodeModel) instanceof NodeElement nodeElement && nodeElement.getNodeTittle() != null) {
             var title = nodeElement.getNodeTittle();
             boolean isOutput = port.getDirection() == PortDirection.OUTPUT;
             float absX = title.getPositionX() + (isOutput ? title.getSizeWidth() : 0f);
@@ -190,8 +189,7 @@ public class WireElement extends GraphElement<WireModel> {
             var portConnector = portElement.getConnector().getConnectorIcon();
             return portElement.getWorldMouse(
                     portConnector.getPositionX() + portConnector.getSizeWidth() / 2,
-                    portConnector.getPositionY() + portConnector.getSizeHeight() / 2
-            );
+                    portConnector.getPositionY() + portConnector.getSizeHeight() / 2);
         }
         return new Vector2f();
     }
@@ -287,9 +285,7 @@ public class WireElement extends GraphElement<WireModel> {
     private Vector2f controlPoint(@org.jetbrains.annotations.Nullable PortModel port, Vector2f endpoint, float offset, boolean isFrom) {
         float sign = isFrom ? 1f : -1f;
         boolean vertical = port != null && port.getOrientation() == PortOrientation.Vertical;
-        return vertical
-                ? endpoint.add(0, sign * offset, new Vector2f())
-                : endpoint.add(sign * offset, 0, new Vector2f());
+        return vertical ? endpoint.add(0, sign * offset, new Vector2f()) : endpoint.add(sign * offset, 0, new Vector2f());
     }
 
     public static List<Vector2f> roundCorners(List<Vector2f> input, float radius, int cornerSegments) {
@@ -348,8 +344,7 @@ public class WireElement extends GraphElement<WireModel> {
 
                 out.add(new Vector2f(
                         w1 * P1.x + w2 * B.x + w3 * P2.x,
-                        w1 * P1.y + w2 * B.y + w3 * P2.y
-                ));
+                        w1 * P1.y + w2 * B.y + w3 * P2.y));
             }
 
             out.add(P2);
@@ -443,8 +438,7 @@ public class WireElement extends GraphElement<WireModel> {
         if (fromElement == null || toElement == null) return false;
         var isFromRegionSelected = fromElement.canBeRegionSelected(region);
         var isToRegionSelected = toElement.canBeRegionSelected(region);
-        return (isFromRegionSelected && isToRegionSelected)
-                || !isFromRegionSelected && !isToRegionSelected && super.canBeRegionSelected(region);
+        return (isFromRegionSelected && isToRegionSelected) || !isFromRegionSelected && !isToRegionSelected && super.canBeRegionSelected(region);
     }
 
     private boolean isMouseOverLine(Vector2f mouse, Vector2f point1, Vector2f point2, float width) {
@@ -514,9 +508,8 @@ public class WireElement extends GraphElement<WireModel> {
      * segment P(t)=P0 + t*(P1-P0), t in [0,1]
      */
     private static boolean segmentIntersectsAabb(
-            float x0, float y0, float x1, float y1,
-            float minX, float minY, float maxX, float maxY
-    ) {
+                                                 float x0, float y0, float x1, float y1,
+                                                 float minX, float minY, float maxX, float maxY) {
         float dx = x1 - x0;
         float dy = y1 - y0;
 
@@ -530,7 +523,11 @@ public class WireElement extends GraphElement<WireModel> {
             float inv = 1f / dx;
             float t1 = (minX - x0) * inv;
             float t2 = (maxX - x0) * inv;
-            if (t1 > t2) { float tmp = t1; t1 = t2; t2 = tmp; }
+            if (t1 > t2) {
+                float tmp = t1;
+                t1 = t2;
+                t2 = tmp;
+            }
             tMin = Math.max(tMin, t1);
             tMax = Math.min(tMax, t2);
             if (tMin > tMax) return false;
@@ -543,7 +540,11 @@ public class WireElement extends GraphElement<WireModel> {
             float inv = 1f / dy;
             float t1 = (minY - y0) * inv;
             float t2 = (maxY - y0) * inv;
-            if (t1 > t2) { float tmp = t1; t1 = t2; t2 = tmp; }
+            if (t1 > t2) {
+                float tmp = t1;
+                t1 = t2;
+                t2 = tmp;
+            }
             tMin = Math.max(tMin, t1);
             tMax = Math.min(tMax, t2);
             if (tMin > tMax) return false;

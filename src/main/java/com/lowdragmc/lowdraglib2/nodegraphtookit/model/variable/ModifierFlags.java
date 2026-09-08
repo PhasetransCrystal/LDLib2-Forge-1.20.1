@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable;
 
 public enum ModifierFlags {
+
     /**
      * The variable is neither readable nor writable.
      */

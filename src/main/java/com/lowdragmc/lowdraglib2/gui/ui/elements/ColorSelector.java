@@ -13,6 +13,7 @@ import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.vfyjxf.taffy.style.AlignItems;
@@ -21,18 +22,18 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.appliedenergistics.yoga.YogaEdge;
-import org.appliedenergistics.yoga.YogaGutter;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.function.IntConsumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @KJSBindings
 @LDLRegister(name = "color-selector", group = "misc", registry = "ldlib2:ui_element")
 public class ColorSelector extends BindableUIElement<Integer> {
+
     public final UIElement pickerContainer;
     public final UIElement colorPreview;
     public final UIElement colorSlider;
@@ -45,7 +46,11 @@ public class ColorSelector extends BindableUIElement<Integer> {
      * all supported pick mode
      */
     private enum HSB_MODE {
-        H("hue"), S("saturation"), B("brightness");
+
+        H("hue"),
+        S("saturation"),
+        B("brightness");
+
         private final String name;
 
         HSB_MODE(String name) {
@@ -127,8 +132,8 @@ public class ColorSelector extends BindableUIElement<Integer> {
                         new UIElement().layout(layout -> layout.flex(1))
                                 .addEventListener(UIEvents.MOUSE_DOWN, this::onAdjustHsbContext)
                                 .addEventListener(UIEvents.DRAG_SOURCE_UPDATE, this::onAdjustHsbContext)
-                                .addClass("__color-selector_color-preview_display__").style(style -> style.backgroundTexture(this::drawHsbContext))
-                ), colorSlider),
+                                .addClass("__color-selector_color-preview_display__").style(style -> style.backgroundTexture(this::drawHsbContext))),
+                        colorSlider),
 
                 new UIElement().layout(layout -> layout.flexDirection(FlexDirection.ROW))
                         .addChildren(alphaSlider, hsbButton));
@@ -150,7 +155,8 @@ public class ColorSelector extends BindableUIElement<Integer> {
                         hexConfigurator = new StringConfigurator("", () -> String.format("#%08x", argb), s -> {
                             try {
                                 setValue(Integer.parseUnsignedInt(s.substring(1), 16));
-                            } catch (Exception ignored) {}}, "#FFFFFFFF", false),
+                            } catch (Exception ignored) {}
+                        }, "#FFFFFFFF", false),
                         new Button().setOnClick(this::onCopy).textStyle(textStyle -> textStyle.fontSize(6).adaptiveWidth(true))
                                 .setText("Copy").layout(layout -> {
                                     layout.height(10);
@@ -304,7 +310,7 @@ public class ColorSelector extends BindableUIElement<Integer> {
 
         float _h = 0, _s = 0, _b = 0f;
         {
-            //left-up corner
+            // left-up corner
             switch (mode) {
                 case H -> {
                     _h = h;
@@ -328,7 +334,7 @@ public class ColorSelector extends BindableUIElement<Integer> {
         }
 
         {
-            //left-down corner
+            // left-down corner
             switch (mode) {
                 case H -> {
                     _h = h;
@@ -352,7 +358,7 @@ public class ColorSelector extends BindableUIElement<Integer> {
         }
 
         {
-            //right-down corner
+            // right-down corner
             switch (mode) {
                 case H -> {
                     _h = h;
@@ -376,7 +382,7 @@ public class ColorSelector extends BindableUIElement<Integer> {
         }
 
         {
-            //right-up corner
+            // right-up corner
             switch (mode) {
                 case H -> {
                     _h = h;
@@ -413,7 +419,7 @@ public class ColorSelector extends BindableUIElement<Integer> {
             }
             case B -> {
                 mainX = h / 360f;
-                mainY = 1- s;
+                mainY = 1 - s;
             }
         }
 
@@ -429,7 +435,7 @@ public class ColorSelector extends BindableUIElement<Integer> {
 
         float _h = 0f, _s = 0f, _b = 0f;
         {
-            //down two corners
+            // down two corners
             switch (mode) {
                 case H -> {
                     _h = 0f;
@@ -457,7 +463,7 @@ public class ColorSelector extends BindableUIElement<Integer> {
         }
 
         {
-            //up two corners
+            // up two corners
             switch (mode) {
                 case H -> {
                     _h = 360f;
@@ -498,7 +504,6 @@ public class ColorSelector extends BindableUIElement<Integer> {
             }
         }
         DrawerHelper.drawSolidRect(graphics, (x - 2), (y + color * height), width + 4, 1, 0xffff0000);
-
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -522,5 +527,4 @@ public class ColorSelector extends BindableUIElement<Integer> {
             builder.nextElement();
         }
     }
-
 }

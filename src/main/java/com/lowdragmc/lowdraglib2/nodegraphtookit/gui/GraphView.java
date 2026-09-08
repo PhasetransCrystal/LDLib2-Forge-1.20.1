@@ -1,7 +1,5 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.gui;
 
-import com.google.common.base.Predicates;
-import com.google.common.collect.Sets;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.configurator.EditAction;
@@ -35,8 +33,8 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.blackboard.Blackboard;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.CreateForeignLocalSubgraphCommand;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.CreateSubgraphFromSelectionCommand;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.ElementRenameColorCommands;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.GraphCommands;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.GraphCommandListener;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.GraphCommands;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.IGraphCommand;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.ImportExternalSubgraphCommand;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.NodeCommands;
@@ -49,33 +47,40 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.NodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.wiget.PlacematElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.wiget.StickyNoteElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.PlacematModel;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.PortMigrationResult;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WirePlaceHolder;
+import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+
+import com.google.common.base.Predicates;
+import com.google.common.collect.Sets;
 import dev.vfyjxf.taffy.style.*;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class GraphView extends UIElement {
-    public record ElementUpdate(ModelElement element, ElementUpdateVisitor visitor) { }
+
+    public record ElementUpdate(ModelElement element, ElementUpdateVisitor visitor) {}
+
     public record DragRegionSelection(UIElement selectionRect) {}
+
     public record DragMove(boolean targetWasSelected, Model target, List<Model> movables) {}
 
     public final UIElement header = new UIElement();
@@ -97,7 +102,9 @@ public class GraphView extends UIElement {
      * {@link GraphModel#canExecuteCommand} policy (both must allow). For policy tied to the graph
      * definition, override {@link com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph#canExecuteCommand} instead.
      */
-    @Nullable @Setter @Getter
+    @Nullable
+    @Setter
+    @Getter
     private Predicate<IGraphCommand> commandInterceptor;
     /** Observers notified after a command executes (see {@link #addCommandListener}). */
     private final List<GraphCommandListener> commandListeners = new ArrayList<>();
@@ -113,7 +120,8 @@ public class GraphView extends UIElement {
     public final DockManager dockManager = new DockManager(this);
     private final Map<String, UIElement> layers = new HashMap<>();
     private final UIElement fallbackLayer = new UIElement();
-    @Nullable @Getter
+    @Nullable
+    @Getter
     private Graph graph;
     @Getter
     private final Map<Model, ModelElement> modelElements = new HashMap<>();
@@ -132,7 +140,8 @@ public class GraphView extends UIElement {
     private boolean isMenuOpen = false;
     @Getter
     private final Set<Model> selected = Sets.newHashSet();
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private Vector4f dragRegionSelection = null; // local rect
     @Getter
     protected boolean isWireDragging = false;
@@ -142,12 +151,13 @@ public class GraphView extends UIElement {
     private boolean graphLogExpanded = false;
 
     /** When true, drag-moved and newly-created elements snap their positions to {@link #gridSnapSize}. */
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean snapToGrid = true;
     /** Pixel granularity for snap-to-grid alignment. Runtime-mutable; default 16. */
-    @Getter @Setter
+    @Getter
+    @Setter
     private float gridSnapSize = 16f;
-
 
     public GraphView() {
         addClass("__node-graph-view__");
@@ -199,7 +209,6 @@ public class GraphView extends UIElement {
 
         addChildren(header, canvas.addChildren(graphView, panelLayer, graphLogFooter));
     }
-
 
     protected void initHeaders() {
         // left section
@@ -364,7 +373,8 @@ public class GraphView extends UIElement {
      * If the layer name is not found or is null/empty, the fallback layer or {@code null} is returned.
      *
      * @param layerName the name of the layer to retrieve; this can be {@code null}.
-     * @return the {@link UIElement} for the specified layer name, or {@code null} if the layer is not found or if the input is invalid.
+     * @return the {@link UIElement} for the specified layer name, or {@code null} if the layer is not found or if the
+     *         input is invalid.
      */
     public @Nullable UIElement getLayer(@Nullable String layerName) {
         if (layerName == null || layerName.isEmpty()) return null;
@@ -393,9 +403,15 @@ public class GraphView extends UIElement {
         var initialTag = graph.graphModel.serializeNBT(provider);
         historyStack.pushHistory(Component.translatable("initial"),
                 EditAction.of(
-                        () -> { graph.graphModel.deserializeNBT(provider, initialTag); rebuildGraphUI(); },
-                        () -> { graph.graphModel.deserializeNBT(provider, initialTag); rebuildGraphUI(); }
-                ), null, false);
+                        () -> {
+                            graph.graphModel.deserializeNBT(provider, initialTag);
+                            rebuildGraphUI();
+                        },
+                        () -> {
+                            graph.graphModel.deserializeNBT(provider, initialTag);
+                            rebuildGraphUI();
+                        }),
+                null, false);
         refreshGraphLogger();
         return this;
     }
@@ -469,9 +485,7 @@ public class GraphView extends UIElement {
         var first = graphLogEntries.get(0);
         graphLogSummary.setText(formatGraphLogEntry(first));
         Style.importantPipeline(graphLogSummary.getTextStyle(), s -> s.textColor(graphLogLevelColor(first.level())));
-        graphLogCount.setText(graphLogEntries.size() > 1
-                ? Component.translatable("graph.logger.count", graphLogEntries.size())
-                : Component.empty());
+        graphLogCount.setText(graphLogEntries.size() > 1 ? Component.translatable("graph.logger.count", graphLogEntries.size()) : Component.empty());
 
         if (graphLogExpanded) {
             for (var entry : graphLogEntries) {
@@ -573,8 +587,10 @@ public class GraphView extends UIElement {
     }
 
     public void fitGraph(float minX, float minY, float maxX, float maxY, float padding) {
-        minX -= padding; minY -= padding;
-        maxX += padding; maxY += padding;
+        minX -= padding;
+        minY -= padding;
+        maxX += padding;
+        maxY += padding;
 
         graphView.fit(minX, minY, maxX, maxY, 0.1f);
     }
@@ -604,8 +620,8 @@ public class GraphView extends UIElement {
             }
         }
 
-//        ContentViewContainer.Add(m_MarkersParent);
-//        m_MarkersParent.Clear();
+        // ContentViewContainer.Add(m_MarkersParent);
+        // m_MarkersParent.Clear();
 
         // nodes
         for (var nodeModel : graphModel.getNodeModels()) {
@@ -659,7 +675,8 @@ public class GraphView extends UIElement {
      * The command is applied only if the graph is not {@code null}.
      *
      * @param command the {@link IGraphCommand} instance to execute. The command cannot be {@code null}.
-     * @return {@code true} if the command was successfully dispatched and executed; {@code false} if the graph is {@code null}.
+     * @return {@code true} if the command was successfully dispatched and executed; {@code false} if the graph is
+     *         {@code null}.
      */
     public boolean dispatchCommand(IGraphCommand command) {
         if (graph == null) return false;
@@ -713,7 +730,8 @@ public class GraphView extends UIElement {
      * of pending updates; otherwise, it is executed immediately.
      *
      * @param element the {@link ModelElement} to update. This parameter cannot be {@code null}.
-     * @param visitor the {@link ElementUpdateVisitor} responsible for performing the update logic. This parameter cannot be {@code null}.
+     * @param visitor the {@link ElementUpdateVisitor} responsible for performing the update logic. This parameter
+     *                cannot be {@code null}.
      */
     public void dispatchUpdate(ModelElement element, ElementUpdateVisitor visitor) {
         if (isUpdateBatching) {
@@ -830,8 +848,7 @@ public class GraphView extends UIElement {
                 // by the MOVABLE capability so non-movable nodes (e.g. BlockNodeModel) don't
                 // start a DragMove that would preempt their own drag-reorder handlers.
                 var movablesList = new ArrayList<>(selected.stream()
-                        .filter(m -> m instanceof IMovable
-                                && (!(m instanceof GraphElementModel gem) || gem.isMovable()))
+                        .filter(m -> m instanceof IMovable && (!(m instanceof GraphElementModel gem) || gem.isMovable()))
                         .toList());
                 for (var sel : new ArrayList<>(movablesList)) {
                     if (sel instanceof PlacematModel pm) {
@@ -850,13 +867,14 @@ public class GraphView extends UIElement {
                 if (movables.isEmpty()) return;
                 var width = 12;
                 var height = 12;
-                startDrag(new DragMove(tagetWasSelected, model, movables), Icons.MOVE).setDragTexture(- width / 2f, -height / 2f, width, height);
+                startDrag(new DragMove(tagetWasSelected, model, movables), Icons.MOVE).setDragTexture(-width / 2f, -height / 2f, width, height);
             }
         }, element.isGraphMouseDownCaptured());
     }
 
     /**
      * Removes a graph element from the graph view.
+     * 
      * @param element the {@link ModelElement} to remove. This can be {@code null}.
      * @return {@code true} if the element was successfully removed from the graph view, {@code false} otherwise.
      */
@@ -957,19 +975,19 @@ public class GraphView extends UIElement {
      * - Models in the {@code waitToSelected} set are added to the {@code selected} set.
      * - Models in the {@code waitToDeSelected} set are removed from the {@code selected} set.
      * - Calls the {@code onSelectionChanged} method on the corresponding elements of models
-     *   whose selection state has been updated.
+     * whose selection state has been updated.
      * </ul>
      * Once all pending operations are processed, the batching mode is disabled.
      *
      * Note:
      * - The method ensures that no duplicate notifications are triggered for models.
      * - {@code isSelectionBatching} is temporarily set to {@code true} during processing,
-     *   and reset to {@code false} once the method completes execution.
+     * and reset to {@code false} once the method completes execution.
      *
      * Dependencies:
      * - {@link Model} represents the model being selected or deselected.
      * - {@code modelElements} is a mapping of models to their corresponding elements
-     *   that can respond to selection changes.
+     * that can respond to selection changes.
      */
     public void endBatchSelection() {
         isSelectionBatching = true;
@@ -1115,18 +1133,15 @@ public class GraphView extends UIElement {
     }
 
     protected void onValidateCommand(UIEvent event) {
-        if (
-                CommandEvents.UNDO.equals(event.command) ||
+        if (CommandEvents.UNDO.equals(event.command) ||
                 CommandEvents.REDO.equals(event.command) ||
                 CommandEvents.COPY.equals(event.command) ||
                 CommandEvents.CUT.equals(event.command) ||
                 CommandEvents.DUPLICATE.equals(event.command) ||
-                CommandEvents.PASTE.equals(event.command)
-        ) {
+                CommandEvents.PASTE.equals(event.command)) {
             event.stopPropagation();
         }
     }
-
 
     protected void onExecuteCommand(UIEvent event) {
         if (CommandEvents.REDO.equals(event.command)) {
@@ -1147,10 +1162,7 @@ public class GraphView extends UIElement {
     protected void onGraphViewMouseDown(UIEvent event) {
         // re-implement it
         // drag with middle / right button
-        if (graphView.getGraphViewStyle().allowPan()
-                && (event.button == 1 || event.button == 2)
-                && graphView.isSelfOrChildHover()
-                && graphView.isMouseOverContent(event.x, event.y)) {
+        if (graphView.getGraphViewStyle().allowPan() && (event.button == 1 || event.button == 2) && graphView.isSelfOrChildHover() && graphView.isMouseOverContent(event.x, event.y)) {
             graphView.startDrag(new com.lowdragmc.lowdraglib2.gui.ui.elements.GraphView.DragOffset(graphView.getOffsetX(), graphView.getOffsetY()), null);
         } else if (event.button == 0) {
             if (event.bubbleListeners.size() == 1) {
@@ -1164,8 +1176,7 @@ public class GraphView extends UIElement {
                         .height(0));
                 Style.importantPipeline(selectionRect.getStyle(), s -> s.background(new SDFRectTexture().setStroke(0.5f)
                         .setColor(ColorPattern.T_LIGHT_BLUE.color)
-                        .setBorderColor(ColorPattern.LIGHT_BLUE.color)
-                ));
+                        .setBorderColor(ColorPattern.LIGHT_BLUE.color)));
                 graphView.startDrag(new DragRegionSelection(selectionRect), null);
                 graphView.addChild(selectionRect);
             }
@@ -1237,9 +1248,7 @@ public class GraphView extends UIElement {
     }
 
     protected void onGraphViewDragPerform(UIEvent event) {
-        if (!(event.dragHandler.getDraggingObject() instanceof GraphResourceProviderContainer.DraggingGraph draggingGraph)
-                || graph == null || !graph.graphModel.allowSubgraphCreation()
-                || !graphView.isMouseOverContent(event.x, event.y)) {
+        if (!(event.dragHandler.getDraggingObject() instanceof GraphResourceProviderContainer.DraggingGraph draggingGraph) || graph == null || !graph.graphModel.allowSubgraphCreation() || !graphView.isMouseOverContent(event.x, event.y)) {
             return;
         }
 
@@ -1247,8 +1256,7 @@ public class GraphView extends UIElement {
         // showing at its root. Anything looser (e.g. a parent file referenced from a child) would
         // require traversing the open editor topology, which is out of scope for v1.
         var editorView = getFirstAncestorOfType(GraphEditorView.class);
-        if (editorView != null && editorView.getRootPath() != null
-                && editorView.getRootPath().equals(draggingGraph.path())) {
+        if (editorView != null && editorView.getRootPath() != null && editorView.getRootPath().equals(draggingGraph.path())) {
             LDLib2.LOGGER.warn("Rejected subgraph import: cannot import a graph into itself ({}).",
                     draggingGraph.path());
             return;
@@ -1277,8 +1285,10 @@ public class GraphView extends UIElement {
     }
 
     /**
-     * Adds an "Add Subgraph" submenu listing every loaded {@link com.lowdragmc.lowdraglib2.nodegraphtookit.editor.GraphResource} whose graph type is
-     * accepted by this host graph via {@link com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph#acceptsSubgraphGraph}.
+     * Adds an "Add Subgraph" submenu listing every loaded
+     * {@link com.lowdragmc.lowdraglib2.nodegraphtookit.editor.GraphResource} whose graph type is
+     * accepted by this host graph via
+     * {@link com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph#acceptsSubgraphGraph}.
      * Selecting one creates an empty inline local subgraph of that foreign type plus a node bound to
      * it (via {@link CreateForeignLocalSubgraphCommand}). No-op when the host disallows subgraphs or
      * accepts no foreign types.
@@ -1304,8 +1314,7 @@ public class GraphView extends UIElement {
             for (var resource : compatible) {
                 Class<? extends com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph> type = resource.createGraph().getClass();
                 var name = resource.getName();
-                branch.leaf(resource.getDisplayName(), () ->
-                        dispatchCommand(new CreateForeignLocalSubgraphCommand(type, name, localPosition)));
+                branch.leaf(resource.getDisplayName(), () -> dispatchCommand(new CreateForeignLocalSubgraphCommand(type, name, localPosition)));
             }
         });
     }
@@ -1331,14 +1340,10 @@ public class GraphView extends UIElement {
         appendForeignSubgraphMenu(menuBuilder, localPosition);
 
         // "Create Sticky Note" is always available
-        menuBuilder.leaf(ContextualMenuHelpers.CREATE_STICKY_NOTE_ITEM.getName(), () ->
-                dispatchCommand(new GraphCommands.CreateStickyNoteCommand(localPosition))
-        );
+        menuBuilder.leaf(ContextualMenuHelpers.CREATE_STICKY_NOTE_ITEM.getName(), () -> dispatchCommand(new GraphCommands.CreateStickyNoteCommand(localPosition)));
 
         // "Create Placemat" is always available
-        menuBuilder.leaf(ContextualMenuHelpers.CREATE_PLACEMAT_ITEM.getName(), () ->
-                createPlacematFromSelection(localPosition)
-        );
+        menuBuilder.leaf(ContextualMenuHelpers.CREATE_PLACEMAT_ITEM.getName(), () -> createPlacematFromSelection(localPosition));
 
         if (getSelected().isEmpty()) return menuBuilder;
 
@@ -1382,25 +1387,22 @@ public class GraphView extends UIElement {
                                              float mouseX, float mouseY) {
         // Add Block: shown when the selection is a single context node with at least one
         // compatible block type. Opens the ItemLibrary in block-only mode targeting this context.
-        if (selectedModels.size() == 1
-                && selectedModels.get(0) instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ContextNodeModel ctxModel) {
+        if (selectedModels.size() == 1 && selectedModels.get(0) instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ContextNodeModel ctxModel) {
             var supported = ctxModel.getSupportBlockClasses();
             if (!supported.isEmpty()) {
-                menuBuilder.leaf("graph.add_block", () ->
-                        itemLibrary.showBlocksForContext(mouseX, mouseY, ctxModel, item -> {
-                            if (item instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.gui.itemlibrary.BlockLibraryItem blockItem) {
-                                dispatchCommand(new com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.BlockCommands.InsertBlockCommand(
-                                        ctxModel, blockItem.getBlockClass(), -1));
-                            }
-                        }));
+                menuBuilder.leaf("graph.add_block", () -> itemLibrary.showBlocksForContext(mouseX, mouseY, ctxModel, item -> {
+                    if (item instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.gui.itemlibrary.BlockLibraryItem blockItem) {
+                        dispatchCommand(new com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.BlockCommands.InsertBlockCommand(
+                                ctxModel, blockItem.getBlockClass(), -1));
+                    }
+                }));
             }
         }
 
         // Block-only single-selection: offer Move Up / Move Down. (Standard "Delete" already
         // routes through removeBlock via GraphModel.removeElements, and the standard menu items
         // — Copy/Cut/Duplicate/Delete — are emitted by the common-items path above.)
-        if (selectedModels.size() == 1
-                && selectedModels.get(0) instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel block) {
+        if (selectedModels.size() == 1 && selectedModels.get(0) instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel block) {
             var parent = block.getContextNodeModel();
             if (parent != null) {
                 int idx = parent.indexOf(block);
@@ -1429,7 +1431,7 @@ public class GraphView extends UIElement {
 
     /** Binds a runtime action to a menu item. Returns null if the item is not available. */
     private @Nullable ContextualMenuItem bindMenuItemAction(ContextualMenuItem item,
-            List<GraphElementModel> selectedModels, Vector2f localPosition) {
+                                                            List<GraphElementModel> selectedModels, Vector2f localPosition) {
         // Case strings match the translation keys stored in ContextualMenuHelpers — keep them in
         // sync if you rename either side.
         return switch (item.getName()) {
@@ -1483,13 +1485,7 @@ public class GraphView extends UIElement {
                 // Wires are tolerated (filtered inside the model); nodes need to be copiable;
                 // placemats / sticky notes pass through. Final validation (e.g. placemat with
                 // non-selected contained node) happens inside extractSelectionToLocalSubgraph.
-                if (graph != null && graph.graphModel.allowSubgraphCreation()
-                        && !selectedModels.isEmpty()
-                        && selectedModels.stream().allMatch(m ->
-                                m instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel
-                                        || (m instanceof AbstractNodeModel an && an.isCopiable())
-                                        || m instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.PlacematModel
-                                        || m instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.StickyNoteModel)) {
+                if (graph != null && graph.graphModel.allowSubgraphCreation() && !selectedModels.isEmpty() && selectedModels.stream().allMatch(m -> m instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel || (m instanceof AbstractNodeModel an && an.isCopiable()) || m instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.PlacematModel || m instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.StickyNoteModel)) {
                     var selection = new ArrayList<>(selectedModels);
                     yield item.withAction(() -> dispatchCommand(new CreateSubgraphFromSelectionCommand(selection)));
                 }
@@ -1582,7 +1578,7 @@ public class GraphView extends UIElement {
             // add new elements
             addElementsFromChangeSet(changeset, newPlacemats);
 
-            //Update new and deleted node containers
+            // Update new and deleted node containers
             var allModels = new ArrayList<>(changeset.getNewModels());
             allModels.addAll(changeset.getDeletedModels());
             for (var uid : allModels) {
@@ -1606,9 +1602,9 @@ public class GraphView extends UIElement {
     }
 
     protected void updateChangedModels(Map<UUID, ChangeHintList> changedModels,
-//                                       SimpleChangeset selectionChangeset,
-//                                       HashSet<UUID> selectionAlreadyUpdatedModels,
-//                                       boolean shouldUpdatePlacematContainer,
+                                       // SimpleChangeset selectionChangeset,
+                                       // HashSet<UUID> selectionAlreadyUpdatedModels,
+                                       // boolean shouldUpdatePlacematContainer,
                                        List<GraphElement<?>> placemats) {
         // update blackboard
         blackboard.updateModelChanges(changedModels);
@@ -1617,11 +1613,11 @@ public class GraphView extends UIElement {
             var uid = entry.getKey();
             var hints = entry.getValue();
             var element = getModelElement(uid);
-//            bool inSelection = selectionChangeset?.ChangedModels.Contains(guid) ?? false;
-//            if (inSelection)
-//            {
-//                selectionAlreadyUpdatedModels.Add(guid);
-//            }
+            // bool inSelection = selectionChangeset?.ChangedModels.Contains(guid) ?? false;
+            // if (inSelection)
+            // {
+            // selectionAlreadyUpdatedModels.Add(guid);
+            // }
             ModelUpdateVisitor viewUpdater;
             if (hints == ChangeHintList.UNSPECIFIED) {
                 viewUpdater = ModelUpdateVisitor.UNSPECIFIED;
@@ -1631,11 +1627,11 @@ public class GraphView extends UIElement {
 
             if (element != null) {
                 dispatchUpdate(element, viewUpdater);
-//                if (inSelection) {
-//                    UpdateSelectionVisitor.Visitor.Update(ui);
-//                }
-//                if (ui.parent == PlacematContainer)
-//                    shouldUpdatePlacematContainer = true;
+                // if (inSelection) {
+                // UpdateSelectionVisitor.Visitor.Update(ui);
+                // }
+                // if (ui.parent == PlacematContainer)
+                // shouldUpdatePlacematContainer = true;
             }
 
             // ToList is needed to bake the dependencies.
@@ -1648,8 +1644,8 @@ public class GraphView extends UIElement {
             }
         }
 
-//        if (shouldUpdatePlacematContainer)
-//            PlacematContainer?.UpdateElementsOrder();
+        // if (shouldUpdatePlacematContainer)
+        // PlacematContainer?.UpdateElementsOrder();
 
         for (var placemat : placemats) {
             dispatchUpdate(placemat, ModelUpdateVisitor.UNSPECIFIED);
@@ -1660,8 +1656,7 @@ public class GraphView extends UIElement {
         changedModels.merge(
                 uid,
                 changeHints,
-                ChangeHintList::addRange
-        );
+                ChangeHintList::addRange);
     }
 
     protected void deleteElementsFromChangeSet(GraphChangeset modelChangeSet) {
@@ -1685,12 +1680,7 @@ public class GraphView extends UIElement {
 
         for (var model : newModels) {
             if (!(model instanceof IGraphElementUIModel)) continue;
-            if (model instanceof WireModel
-                    || model instanceof PortModel
-                    || model instanceof DeclarationModel
-                    || model instanceof NodePreviewModel
-                    || model instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel
-            ) continue;
+            if (model instanceof WireModel || model instanceof PortModel || model instanceof DeclarationModel || model instanceof NodePreviewModel || model instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel) continue;
 
             if (model.getContainer() != graph.graphModel) continue;
 
@@ -1715,7 +1705,7 @@ public class GraphView extends UIElement {
         for (var model : newModels) {
             if (model instanceof NodePreviewModel previewModel) {
                 // t.odo preview
-//                addElement(previewModel);
+                // addElement(previewModel);
             }
         }
     }
@@ -1758,8 +1748,7 @@ public class GraphView extends UIElement {
         // Close on focus loss — same dismissal model the Menu uses.
         colorSelector.setEnforceFocus(e -> colorSelector.removeSelf());
         colorSelector.setColor(colored.getElementColor(), false);
-        colorSelector.setOnColorChangeListener(newColor ->
-                dispatchCommand(new ElementRenameColorCommands.SetElementColorCommand(target, newColor)));
+        colorSelector.setOnColorChangeListener(newColor -> dispatchCommand(new ElementRenameColorCommands.SetElementColorCommand(target, newColor)));
 
         var worldPos = getContentViewContainer().localToWorld(localPosition);
         var rootOffset = mui.ui.rootElement.worldToLocalLayoutOffset(worldPos);

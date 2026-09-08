@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.gui.blackboard;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.Style;
@@ -15,10 +14,10 @@ import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphView;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.IGraphTool;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.ModelElement;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.VariableDeclarationCommands;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.PortElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.NodeCommands;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.VariableDeclarationCommands;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.PortElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHintList;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Model;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
@@ -28,6 +27,8 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.IGroupItemModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.SectionModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableCreationInfos;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModelBase;
+
+import com.google.common.base.Predicates;
 import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Blackboard extends BlackboardElement implements IGraphTool {
+
     public record DraggingUINode(GroupItemTreeNode node) {}
 
     public final GraphView graphView;
@@ -46,7 +48,8 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
     public final TreeList<GroupItemTreeNode> treeList = new TreeList<>();
 
     // runtime
-    @Getter @Setter
+    @Getter
+    @Setter
     @Nullable
     private VariableCreationInfos lastVariableInfos;
     @Nullable
@@ -148,8 +151,7 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
         }
 
         if (shouldRebuildTreeView || changeset.containsKey(
-                Objects.requireNonNull(graphModel.getSectionModel(GraphModel.DEFAULT_SECTION_NAME)).getUid()
-        )) {
+                Objects.requireNonNull(graphModel.getSectionModel(GraphModel.DEFAULT_SECTION_NAME)).getUid())) {
             var expandedNodes = treeList.getExpandedNodes().stream().map(ITreeNode::getKey).toList();
             treeList.reloadList();
             if (rootNode != null) {
@@ -209,8 +211,7 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
             }
         });
         nodeUI.addEventListener(UIEvents.MOUSE_LEAVE, e -> {
-            if (lastClickTime != 0 && isMouseDown(0) && treeList.getSelected().size() == 1
-                    && node != rootNode) {
+            if (lastClickTime != 0 && isMouseDown(0) && treeList.getSelected().size() == 1 && node != rootNode) {
                 nodeUI.startDrag(new DraggingUINode(node), new TextTexture(node.getKey().getName()));
             }
             lastClickTime = 0;
@@ -257,9 +258,9 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
      * Reorders or re-parents a Blackboard item in response to a successful drag-and-drop.
      * The hover region within the target row decides the semantics:
      * <ul>
-     *   <li>top third &rarr; insert <em>before</em> target, into target's parent group</li>
-     *   <li>middle third &rarr; insert <em>into</em> target (only when target is a group)</li>
-     *   <li>bottom third &rarr; insert <em>after</em> target, into target's parent group</li>
+     * <li>top third &rarr; insert <em>before</em> target, into target's parent group</li>
+     * <li>middle third &rarr; insert <em>into</em> target (only when target is a group)</li>
+     * <li>bottom third &rarr; insert <em>after</em> target, into target's parent group</li>
      * </ul>
      * Routed through {@link VariableDeclarationCommands.MoveGroupItemCommand} so the snapshot-based
      * undo/redo system records the change.
@@ -269,9 +270,7 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
         var draggedItem = dragged.getKey();
         var targetItem = target.getKey();
 
-        var mode = TreeList.isMouseOverNodeAbove(e) ? 0
-                : TreeList.isMouseOverNodeCenter(e) ? 1
-                : TreeList.isMouseOverNodeBelow(e) ? 2 : -1;
+        var mode = TreeList.isMouseOverNodeAbove(e) ? 0 : TreeList.isMouseOverNodeCenter(e) ? 1 : TreeList.isMouseOverNodeBelow(e) ? 2 : -1;
         if (mode < 0) return;
 
         GroupModelBase targetGroup;
@@ -334,8 +333,7 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
         for (int i = 0; i < variables.size(); i++) {
             variablesWithInfo.add(Pair.of(
                     variables.get(i),
-                    graphView.getContentViewContainer().worldToLocalLayoutOffset(new Vector2f(e.x, e.y).add(0, i * 30))
-            ));
+                    graphView.getContentViewContainer().worldToLocalLayoutOffset(new Vector2f(e.x, e.y).add(0, i * 30))));
         }
 
         var command = new NodeCommands.CreateNodeCommand();
@@ -397,9 +395,7 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
         var typeHandle = lastVariableInfos.getTypeHandle();
 
         var supportedTypes = graph.graphModel.getVariableSupportTypes();
-        if (!supportedTypes.isEmpty()
-                && !typeHandle.isCustomTypeHandle()
-                && !supportedTypes.contains(typeHandle)) {
+        if (!supportedTypes.isEmpty() && !typeHandle.isCustomTypeHandle() && !supportedTypes.contains(typeHandle)) {
             typeHandle = supportedTypes.get(0);
         }
 
@@ -411,8 +407,7 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
                 selectedGroupInThisSection,
                 Integer.MAX_VALUE,
                 lastVariableInfos.getModifiers(),
-                null
-        ));
+                null));
     }
 
     public void setGroupModelExpanded(GroupModelBase current, boolean expanded) {
@@ -438,6 +433,7 @@ public class Blackboard extends BlackboardElement implements IGraphTool {
 
     /**
      * Searches for the correct group that would be used to contain a new variable in the selection.
+     * 
      * @param section the section to search in.
      * @return Either a group in the section or the section itself.
      */

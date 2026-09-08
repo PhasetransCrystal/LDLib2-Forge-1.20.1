@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.test.ui;
 
-import com.google.common.reflect.TypeToken;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.slot.ItemHandlerSlot;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy;
@@ -18,7 +17,10 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
+import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
+import com.google.common.reflect.TypeToken;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -32,20 +34,20 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.ItemStackHandler;
-import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
-import org.appliedenergistics.yoga.YogaEdge;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@LDLRegister(name="ui_sync", registry = "ldlib2:menu_test")
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@LDLRegister(name = "ui_sync", registry = "ldlib2:menu_test")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TestSync implements IMenuTest {
+
     private final FluidTank fluidTank = new FluidTank(2000);
     private final FluidTank phantomTank = new FluidTank(2000);
     private final FluidTank phantomTank2 = new FluidTank(2000);
@@ -78,8 +80,7 @@ public class TestSync implements IMenuTest {
                         new ItemSlot().setItem(Items.CHEST.getDefaultInstance().copyWithCount(64)),
                         new FluidSlot(),
                         new FluidSlot().setFluid(new FluidStack(Fluids.LAVA, 1000)),
-                        new FluidSlot().setFluid(new FluidStack(Fluids.WATER, 1000))
-                ),
+                        new FluidSlot().setFluid(new FluidStack(Fluids.WATER, 1000))),
                 new InventorySlots(),
                 new ItemSlot().bind(itemHandler, 0),
                 new ItemSlot().bind(new ItemHandlerSlot(itemHandler, 1).setCanTake(p -> false)),
@@ -87,20 +88,16 @@ public class TestSync implements IMenuTest {
                 new UIElement().layout(layout -> layout.flexDirection(FlexDirection.ROW)).addChildren(
                         new ItemSlot().xeiPhantom().bind(DataBindingBuilder.itemStack(
                                 () -> itemHandler.getStackInSlot(3),
-                                itemStack -> itemHandler.setStackInSlot(3, itemStack)
-                        ).build()),
+                                itemStack -> itemHandler.setStackInSlot(3, itemStack)).build()),
                         new ItemSlot().xeiPhantom().bind(DataBindingBuilder.itemStack(
                                 () -> itemHandler.getStackInSlot(4),
-                                itemStack -> itemHandler.setStackInSlot(4, itemStack)
-                        ).build())
-                ),
+                                itemStack -> itemHandler.setStackInSlot(4, itemStack)).build())),
                 new FluidSlot().bind(fluidTank, 0),
                 new UIElement().layout(layout -> layout.flexDirection(FlexDirection.ROW)).addChildren(
                         new FluidSlot().xeiPhantom().bind(DataBindingBuilder.fluidStack(phantomTank::getFluid, phantomTank::setFluid).build()),
-                        new FluidSlot().xeiPhantom().bind(DataBindingBuilder.fluidStack(phantomTank2::getFluid, phantomTank2::setFluid).build())
-                ),
-                new Button().selfCall( self -> {
-                    var button = (Button)self;
+                        new FluidSlot().xeiPhantom().bind(DataBindingBuilder.fluidStack(phantomTank2::getFluid, phantomTank2::setFluid).build())),
+                new Button().selfCall(self -> {
+                    var button = (Button) self;
                     var s2cEvent = button.addRPCEvent(RPCEventBuilder.simple(Fluid.class, fluid -> {
                         // execute from client
                         assert (LDLib2.isRemote());
@@ -120,9 +117,10 @@ public class TestSync implements IMenuTest {
                     e.currentElement.sendMessage("test_message", TagBuilder.compound().add("text", "Message from server!").build());
                 }).onMessage("test_message", (button, message) -> {
                     assert (LDLib2.isRemote());
-                    ((Button)button).setText(message.getString("text"));
+                    ((Button) button).setText(message.getString("text"));
                 }),
                 new SearchComponent<>(new SearchComponent.ISearchUI<Block>() {
+
                     @Override
                     public void search(String word, IResultHandler<Block> searchHandler) {
                         var lowerWord = word.toLowerCase();
@@ -145,10 +143,8 @@ public class TestSync implements IMenuTest {
                     }
                 }).setCandidateUIProvider(UIElementProvider.iconText(
                         block -> new ItemStackTexture(block.asItem()),
-                        block -> Component.translatable(block.getDescriptionId())
-                )).setSearchOnServer(Block[].class).bind(DataBindingBuilder
-                        .create(() -> block, b -> block = b).syncType(Block.class).build())
-        );
+                        block -> Component.translatable(block.getDescriptionId()))).setSearchOnServer(Block[].class).bind(DataBindingBuilder
+                                .create(() -> block, b -> block = b).syncType(Block.class).build()));
 
         var serverCandidates1 = List.of("a", "b", "c", "d");
         var selector1 = new Selector<String>();
@@ -160,25 +156,21 @@ public class TestSync implements IMenuTest {
                         .remoteSetter(candidates -> {
                             selector1.setCandidates(Arrays.stream(candidates).toList());
                         })
-                        .build()
-                )
-        );
+                        .build()));
 
         var serverCandidates2 = List.of("a", "b", "c", "d");
         var clientCandidates = new ArrayList<String>();
         var selector2 = new Selector<String>();
-        Type type = new TypeToken<List<String>>(){}.getType();
+        Type type = new TypeToken<List<String>>() {}.getType();
         selector2.addChild(
                 // a placeholder element value to sync candidates, it won't affect layout
                 new BindableValue<List<String>>().bind(DataBindingBuilder.create(
-                                () -> LDLib2.isRemote() ? clientCandidates : serverCandidates2, LDConsumers.nop())
+                        () -> LDLib2.isRemote() ? clientCandidates : serverCandidates2, LDConsumers.nop())
                         .syncType(type)
                         .initialValue(LDLib2.isRemote() ? clientCandidates : serverCandidates2)
                         .c2sStrategy(SyncStrategy.NONE) // only s -> c
                         .remoteSetter(selector2::setCandidates)
-                        .build()
-                )
-        );
+                        .build()));
 
         root.addChildren(selector1, selector2);
 

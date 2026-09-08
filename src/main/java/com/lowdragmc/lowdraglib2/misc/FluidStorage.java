@@ -1,8 +1,9 @@
 package com.lowdragmc.lowdraglib2.misc;
 
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.syncdata.IContentChangeAware;
+
+import com.google.common.util.concurrent.Runnables;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
@@ -15,10 +16,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Predicate;
 
 public class FluidStorage extends FluidTank implements INBTSerializable<CompoundTag>, IFluidHandlerModifiable, IContentChangeAware {
+
     @Getter
     @Setter
     private Runnable onContentsChanged = Runnables.doNothing();
-
 
     public FluidStorage(int capacity) {
         super(capacity);

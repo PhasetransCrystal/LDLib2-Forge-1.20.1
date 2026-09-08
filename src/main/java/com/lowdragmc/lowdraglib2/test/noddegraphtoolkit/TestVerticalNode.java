@@ -4,18 +4,19 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.NodeAttribute;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortOrientation;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.IPortDefinitionContext;
+
 import net.minecraft.network.chat.Component;
 
 /**
  * Demo node for verifying vertical ports. It declares:
  * <ul>
- *   <li>two <b>vertical</b> input ports — rendered in the row above the title,</li>
- *   <li>two <b>vertical</b> output ports — rendered in the row below the body,</li>
- *   <li>one horizontal input + one horizontal output — rendered in the usual side columns,
- *       so both layouts are visible on a single node for comparison.</li>
+ * <li>two <b>vertical</b> input ports — rendered in the row above the title,</li>
+ * <li>two <b>vertical</b> output ports — rendered in the row below the body,</li>
+ * <li>one horizontal input + one horizontal output — rendered in the usual side columns,
+ * so both layouts are visible on a single node for comparison.</li>
  * </ul>
  */
-@NodeAttribute(name = "test_vertical", group = "test", graphTypes = {TestGraph.class})
+@NodeAttribute(name = "test_vertical", group = "test", graphTypes = { TestGraph.class })
 public class TestVerticalNode extends Node {
 
     @Override

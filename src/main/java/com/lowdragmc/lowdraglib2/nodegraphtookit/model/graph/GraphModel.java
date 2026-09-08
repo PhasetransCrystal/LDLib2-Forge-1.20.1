@@ -8,28 +8,29 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortCapacity;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortDirection;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortType;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.editor.IGraphReferenceResolver;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.IGraphCommand;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandleHelpers;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.utils.ReorderType;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.variable.VariableKind;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.editor.IGraphReferenceResolver;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.IGraphCommand;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.TypeConstant;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModelBase;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.IGroupItemModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.SectionModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.SubPortDefinitionScope;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.PlacematModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.StickyNoteModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WirePlaceHolder;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireSide;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -48,10 +49,13 @@ import java.util.stream.Stream;
 /**
  * The model that represents a graph's structure and contents.
  *
- * <p>GraphModel manages nodes, wires, variables, and other graph elements.
- * It also tracks changes for efficient UI updates.</p>
+ * <p>
+ * GraphModel manages nodes, wires, variables, and other graph elements.
+ * It also tracks changes for efficient UI updates.
+ * </p>
  */
 public abstract class GraphModel extends GraphElementModel implements IGraphElementContainer {
+
     public final static String DEFAULT_SECTION_NAME = "";
     @Getter
     private List<AbstractNodeModel> nodeModels;
@@ -61,9 +65,11 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     private List<PlacematModel> placematModels;
     @Getter
     private List<StickyNoteModel> stickyNoteModels;
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private List<GraphModel> subGraphs;
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private List<GraphModel> localSubGraphs;
     @Getter
     private List<DeclarationModel> portalModels;
@@ -88,7 +94,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      * Runtime parent pointer for local subgraphs — set when this GraphModel is added to a parent's
      * {@link #localSubGraphs}. Not persisted; rebuilt during deserialization.
      */
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private GraphModel parentGraph;
     /**
      * Runtime context plugged in by the editor: provides external graph resolution and similar
@@ -107,7 +114,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         placematModels = new ArrayList<>();
         stickyNoteModels = new ArrayList<>();
         placeholders = new ArrayList<>();
-        portalModels= new ArrayList<>();
+        portalModels = new ArrayList<>();
         sectionModels = new ArrayList<>();
         graphVariableModels = new ArrayList<>();
 
@@ -243,15 +250,13 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      * Called after an editor command has executed; default no-op. {@link CustomGraphModelImpl}
      * delegates to {@link com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph#onCommandExecuted}.
      */
-    public void onCommandExecuted(IGraphCommand command) {
-    }
+    public void onCommandExecuted(IGraphCommand command) {}
 
     /**
      * Called after the editor's current graph state has been loaded or refreshed. Implementations
      * may emit validation diagnostics into {@code logger}.
      */
-    public void onGraphChanged(GraphLogger logger) {
-    }
+    public void onGraphChanged(GraphLogger logger) {}
 
     /**
      * Gets all wires connected to a specific port.
@@ -307,7 +312,9 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     /**
      * Checks whether the graph is a Container Graph or not. If it is not a Container Graph, it is an Asset Graph.
      * <br>
-     * A Container Graph is a graph that cannot be nested inside another graph, and can be referenced by a game object or scene.
+     * A Container Graph is a graph that cannot be nested inside another graph, and can be referenced by a game object
+     * or scene.
+     * 
      * @return True if the graph is a container graph, false otherwise.
      */
     public boolean isContainerGraph() {
@@ -327,7 +334,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      * {@code PortModel#canConnectTo}.
      *
      * @param candidates the list of {@code PortModel} instances to filter for compatibility.
-     * @param portModel the {@code PortModel} to check compatibility against.
+     * @param portModel  the {@code PortModel} to check compatibility against.
      * @return a {@code List<PortModel>} containing all compatible ports from the candidates.
      */
     public List<PortModel> getCompatiblePorts(List<PortModel> candidates, PortModel portModel) {
@@ -336,8 +343,9 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Indicates whether a given type handle from a port can be assigned to another type handle from a port.
+     * 
      * @param destination The destination port to which we want to assign type handle.
-     * @param source The source port from which we want to assign type handle.
+     * @param source      The source port from which we want to assign type handle.
      * @return Whether a given port's data handle can be assigned to another port's type handle.
      */
     public boolean canAssignTo(PortModel destination, PortModel source) {
@@ -353,7 +361,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Determines whether two ports can be connected together by a wire.
-     * @param startPortModel The port from which the wire would come from.
+     * 
+     * @param startPortModel      The port from which the wire would come from.
      * @param compatiblePortModel The port to which the wire would go to.
      * @return True if the two ports can be connected. False otherwise.
      */
@@ -400,7 +409,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      */
     public void reorderWire(WireModel wireModel, ReorderType reorderType) {
         var fromPort = wireModel.getFromPort();
-        if (fromPort != null && fromPort.hasReorderableWires()){
+        if (fromPort != null && fromPort.hasReorderableWires()) {
             if (portWireIndex != null) {
                 portWireIndex.wireReordered(wireModel, reorderType);
             }
@@ -433,7 +442,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
                 indices.add(i);
         }
 
-        // When duplicating wires, it may happen that the new wire (present in orderedList) is not yet part of WireModels.
+        // When duplicating wires, it may happen that the new wire (present in orderedList) is not yet part of
+        // WireModels.
         // If so, we can't reorder the wires yet.
         if (indices.size() < orderedList.size())
             return;
@@ -473,6 +483,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Registers an element so that the GraphModel can find it through its UID.
+     * 
      * @param model The element to register.
      */
     protected void registerElement(GraphElementModel model) {
@@ -495,6 +506,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Unregisters an element from the GraphModel.
+     * 
      * @param model The element to unregister.
      */
     protected void unregisterElement(GraphElementModel model) {
@@ -539,10 +551,10 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      * @param previewModel the preview model
      */
     public void registerNodePreview(NodePreviewModel previewModel) {
-//        if (previewModel != null && !nodePreviewModels.contains(previewModel)) {
-//            nodePreviewModels.add(previewModel);
-//            previewModel.setGraphModel(this);
-//        }
+        // if (previewModel != null && !nodePreviewModels.contains(previewModel)) {
+        // nodePreviewModels.add(previewModel);
+        // previewModel.setGraphModel(this);
+        // }
     }
 
     /**
@@ -552,7 +564,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      * @return {@code true} if removed
      */
     public boolean unregisterNodePreview(NodePreviewModel previewModel) {
-//        return nodePreviewModels.remove(previewModel);
+        // return nodePreviewModels.remove(previewModel);
         return false;
     }
 
@@ -605,21 +617,22 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
             if (!initialVariables.isEmpty()) {
                 // todo sub graph
-//                for (var recursiveSubgraphNode : getSelfReferringSubgraphNodes())
-//                    recursiveSubgraphNode.update();
+                // for (var recursiveSubgraphNode : getSelfReferringSubgraphNodes())
+                // recursiveSubgraphNode.update();
             }
         }
-//
-//        foreach (var statePortModel in statePortModels)
-//        {
-//            statePortModel.UpdateAllOffsets();
-//        }
+        //
+        // foreach (var statePortModel in statePortModels)
+        // {
+        // statePortModel.UpdateAllOffsets();
+        // }
     }
 
     /**
      * Removes elements from the lists of graph element models of the graph intertnal.
      * <br/>
      * To delete elements from the graph, call {@link #deleteElements} instead
+     * 
      * @param elements
      */
     protected void removeElements(Collection<? extends GraphElementModel> elements) {
@@ -660,11 +673,12 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Creates a constant of the type represented by type
+     * 
      * @param dataTypeHandle the type handle
      * @return the created constant
      */
     public Constant createConstantValue(TypeHandle dataTypeHandle) {
-//        if (dataTypeHandle.isCustomTypeHandle()) return null;
+        // if (dataTypeHandle.isCustomTypeHandle()) return null;
         var t = dataTypeHandle.resolve();
         if (t == void.class || t == Void.class) return null;
 
@@ -675,12 +689,13 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Gets the constant type associated with the given
+     * 
      * @param typeHandle the handle for which to retrieve the type.
      * @return the type associated with typeHandle
      */
     @Nullable
     public Class<? extends Constant> getConstantType(TypeHandle typeHandle) {
-//        if (typeHandle.isCustomTypeHandle()) return null;
+        // if (typeHandle.isCustomTypeHandle()) return null;
         var t = typeHandle.resolve();
         if (t == void.class || t == Void.class) return null;
         return TypeConstant.class;
@@ -699,12 +714,11 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Defines the sub ports of a given port, if {@link #canExpandPort} returns true.
+     * 
      * @param subPortDefinitionScope the definition of the sub ports.
-     * @param port the port
+     * @param port                   the port
      */
-    public void onDefineSubPorts(SubPortDefinitionScope<? extends NodeModel> subPortDefinitionScope, PortModel port) {
-
-    }
+    public void onDefineSubPorts(SubPortDefinitionScope<? extends NodeModel> subPortDefinitionScope, PortModel port) {}
 
     // region node
 
@@ -717,11 +731,11 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     }
 
     public <T extends AbstractNodeModel> T createNodeWithType(Class<T> nodeType,
-                                                      String nodeName,
-                                                      Vector2f position,
-                                                      @Nullable UUID uid,
-                                                      @Nullable Consumer<T> initializationCallback,
-                                                      @Nullable SpawnFlags spawnFlags) {
+                                                              String nodeName,
+                                                              Vector2f position,
+                                                              @Nullable UUID uid,
+                                                              @Nullable Consumer<T> initializationCallback,
+                                                              @Nullable SpawnFlags spawnFlags) {
         Consumer<AbstractNodeModel> setupWrapper = null;
         if (initializationCallback != null) {
             setupWrapper = n -> initializationCallback.accept((T) n);
@@ -769,16 +783,16 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Indicates whether a variable is allowed in the graph or not.
-     * @param variable The variable in the graph.
+     * 
+     * @param variable   The variable in the graph.
      * @param graphModel The graph of the variable.
      * @return {@code true} if the variable is allowed in the graph.
      */
     public boolean canCreateVariableNode(VariableDeclarationModelBase variable, GraphModel graphModel) {
         // todo does it necessary?
-//        var allowMultipleDataOutputInstances = allowMultipleDataOutputInstances() != AllowMultipleDataOutputInstances.Disallow;
-        return variable.getDataTypeHandle().equals(TypeHandles.EXECUTION_FLOW)
-                || variable.getModifiers() != ModifierFlags.WRITE
-                || graphModel.findReferencesInGraph(VariableNodeModel.class, variable).isEmpty();
+        // var allowMultipleDataOutputInstances = allowMultipleDataOutputInstances() !=
+        // AllowMultipleDataOutputInstances.Disallow;
+        return variable.getDataTypeHandle().equals(TypeHandles.EXECUTION_FLOW) || variable.getModifiers() != ModifierFlags.WRITE || graphModel.findReferencesInGraph(VariableNodeModel.class, variable).isEmpty();
     }
 
     protected Class<? extends VariableNodeModel> getVariableNodeType() {
@@ -873,8 +887,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
                 }
 
                 // If all the portals with the given declaration are deleted, delete the declaration.
-                if (deleteUnrefPortalDeclarations && nodeModel instanceof WirePortalModel wirePortalModel
-                        && wirePortalModel.getDeclarationModel() != null) {
+                if (deleteUnrefPortalDeclarations && nodeModel instanceof WirePortalModel wirePortalModel && wirePortalModel.getDeclarationModel() != null) {
                     portalRefs = findReferencesInGraph(WirePortalModel.class, wirePortalModel.getDeclarationModel());
                     portalRefs.removeIf(nodeModels::contains);
 
@@ -887,8 +900,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
                     }
                 }
 
-                if (nodeModel instanceof SubgraphNodeModel subgraphNodeModel
-                        && subgraphNodeModel.isReferencingLocalSubgraph()){
+                if (nodeModel instanceof SubgraphNodeModel subgraphNodeModel && subgraphNodeModel.isReferencingLocalSubgraph()) {
                     removeLocalSubgraph(subgraphNodeModel.getSubgraphModel());
                 }
 
@@ -903,7 +915,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
                 removeElements(elements);
             } else {
                 // todo container
-//                container.removeContainerElements(elements);
+                // container.removeContainerElements(elements);
             }
         }
     }
@@ -912,7 +924,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      * Adds a node to the graph.
      */
     protected void addNode(AbstractNodeModel nodeModel) {
-        if (!allowPortalCreation() && nodeModel instanceof WirePortalModel){
+        if (!allowPortalCreation() && nodeModel instanceof WirePortalModel) {
             throw new IllegalArgumentException("Wire portal creation is disabled.");
 
         }
@@ -927,7 +939,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
         registerElement(nodeModel);
         // todo meta data
-//        AddMetaData(nodeModel, m_GraphNodeModels.Count);
+        // AddMetaData(nodeModel, m_GraphNodeModels.Count);
         nodeModels.add(nodeModel);
 
         getCurrentGraphChangeDescription().addNewModel(nodeModel);
@@ -952,13 +964,12 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         }
         if (index >= 0) {
             // todo meta data
-//            RemoveFromMetadata(indexToRemove, PlaceholderModelHelper.ModelToMissingTypeCategory(nodeModel));
+            // RemoveFromMetadata(indexToRemove, PlaceholderModelHelper.ModelToMissingTypeCategory(nodeModel));
             nodeModels.remove(index);
             nodeModels.add(index, null);
             currentChangeDescription.addDeletedModel(nodeModel);
         }
     }
-
 
     /// endregion
 
@@ -967,11 +978,12 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     /**
      * Creates a wire connecting two ports.
      * This method creats a wire that connects two nodes,
-     * originating from an output port and going to an input port. A unique identifier (UUID) is assigned to the newly created wire.
+     * originating from an output port and going to an input port. A unique identifier (UUID) is assigned to the newly
+     * created wire.
      *
      * @param fromPort The port from which the wire originates.
-     * @param toPort The port that the wire connects to.
-     * @param uid The unique identifier (UUID) to assign to the newly created item.
+     * @param toPort   The port that the wire connects to.
+     * @param uid      The unique identifier (UUID) to assign to the newly created item.
      * @return The newly created wire.
      */
     public WireModel createWire(PortModel toPort, PortModel fromPort, @Nullable UUID uid) {
@@ -987,8 +999,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      */
     public WireModel createWire(Class<? extends WireModel> wireType, PortModel toPort, PortModel fromPort,
                                 boolean reuseExisting, @Nullable UUID uid) {
-        if (toPort != null && toPort.getDirection() == PortDirection.OUTPUT
-                && fromPort != null && fromPort.getDirection() == PortDirection.INPUT) {
+        if (toPort != null && toPort.getDirection() == PortDirection.OUTPUT && fromPort != null && fromPort.getDirection() == PortDirection.INPUT) {
             // switch
             return createWire(wireType, fromPort, toPort, reuseExisting, uid);
         }
@@ -1034,7 +1045,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     protected void addWire(WireModel wireModel) {
         registerElement(wireModel);
         // todo meta
-//        AddMetaData(wireModel, m_GraphWireModels.Count);
+        // AddMetaData(wireModel, m_GraphWireModels.Count);
         wireModels.add(wireModel);
         if (portWireIndex != null) {
             portWireIndex.wireAdded(wireModel);
@@ -1057,7 +1068,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
             if (index >= 0) {
                 wireModels.remove(index);
                 // todo meta
-//                RemoveFromMetadata(indexToRemove, ManagedMissingTypeModelCategory.Wire);
+                // RemoveFromMetadata(indexToRemove, ManagedMissingTypeModelCategory.Wire);
                 wireModels.add(index, null);
                 currentChangeDescription.addDeletedModel(wireModel);
             }
@@ -1108,6 +1119,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Deletes wires from the graph.
+     * 
      * @param wireModels The list of wires to delete.
      */
     public void deleteWires(Collection<? extends WireModel> wireModels) {
@@ -1116,9 +1128,10 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Updates a wire when one of its port changes.
+     * 
      * @param wireModel The wire to update.
-     * @param oldPort The old port.
-     * @param newPort The new port.
+     * @param oldPort   The old port.
+     * @param newPort   The new port.
      */
     public void updateWire(WireModel wireModel, PortModel oldPort, PortModel newPort) {
         if (portWireIndex != null) {
@@ -1166,7 +1179,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Creates a new group.
-     * @param name The name of the new group.
+     * 
+     * @param name  The name of the new group.
      * @param items An optional list of items that will be added to the group.
      * @return a new group.
      */
@@ -1199,6 +1213,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Registers a group to the graph.
+     * 
      * @param group the group.
      */
     protected void addGroup(GroupModel group) {
@@ -1209,6 +1224,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Creates a new {@link SectionModel} and adds it to the graph.
+     * 
      * @param sectionName The name of the section.
      * @return The newly created section.
      */
@@ -1235,6 +1251,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Registers a section to the graph.
+     * 
      * @param section the section.
      */
     protected void addSection(SectionModel section) {
@@ -1245,6 +1262,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Removes a group from the graph.
+     * 
      * @param section the section.
      */
     protected void removeSection(SectionModel section) {
@@ -1255,6 +1273,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Gets a section by name.
+     * 
      * @param sectionName the name of the section.
      * @return the section.
      */
@@ -1263,7 +1282,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     }
 
     /**
-     * Returns a valid section for a given variable. Default is to return the first section {@link #DEFAULT_SECTION_NAME}.
+     * Returns a valid section for a given variable. Default is to return the first section
+     * {@link #DEFAULT_SECTION_NAME}.
      */
     public String getVariableSection(VariableDeclarationModelBase variable) {
         return DEFAULT_SECTION_NAME;
@@ -1271,6 +1291,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Removes a group from the graph.
+     * 
      * @param groupModels The group models to delete.
      */
     public void deleteGroups(Collection<? extends GroupModel> groupModels) {
@@ -1296,7 +1317,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
             else if (item instanceof GroupModel group)
                 recurseRemoveGroup(deletedModels, deletedVariables, group);
             else
-                deletedModels.add((GraphElementModel)item);
+                deletedModels.add((GraphElementModel) item);
         }
     }
 
@@ -1367,6 +1388,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Indicates whether a {@link VariableDeclarationModel} requires initialization.
+     * 
      * @param decl The variable declaration model to query.
      * @return True if the variable declaration model requires initialization, false otherwise.
      */
@@ -1405,17 +1427,22 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Creates a new variable declaration in the graph.
-     * @param variableTypeToCreate The type of variable declaration to create.
-     * @param variableDataType The type of data the new variable declaration to create represents.
-     * @param variableName The name of the new variable declaration to create.
-     * @param modifierFlags The modifier flags of the new variable declaration to create.
-     * @param scope The scope of the variable.
-     * @param group The group in which the variable is added. If null, it will go to the root group.
-     * @param indexInGroup The index of the variable in the group. For {@code indexInGroup=0}, The item will be added at the beginning. For {@code indexInGroup=Items.size()}, items will be added at the end.
-     * @param initializationModel The initialization model of the new variable declaration to create. Can be {@code null}..
-     * @param uid The unique identifier (UUID) to assign to the newly created item.
-     * @param initializationCallback An initialization method to be called right after the variable declaration is created.
-     * @param spawnFlags The flags specifying how the variable declaration is to be spawned.
+     * 
+     * @param variableTypeToCreate   The type of variable declaration to create.
+     * @param variableDataType       The type of data the new variable declaration to create represents.
+     * @param variableName           The name of the new variable declaration to create.
+     * @param modifierFlags          The modifier flags of the new variable declaration to create.
+     * @param scope                  The scope of the variable.
+     * @param group                  The group in which the variable is added. If null, it will go to the root group.
+     * @param indexInGroup           The index of the variable in the group. For {@code indexInGroup=0}, The item will
+     *                               be added at the beginning. For {@code indexInGroup=Items.size()}, items will be
+     *                               added at the end.
+     * @param initializationModel    The initialization model of the new variable declaration to create. Can be
+     *                               {@code null}..
+     * @param uid                    The unique identifier (UUID) to assign to the newly created item.
+     * @param initializationCallback An initialization method to be called right after the variable declaration is
+     *                               created.
+     * @param spawnFlags             The flags specifying how the variable declaration is to be spawned.
      * @return The newly created variable declaration.
      */
     public VariableDeclarationModel createGraphVariableDeclaration(Class<? extends VariableDeclarationModel> variableTypeToCreate,
@@ -1434,7 +1461,6 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
             LDLib2.LOGGER.warn("Cannot create an input or an output variable declaration in a container graph.");
             return null;
         }
-
 
         var variableDeclaration = instantiateVariableDeclaration(variableTypeToCreate, variableDataType,
                 variableName, modifierFlags, scope, initializationModel, uid, initializationCallback);
@@ -1501,6 +1527,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Generates a unique name for a variable declaration in the graph.
+     * 
      * @param originalName The name of the variable declaration.
      * @return The unique name for the variable declaration.
      */
@@ -1519,7 +1546,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     protected void addVariableDeclaration(VariableDeclarationModelBase variableDeclaration) {
         registerElement(variableDeclaration);
         // todo meta
-//        AddMetaData(variableDeclarationModel, m_GraphVariableModels.Count);
+        // AddMetaData(variableDeclarationModel, m_GraphVariableModels.Count);
         graphVariableModels.add(variableDeclaration);
         existingVariableNames.add(variableDeclaration.getName());
         getCurrentGraphChangeDescription().addNewModel(variableDeclaration);
@@ -1527,8 +1554,9 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Deletes the given variable declaration model, with the option of also deleting the corresponding variable models.
+     * 
      * @param variableModel The variable declaration model to delete.
-     * @param deleteUsages Whether to delete the corresponding variable models.
+     * @param deleteUsages  Whether to delete the corresponding variable models.
      */
     public void deleteVariableDeclaration(VariableDeclarationModelBase variableModel, boolean deleteUsages) {
         if (!variableModel.isDeletable()) return;
@@ -1546,7 +1574,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     }
 
     /**
-     * Deletes the given variable declaration models, with the option of also deleting the corresponding variable models.
+     * Deletes the given variable declaration models, with the option of also deleting the corresponding variable
+     * models.
      */
     public void deleteVariableDeclarations(Collection<? extends VariableDeclarationModelBase> variableModels, boolean deleteUsages) {
         for (var variableModel : variableModels) {
@@ -1573,7 +1602,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
         if (indexToRemove != -1) {
             // todo meta
-//            RemoveFromMetadata(indexToRemove, ManagedMissingTypeModelCategory.VariableDeclaration);
+            // RemoveFromMetadata(indexToRemove, ManagedMissingTypeModelCategory.VariableDeclaration);
             graphVariableModels.remove(indexToRemove);
             graphVariableModels.add(indexToRemove, null);
             getCurrentGraphChangeDescription().addDeletedModel(variableDeclarationModel);
@@ -1608,13 +1637,14 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
         // todo reference and meta data
         // Clear the serialized data related to the null object the user wants to remove.
-//        SerializationUtility.ClearManagedReferenceWithMissingType(GraphObject, placeholder.ReferenceId);
+        // SerializationUtility.ClearManagedReferenceWithMissingType(GraphObject, placeholder.ReferenceId);
 
-//        var metadata = m_GraphElementMetaData.FirstOrDefault(m => m.Guid == placeholder.Guid);
-//
-//        // It is not possible to distinguish the index of objects with a missing type in the serialization. Hence, we keep a flag and remove the corresponding null object on the next graph reload.
-//        if (metadata != null)
-//            metadata.ToRemove = true;
+        // var metadata = m_GraphElementMetaData.FirstOrDefault(m => m.Guid == placeholder.Guid);
+        //
+        // // It is not possible to distinguish the index of objects with a missing type in the serialization. Hence, we
+        // keep a flag and remove the corresponding null object on the next graph reload.
+        // if (metadata != null)
+        // metadata.ToRemove = true;
 
         // Remove the placeholder
         placeholders.remove(placeholder);
@@ -1631,10 +1661,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         if (declarationModel == null) return Collections.emptyList();
         var result = new ArrayList<T>();
         for (var nodeModel : getNodeModels()) {
-            if (nodeModel instanceof IHasDeclarationModel hasDeclarationModel
-                    && hasDeclarationModel.getDeclarationModel() != null
-                    && hasDeclarationModel.getDeclarationModel().getUid().equals(declarationModel.getUid())
-                    && type.isInstance(hasDeclarationModel)) {
+            if (nodeModel instanceof IHasDeclarationModel hasDeclarationModel && hasDeclarationModel.getDeclarationModel() != null && hasDeclarationModel.getDeclarationModel().getUid().equals(declarationModel.getUid()) && type.isInstance(hasDeclarationModel)) {
                 result.add((T) nodeModel);
             }
         }
@@ -1643,6 +1670,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Finds all entry portals that refer to a given declaration model.
+     * 
      * @param declarationModel The declaration model to look for.
      * @return A list of entry portals that refer to the given declaration model.
      */
@@ -1678,7 +1706,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
         registerElement(declarationModel);
         // todo meta data
-//        AddMetaData(declarationModel, m_GraphPortalModels.Count);
+        // AddMetaData(declarationModel, m_GraphPortalModels.Count);
         portalModels.add(declarationModel);
         getCurrentGraphChangeDescription().addNewModel(declarationModel);
     }
@@ -1704,12 +1732,13 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
     /**
      * Creates a pair of portals from a wire.
-     * @param wireModel The wire to transform.
-     * @param entryPortalPosition The desired position of the entry portal.
-     * @param exitPortalPosition The desired position of the exit portal.
-     * @param portalHeight The desired height of the portals.
+     * 
+     * @param wireModel             The wire to transform.
+     * @param entryPortalPosition   The desired position of the entry portal.
+     * @param exitPortalPosition    The desired position of the exit portal.
+     * @param portalHeight          The desired height of the portals.
      * @param existingPortalEntries The existing portal entries.
-     * @param existingPortalExits The existing portal exits.
+     * @param existingPortalExits   The existing portal exits.
      */
     public void createPortalsFromWire(WireModel wireModel,
                                       Vector2f entryPortalPosition, Vector2f exitPortalPosition,
@@ -1740,14 +1769,14 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         createWire(inputPortModel, (portalExit instanceof ISingleOutputPortNodeModel out) ? out.getOutputPort() : null, null);
     }
 
-
     /**
      * Creates an exit portal matching a port.
-     * @param outputPortModel The output port model to which the portal will be connected.
-     * @param position The desired position of the entry portal.
-     * @param height The desired height of the entry portal.
+     * 
+     * @param outputPortModel  The output port model to which the portal will be connected.
+     * @param position         The desired position of the entry portal.
+     * @param height           The desired height of the entry portal.
      * @param declarationModel The declaration of the portal. If null, a new one will be created.
-     * @param offset The offset to apply to the portal.
+     * @param offset           The offset to apply to the portal.
      * @return The created entry portal.
      */
     public WirePortalModel createEntryPortalFromPort(PortModel outputPortModel,
@@ -1758,7 +1787,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         if (!allowPortalCreation()) throw new IllegalArgumentException("Wire portal creation is disabled.");
         if (!(outputPortModel.getNodeModel() instanceof InputOutputPortsNodeModel nodeModel)) return null;
 
-        String portalName ;
+        String portalName;
         if (nodeModel instanceof ConstantNodeModel constantNodeModel) {
             portalName = TypeHandleHelpers.identificationOf(constantNodeModel.getType());
         } else {
@@ -1800,7 +1829,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
                 null, null, null, null);
 
         portalExit.setPosition(position);
-        if (inputPortModel.getNodeModel() instanceof InputOutputPortsNodeModel nodeModel){
+        if (inputPortModel.getNodeModel() instanceof InputOutputPortsNodeModel nodeModel) {
             // y offset based on port order. hurgh.
             var idx = nodeModel.getInputsByDisplayOrder().indexOf(inputPortModel);
             portalExit.setPosition(portalExit.getPosition().add(0, (idx * height + offset), new Vector2f()));
@@ -1810,13 +1839,13 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     }
 
     public WirePortalModel createWirePortalNode(Class<?> portalType,
-                                                 DeclarationModel declarationModel,
-                                                 TypeHandle portDataTypeHandle,
-                                                 Vector2f position,
-                                                 @Nullable String name,
-                                                 @Nullable UUID uid,
-                                                 @Nullable Consumer<AbstractNodeModel> initializationCallback,
-                                                 @Nullable SpawnFlags spawnFlags) {
+                                                DeclarationModel declarationModel,
+                                                TypeHandle portDataTypeHandle,
+                                                Vector2f position,
+                                                @Nullable String name,
+                                                @Nullable UUID uid,
+                                                @Nullable Consumer<AbstractNodeModel> initializationCallback,
+                                                @Nullable SpawnFlags spawnFlags) {
         if (name == null) name = "";
         if (spawnFlags == null) spawnFlags = SpawnFlags.DEFAULT;
 
@@ -1872,26 +1901,30 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
      * they're implicit in the node selection) into a fresh local subgraph and inserts a
      * {@link SubgraphNodeModel} at the selection's centroid that references it.
      *
-     * <p>Selection-handling rules:</p>
+     * <p>
+     * Selection-handling rules:
+     * </p>
      * <ul>
-     *   <li><b>{@link WireModel}</b> — filtered out. Internal wires (both endpoints in the
-     *       selected nodes) are copied automatically by {@link #copyElements}; crossing wires
-     *       are reconnected via auto-generated variables (see below).</li>
-     *   <li><b>{@link PlacematModel}</b> — accepted only if all its currently contained nodes
-     *       are also in the selection; otherwise rejected (we'd leave dangling nodes outside).
-     *       The placemat itself is moved into the subgraph.</li>
-     *   <li><b>{@link StickyNoteModel}</b> — moved into the subgraph as-is.</li>
-     *   <li><b>{@link SubgraphNodeModel}</b> (LOCAL) — its referenced local subgraph is
-     *       transferred from this graph's {@code localSubGraphs} to the newly created one's
-     *       <em>before paste</em>, so the pasted SubgraphNodeModel can resolve to it.</li>
-     *   <li><b>{@link SubgraphNodeModel}</b> (EXTERNAL) — copy/paste handles it; only the
-     *       {@code IResourcePath} reference travels, no graph data is moved.</li>
+     * <li><b>{@link WireModel}</b> — filtered out. Internal wires (both endpoints in the
+     * selected nodes) are copied automatically by {@link #copyElements}; crossing wires
+     * are reconnected via auto-generated variables (see below).</li>
+     * <li><b>{@link PlacematModel}</b> — accepted only if all its currently contained nodes
+     * are also in the selection; otherwise rejected (we'd leave dangling nodes outside).
+     * The placemat itself is moved into the subgraph.</li>
+     * <li><b>{@link StickyNoteModel}</b> — moved into the subgraph as-is.</li>
+     * <li><b>{@link SubgraphNodeModel}</b> (LOCAL) — its referenced local subgraph is
+     * transferred from this graph's {@code localSubGraphs} to the newly created one's
+     * <em>before paste</em>, so the pasted SubgraphNodeModel can resolve to it.</li>
+     * <li><b>{@link SubgraphNodeModel}</b> (EXTERNAL) — copy/paste handles it; only the
+     * {@code IResourcePath} reference travels, no graph data is moved.</li>
      * </ul>
      *
-     * <p>Crossing wires are preserved by minting a variable inside the new subgraph for each
+     * <p>
+     * Crossing wires are preserved by minting a variable inside the new subgraph for each
      * (READ for inbound value, WRITE for outbound), wiring a {@code VariableNodeModel} to the
      * pasted internal port, and the outer SubgraphNodeModel's auto-port to the original external
-     * port.</p>
+     * port.
+     * </p>
      *
      * @return the newly created outer subgraph node, or {@code null} if extraction failed.
      */
@@ -1949,8 +1982,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
             for (var n : contained) {
                 if (!selectedNodeUids.contains(n.getUid())) {
                     LDLib2.LOGGER.warn(
-                            "Cannot extract: placemat {} contains a non-selected node {}; "
-                                    + "select the node or remove the placemat from the selection.",
+                            "Cannot extract: placemat {} contains a non-selected node {}; " + "select the node or remove the placemat from the selection.",
                             pm.getUid(), n.getUid());
                     return null;
                 }
@@ -1962,11 +1994,9 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         // localSubGraphs so the pasted SubgraphNodeModel can resolve it (resolution is by uid).
         var localSubsToTransplant = new ArrayList<GraphModel>();
         for (var n : selectedNodes) {
-            if (n instanceof SubgraphNodeModel sub
-                    && sub.getKind() == SubgraphNodeModel.Kind.LOCAL) {
+            if (n instanceof SubgraphNodeModel sub && sub.getKind() == SubgraphNodeModel.Kind.LOCAL) {
                 var target = sub.getSubgraphModel();
-                if (target != null && this.localSubGraphs != null
-                        && this.localSubGraphs.contains(target)) {
+                if (target != null && this.localSubGraphs != null && this.localSubGraphs.contains(target)) {
                     localSubsToTransplant.add(target);
                 }
             }
@@ -1998,8 +2028,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         }
 
         // Build the list passed to copyElements: nodes + placemats + sticky notes
-        var elementsToCopy = new ArrayList<GraphElementModel>(selectedNodes.size()
-                + selectedPlacemats.size() + selectedStickyNotes.size());
+        var elementsToCopy = new ArrayList<GraphElementModel>(selectedNodes.size() + selectedPlacemats.size() + selectedStickyNotes.size());
         elementsToCopy.addAll(selectedNodes);
         elementsToCopy.addAll(selectedPlacemats);
         elementsToCopy.addAll(selectedStickyNotes);
@@ -2034,9 +2063,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         for (var c : crossing) {
             ModifierFlags mod;
             String varName;
-            TypeHandle type = c.fromSelected
-                    ? c.wire.getFromPort().getDataTypeHandle()
-                    : c.wire.getToPort().getDataTypeHandle();
+            TypeHandle type = c.fromSelected ? c.wire.getFromPort().getDataTypeHandle() : c.wire.getToPort().getDataTypeHandle();
             if (c.fromSelected) {
                 mod = ModifierFlags.WRITE;
                 varName = "out" + (++outCounter);
@@ -2057,12 +2084,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         for (var c : crossing) {
             var vdm = crossingVars.get(c);
             if (vdm == null) continue;
-            var internalOldNode = c.fromSelected
-                    ? c.wire.getFromPort().getNodeModel()
-                    : c.wire.getToPort().getNodeModel();
-            var internalPortName = c.fromSelected
-                    ? c.wire.getFromPort().getUniqueName()
-                    : c.wire.getToPort().getUniqueName();
+            var internalOldNode = c.fromSelected ? c.wire.getFromPort().getNodeModel() : c.wire.getToPort().getNodeModel();
+            var internalPortName = c.fromSelected ? c.wire.getFromPort().getUniqueName() : c.wire.getToPort().getUniqueName();
             var pastedNode = oldToNew.get(internalOldNode.getUid());
             if (pastedNode == null) continue;
             var pastedPort = findPortByUniqueName(pastedNode, internalPortName);
@@ -2090,9 +2113,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
             var vdm = crossingVars.get(c);
             if (vdm == null) continue;
             var portId = vdm.getUid().toString();
-            PortModel subNodePort = c.fromSelected
-                    ? subNode.getOutputsById().get(portId)
-                    : subNode.getInputsById().get(portId);
+            PortModel subNodePort = c.fromSelected ? subNode.getOutputsById().get(portId) : subNode.getInputsById().get(portId);
             if (subNodePort == null) continue;
             var externalPort = c.fromSelected ? c.wire.getToPort() : c.wire.getFromPort();
             if (externalPort == null) continue;
@@ -2184,7 +2205,8 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     }
 
     /**
-     * If this GraphModel is a subgraph, any subgraph nodes that reference it in the parent graph must redefine its ports whenever an input or output variable declaration is added.
+     * If this GraphModel is a subgraph, any subgraph nodes that reference it in the parent graph must redefine its
+     * ports whenever an input or output variable declaration is added.
      */
     public void redefineSubgraphNodeModels() {
         if (parentGraph == null) return;
@@ -2204,9 +2226,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     public void redefineSubgraphNodeModelsByPath(IResourcePath path) {
         if (path == null) return;
         for (var node : nodeModels) {
-            if (node instanceof SubgraphNodeModel sub
-                    && sub.getKind() == SubgraphNodeModel.Kind.EXTERNAL
-                    && path.equals(sub.getExternalPath())) {
+            if (node instanceof SubgraphNodeModel sub && sub.getKind() == SubgraphNodeModel.Kind.EXTERNAL && path.equals(sub.getExternalPath())) {
                 sub.invalidateResolvedSubgraph();
                 sub.defineNode();
                 getCurrentGraphChangeDescription().addChangedModel(sub, ChangeHint.GRAPH_TOPOLOGY);
@@ -2234,7 +2254,6 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
             }
         }
     }
-
 
     // endregion
 
@@ -2650,8 +2669,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         dropWiresOnFailedInputConstants();
     }
 
-    protected void onNodeModelsReset() {
-    }
+    protected void onNodeModelsReset() {}
 
     private void dropWiresOnFailedInputConstants() {
         for (var nodeModel : nodeModels) {
@@ -2766,8 +2784,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
             var toPort = wire.getToPort();
             if (fromPort == null || toPort == null) continue;
             if (fromPort.getNodeModel() == null || toPort.getNodeModel() == null) continue;
-            if (coveredNodeUids.contains(fromPort.getNodeModel().getUid())
-                    && coveredNodeUids.contains(toPort.getNodeModel().getUid())) {
+            if (coveredNodeUids.contains(fromPort.getNodeModel().getUid()) && coveredNodeUids.contains(toPort.getNodeModel().getUid())) {
                 internalWires.add(wire);
             }
         }
@@ -2851,8 +2868,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
         var localSubgraphsTag = new ListTag();
         var seenSubUids = new HashSet<UUID>();
         for (var node : selectedNodes) {
-            if (node instanceof SubgraphNodeModel sub
-                    && sub.getKind() == SubgraphNodeModel.Kind.LOCAL) {
+            if (node instanceof SubgraphNodeModel sub && sub.getKind() == SubgraphNodeModel.Kind.LOCAL) {
                 var inner = sub.getSubgraphModel();
                 if (inner == null) continue;
                 if (!seenSubUids.add(inner.getUid())) continue;
@@ -2995,9 +3011,7 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
 
                     // SubgraphNodeModel LOCAL: rebind to the cloned inner graph (if we cloned one
                     // for this oldUid above). EXTERNAL needs nothing — path-string is shared.
-                    if (nodeModel instanceof SubgraphNodeModel subNode
-                            && subNode.getKind() == SubgraphNodeModel.Kind.LOCAL
-                            && subNode.getLocalGraphId() != null) {
+                    if (nodeModel instanceof SubgraphNodeModel subNode && subNode.getKind() == SubgraphNodeModel.Kind.LOCAL && subNode.getLocalGraphId() != null) {
                         var newSubUid = oldToNewSubgraphUid.get(subNode.getLocalGraphId());
                         if (newSubUid != null) {
                             subNode.rebindLocalGraphId(newSubUid);
@@ -3114,5 +3128,4 @@ public abstract class GraphModel extends GraphElementModel implements IGraphElem
     }
 
     // endregion
-
 }

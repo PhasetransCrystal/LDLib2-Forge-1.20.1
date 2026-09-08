@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortModelOptions;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphView;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import lombok.Getter;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PortContainer extends UIElement {
+
     // runtime
     @Getter
     private List<PortModel> ports = Collections.emptyList();

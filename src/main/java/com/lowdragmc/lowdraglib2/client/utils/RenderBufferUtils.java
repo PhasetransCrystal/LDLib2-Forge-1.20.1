@@ -2,6 +2,8 @@ package com.lowdragmc.lowdraglib2.client.utils;
 
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
@@ -9,14 +11,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.phys.Vec2;
 import oshi.util.tuples.Pair;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.RandomAccess;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderBufferUtils {
@@ -143,41 +143,41 @@ public class RenderBufferUtils {
 
     public static void drawCubeFrame(PoseStack poseStack, VertexConsumer buffer, float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float r, float g, float b, float a) {
         var mat = poseStack.last().pose();
-        buffer.vertex(mat, minX, minY, minZ).color(r, g, b, a).normal(1,0,0).endVertex();
-        buffer.vertex(mat, maxX, minY, minZ).color(r, g, b, a).normal(1,0,0).endVertex();
+        buffer.vertex(mat, minX, minY, minZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
+        buffer.vertex(mat, maxX, minY, minZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
 
-        buffer.vertex(mat, minX, minY, minZ).color(r, g, b, a).normal(0,1,0).endVertex();
-        buffer.vertex(mat, minX, maxY, minZ).color(r, g, b, a).normal(0,1,0).endVertex();
+        buffer.vertex(mat, minX, minY, minZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
+        buffer.vertex(mat, minX, maxY, minZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
 
-        buffer.vertex(mat, minX, minY, minZ).color(r, g, b, a).normal(0,0,1).endVertex();
-        buffer.vertex(mat, minX, minY, maxZ).color(r, g, b, a).normal(0,0,1).endVertex();
+        buffer.vertex(mat, minX, minY, minZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
+        buffer.vertex(mat, minX, minY, maxZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
 
-        buffer.vertex(mat, minX, maxY, maxZ).color(r, g, b, a).normal(1,0,0).endVertex();
-        buffer.vertex(mat, maxX, maxY, maxZ).color(r, g, b, a).normal(1,0,0).endVertex();
+        buffer.vertex(mat, minX, maxY, maxZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
+        buffer.vertex(mat, maxX, maxY, maxZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
 
-        buffer.vertex(mat, maxX, minY, maxZ).color(r, g, b, a).normal(0,1,0).endVertex();
-        buffer.vertex(mat, maxX, maxY, maxZ).color(r, g, b, a).normal(0,1,0).endVertex();
+        buffer.vertex(mat, maxX, minY, maxZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
+        buffer.vertex(mat, maxX, maxY, maxZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
 
-        buffer.vertex(mat, maxX, maxY, minZ).color(r, g, b, a).normal(0,0,1).endVertex();
-        buffer.vertex(mat, maxX, maxY, maxZ).color(r, g, b, a).normal(0,0,1).endVertex();
+        buffer.vertex(mat, maxX, maxY, minZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
+        buffer.vertex(mat, maxX, maxY, maxZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
 
-        buffer.vertex(mat, minX, maxY, minZ).color(r, g, b, a).normal(0,0,1).endVertex();
-        buffer.vertex(mat, minX, maxY, maxZ).color(r, g, b, a).normal(0,0,1).endVertex();
+        buffer.vertex(mat, minX, maxY, minZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
+        buffer.vertex(mat, minX, maxY, maxZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
 
-        buffer.vertex(mat, minX, maxY, minZ).color(r, g, b, a).normal(1,0,0).endVertex();
-        buffer.vertex(mat, maxX, maxY, minZ).color(r, g, b, a).normal(1,0,0).endVertex();
+        buffer.vertex(mat, minX, maxY, minZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
+        buffer.vertex(mat, maxX, maxY, minZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
 
-        buffer.vertex(mat, maxX, minY, minZ).color(r, g, b, a).normal(0,0,1).endVertex();
-        buffer.vertex(mat, maxX, minY, maxZ).color(r, g, b, a).normal(0,0,1).endVertex();
+        buffer.vertex(mat, maxX, minY, minZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
+        buffer.vertex(mat, maxX, minY, maxZ).color(r, g, b, a).normal(0, 0, 1).endVertex();
 
-        buffer.vertex(mat, maxX, minY, minZ).color(r, g, b, a).normal(0,1,0).endVertex();
-        buffer.vertex(mat, maxX, maxY, minZ).color(r, g, b, a).normal(0,1,0).endVertex();
+        buffer.vertex(mat, maxX, minY, minZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
+        buffer.vertex(mat, maxX, maxY, minZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
 
-        buffer.vertex(mat, minX, minY, maxZ).color(r, g, b, a).normal(1,0,0).endVertex();
-        buffer.vertex(mat, maxX, minY, maxZ).color(r, g, b, a).normal(1,0,0).endVertex();
+        buffer.vertex(mat, minX, minY, maxZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
+        buffer.vertex(mat, maxX, minY, maxZ).color(r, g, b, a).normal(1, 0, 0).endVertex();
 
-        buffer.vertex(mat, minX, minY, maxZ).color(r, g, b, a).normal(0,1,0).endVertex();
-        buffer.vertex(mat, minX, maxY, maxZ).color(r, g, b, a).normal(0,1,0).endVertex();
+        buffer.vertex(mat, minX, minY, maxZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
+        buffer.vertex(mat, minX, maxY, maxZ).color(r, g, b, a).normal(0, 1, 0).endVertex();
     }
 
     public static void drawCubeFace(PoseStack poseStack, VertexConsumer buffer, float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float red, float green, float blue, float a, boolean shade) {
@@ -208,8 +208,7 @@ public class RenderBufferUtils {
             buffer.vertex(mat, maxX, minY, minZ).color(r, g, b, a).endVertex();
         }
 
-
-        if (minX != maxX && minZ != maxZ ) {
+        if (minX != maxX && minZ != maxZ) {
             if (shade) {
                 r = red * 0.5f;
                 g = green * 0.5f;
@@ -237,7 +236,6 @@ public class RenderBufferUtils {
             buffer.vertex(mat, minX, maxY, minZ).color(r, g, b, a).endVertex();
 
         }
-
 
         if (minX != maxX && minY != maxY) {
             if (shade) {
@@ -336,12 +334,10 @@ public class RenderBufferUtils {
         buffer.vertex(mat, maxX, maxY, maxZ).color(color).uv(uMax, vMin).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 1, 0, 0).endVertex();
         buffer.vertex(mat, maxX, minY, maxZ).color(color).uv(uMin, vMin).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 1, 0, 0).endVertex();
 
-
         buffer.vertex(mat, minX, minY, minZ).color(color).uv(uMin, vMax).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 0, -1, 0).endVertex();
         buffer.vertex(mat, maxX, minY, minZ).color(color).uv(uMax, vMax).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 0, -1, 0).endVertex();
         buffer.vertex(mat, maxX, minY, maxZ).color(color).uv(uMax, vMin).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 0, -1, 0).endVertex();
         buffer.vertex(mat, minX, minY, maxZ).color(color).uv(uMin, vMin).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 0, -1, 0).endVertex();
-
 
         buffer.vertex(mat, minX, maxY, minZ).color(color).uv(uMin, vMax).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 0, 1, 0).endVertex();
         buffer.vertex(mat, minX, maxY, maxZ).color(color).uv(uMax, vMax).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLight).normal(normal, 0, 1, 0).endVertex();
@@ -399,7 +395,7 @@ public class RenderBufferUtils {
         Matrix4f mat = poseStack.last().pose();
 
         int sa0 = (colorStart >>> 24) & 0xFF, sr0 = (colorStart >>> 16) & 0xFF, sg0 = (colorStart >>> 8) & 0xFF, sb0 = colorStart & 0xFF;
-        int ea0 = (colorEnd   >>> 24) & 0xFF, er0 = (colorEnd   >>> 16) & 0xFF, eg0 = (colorEnd   >>> 8) & 0xFF, eb0 = colorEnd & 0xFF;
+        int ea0 = (colorEnd >>> 24) & 0xFF, er0 = (colorEnd >>> 16) & 0xFF, eg0 = (colorEnd >>> 8) & 0xFF, eb0 = colorEnd & 0xFF;
 
         int da = ea0 - sa0, dr = er0 - sr0, dg = eg0 - sg0, db = eb0 - sb0;
         float invSegCount = 1f / (n - 1);
@@ -417,12 +413,22 @@ public class RenderBufferUtils {
         float lastBx = 0, lastBy = 0; // previous quad's last vertex (curr - perp), for the degenerate join
         int i = 0;
         for (Vector2f cur : points) {
-            if (prev == null) { prev = cur; prevIdx = i; i++; continue; }
+            if (prev == null) {
+                prev = cur;
+                prevIdx = i;
+                i++;
+                continue;
+            }
 
             float dx = cur.x - prev.x;
             float dy = cur.y - prev.y;
             float len2 = dx * dx + dy * dy;
-            if (len2 < 1.0e-12f) { prev = cur; prevIdx = i; i++; continue; } // collapse zero-length segments
+            if (len2 < 1.0e-12f) {
+                prev = cur;
+                prevIdx = i;
+                i++;
+                continue;
+            } // collapse zero-length segments
 
             float invLenHalfW = (float) (1.0 / Math.sqrt(len2)) * halfWidth;
             float px = -dy * invLenHalfW;
@@ -434,7 +440,7 @@ public class RenderBufferUtils {
             float r1 = (sr0 + dr * t1) * colorMul, g1 = (sg0 + dg * t1) * colorMul, b1 = (sb0 + db * t1) * colorMul, a1 = (sa0 + da * t1) * colorMul;
 
             float aX = prev.x + px, aY = prev.y + py; // quad first vertex (prev + perp)
-            float eX = cur.x - px,  eY = cur.y - py;  // quad last vertex (cur - perp)
+            float eX = cur.x - px, eY = cur.y - py;  // quad last vertex (cur - perp)
 
             if (first) {
                 // leading duplicate of the first vertex: shifts the strip parity by one so the real
@@ -453,9 +459,12 @@ public class RenderBufferUtils {
             builder.vertex(mat, cur.x + px, cur.y + py, 0).color(r1, g1, b1, a1).endVertex();        // cur + perp
             builder.vertex(mat, eX, eY, 0).color(r1, g1, b1, a1).endVertex();                        // cur - perp
 
-            lastBx = eX; lastBy = eY;
+            lastBx = eX;
+            lastBy = eY;
             first = false;
-            prev = cur; prevIdx = i; i++;
+            prev = cur;
+            prevIdx = i;
+            i++;
         }
     }
 
@@ -471,7 +480,7 @@ public class RenderBufferUtils {
         Matrix4f mat = poseStack.last().pose();
 
         int sa0 = (colorStart >>> 24) & 0xFF, sr0 = (colorStart >>> 16) & 0xFF, sg0 = (colorStart >>> 8) & 0xFF, sb0 = colorStart & 0xFF;
-        int ea0 = (colorEnd   >>> 24) & 0xFF, er0 = (colorEnd   >>> 16) & 0xFF, eg0 = (colorEnd   >>> 8) & 0xFF, eb0 = colorEnd & 0xFF;
+        int ea0 = (colorEnd >>> 24) & 0xFF, er0 = (colorEnd >>> 16) & 0xFF, eg0 = (colorEnd >>> 8) & 0xFF, eb0 = colorEnd & 0xFF;
 
         int da = ea0 - sa0, dr = er0 - sr0, dg = eg0 - sg0, db = eb0 - sb0;
 
@@ -595,7 +604,6 @@ public class RenderBufferUtils {
                                       Vector3f position,
                                       Vector3f normal, int segments,
                                       float radius, float red, float green, float blue, float alpha) {
-
         Matrix4f pose = poseStack.last().pose();
 
         if (segments < 3) {
@@ -928,7 +936,4 @@ public class RenderBufferUtils {
             }
         }
     }
-
-
-
 }

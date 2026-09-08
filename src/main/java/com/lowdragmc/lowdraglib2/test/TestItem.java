@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,10 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.appliedenergistics.yoga.YogaEdge;
-import org.appliedenergistics.yoga.YogaGutter;
-
 import org.jetbrains.annotations.Nullable;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
@@ -53,7 +52,6 @@ public class TestItem extends BlockItem implements IItemRendererProvider, HeldIt
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
     }
 
-
     @Override
     public ModularUI createUI(HeldItemUIMenuType.HeldItemUIHolder holder) {
         var root = new UIElement().layout(layout -> layout
@@ -61,8 +59,7 @@ public class TestItem extends BlockItem implements IItemRendererProvider, HeldIt
                 .height(100)
                 .paddingAll(4)
                 .gapAll(2)
-                .justifyContent(AlignContent.CENTER)
-        ).style(style -> style.backgroundTexture(Sprites.BORDER));
+                .justifyContent(AlignContent.CENTER)).style(style -> style.backgroundTexture(Sprites.BORDER));
         root.addChild(new Label().setText("Test Item UI"));
         root.addChild(new TextField());
         return new ModularUI(UI.of(root), holder.player);

@@ -5,8 +5,10 @@ import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import java.util.function.Consumer;
 
 public interface IDataProvider<T> {
+
     /**
      * Register a listener to check changes in the value.
+     * 
      * @param listener the listener to register, which will be called with the new value when it changes.
      * @return an ISubscription that can be used to unsubscribe the listener.
      */
@@ -14,12 +16,14 @@ public interface IDataProvider<T> {
 
     /**
      * Get the current value of the data source.
+     * 
      * @return the current value.
      */
     T getValue();
 
     /**
      * Register a listener to check changes in the value.
+     * 
      * @param callImmediately if true, the listener will be called immediately with the new value.
      */
     default ISubscription registerListener(Consumer<T> listener, boolean callImmediately) {

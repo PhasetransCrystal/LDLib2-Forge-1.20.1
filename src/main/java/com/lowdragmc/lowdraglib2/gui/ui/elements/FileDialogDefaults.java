@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
 import com.lowdragmc.lowdraglib2.gui.util.FileNode;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -8,8 +9,8 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 
 final class FileDialogDefaults {
-    private FileDialogDefaults() {
-    }
+
+    private FileDialogDefaults() {}
 
     static DefaultSelection resolve(FileNode root, boolean isSelector, @Nullable File defaultValue) {
         if (defaultValue == null) {
@@ -76,6 +77,7 @@ final class FileDialogDefaults {
     }
 
     record DefaultSelection(@Nullable FileNode selectedNode, String text) {
+
         static final DefaultSelection EMPTY = new DefaultSelection(null, "");
     }
 }

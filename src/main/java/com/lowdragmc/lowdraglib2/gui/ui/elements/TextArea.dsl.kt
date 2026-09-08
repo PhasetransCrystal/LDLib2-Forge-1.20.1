@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
+
 import java.util.function.Consumer
 
 /**
@@ -15,12 +16,7 @@ fun <T : TextArea> T.textAreaStyleDsl(init: TextArea.TextAreaStyle.() -> Unit = 
 /**
  * Specification for TextArea element
  */
-open class TextAreaSpec<T : TextArea>(
-    var textAreaStyle: (TextArea.TextAreaStyle.() -> Unit)? = null,
-    var lines: Array<String>? = null,
-    var text: String? = null,
-    var linesResponder: Consumer<Array<String>>? = null,
-) : ElementSpec<T>() {
+open class TextAreaSpec<T : TextArea>(var textAreaStyle: (TextArea.TextAreaStyle.() -> Unit)? = null, var lines: Array<String>? = null, var text: String? = null, var linesResponder: Consumer<Array<String>>? = null) : ElementSpec<T>() {
     /**
      * Set initial lines
      */
@@ -54,13 +50,8 @@ open class TextAreaSpec<T : TextArea>(
 /**
  * TextArea element builder
  */
-open class TextAreaElement<T : TextArea>(
-    element: T,
-    spec: (TextAreaSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, TextAreaSpec<T>>(element, spec) {
-    override fun makeSpec(): TextAreaSpec<T>? {
-        return spec?.let { TextAreaSpec<T>().apply(it) }
-    }
+open class TextAreaElement<T : TextArea>(element: T, spec: (TextAreaSpec<T>.() -> Unit)? = null) : UIContainer<T, TextAreaSpec<T>>(element, spec) {
+    override fun makeSpec(): TextAreaSpec<T>? = spec?.let { TextAreaSpec<T>().apply(it) }
 
     override fun build(spec: TextAreaSpec<T>?): T {
         val e = super.build(spec)
@@ -78,22 +69,14 @@ open class TextAreaElement<T : TextArea>(
 /**
  * Top Level - Create a standalone TextArea element
  */
-fun textArea(spec: (TextAreaSpec<TextArea>.() -> Unit)? = null,
-             init: TextAreaElement<TextArea>.() -> Unit = {}): TextArea {
-    return TextAreaElement(TextArea(), spec).apply(init).build()
-}
+fun textArea(spec: (TextAreaSpec<TextArea>.() -> Unit)? = null, init: TextAreaElement<TextArea>.() -> Unit = {}): TextArea = TextAreaElement(TextArea(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add TextArea as a child to a container
  */
-fun UIContainer<*, *>.textArea(spec: (TextAreaSpec<TextArea>.() -> Unit)? = null,
-                                init: TextAreaElement<TextArea>.() -> Unit = {}) =
-    add(TextAreaElement(TextArea(), spec), init)
+fun UIContainer<*, *>.textArea(spec: (TextAreaSpec<TextArea>.() -> Unit)? = null, init: TextAreaElement<TextArea>.() -> Unit = {}) = add(TextAreaElement(TextArea(), spec), init)
 
 /**
  * DSL converter - Convert existing TextArea to DSL builder
  */
-fun <T : TextArea> T.dsl(spec: (TextAreaSpec<T>.() -> Unit)? = null,
-                         init: TextAreaElement<T>.() -> Unit = {}): TextAreaElement<T> {
-    return TextAreaElement(this, spec).apply(init)
-}
+fun <T : TextArea> T.dsl(spec: (TextAreaSpec<T>.() -> Unit)? = null, init: TextAreaElement<T>.() -> Unit = {}): TextAreaElement<T> = TextAreaElement(this, spec).apply(init)

@@ -3,15 +3,16 @@ package com.lowdragmc.lowdraglib2.editor.resource;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.editor.ui.resource.ResourceContainer;
+import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
-import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
@@ -20,19 +21,20 @@ import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
-import org.appliedenergistics.yoga.YogaGutter;
-import org.appliedenergistics.yoga.YogaOverflow;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class FileResourceProvider<T> extends ResourceProvider<T>  {
+import javax.annotation.Nonnull;
+
+public final class FileResourceProvider<T> extends ResourceProvider<T> {
+
     public static final ResourceProviderType TYPE = new ResourceProviderType() {
+
         @Override
         public String getTypeName() {
             return "file";
@@ -74,7 +76,8 @@ public final class FileResourceProvider<T> extends ResourceProvider<T>  {
     public final File resourceLocation;
     public final String resourceSuffix;
     private final Map<File, Long> resourcesLastModified = new LinkedHashMap<>();
-    @Getter @Setter
+    @Getter
+    @Setter
     private String name;
 
     public FileResourceProvider(ResourceInstance<T> resourceInstance, File resourceLocation) {
@@ -196,12 +199,12 @@ public final class FileResourceProvider<T> extends ResourceProvider<T>  {
                 }).noText().layout(layout -> {
                     layout.width(7);
                     layout.height(7);
-                }).style(style -> style.tooltips("ldlib.gui.tips.open_folder"))
-        );
+                }).style(style -> style.tooltips("ldlib.gui.tips.open_folder")));
     }
 
     /**
      * Load and update resource
+     * 
      * @return true resource changes.
      */
     public boolean checkAndUpdateResourceProvider() {

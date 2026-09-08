@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.configurator.ui;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.gui.texture.FluidStackTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
+import com.google.common.base.Predicates;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -19,21 +20,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.fluids.FluidStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class TagKeySearchComponent<T> extends SearchComponentConfigurator<TagKey<T>> {
+
     public final Registry<T> registry;
-    @Setter @Accessors(chain = true)
+    @Setter
+    @Accessors(chain = true)
     protected Predicate<TagKey<T>> filter = Predicates.alwaysTrue();
 
     public TagKeySearchComponent(String name, Supplier<TagKey<T>> supplier, Consumer<TagKey<T>> onUpdate, TagKey<T> defaultValue,
                                  boolean forceUpdate, Registry<T> registry, UIElementProvider<TagKey<T>> uiProvider) {
         super(name, supplier, onUpdate, new SearchComponentConfigurator.ISearchConfigurator<>() {
+
             @Override
             public TagKey<T> defaultValue() {
                 return defaultValue;
@@ -70,6 +75,7 @@ public class TagKeySearchComponent<T> extends SearchComponentConfigurator<TagKey
     }
 
     public static class Item extends TagKeySearchComponent<net.minecraft.world.item.Item> {
+
         public Item(String name,
                     Supplier<TagKey<net.minecraft.world.item.Item>> supplier,
                     Consumer<TagKey<net.minecraft.world.item.Item>> onUpdate,
@@ -83,12 +89,12 @@ public class TagKeySearchComponent<T> extends SearchComponentConfigurator<TagKey
                         if (items.length == 0) return IGuiTexture.EMPTY;
                         return new ItemStackTexture(items);
                     },
-                    item -> Component.literal(item.location().toString())
-            ));
+                    item -> Component.literal(item.location().toString())));
         }
     }
 
     public static class Block extends TagKeySearchComponent<net.minecraft.world.level.block.Block> {
+
         public Block(String name, Supplier<TagKey<net.minecraft.world.level.block.Block>> supplier, Consumer<TagKey<net.minecraft.world.level.block.Block>> onUpdate, TagKey<net.minecraft.world.level.block.Block> defaultValue, boolean forceUpdate) {
             super(name, supplier, onUpdate, defaultValue, forceUpdate, BuiltInRegistries.BLOCK, UIElementProvider.iconText(
                     tagKey -> {
@@ -102,12 +108,12 @@ public class TagKeySearchComponent<T> extends SearchComponentConfigurator<TagKey
                         if (blocks.length == 0) return IGuiTexture.EMPTY;
                         return new ItemStackTexture(blocks);
                     },
-                    tagKey -> Component.literal(tagKey.location().toString())
-            ));
+                    tagKey -> Component.literal(tagKey.location().toString())));
         }
     }
 
     public static class Fluid extends TagKeySearchComponent<net.minecraft.world.level.material.Fluid> {
+
         public Fluid(String name, Supplier<TagKey<net.minecraft.world.level.material.Fluid>> supplier, Consumer<TagKey<net.minecraft.world.level.material.Fluid>> onUpdate, TagKey<net.minecraft.world.level.material.Fluid> defaultValue, boolean forceUpdate) {
             super(name, supplier, onUpdate, defaultValue, forceUpdate, BuiltInRegistries.FLUID, UIElementProvider.iconText(
                     tagKey -> {
@@ -120,12 +126,12 @@ public class TagKeySearchComponent<T> extends SearchComponentConfigurator<TagKey
                         if (fluids.length == 0) return IGuiTexture.EMPTY;
                         return new FluidStackTexture(fluids);
                     },
-                    tagKey -> Component.literal(tagKey.location().toString())
-            ));
+                    tagKey -> Component.literal(tagKey.location().toString())));
         }
     }
 
     public static class EntityType extends TagKeySearchComponent<net.minecraft.world.entity.EntityType<?>> {
+
         public EntityType(String name, Supplier<TagKey<net.minecraft.world.entity.EntityType<?>>> supplier, Consumer<TagKey<net.minecraft.world.entity.EntityType<?>>> onUpdate, TagKey<net.minecraft.world.entity.EntityType<?>> defaultValue, boolean forceUpdate) {
             super(name, supplier, onUpdate, defaultValue, forceUpdate, BuiltInRegistries.ENTITY_TYPE, UIElementProvider.iconText(
                     tagKey -> {
@@ -140,8 +146,7 @@ public class TagKeySearchComponent<T> extends SearchComponentConfigurator<TagKey
                         if (types.length == 0) return IGuiTexture.EMPTY;
                         return new ItemStackTexture(types);
                     },
-                    tagKey -> Component.literal(tagKey.location().toString())
-            ));
+                    tagKey -> Component.literal(tagKey.location().toString())));
         }
     }
 }

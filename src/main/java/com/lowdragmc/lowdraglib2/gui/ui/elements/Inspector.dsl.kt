@@ -5,18 +5,13 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.utils.IHistoryStack
+
 import java.util.function.Consumer
 
 /**
  * Specification for Inspector element
  */
-open class InspectorSpec<T : Inspector>(
-    var historyStack: IHistoryStack? = null,
-    var initialConfigurable: IConfigurable? = null,
-    var configuratorListener: Consumer<Configurator>? = null,
-    var onClose: Runnable? = null,
-    var historyAction: Runnable? = null,
-) : ElementSpec<T>() {
+open class InspectorSpec<T : Inspector>(var historyStack: IHistoryStack? = null, var initialConfigurable: IConfigurable? = null, var configuratorListener: Consumer<Configurator>? = null, var onClose: Runnable? = null, var historyAction: Runnable? = null) : ElementSpec<T>() {
     /**
      * Set history stack for undo/redo
      */
@@ -77,13 +72,8 @@ open class InspectorSpec<T : Inspector>(
 /**
  * Inspector element builder
  */
-open class InspectorElement<T : Inspector>(
-    element: T,
-    spec: (InspectorSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, InspectorSpec<T>>(element, spec) {
-    override fun makeSpec(): InspectorSpec<T>? {
-        return spec?.let { InspectorSpec<T>().apply(it) }
-    }
+open class InspectorElement<T : Inspector>(element: T, spec: (InspectorSpec<T>.() -> Unit)? = null) : UIContainer<T, InspectorSpec<T>>(element, spec) {
+    override fun makeSpec(): InspectorSpec<T>? = spec?.let { InspectorSpec<T>().apply(it) }
 
     override fun build(spec: InspectorSpec<T>?): T {
         val e = super.build(spec)
@@ -101,7 +91,7 @@ open class InspectorElement<T : Inspector>(
                 spec.initialConfigurable!!,
                 spec.configuratorListener,
                 spec.onClose,
-                spec.historyAction
+                spec.historyAction,
             )
         }
     }
@@ -110,25 +100,17 @@ open class InspectorElement<T : Inspector>(
 /**
  * Top Level - Create a standalone Inspector element
  */
-fun inspector(spec: (InspectorSpec<Inspector>.() -> Unit)? = null,
-              init: InspectorElement<Inspector>.() -> Unit = {}): Inspector {
-    return InspectorElement(Inspector(), spec).apply(init).build()
-}
+fun inspector(spec: (InspectorSpec<Inspector>.() -> Unit)? = null, init: InspectorElement<Inspector>.() -> Unit = {}): Inspector = InspectorElement(Inspector(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Inspector as a child to a container
  */
-fun UIContainer<*, *>.inspector(spec: (InspectorSpec<Inspector>.() -> Unit)? = null,
-                                 init: InspectorElement<Inspector>.() -> Unit = {}) =
-    add(InspectorElement(Inspector(), spec), init)
+fun UIContainer<*, *>.inspector(spec: (InspectorSpec<Inspector>.() -> Unit)? = null, init: InspectorElement<Inspector>.() -> Unit = {}) = add(InspectorElement(Inspector(), spec), init)
 
 /**
  * DSL converter - Convert existing Inspector to DSL builder
  */
-fun <T : Inspector> T.dsl(spec: (InspectorSpec<T>.() -> Unit)? = null,
-                          init: InspectorElement<T>.() -> Unit = {}): InspectorElement<T> {
-    return InspectorElement(this, spec).apply(init)
-}
+fun <T : Inspector> T.dsl(spec: (InspectorSpec<T>.() -> Unit)? = null, init: InspectorElement<T>.() -> Unit = {}): InspectorElement<T> = InspectorElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -151,27 +133,19 @@ fun <T : Inspector> InspectorElement<T>.inspect(configurable: IConfigurable): In
 /**
  * Extension: Inspect with listener
  */
-fun <T : Inspector> InspectorElement<T>.inspect(
-    configurable: IConfigurable,
-    listener: (Configurator) -> Unit
-): InspectorElement<T> = apply {
+fun <T : Inspector> InspectorElement<T>.inspect(configurable: IConfigurable, listener: (Configurator) -> Unit): InspectorElement<T> = apply {
     element.inspect(configurable, Consumer { listener(it) })
 }
 
 /**
  * Extension: Inspect with full configuration
  */
-fun <T : Inspector, C : IConfigurable> InspectorElement<T>.inspect(
-    configurable: C,
-    listener: ((Configurator) -> Unit)? = null,
-    onClose: (() -> Unit)? = null,
-    historyAction: (() -> Unit)? = null
-): InspectorElement<T> = apply {
+fun <T : Inspector, C : IConfigurable> InspectorElement<T>.inspect(configurable: C, listener: ((Configurator) -> Unit)? = null, onClose: (() -> Unit)? = null, historyAction: (() -> Unit)? = null): InspectorElement<T> = apply {
     element.inspect(
         configurable,
         listener?.let { Consumer { listener(it) } },
         onClose?.let { Runnable { it() } },
-        historyAction?.let { Runnable { historyAction() } }
+        historyAction?.let { Runnable { historyAction() } },
     )
 }
 
@@ -192,7 +166,4 @@ fun <T : Inspector> InspectorElement<T>.withScrollerView(config: ScrollerView.()
 /**
  * Extension: Get current inspected configurable
  */
-fun <T : Inspector> InspectorElement<T>.getInspected(): IConfigurable? {
-    return element.inspectedConfigurable
-}
-
+fun <T : Inspector> InspectorElement<T>.getInspected(): IConfigurable? = element.inspectedConfigurable

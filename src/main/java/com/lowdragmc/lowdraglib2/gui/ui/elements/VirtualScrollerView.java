@@ -8,17 +8,19 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -26,8 +28,10 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "virtual-scroller-view", group = "container", registry = "ldlib2:ui_element")
 public class VirtualScrollerView<T> extends ScrollerView {
+
     @Configurable(name = "VirtualScrollerViewStyle")
     public class VirtualScrollerViewStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.VIRTUAL_ITEM_HEIGHT_MODE,
                 PropertyRegistry.VIRTUAL_ESTIMATED_ITEM_HEIGHT,

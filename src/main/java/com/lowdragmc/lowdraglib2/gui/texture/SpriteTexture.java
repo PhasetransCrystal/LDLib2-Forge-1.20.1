@@ -3,16 +3,16 @@ package com.lowdragmc.lowdraglib2.gui.texture;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibRenderTypes;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibShaders;
+import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
-import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.gui.ui.Style;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
@@ -21,6 +21,7 @@ import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -35,9 +36,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Matrix4f;
-
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR;
 
@@ -45,6 +45,7 @@ import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR;
 @LDLRegisterClient(name = "sprite_texture", registry = "ldlib2:gui_texture")
 @Accessors(chain = true)
 public class SpriteTexture extends TransformTexture {
+
     public enum WrapMode {
         CLAMP,
         REPEAT,
@@ -55,19 +56,19 @@ public class SpriteTexture extends TransformTexture {
     @Getter
     private ResourceLocation imageLocation = LDLib2.id("textures/gui/icon.png");
     @Configurable
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Setter
     public Position spritePosition = Position.of(0, 0);
     @Configurable
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Setter
     public Size spriteSize = Size.of(0, 0);
     @Configurable
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Setter
     public Position borderLT = Position.of(0, 0);
     @Configurable
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Setter
     public Position borderRB = Position.of(0, 0);
     @Configurable
@@ -158,6 +159,7 @@ public class SpriteTexture extends TransformTexture {
     public IGuiTexture interpolate(IGuiTexture other, float lerp) {
         if (other.getRawTexture() instanceof SpriteTexture spriteTexture) {
             return new IGuiTexture() {
+
                 @Override
                 @OnlyIn(Dist.CLIENT)
                 public void draw(GuiGraphics graphics, float mouseX, float mouseY, float x, float y, float width, float height,
@@ -366,13 +368,13 @@ public class SpriteTexture extends TransformTexture {
                 .addChildren(
                         // raw image preview
                         new UIElement().layout(layout -> {
-                                    layout.setPipelineState(StyleOrigin.DEFAULT);
-                                    layout.setAspectRatio(1.0f);
-                                    layout.widthPercent(80);
-                                    layout.paddingAll(3);
-                                    layout.alignSelf(AlignItems.CENTER);
-                                    layout.setPipelineState(StyleOrigin.INLINE);
-                                }).style(style -> Style.defaultPipeline(style, s -> s.backgroundTexture(Sprites.BORDER1_RT1)))
+                            layout.setPipelineState(StyleOrigin.DEFAULT);
+                            layout.setAspectRatio(1.0f);
+                            layout.widthPercent(80);
+                            layout.paddingAll(3);
+                            layout.alignSelf(AlignItems.CENTER);
+                            layout.setPipelineState(StyleOrigin.INLINE);
+                        }).style(style -> Style.defaultPipeline(style, s -> s.backgroundTexture(Sprites.BORDER1_RT1)))
                                 .addClass("preview_bg")
                                 .addChild(new UIElement().layout(layout -> {
                                     layout.widthPercent(100);
@@ -390,8 +392,7 @@ public class SpriteTexture extends TransformTexture {
                                     configurator.notifyChanges();
                                 }
                             }).show(e.currentElement.getModularUI());
-                        }).layout(layout -> layout.alignSelf(AlignItems.CENTER))
-                ));
+                        }).layout(layout -> layout.alignSelf(AlignItems.CENTER))));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -409,7 +410,7 @@ public class SpriteTexture extends TransformTexture {
         var spriteY = y + spritePosition.y * height / imageSize.height;
         var spriteWidth = spriteSize.width * width / imageSize.width;
         var spriteHeight = spriteSize.height * height / imageSize.height;
-        new ColorBorderTexture(1,0xFFFF0000).draw(graphics, mouseX, mouseY,
+        new ColorBorderTexture(1, 0xFFFF0000).draw(graphics, mouseX, mouseY,
                 spriteX, spriteY, spriteWidth, spriteHeight, partialTicks);
         // left
         DrawerHelper.drawSolidRect(graphics,

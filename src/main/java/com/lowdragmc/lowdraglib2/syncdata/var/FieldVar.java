@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.syncdata.var;
 
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
+
 import lombok.Getter;
 
 import java.lang.reflect.Field;
@@ -8,6 +9,7 @@ import java.lang.reflect.Field;
 @Getter
 @SuppressWarnings("unchecked")
 public sealed class FieldVar<TYPE> implements IVar<TYPE> {
+
     protected final Field field;
     protected final Class<TYPE> type;
     protected final Object instance;
@@ -65,6 +67,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class IntFieldVar extends FieldVar<Integer> {
+
         private IntFieldVar(Field field, Object instance) {
             super(int.class, field, instance);
         }
@@ -89,6 +92,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class LongFieldVar extends FieldVar<Long> {
+
         private LongFieldVar(Field field, Object instance) {
             super(long.class, field, instance);
         }
@@ -113,6 +117,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class FloatFieldVar extends FieldVar<Float> {
+
         private FloatFieldVar(Field field, Object instance) {
             super(float.class, field, instance);
         }
@@ -137,6 +142,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class DoubleFieldVar extends FieldVar<Double> {
+
         private DoubleFieldVar(Field field, Object instance) {
             super(double.class, field, instance);
         }
@@ -161,6 +167,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class BooleanFieldVar extends FieldVar<Boolean> {
+
         private BooleanFieldVar(Field field, Object instance) {
             super(boolean.class, field, instance);
         }
@@ -185,6 +192,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class ByteFieldVar extends FieldVar<Byte> {
+
         private ByteFieldVar(Field field, Object instance) {
             super(byte.class, field, instance);
         }
@@ -209,6 +217,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class ShortFieldVar extends FieldVar<Short> {
+
         private ShortFieldVar(Field field, Object instance) {
             super(short.class, field, instance);
         }
@@ -233,6 +242,7 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
     }
 
     private static final class CharFieldVar extends FieldVar<Character> {
+
         private CharFieldVar(Field field, Object instance) {
             super(char.class, field, instance);
         }
@@ -255,5 +265,4 @@ public sealed class FieldVar<TYPE> implements IVar<TYPE> {
             }
         }
     }
-
 }

@@ -1,11 +1,9 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.editor;
 
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.editor.ui.View;
-import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.event.CommandEvents;
@@ -17,6 +15,8 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphBreadcrumb;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphView;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.CustomGraphModelImpl;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.SubgraphNodeModel;
+
+import com.google.common.util.concurrent.Runnables;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,11 +25,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class GraphEditorView extends View implements SubgraphRegistry.Listener {
+
     /**
      * Factory used to create every {@link GraphView} this editor owns — the root view and any
      * subgraph-dive views. Defaults to {@link GraphView#GraphView()}; supply a custom factory
@@ -45,9 +45,11 @@ public class GraphEditorView extends View implements SubgraphRegistry.Listener {
 
     // runtime
     private boolean isDirty;
-    @Nullable @Getter
+    @Nullable
+    @Getter
     private Graph graph;
-    @Nullable @Getter
+    @Nullable
+    @Getter
     private Consumer<CompoundTag> onSaved;
     /** The graph NBT captured at load/save time — used to detect dirtiness by comparison. */
     @Nullable
@@ -59,7 +61,8 @@ public class GraphEditorView extends View implements SubgraphRegistry.Listener {
      * resource provider container when opening the view; used to recognize "another editor just
      * saved my path" broadcasts and reload accordingly.
      */
-    @Nullable @Getter
+    @Nullable
+    @Getter
     private IResourcePath rootPath;
     /** Subgraph navigation stack. Bottom entry is always the root level. */
     private final Deque<Level> levelStack = new ArrayDeque<>();
@@ -77,13 +80,17 @@ public class GraphEditorView extends View implements SubgraphRegistry.Listener {
      * the path it was loaded from.
      */
     private static class Level {
+
         final GraphView view;
         final Component label;
         /** External path being edited at this level, or {@code null} for root / local-dive levels. */
-        @Nullable final IResourcePath externalPath;
+        @Nullable
+        final IResourcePath externalPath;
         /** Live Graph instance held by an external-dive level; {@code null} for root / local-dive. */
-        @Nullable final Graph graphRef;
-        @Nullable CompoundTag levelSavedTag;
+        @Nullable
+        final Graph graphRef;
+        @Nullable
+        CompoundTag levelSavedTag;
 
         Level(GraphView view, Component label, @Nullable IResourcePath externalPath, @Nullable Graph graphRef) {
             this.view = view;
@@ -176,8 +183,7 @@ public class GraphEditorView extends View implements SubgraphRegistry.Listener {
         var nodeTitle = subNode.getTitle();
         var label = nodeTitle == null ? Component.translatable("graph.breadcrumb.subgraph") : nodeTitle;
         // EXTERNAL dive: track path + graph instance so save can write back through resolver
-        var externalPath = subNode.getKind() == SubgraphNodeModel.Kind.EXTERNAL
-                ? subNode.getExternalPath() : null;
+        var externalPath = subNode.getKind() == SubgraphNodeModel.Kind.EXTERNAL ? subNode.getExternalPath() : null;
         var graphRef = externalPath != null ? innerGraph : null;
 
         var level = new Level(newView, label, externalPath, graphRef);

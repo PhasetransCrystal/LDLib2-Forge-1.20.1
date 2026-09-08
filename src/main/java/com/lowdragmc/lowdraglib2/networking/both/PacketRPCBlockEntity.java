@@ -1,20 +1,21 @@
 package com.lowdragmc.lowdraglib2.networking.both;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.networking.PacketIntLocation;
-import com.lowdragmc.lowdraglib2.syncdata.holder.blockentity.IRPCBlockEntity;
-import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
-import lombok.NoArgsConstructor;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
+import com.lowdragmc.lowdraglib2.networking.PacketIntLocation;
+import com.lowdragmc.lowdraglib2.syncdata.holder.blockentity.IRPCBlockEntity;
+import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
+
+import lombok.NoArgsConstructor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -24,6 +25,7 @@ import java.util.Objects;
  */
 @NoArgsConstructor
 public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPacketPayload {
+
     public static final ResourceLocation ID = LDLib2.id("rpc_method_payload");
     public static final Type<PacketRPCBlockEntity> TYPE = new Type<>(ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketRPCBlockEntity> CODEC = StreamCodec.ofMember(PacketRPCBlockEntity::write, PacketRPCBlockEntity::decode);

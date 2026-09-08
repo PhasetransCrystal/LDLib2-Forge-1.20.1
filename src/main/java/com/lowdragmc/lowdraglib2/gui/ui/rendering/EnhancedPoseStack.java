@@ -9,8 +9,10 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 public class EnhancedPoseStack {
+
     public final PoseStack pose;
-    @Setter @Accessors(chain = true)
+    @Setter
+    @Accessors(chain = true)
     private Runnable onTransform = Runnables.doNothing();
 
     public EnhancedPoseStack(PoseStack pose) {
@@ -33,7 +35,7 @@ public class EnhancedPoseStack {
     }
 
     public void mulPose(Quaternionf quaternion) {
-       pose.mulPose(quaternion);
+        pose.mulPose(quaternion);
         onTransform.run();
     }
 
@@ -65,7 +67,7 @@ public class EnhancedPoseStack {
     }
 
     public void mulPose(Matrix4f pose) {
-       this.pose.mulPoseMatrix(pose);
+        this.pose.mulPoseMatrix(pose);
         onTransform.run();
     }
 

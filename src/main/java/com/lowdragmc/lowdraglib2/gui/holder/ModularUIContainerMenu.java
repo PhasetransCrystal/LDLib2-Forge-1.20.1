@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.holder;
 
 import com.lowdragmc.lowdraglib2.gui.factory.IContainerUIHolder;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.entity.player.Inventory;
@@ -9,12 +10,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ModularUIContainerMenu extends AbstractContainerMenu {
+
     public final Inventory inventory;
     public final IContainerUIHolder uiHolder;
     @Getter
@@ -78,7 +81,7 @@ public class ModularUIContainerMenu extends AbstractContainerMenu {
         // Allow moving items from player-side slots into some "remote" inventory that is not slot-based
         // This is used to move items into the network inventory
         if (fromPlayerSide) {
-//            stackToMove = this.transferStackToMenu(stackToMove);
+            // stackToMove = this.transferStackToMenu(stackToMove);
             if (stackToMove.isEmpty()) {
                 return stackToMove;
             }
@@ -89,19 +92,19 @@ public class ModularUIContainerMenu extends AbstractContainerMenu {
         // If no actual targets were available, allow moving into filter slots too
         if (destinationSlots.isEmpty() && fromPlayerSide) {
             // TODO FakeSlot
-//            for (Slot cs : this.slots) {
-//                if (cs instanceof FakeSlot && !isPlayerSideSlot(cs)) {
-//                    var destination = cs.getItem();
-//                    if (ItemStack.isSameItemSameComponents(destination, stackToMove)) {
-//                        break; // Item is already in the filter
-//                    } else if (destination.isEmpty()) {
-//                        cs.set(stackToMove.copy());
-//                        // ???
-//                        this.broadcastChanges();
-//                        break;
-//                    }
-//                }
-//            }
+            // for (Slot cs : this.slots) {
+            // if (cs instanceof FakeSlot && !isPlayerSideSlot(cs)) {
+            // var destination = cs.getItem();
+            // if (ItemStack.isSameItemSameComponents(destination, stackToMove)) {
+            // break; // Item is already in the filter
+            // } else if (destination.isEmpty()) {
+            // cs.set(stackToMove.copy());
+            // // ???
+            // this.broadcastChanges();
+            // break;
+            // }
+            // }
+            // }
             return stackToMove; // Since destinationSlots was empty, nothing else to do
         }
 
@@ -150,9 +153,7 @@ public class ModularUIContainerMenu extends AbstractContainerMenu {
     protected boolean isValidQuickMoveDestination(Slot candidateSlot, ItemStack stackToMove,
                                                   boolean fromPlayerSide) {
         var itemSlot = asModularUIHolderMenu().getItemSlot(candidateSlot);
-        return isPlayerSideSlot(candidateSlot) != fromPlayerSide
-                && (itemSlot == null || itemSlot.getSlotStyle().acceptQuickMove())
-                && candidateSlot.mayPlace(stackToMove);
+        return isPlayerSideSlot(candidateSlot) != fromPlayerSide && (itemSlot == null || itemSlot.getSlotStyle().acceptQuickMove()) && candidateSlot.mayPlace(stackToMove);
     }
 
     /**

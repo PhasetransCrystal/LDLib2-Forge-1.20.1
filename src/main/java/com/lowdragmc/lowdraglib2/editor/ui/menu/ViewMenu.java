@@ -2,13 +2,15 @@ package com.lowdragmc.lowdraglib2.editor.ui.menu;
 
 import com.lowdragmc.lowdraglib2.editor.settings.AppearanceSettings;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 public class ViewMenu extends MenuTab {
+
     public ViewMenu(Editor editor) {
         super(editor);
     }
@@ -41,5 +43,4 @@ public class ViewMenu extends MenuTab {
     protected Component getComponent() {
         return Component.translatable("editor.view");
     }
-
 }

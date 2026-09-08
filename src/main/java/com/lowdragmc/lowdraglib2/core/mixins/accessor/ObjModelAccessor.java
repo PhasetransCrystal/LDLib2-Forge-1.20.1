@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(value = ObjModel.class, remap = false)
 public interface ObjModelAccessor {
+
     @Invoker("makeQuad")
     Pair<BakedQuad, Direction> invokeMakeQuad(int[][] indices, int tintIndex, Vector4f colorTint, Vector4f ambientColor, TextureAtlasSprite texture, Transformation transform);
 }

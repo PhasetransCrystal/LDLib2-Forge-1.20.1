@@ -38,16 +38,16 @@ public class TextFormattingUtil {
      * @return a compact string representation of the long value with an appropriate suffix
      */
     public static String formatLongToCompactString(long value, int precision) {
-        //Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
+        // Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
         if (value == Long.MIN_VALUE) return formatLongToCompactString(Long.MIN_VALUE + 1, precision);
         if (value < 0) return "-" + formatLongToCompactString(-value, precision);
-        if (value < Math.pow(10, precision)) return Long.toString(value); //deal with easy case
+        if (value < Math.pow(10, precision)) return Long.toString(value); // deal with easy case
 
         Map.Entry<Long, String> e = suffixes.floorEntry(value);
         Long divideBy = e.getKey();
         String suffix = e.getValue();
 
-        long truncated = value / (divideBy / 10); //the number part of the output times 10
+        long truncated = value / (divideBy / 10); // the number part of the output times 10
         boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10d);
         return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
     }
@@ -65,18 +65,18 @@ public class TextFormattingUtil {
         if (value == 0) return value + "";
         value = value * 1000 / FluidHelper.getBucket();
         if (value == 0) return String.format("%sm", new DecimalFormat("0.####").format(value));
-        //Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
+        // Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
         if (value == Long.MIN_VALUE) return formatLongToCompactStringBuckets(Long.MIN_VALUE + 1, precision);
         if (value < 0) return "-" + formatLongToCompactStringBuckets(-value, precision);
-        if (value < Math.pow(10, precision)) return value + suffixesBucket.floorEntry(value).getValue(); //deal with easy case
+        if (value < Math.pow(10, precision)) return value + suffixesBucket.floorEntry(value).getValue(); // deal with
+                                                                                                         // easy case
 
         Map.Entry<Long, String> e = suffixesBucket.floorEntry(value);
         Long divideBy = e.getKey();
         String suffix = e.getValue();
 
-        long truncated = value / (divideBy / 10); //the number part of the output times 10
+        long truncated = value / (divideBy / 10); // the number part of the output times 10
         boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10d);
         return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
     }
-
 }

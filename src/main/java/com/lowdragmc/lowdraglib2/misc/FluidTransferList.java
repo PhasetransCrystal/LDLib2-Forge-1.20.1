@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.misc;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
+
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +22,7 @@ import java.util.function.Predicate;
  * @implNote FluidTransferList
  */
 public class FluidTransferList implements IFluidHandlerModifiable, INBTSerializable<CompoundTag> {
+
     public final IFluidHandler[] transfers;
     @Setter
     protected Predicate<FluidStack> filter = fluid -> true;

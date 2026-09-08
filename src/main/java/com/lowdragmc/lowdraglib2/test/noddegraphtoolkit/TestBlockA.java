@@ -5,13 +5,14 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.NodeAttribute;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.UseWithContext;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.IOptionDefinitionContext;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.IPortDefinitionContext;
+
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 
 import java.util.Optional;
 
-@NodeAttribute(name = "test_block_a", group = "test", graphTypes = {TestGraph.class})
-@UseWithContext({TestContextNode.class})
+@NodeAttribute(name = "test_block_a", group = "test", graphTypes = { TestGraph.class })
+@UseWithContext({ TestContextNode.class })
 public class TestBlockA extends BlockNode {
 
     @Override

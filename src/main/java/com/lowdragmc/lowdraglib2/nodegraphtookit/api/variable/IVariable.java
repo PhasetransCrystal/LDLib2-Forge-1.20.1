@@ -7,10 +7,13 @@ import java.lang.reflect.Type;
 /**
  * Interface for a variable declared in a graph.
  *
- * <p>Variables are declarations displayed in the graph's Blackboard. They can be referenced
- * by variable nodes in the graph. Each variable has a name, data type, and optional default value.</p>
+ * <p>
+ * Variables are declarations displayed in the graph's Blackboard. They can be referenced
+ * by variable nodes in the graph. Each variable has a name, data type, and optional default value.
+ * </p>
  */
 public interface IVariable {
+
     /**
      * Gets the unique name of the variable.
      *
@@ -32,6 +35,7 @@ public interface IVariable {
 
     /**
      * Tries to retrieve the default value of the variable.
+     * 
      * @param expectedType The expected type of the default value.
      * @return return True if the default value is present and can be cast to the expected type. otherwise return false.
      */

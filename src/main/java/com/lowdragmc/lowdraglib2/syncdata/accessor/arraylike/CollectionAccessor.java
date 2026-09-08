@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.arraylike;
+
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IMarkFunction;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.IDirectAccessor;
@@ -7,19 +9,20 @@ import com.lowdragmc.lowdraglib2.syncdata.accessor.readonly.IReadOnlyAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.utils.TypeFabricator;
 import com.lowdragmc.lowdraglib2.syncdata.var.ManagedHolderVar;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
 import net.minecraft.nbt.NbtOps;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
 public class CollectionAccessor<TYPE> implements
-        IReadOnlyAccessor<Collection<TYPE>>,
-        IArrayLikeAccessor<TYPE, Collection<TYPE>>,
-        IMarkFunction<Collection<TYPE>, Object[]> {
+                               IReadOnlyAccessor<Collection<TYPE>>,
+                               IArrayLikeAccessor<TYPE, Collection<TYPE>>,
+                               IMarkFunction<Collection<TYPE>, Object[]> {
+
     @Getter
     private final IAccessor<TYPE> childAccessor;
     @Getter
@@ -78,10 +81,7 @@ public class CollectionAccessor<TYPE> implements
                 @SuppressWarnings("unchecked")
                 var fabricator = (Supplier<TYPE>) TypeFabricator.fabricator(childType);
                 if (fabricator == null) {
-                    throw new IllegalArgumentException("Stream size " + list.size() + " != collection size " + value.size()
-                            + " for read-only-child collection; type " + childType.getName()
-                            + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)."
-                            + " Add a no-arg ctor or use @ReadOnlyManaged.");
+                    throw new IllegalArgumentException("Stream size " + list.size() + " != collection size " + value.size() + " for read-only-child collection; type " + childType.getName() + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)." + " Add a no-arg ctor or use @ReadOnlyManaged.");
                 }
                 value.clear();
                 for (var p : list) {
@@ -150,10 +150,7 @@ public class CollectionAccessor<TYPE> implements
                 @SuppressWarnings("unchecked")
                 var fabricator = (Supplier<TYPE>) TypeFabricator.fabricator(childType);
                 if (fabricator == null) {
-                    throw new IllegalArgumentException("Stream size " + size + " != collection size " + value.size()
-                            + " for read-only-child collection; type " + childType.getName()
-                            + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)."
-                            + " Add a no-arg ctor or use @ReadOnlyManaged.");
+                    throw new IllegalArgumentException("Stream size " + size + " != collection size " + value.size() + " for read-only-child collection; type " + childType.getName() + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)." + " Add a no-arg ctor or use @ReadOnlyManaged.");
                 }
                 value.clear();
                 for (int i = 0; i < size; i++) {

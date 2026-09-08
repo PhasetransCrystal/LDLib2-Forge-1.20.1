@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.core.mixins.ui;
 
 import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolder;
+
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 
 @Mixin(ContainerEventHandler.class)
-public interface ContainerEventHandlerMixin extends GuiEventListener{
+public interface ContainerEventHandlerMixin extends GuiEventListener {
 
     @Shadow(aliases = "m_6702_")
     List<? extends GuiEventListener> children();

@@ -1,13 +1,10 @@
 package com.lowdragmc.lowdraglib2;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lowdragmc.lowdraglib2.gui.factory.PlayerUIMenuType;
 import com.lowdragmc.lowdraglib2.networking.LDLNetworking;
 import com.lowdragmc.lowdraglib2.networking.s2c.SPacketOpenUIEditor;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -20,13 +17,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author KilaBash
  * @date 2023/2/9
  * @implNote ServerCommands
  */
 public class ServerCommands {
-	public static List<LiteralArgumentBuilder<CommandSourceStack>> createServerCommands() {
+
+    public static List<LiteralArgumentBuilder<CommandSourceStack>> createServerCommands() {
         var commands = new ArrayList<LiteralArgumentBuilder<CommandSourceStack>>();
         commands.addAll(List.of(
                 Commands.literal("ldlib2_ui_editor")
@@ -44,49 +45,48 @@ public class ServerCommands {
                             return 1;
                         }),
                 Commands.literal("ldlib2_utils")
-						.then(Commands.literal("copy_block_tag")
-								.then(Commands.argument("pos", BlockPosArgument.blockPos())
-										.executes(context -> {
-											var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
-											var world = context.getSource().getLevel();
-											var blockEntity = world.getBlockEntity(pos);
-											if (blockEntity != null) {
-													var tag = blockEntity.saveWithoutMetadata();
-												var value = NbtUtils.structureToSnbt(tag);
-												context.getSource().sendSuccess(() -> Component
-														.literal("[Copy to clipboard]")
-														.withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)
-																.withClickEvent(new ClickEvent(
-																		ClickEvent.Action.COPY_TO_CLIPBOARD, value)))
-														.append(NbtUtils.toPrettyComponent(tag)), true);
-											} else {
-												context.getSource().sendSuccess(
-														() -> Component.literal("No block entity at " + pos)
-																.withStyle(Style.EMPTY.withColor(ChatFormatting.RED)),
-														true);
-											}
-											return 1;
-										})))
-						.then(Commands.literal("copy_entity_tag")
-								.then(Commands.argument("entity", EntityArgument.entity())
-										.executes(context -> {
-											var entity = EntityArgument.getEntity(context, "entity");
-											var tag = entity.saveWithoutId(new CompoundTag());
-											var value = NbtUtils.structureToSnbt(tag);
-											context.getSource().sendSuccess(() -> Component
-													.literal("[Copy to clipboard]")
-													.withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)
-															.withClickEvent(new ClickEvent(
-																	ClickEvent.Action.COPY_TO_CLIPBOARD, value)))
-													.append(NbtUtils.toPrettyComponent(tag)), true);
-											return 1;
-										})))
-        ));
+                        .then(Commands.literal("copy_block_tag")
+                                .then(Commands.argument("pos", BlockPosArgument.blockPos())
+                                        .executes(context -> {
+                                            var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
+                                            var world = context.getSource().getLevel();
+                                            var blockEntity = world.getBlockEntity(pos);
+                                            if (blockEntity != null) {
+                                                var tag = blockEntity.saveWithoutMetadata();
+                                                var value = NbtUtils.structureToSnbt(tag);
+                                                context.getSource().sendSuccess(() -> Component
+                                                        .literal("[Copy to clipboard]")
+                                                        .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)
+                                                                .withClickEvent(new ClickEvent(
+                                                                        ClickEvent.Action.COPY_TO_CLIPBOARD, value)))
+                                                        .append(NbtUtils.toPrettyComponent(tag)), true);
+                                            } else {
+                                                context.getSource().sendSuccess(
+                                                        () -> Component.literal("No block entity at " + pos)
+                                                                .withStyle(Style.EMPTY.withColor(ChatFormatting.RED)),
+                                                        true);
+                                            }
+                                            return 1;
+                                        })))
+                        .then(Commands.literal("copy_entity_tag")
+                                .then(Commands.argument("entity", EntityArgument.entity())
+                                        .executes(context -> {
+                                            var entity = EntityArgument.getEntity(context, "entity");
+                                            var tag = entity.saveWithoutId(new CompoundTag());
+                                            var value = NbtUtils.structureToSnbt(tag);
+                                            context.getSource().sendSuccess(() -> Component
+                                                    .literal("[Copy to clipboard]")
+                                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)
+                                                            .withClickEvent(new ClickEvent(
+                                                                    ClickEvent.Action.COPY_TO_CLIPBOARD, value)))
+                                                    .append(NbtUtils.toPrettyComponent(tag)), true);
+                                            return 1;
+                                        })))));
         if (LDLib2Registries.MENU_TESTS != null && !LDLib2Registries.MENU_TESTS.values().isEmpty()) {
             commands.add(createMenuTestCommands());
         }
         return commands;
-	}
+    }
 
     private static LiteralArgumentBuilder<CommandSourceStack> createMenuTestCommands() {
         var builder = Commands.literal("ldlib2_menu_test")
@@ -114,5 +114,4 @@ public class ServerCommands {
         }
         return builder;
     }
-
 }

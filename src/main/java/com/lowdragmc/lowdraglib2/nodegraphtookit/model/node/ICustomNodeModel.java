@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface ICustomNodeModel {
+
     /**
      * Initializes the provided {@link Node} instance with custom settings or configurations.
      *
-     * <p>This method is used to prepare a {@link Node} object, allowing it to be customized
+     * <p>
+     * This method is used to prepare a {@link Node} object, allowing it to be customized
      * or configured for use within a graph-based workflow. This may involve setting up its
-     * options, connections, or other properties as required.</p>
+     * options, connections, or other properties as required.
+     * </p>
      *
      * @param node the {@link Node} instance to initialize
      */
@@ -28,7 +31,8 @@ public interface ICustomNodeModel {
     /**
      * Retrieves a mapping of option identifiers to their respective {@link INodeOption} instances.
      *
-     * <p>The key in the returned map represents the unique identifier of the option,
+     * <p>
+     * The key in the returned map represents the unique identifier of the option,
      * and the value is the corresponding {@link INodeOption} object containing details about the option.
      *
      * @return a {@code Map<String, INodeOption>} where each entry associates

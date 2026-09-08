@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.NoArgsConstructor;
 import net.minecraft.world.entity.player.Player;
@@ -15,6 +16,7 @@ import org.joml.Vector4f;
 @LDLRegisterClient(name = "render_operation", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestRenderOperation implements IScreenTest {
+
     private int cornerSegments = 8;
     private float stroke = 4;
     private final Vector4f radius = new Vector4f(6, 20, 34, 10);
@@ -67,8 +69,7 @@ public class TestRenderOperation implements IScreenTest {
                 new UIElement().layout(layout -> {
                     layout.flexDirection(FlexDirection.ROW);
                     layout.gapAll(4);
-                }).addChildren(increaseSegments, decreaseSegments, increaseStroke, decreaseStroke)
-        );
+                }).addChildren(increaseSegments, decreaseSegments, increaseStroke, decreaseStroke));
 
         return new ModularUI(UI.of(root));
     }

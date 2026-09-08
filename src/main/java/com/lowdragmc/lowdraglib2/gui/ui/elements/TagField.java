@@ -1,10 +1,10 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.base.Predicates;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
-import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
+import com.google.common.base.Predicates;
 import com.mojang.brigadier.StringReader;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
@@ -15,10 +15,11 @@ import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -26,6 +27,7 @@ import java.util.function.Predicate;
 @KJSBindings
 @LDLRegister(name = "tag-field", group = "basic", registry = "ldlib2:ui_element")
 public class TagField extends BindableUIElement<Tag> {
+
     private static final ChatFormatting STRING_COLOR = ChatFormatting.GREEN;
     private static final ChatFormatting NUMBER_COLOR = ChatFormatting.GOLD;
     private static final ChatFormatting BOOLEAN_COLOR = ChatFormatting.LIGHT_PURPLE;
@@ -121,8 +123,7 @@ public class TagField extends BindableUIElement<Tag> {
         try {
             var current = new TagParser(new StringReader(textField.getRawText())).readValue();;
             if (current.equals(value)) return;
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         textField.setValue(value == EndTag.INSTANCE ? "" : value.toString(), false);
     }
 

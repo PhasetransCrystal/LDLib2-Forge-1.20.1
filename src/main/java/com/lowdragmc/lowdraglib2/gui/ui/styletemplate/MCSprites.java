@@ -4,15 +4,16 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.editor.resource.BuiltinPath;
 import com.lowdragmc.lowdraglib2.editor.resource.BuiltinResourceProvider;
 import com.lowdragmc.lowdraglib2.editor.resource.ResourceInstance;
-import com.lowdragmc.lowdraglib2.editor.resource.TexturesResource;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.SpriteTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.UIResourceTexture;
+
 import net.minecraft.resources.ResourceLocation;
 
 import java.lang.reflect.Modifier;
 
 public class MCSprites {
+
     public static ResourceLocation MC = LDLib2.id("textures/gui/mc_styles.png");
 
     public static IGuiTexture RECT = SpriteTexture.of(MC).setSprite(0, 0, 16, 16).setBorder(5);
@@ -41,12 +42,10 @@ public class MCSprites {
     public static IGuiTexture SCROLLER_H_DARK = SpriteTexture.of(MC).setSprite(48, 48, 16, 16).setBorder(2).setWrapMode(SpriteTexture.WrapMode.REPEAT);
     public static IGuiTexture SWITCH = SpriteTexture.of(MC).setSprite(64, 48, 16, 16).setBorder(2);
 
-
     public static void init(ResourceInstance<IGuiTexture> instance) {
         var provider = new BuiltinResourceProvider<>("ui-mc", instance);
         for (var field : MCSprites.class.getDeclaredFields()) {
-            if (IGuiTexture.class.isAssignableFrom(field.getType())
-                    && Modifier.isStatic(field.getModifiers()) ) {
+            if (IGuiTexture.class.isAssignableFrom(field.getType()) && Modifier.isStatic(field.getModifiers())) {
                 try {
                     var texture = (IGuiTexture) field.get(null);
                     provider.addResource(field.getName(), texture);

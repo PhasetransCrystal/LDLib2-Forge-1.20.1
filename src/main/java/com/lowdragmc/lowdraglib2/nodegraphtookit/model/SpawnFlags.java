@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model;
 
 public enum SpawnFlags {
+
     NONE(0),
     RESERVED0(1),
     RESERVED1(1 << 1),

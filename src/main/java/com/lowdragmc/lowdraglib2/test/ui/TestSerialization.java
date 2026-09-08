@@ -10,10 +10,10 @@ import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.math.Range;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
@@ -21,12 +21,12 @@ import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.ReadOnlyManaged;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.NbtUtils;
@@ -39,7 +39,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.ItemStackHandler;
-import org.appliedenergistics.yoga.YogaFlexDirection;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -48,12 +47,14 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-@LDLRegisterClient(name="serialization", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "serialization", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestSerialization implements IScreenTest {
+
     public class TestData implements IConfigurable, IPersistedSerializable {
+
         @Configurable
-        @ConfigNumber(range = {-5, 5})
+        @ConfigNumber(range = { -5, 5 })
         private float numberFloat = 0.0f;
         @Configurable
         private boolean booleanValue = false;
@@ -68,7 +69,7 @@ public class TestSerialization implements IScreenTest {
         @Configurable
         private Vector3f vector3fValue = new Vector3f(0, 0, 0);
         @Configurable
-        private int[] intArray = new int[]{1, 2, 3};
+        private int[] intArray = new int[] { 1, 2, 3 };
         @Configurable
         private List<Boolean> booleanList = new ArrayList<>(List.of(true, false, true));
         @Configurable
@@ -104,10 +105,11 @@ public class TestSerialization implements IScreenTest {
         }
 
         public static class TestContainer {
+
             @Persisted
             private Vector3f vector3fValue = new Vector3f(0, 0, 0);
             @Persisted
-            private int[] intArray = new int[]{1, 2, 3};
+            private int[] intArray = new int[] { 1, 2, 3 };
         }
 
         @SkipPersistedValue(field = "vector3fValue")
@@ -132,32 +134,34 @@ public class TestSerialization implements IScreenTest {
         }
 
         public static class TestToggleGroup implements IToggleConfigurable {
+
             @Getter
             @Setter
             private boolean isEnable = false;
             @Configurable
-            @ConfigSelector(candidate = {"north", "west", "south", "east"})
+            @ConfigSelector(candidate = { "north", "west", "south", "east" })
             private Direction enumValue = Direction.NORTH;
         }
 
         public static class TestFlattenGroup implements IPersistedSerializable, IConfigurable {
+
             @Configurable
             private Direction flattenEnum = Direction.NORTH;
             @Configurable
-            @ConfigNumber(range = {0, 100}, type = ConfigNumber.Type.INTEGER)
+            @ConfigNumber(range = { 0, 100 }, type = ConfigNumber.Type.INTEGER)
             private Range flattenRange = Range.of(0, 1);
         }
 
         public static class TestGroup implements IConfigurable, IPersistedSerializable {
+
             @Configurable
-            @ConfigNumber(range = {0, 1}, type = ConfigNumber.Type.FLOAT)
+            @ConfigNumber(range = { 0, 1 }, type = ConfigNumber.Type.FLOAT)
             private Range rangeValue = Range.of(0, 1);
             @Configurable
             private Direction enumValue = Direction.NORTH;
             @Configurable
             private Vector3i vector3iValue = new Vector3i(0, 0, 0);
         }
-
     }
 
     TestData data = new TestData();
@@ -193,8 +197,7 @@ public class TestSerialization implements IScreenTest {
                                 }).layout(layout -> layout.flex(1)),
                                 new Button().setText("D nbt").setOnClick(e -> {
                                     data.deserializeNBT(Platform.getFrozenRegistry(), serializedNbt);
-                                }).layout(layout -> layout.flex(1))
-                        ).layout(layout -> layout.flexDirection(FlexDirection.ROW)),
+                                }).layout(layout -> layout.flex(1))).layout(layout -> layout.flexDirection(FlexDirection.ROW)),
                         new UIElement().addChildren(
                                 new Button().setText("S buf").setOnClick(e -> {
                                     serializedBuf = ByteBufUtil.writeCustomData(buf -> data.writeToBuff(buf), Platform.getFrozenRegistry());
@@ -205,10 +208,8 @@ public class TestSerialization implements IScreenTest {
                                         ByteBufUtil.readCustomData(serializedBuf,
                                                 buf -> data.readFromBuff(buf),
                                                 Platform.getFrozenRegistry());
-                                    } catch (Exception ignored) {
-                                    }
-                                }).layout(layout -> layout.flex(1))
-                        ).layout(layout -> layout.flexDirection(FlexDirection.ROW)),
+                                    } catch (Exception ignored) {}
+                                }).layout(layout -> layout.flex(1))).layout(layout -> layout.flexDirection(FlexDirection.ROW)),
                         new ScrollerView().addScrollViewChild(text.textStyle(style -> {
                             style.adaptiveHeight(true);
                             style.textWrap(TextWrap.WRAP);

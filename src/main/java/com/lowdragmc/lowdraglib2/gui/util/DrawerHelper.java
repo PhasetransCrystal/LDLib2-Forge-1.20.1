@@ -3,24 +3,19 @@ package com.lowdragmc.lowdraglib2.gui.util;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibRenderTypes;
-import com.lowdragmc.lowdraglib2.client.shader.LDLibShaders;
-import com.lowdragmc.lowdraglib2.client.shader.management.ShaderProgram;
-import com.lowdragmc.lowdraglib2.client.shader.uniform.UniformCache;
 import com.lowdragmc.lowdraglib2.client.utils.RenderBufferUtils;
-import com.lowdragmc.lowdraglib2.utils.FluidHelper;
-import com.lowdragmc.lowdraglib2.utils.ColorUtils;
-import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Rect;
+import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+import com.lowdragmc.lowdraglib2.utils.FluidHelper;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -30,21 +25,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class DrawerHelper {
@@ -79,7 +72,6 @@ public class DrawerHelper {
             fluidColor = ColorUtils.mulColor(fluidColor, color);
         }
 
-
         var buffer = graphics.bufferSource().getBuffer(LDLibRenderTypes.guiTexture(LOCATION_BLOCKS_TEXTURE));
         RenderSystem.disableDepthTest();
 
@@ -108,10 +100,10 @@ public class DrawerHelper {
 
     public static void drawBorder(@Nonnull GuiGraphics graphics, float x, float y, float width, float height, int color, int border) {
         if (border >= 0) {
-            drawSolidRect(graphics,x - border, y + height, width + 2 * border, border, color);
-            drawSolidRect(graphics,x - border, y, border, height, color);
-            drawSolidRect(graphics,x + width, y, border, height, color);
-            drawSolidRect(graphics,x - border, y - border, width + 2 * border, border, color);
+            drawSolidRect(graphics, x - border, y + height, width + 2 * border, border, color);
+            drawSolidRect(graphics, x - border, y, border, height, color);
+            drawSolidRect(graphics, x + width, y, border, height, color);
+            drawSolidRect(graphics, x - border, y - border, width + 2 * border, border, color);
         } else {
             float absBorder = Math.abs(border);
             drawSolidRect(graphics, x, y, width - absBorder, absBorder, color);
@@ -230,33 +222,32 @@ public class DrawerHelper {
     }
 
     public static void drawGradientRect(@Nonnull GuiGraphics graphics, float x, float y, float width, float height, int startColor, int endColor, boolean horizontal) {
-        float startAlpha = (float)(startColor >> 24 & 255) / 255.0F;
-        float startRed   = (float)(startColor >> 16 & 255) / 255.0F;
-        float startGreen = (float)(startColor >>  8 & 255) / 255.0F;
-        float startBlue  = (float)(startColor       & 255) / 255.0F;
-        float endAlpha   = (float)(endColor   >> 24 & 255) / 255.0F;
-        float endRed     = (float)(endColor   >> 16 & 255) / 255.0F;
-        float endGreen   = (float)(endColor   >>  8 & 255) / 255.0F;
-        float endBlue    = (float)(endColor         & 255) / 255.0F;
+        float startAlpha = (float) (startColor >> 24 & 255) / 255.0F;
+        float startRed = (float) (startColor >> 16 & 255) / 255.0F;
+        float startGreen = (float) (startColor >> 8 & 255) / 255.0F;
+        float startBlue = (float) (startColor & 255) / 255.0F;
+        float endAlpha = (float) (endColor >> 24 & 255) / 255.0F;
+        float endRed = (float) (endColor >> 16 & 255) / 255.0F;
+        float endGreen = (float) (endColor >> 8 & 255) / 255.0F;
+        float endBlue = (float) (endColor & 255) / 255.0F;
         var buffer = graphics.bufferSource().getBuffer(RenderType.guiOverlay());
         RenderSystem.disableDepthTest();
         RenderSystem.blendFuncSeparate(
                 GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                 GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
-        );
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         Matrix4f mat = graphics.pose().last().pose();
         if (horizontal) {
-            buffer.vertex(mat,x + width, y, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
-            buffer.vertex(mat,x, y, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
-            buffer.vertex(mat,x, y + height, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
-            buffer.vertex(mat,x + width, y + height, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
+            buffer.vertex(mat, x + width, y, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
+            buffer.vertex(mat, x, y, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
+            buffer.vertex(mat, x, y + height, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
+            buffer.vertex(mat, x + width, y + height, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
         } else {
-            buffer.vertex(mat,x + width, y, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
-            buffer.vertex(mat,x, y, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
-            buffer.vertex(mat,x, y + height, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
-            buffer.vertex(mat,x + width, y + height, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
+            buffer.vertex(mat, x + width, y, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
+            buffer.vertex(mat, x, y, 0).color(startRed, startGreen, startBlue, startAlpha).endVertex();
+            buffer.vertex(mat, x, y + height, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
+            buffer.vertex(mat, x + width, y + height, 0).color(endRed, endGreen, endBlue, endAlpha).endVertex();
         }
     }
 

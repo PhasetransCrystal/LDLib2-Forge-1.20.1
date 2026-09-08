@@ -1,14 +1,15 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.node;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortType;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.CapsuleNodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphElement;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.CapsuleNodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Capabilities;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ContextualMenuItem;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.TypeConstant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.NodeDefinitionScope;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConstantNodeModel extends NodeModel implements ISingleOutputPortNodeModel {
+
     public final static String OUTPUT_PORT_ID = "Output_0";
     @Getter
     private Constant constant;
@@ -55,6 +57,7 @@ public class ConstantNodeModel extends NodeModel implements ISingleOutputPortNod
 
     /**
      * Sets the value of the constant.
+     * 
      * @param value the value to set.
      */
     public void setConstantValue(Object value) {
@@ -98,8 +101,8 @@ public class ConstantNodeModel extends NodeModel implements ISingleOutputPortNod
     }
 
     protected static final List<ContextualMenuItem> MENU_ITEMS = List.of(
-//            ContextualMenuHelpers.convertToVariableItem,
-//            new ContextualMenuItem(ContextualMenuHelpers.itemizeItem, 0),
+    // ContextualMenuHelpers.convertToVariableItem,
+    // new ContextualMenuItem(ContextualMenuHelpers.itemizeItem, 0),
     );
 
     @Override

@@ -4,6 +4,7 @@ package com.lowdragmc.lowdraglib2.syncdata.var;
  * Var is an interface to access and modify a value.
  */
 public interface IVar<TYPE> {
+
     /**
      * Get the internal value.
      */

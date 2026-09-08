@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler
 import com.lowdragmc.lowdraglib2.utils.search.ISearch
+
 import java.util.function.Consumer
 
 /**
@@ -18,15 +19,7 @@ fun <T> SearchComponent<T>.searchStyleDsl(init: SearchComponent<T>.SearchStyle.(
 /**
  * Specification for SearchComponent element
  */
-open class SearchComponentSpec<T, E : SearchComponent<T>>(
-    var searchStyle: (SearchComponent<T>.SearchStyle.() -> Unit)? = null,
-    var searchUI: SearchComponent.ISearchUI<T>? = null,
-    var candidateUIProvider: UIElementProvider<T>? = null,
-    var selectedValue: T? = null,
-    var onValueChanged: Consumer<T>? = null,
-    var searchOnServer: Boolean? = null,
-    var serverSearchClass: Class<Array<T>>? = null,
-) : ElementSpec<E>() {
+open class SearchComponentSpec<T, E : SearchComponent<T>>(var searchStyle: (SearchComponent<T>.SearchStyle.() -> Unit)? = null, var searchUI: SearchComponent.ISearchUI<T>? = null, var candidateUIProvider: UIElementProvider<T>? = null, var selectedValue: T? = null, var onValueChanged: Consumer<T>? = null, var searchOnServer: Boolean? = null, var serverSearchClass: Class<Array<T>>? = null) : ElementSpec<E>() {
 
     // --- new: DSL-based searchUI builder ---
     var searchUIDsl: (SearchUiScope<T>.() -> Unit)? = null
@@ -93,7 +86,7 @@ open class SearchComponentSpec<T, E : SearchComponent<T>>(
 class SearchUiScope<T> internal constructor() {
     internal var resultText: (T) -> String = { it.toString() }
     internal var onSelected: (T?) -> Unit = {}
-    internal var search: ((word: String, find:IResultHandler<T>) -> Unit)? = null
+    internal var search: ((word: String, find: IResultHandler<T>) -> Unit)? = null
 
     fun resultText(block: (T) -> String) {
         resultText = block
@@ -129,14 +122,9 @@ class SearchUiScope<T> internal constructor() {
 /**
  * SearchComponent element builder
  */
-open class SearchComponentElement<T, E : SearchComponent<T>>(
-    element: E,
-    spec: (SearchComponentSpec<T, E>.() -> Unit)? = null,
-) : UIContainer<E, SearchComponentSpec<T, E>>(element, spec) {
+open class SearchComponentElement<T, E : SearchComponent<T>>(element: E, spec: (SearchComponentSpec<T, E>.() -> Unit)? = null) : UIContainer<E, SearchComponentSpec<T, E>>(element, spec) {
 
-    override fun makeSpec(): SearchComponentSpec<T, E>? {
-        return spec?.let { SearchComponentSpec<T, E>().apply(it) }
-    }
+    override fun makeSpec(): SearchComponentSpec<T, E>? = spec?.let { SearchComponentSpec<T, E>().apply(it) }
 
     override fun build(spec: SearchComponentSpec<T, E>?): E {
         val e = super.build(spec)
@@ -170,25 +158,17 @@ open class SearchComponentElement<T, E : SearchComponent<T>>(
 /**
  * Top Level - Create a standalone SearchComponent element
  */
-fun <T> searchComponent(spec: (SearchComponentSpec<T, SearchComponent<T>>.() -> Unit)? = null,
-                        init: SearchComponentElement<T, SearchComponent<T>>.() -> Unit = {}): SearchComponent<T> {
-    return SearchComponentElement(SearchComponent<T>(), spec).apply(init).build()
-}
+fun <T> searchComponent(spec: (SearchComponentSpec<T, SearchComponent<T>>.() -> Unit)? = null, init: SearchComponentElement<T, SearchComponent<T>>.() -> Unit = {}): SearchComponent<T> = SearchComponentElement(SearchComponent<T>(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add SearchComponent as a child to a container
  */
-fun <T> UIContainer<*, *>.searchComponent(spec: (SearchComponentSpec<T, SearchComponent<T>>.() -> Unit)? = null,
-                                          init: SearchComponentElement<T, SearchComponent<T>>.() -> Unit = {}) =
-    add(SearchComponentElement(SearchComponent<T>(), spec), init)
+fun <T> UIContainer<*, *>.searchComponent(spec: (SearchComponentSpec<T, SearchComponent<T>>.() -> Unit)? = null, init: SearchComponentElement<T, SearchComponent<T>>.() -> Unit = {}) = add(SearchComponentElement(SearchComponent<T>(), spec), init)
 
 /**
  * DSL converter - Convert existing SearchComponent to DSL builder
  */
-fun <T> SearchComponent<T>.dsl(spec: (SearchComponentSpec<T, SearchComponent<T>>.() -> Unit)? = null,
-                               init: SearchComponentElement<T, SearchComponent<T>>.() -> Unit = {}): SearchComponentElement<T, SearchComponent<T>> {
-    return SearchComponentElement(this, spec).apply(init)
-}
+fun <T> SearchComponent<T>.dsl(spec: (SearchComponentSpec<T, SearchComponent<T>>.() -> Unit)? = null, init: SearchComponentElement<T, SearchComponent<T>>.() -> Unit = {}): SearchComponentElement<T, SearchComponent<T>> = SearchComponentElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

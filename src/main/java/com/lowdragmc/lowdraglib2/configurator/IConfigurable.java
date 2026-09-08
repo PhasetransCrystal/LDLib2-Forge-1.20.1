@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.registry.ILDLRegister;
 import com.lowdragmc.lowdraglib2.registry.ILDLRegisterClient;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -12,8 +13,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public interface IConfigurable {
+
     static IConfigurable create(Consumer<ConfiguratorGroup> consumer) {
         return new IConfigurable() {
+
             @Override
             @OnlyIn(Dist.CLIENT)
             public void buildConfigurator(ConfiguratorGroup father) {
@@ -24,6 +27,7 @@ public interface IConfigurable {
 
     /**
      * Add configurators into given group
+     * 
      * @param father father group
      */
     @OnlyIn(Dist.CLIENT)
@@ -60,9 +64,8 @@ public interface IConfigurable {
      * Obtain the name of this configurable
      */
     default String getConfigurableName() {
-        if (this instanceof ILDLRegister<?,?> register) return register.name();
-        if (this instanceof ILDLRegisterClient<?,?> register) return register.name();
+        if (this instanceof ILDLRegister<?, ?> register) return register.name();
+        if (this instanceof ILDLRegisterClient<?, ?> register) return register.name();
         return getClass().getSimpleName();
     }
-
 }

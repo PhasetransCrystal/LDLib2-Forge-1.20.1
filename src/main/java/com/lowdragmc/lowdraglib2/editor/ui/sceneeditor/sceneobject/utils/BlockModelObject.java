@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.utils;
 
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneRendering;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.SceneObject;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,10 +13,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockModelObject extends SceneObject implements ISceneRendering {
+
     public BlockState blockState = Blocks.STONE.defaultBlockState();
 
-    public BlockModelObject() {
-    }
+    public BlockModelObject() {}
 
     @Override
     @OnlyIn(Dist.CLIENT)

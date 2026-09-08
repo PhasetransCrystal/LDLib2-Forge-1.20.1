@@ -1,10 +1,11 @@
 package com.lowdragmc.lowdraglib2.configurator.accessors;
 
+import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
-import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
-import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import org.jetbrains.annotations.Nullable;
@@ -47,13 +48,13 @@ public class Vector3iAccessor extends TypesAccessor<Vector3i> {
                         defaultValue(field).y, forceUpdate),
                 z = new NumberConfigurator("z", () -> supplier.get().z,
                         v -> consumer.accept(new Vector3i(supplier.get().x, supplier.get().y, v.intValue())),
-                        defaultValue(field).z, forceUpdate)
-        ).layout(layout -> {
-            layout.gapAll(2);
-            layout.marginLeft(2);
-            layout.flexDirection(FlexDirection.ROW);
-            layout.wrap(FlexWrap.WRAP);
-        });
+                        defaultValue(field).z, forceUpdate))
+                .layout(layout -> {
+                    layout.gapAll(2);
+                    layout.marginLeft(2);
+                    layout.flexDirection(FlexDirection.ROW);
+                    layout.wrap(FlexWrap.WRAP);
+                });
         x.layout(layout -> {
             layout.flex(1);
             layout.minWidth(40);
@@ -80,5 +81,4 @@ public class Vector3iAccessor extends TypesAccessor<Vector3i> {
         configurator.setPastable(Vector3i.class, consumer);
         return configurator;
     }
-
 }

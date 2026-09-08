@@ -2,7 +2,9 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
+
 import net.minecraft.network.chat.Component
+
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -17,15 +19,7 @@ fun <T : Tab> T.tabStyleDsl(init: Tab.TabStyle.() -> Unit = {}): T {
 /**
  * Specification for Tab element
  */
-open class TabSpec<T : Tab>(
-    var tabStyle: (Tab.TabStyle.() -> Unit)? = null,
-    var text: Component? = null,
-    var dynamicText: Supplier<Component>? = null,
-    var textStyle: (TextElement.TextStyle.() -> Unit)? = null,
-    var selected: Boolean? = null,
-    var onTabSelected: Runnable? = null,
-    var onTabUnselected: Runnable? = null,
-) : ElementSpec<T>() {
+open class TabSpec<T : Tab>(var tabStyle: (Tab.TabStyle.() -> Unit)? = null, var text: Component? = null, var dynamicText: Supplier<Component>? = null, var textStyle: (TextElement.TextStyle.() -> Unit)? = null, var selected: Boolean? = null, var onTabSelected: Runnable? = null, var onTabUnselected: Runnable? = null) : ElementSpec<T>() {
     /**
      * Set static text with translation
      */
@@ -86,13 +80,8 @@ open class TabSpec<T : Tab>(
 /**
  * Tab element builder
  */
-open class TabElement<T : Tab>(
-    element: T,
-    spec: (TabSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, TabSpec<T>>(element, spec) {
-    override fun makeSpec(): TabSpec<T>? {
-        return spec?.let { TabSpec<T>().apply(it) }
-    }
+open class TabElement<T : Tab>(element: T, spec: (TabSpec<T>.() -> Unit)? = null) : UIContainer<T, TabSpec<T>>(element, spec) {
+    override fun makeSpec(): TabSpec<T>? = spec?.let { TabSpec<T>().apply(it) }
 
     override fun build(spec: TabSpec<T>?): T {
         val e = super.build(spec)
@@ -119,25 +108,17 @@ open class TabElement<T : Tab>(
 /**
  * Top Level - Create a standalone Tab element
  */
-fun tab(spec: (TabSpec<Tab>.() -> Unit)? = null,
-        init: TabElement<Tab>.() -> Unit = {}): Tab {
-    return TabElement(Tab(), spec).apply(init).build()
-}
+fun tab(spec: (TabSpec<Tab>.() -> Unit)? = null, init: TabElement<Tab>.() -> Unit = {}): Tab = TabElement(Tab(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Tab as a child to a container
  */
-fun UIContainer<*, *>.tab(spec: (TabSpec<Tab>.() -> Unit)? = null,
-                          init: TabElement<Tab>.() -> Unit = {}) =
-    add(TabElement(Tab(), spec), init)
+fun UIContainer<*, *>.tab(spec: (TabSpec<Tab>.() -> Unit)? = null, init: TabElement<Tab>.() -> Unit = {}) = add(TabElement(Tab(), spec), init)
 
 /**
  * DSL converter - Convert existing Tab to DSL builder
  */
-fun <T : Tab> T.dsl(spec: (TabSpec<T>.() -> Unit)? = null,
-                    init: TabElement<T>.() -> Unit = {}): TabElement<T> {
-    return TabElement(this, spec).apply(init)
-}
+fun <T : Tab> T.dsl(spec: (TabSpec<T>.() -> Unit)? = null, init: TabElement<T>.() -> Unit = {}): TabElement<T> = TabElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

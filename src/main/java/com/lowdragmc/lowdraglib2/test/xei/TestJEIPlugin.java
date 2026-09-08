@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.test.xei;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.integration.xei.jei.ModularUIRecipeCategory;
 import com.lowdragmc.lowdraglib2.test.TestItem;
+
 import lombok.Getter;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IJeiHelpers;
@@ -13,10 +14,12 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public class TestJEIPlugin {
+
     protected static final RecipeType<TestRecipe> RECIPE_TYPE = new RecipeType<>(LDLib2.id("test_category"), TestRecipe.class);
 
     public static void registerCategories(IRecipeCategoryRegistration registration) {
@@ -30,6 +33,7 @@ public class TestJEIPlugin {
     @MethodsReturnNonnullByDefault
     @ParametersAreNonnullByDefault
     private static class TestModularUIRecipeCategory extends ModularUIRecipeCategory<TestRecipe> {
+
         @Getter
         private final IDrawable icon;
         @Getter

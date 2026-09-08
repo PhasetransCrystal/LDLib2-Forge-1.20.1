@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.gui.sync.bindings.impl;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.IDataProvider;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.IObserver;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
+
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class TrackData<T> implements IDataProvider<T>, IObserver<T> {
+
     @Getter
     private T value;
     private final List<Consumer<T>> listeners = new ArrayList<>();

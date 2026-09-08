@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.Grid;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.TaffyCodecs;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.GridValue;
+
 import lombok.experimental.Accessors;
 
 import java.util.Objects;
@@ -18,6 +19,7 @@ import java.util.function.Supplier;
  */
 @Accessors(chain = true)
 public class GridProperty extends Property<Grid> {
+
     public GridProperty(String name, Grid initialValue) {
         super(name, Grid.class, TaffyCodecs.GRID_CODEC, initialValue, GridValue::new);
     }
@@ -34,16 +36,15 @@ public class GridProperty extends Property<Grid> {
                     }
                 },
                 "auto",
-                true
-        ).setTextValidator(str -> GridValue.parse(str) != null);
+                true).setTextValidator(str -> GridValue.parse(str) != null);
         configurator.setSupplier(() -> {
             var current = configurator.getValue();
             var latest = GridValue.toString(getter.get());
             if (Objects.equals(current, latest) ||
-                    Objects.equals(GridValue.parse(latest), GridValue.parse(current))) return current;
+                    Objects.equals(GridValue.parse(latest), GridValue.parse(current)))
+                return current;
             return latest;
         });
         return configurator;
     }
-
 }

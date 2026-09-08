@@ -2,6 +2,11 @@ package com.lowdragmc.lowdraglib2.networking;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.compat.network.ConnectionType;
+import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
+import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
 import com.lowdragmc.lowdraglib2.networking.both.PacketModularUISync;
 import com.lowdragmc.lowdraglib2.networking.both.PacketRPCBlockEntity;
 import com.lowdragmc.lowdraglib2.networking.both.PacketRPCPacket;
@@ -9,11 +14,9 @@ import com.lowdragmc.lowdraglib2.networking.both.PacketUIRPCEvent;
 import com.lowdragmc.lowdraglib2.networking.both.PacketUIRPCEventReturn;
 import com.lowdragmc.lowdraglib2.networking.s2c.SPacketAutoSyncBlockEntity;
 import com.lowdragmc.lowdraglib2.networking.s2c.SPacketOpenUIEditor;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
-import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -24,8 +27,6 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
-import com.lowdragmc.lowdraglib2.compat.network.ConnectionType;
-import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.Optional;
@@ -38,6 +39,7 @@ import java.util.function.Supplier;
  * Description:
  */
 public class LDLNetworking {
+
     private static final String NETWORK_VERSION = "5";
     public static SimpleChannel CHANNEL;
 
@@ -63,11 +65,11 @@ public class LDLNetworking {
     }
 
     private static <MSG extends CustomPacketPayload> void register(
-            int id,
-            Class<MSG> type,
-            StreamCodec<RegistryFriendlyByteBuf, MSG> codec,
-            BiConsumer<MSG, IPayloadContext> handler,
-            Optional<NetworkDirection> direction) {
+                                                                   int id,
+                                                                   Class<MSG> type,
+                                                                   StreamCodec<RegistryFriendlyByteBuf, MSG> codec,
+                                                                   BiConsumer<MSG, IPayloadContext> handler,
+                                                                   Optional<NetworkDirection> direction) {
         CHANNEL.registerMessage(id, type,
                 (message, buffer) -> codec.encode(wrap(buffer), message),
                 buffer -> codec.decode(wrap(buffer)),
@@ -108,6 +110,7 @@ public class LDLNetworking {
     }
 
     private record PayloadContext(NetworkEvent.Context context) implements IPayloadContext {
+
         @Override
         public Player player() {
             var sender = context.getSender();
@@ -125,5 +128,4 @@ public class LDLNetworking {
     private static Player clientPlayer() {
         return Minecraft.getInstance().player;
     }
-
 }

@@ -2,14 +2,15 @@ package com.lowdragmc.lowdraglib2.gui.texture;
 
 import com.lowdragmc.lowdraglib2.client.shader.LDLibShaders;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
-import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Transform2D;
+import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -29,13 +30,15 @@ import static com.mojang.blaze3d.vertex.DefaultVertexFormat.*;
 @LDLRegisterClient(name = "sdf_rect_texture", registry = "ldlib2:gui_texture")
 @Accessors(chain = true)
 public class SDFRectTexture extends TransformTexture {
+
     @Getter
     @Configurable
-    @ConfigNumber(range = {0f, Float.MAX_VALUE}, wheel = 1)
+    @ConfigNumber(range = { 0f, Float.MAX_VALUE }, wheel = 1)
     private Vector4f radius = new Vector4f(0, 0, 0, 0);
-    @Getter @Setter
+    @Getter
+    @Setter
     @Configurable
-    @ConfigNumber(range = {0f, Float.MAX_VALUE}, wheel = 1)
+    @ConfigNumber(range = { 0f, Float.MAX_VALUE }, wheel = 1)
     private float stroke = 0;
     @Getter
     @Configurable
@@ -114,7 +117,7 @@ public class SDFRectTexture extends TransformTexture {
         if (context.elementColor == -1) {
             drawInternalWithColorVecs(context.graphics, x, y, width, height, colorVec4, borderColorVec4);
         } else {
-            var blendedFill   = ColorUtils.toVector4f(ColorUtils.mulColor(color,       context.elementColor));
+            var blendedFill = ColorUtils.toVector4f(ColorUtils.mulColor(color, context.elementColor));
             var blendedBorder = ColorUtils.toVector4f(ColorUtils.mulColor(borderColor, context.elementColor));
             drawInternalWithColorVecs(context.graphics, x, y, width, height, blendedFill, blendedBorder);
         }
@@ -144,8 +147,7 @@ public class SDFRectTexture extends TransformTexture {
                 GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                 GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
-        );
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         RenderSystem.disableDepthTest();
 
         RenderSystem.setShader(LDLibShaders::getSDFRect);

@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.editor.project;
 
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.nbt.NbtIo;
@@ -13,6 +14,7 @@ import java.util.function.Supplier;
 @Getter
 @AllArgsConstructor
 public class ProjectType {
+
     public final IGuiTexture icon;
     public final String name;
     public final String suffix;
@@ -28,8 +30,8 @@ public class ProjectType {
      * This method determines and returns the root directory where the project data
      * will be saved or accessed during operations.
      *
-     * @param project The {@link IProject} instance for which the root save path is to be determined.
-     *                This project should provide relevant information for path resolution.
+     * @param project     The {@link IProject} instance for which the root save path is to be determined.
+     *                    This project should provide relevant information for path resolution.
      * @param projectRoot The {@link File} instance representing the root directory of the project.
      *                    Must be a valid directory and accessible.
      * @return The {@link File} instance representing the resolved root save path for the given project.
@@ -41,7 +43,7 @@ public class ProjectType {
     /**
      * Retrieves the default file to prefill when saving the given project.
      *
-     * @param project The {@link IProject} instance for which the default save file is to be determined.
+     * @param project     The {@link IProject} instance for which the default save file is to be determined.
      * @param projectRoot The {@link File} instance representing the root directory of the project.
      * @return The default save file.
      */
@@ -91,9 +93,11 @@ public class ProjectType {
      * Checks if a project is "dirty" compared to its serialized file representation. A project is considered "dirty"
      * if its serialized data differs from the data stored in the file.
      *
-     * @param project The {@link IProject} instance to verify. This project must be initialized and provide serialization
+     * @param project The {@link IProject} instance to verify. This project must be initialized and provide
+     *                serialization
      *                capabilities via {@code serializeNBT}.
-     * @param file    The {@link File} to compare against. The file must exist and contain valid serialized project data.
+     * @param file    The {@link File} to compare against. The file must exist and contain valid serialized project
+     *                data.
      * @return {@code true} if the project's serialized data is different from the file's serialized data,
      *         {@code false} otherwise.
      * @throws Exception If an error occurs while serializing the project or reading the file.

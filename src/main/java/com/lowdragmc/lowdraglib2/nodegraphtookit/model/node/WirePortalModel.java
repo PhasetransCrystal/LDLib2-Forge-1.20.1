@@ -4,26 +4,29 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortType;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandleHelpers;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.CapsuleNodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphElement;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.CapsuleNodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Capabilities;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.DeclarationModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.PlaceholderModelHelper;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
 public abstract class WirePortalModel extends NodeModel implements IHasDeclarationModel {
-    @Persisted @Getter @Setter(AccessLevel.PROTECTED)
+
+    @Persisted
+    @Getter
+    @Setter(AccessLevel.PROTECTED)
     private int evaluationOrder;
     @Nullable
     private DeclarationModel declarationModel;
@@ -118,13 +121,15 @@ public abstract class WirePortalModel extends NodeModel implements IHasDeclarati
      * declaration. All other portals that share the same declaration update together, which is
      * the intended semantics.
      *
-     * <p>After the declaration update we explicitly mark every portal referencing this
+     * <p>
+     * After the declaration update we explicitly mark every portal referencing this
      * declaration as DATA-changed. The declaration is not itself a UI element (it's a sidecar
      * model owned by the graph), so the change tracker's "update the dependent UIs" path is the
      * only way to refresh portals — and a stale dependency wiring on the just-rebuilt rename
      * source has bitten us in practice (renaming portal A updates B but not A until A is
      * re-rendered for another reason). Fanning out here makes refresh deterministic regardless
-     * of dependency wiring.</p>
+     * of dependency wiring.
+     * </p>
      */
     @Override
     public void setName(String value) {

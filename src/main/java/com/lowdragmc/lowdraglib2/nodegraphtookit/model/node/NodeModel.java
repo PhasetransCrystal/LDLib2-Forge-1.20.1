@@ -15,6 +15,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.SubPortCustomCon
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.TypeConstant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.NodeDefinitionScope;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.SubPortDefinitionScope;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -34,9 +35,12 @@ import static com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodeOption.PO
 /**
  * Node model implementation for user-defined nodes.
  *
- * <p>This model backs a {@link Node} instance and provides the implementation for ports and options.</p>
+ * <p>
+ * This model backs a {@link Node} instance and provides the implementation for ports and options.
+ * </p>
  */
 public abstract class NodeModel extends InputOutputPortsNodeModel implements INodeWithOptions {
+
     @Getter
     protected Map<String, Constant> inputConstantsById;
     @Getter
@@ -60,9 +64,11 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
      * (phase 1 has no codec context) and {@code withoutSerialization} ports would retain
      * the typeHandle default instead of the builder default.
      *
-     * <p>Entries are removed as they are consumed in {@link #updateConstantForInput}, and the
+     * <p>
+     * Entries are removed as they are consumed in {@link #updateConstantForInput}, and the
      * whole map is cleared at the end of {@code defineNode} so subsequent in-session
-     * {@code defineNode} calls don't re-apply stale tags.</p>
+     * {@code defineNode} calls don't re-apply stale tags.
+     * </p>
      */
     @Nullable
     protected transient Map<String, CompoundTag> pendingConstantTags;
@@ -133,6 +139,7 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
 
     /**
      * Changes the node mode.
+     * 
      * @param modeIndex the index of the mode to change to
      */
     public void changeMode(int modeIndex) {
@@ -140,7 +147,8 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
     }
 
     /**
-     * Creates a new {@link NodeDefinitionScope} instance which provides methods to instantiate ports/options on the nodes.
+     * Creates a new {@link NodeDefinitionScope} instance which provides methods to instantiate ports/options on the
+     * nodes.
      */
     protected NodeDefinitionScope<? extends NodeModel> createNodeDefinitionScope() {
         return new NodeDefinitionScope<>(this);
@@ -215,8 +223,7 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
     /**
      * Called by {@link #defineNode()} before the port lists are modified.
      */
-    protected void onPreDefineNode() {
-    }
+    protected void onPreDefineNode() {}
 
     protected abstract void onDefineNode(NodeDefinitionScope<? extends NodeModel> scope);
 
@@ -274,11 +281,11 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
             nextList = c;
         }
 
-        //Add sub port in the ordered list at the right place.
+        // Add sub port in the ordered list at the right place.
 
         int start, end;
 
-        if( singlePort != null) {
+        if (singlePort != null) {
             start = portInfos.portsById.values().indexOf(singlePort);
             end = start + 1;
         } else {
@@ -286,8 +293,8 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
             end = portInfos.portsById.size();
         }
 
-        for (int i = start; i < end ; ++i) {
-            //note: this will add sub port recursively.
+        for (int i = start; i < end; ++i) {
+            // note: this will add sub port recursively.
             var port = portInfos.portsById.get(i);
             if (!port.getSubPorts().isEmpty()) {
                 portInfos.portsById.insertRange(i + 1, port.getSubPorts());
@@ -324,15 +331,15 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
         for (var entry : inputPortInfos.previousPorts.entrySet()) {
             if (inputPortInfos.portsById.containsKey(entry.getKey())) continue;
             var portModel = entry.getValue();
-            if (!portModel.getOptions().hasFlag(PortModelOptions.NODE_OPTION)
-                    && !portModel.portType.equals(PortType.MISSING_PORT)) {
+            if (!portModel.getOptions().hasFlag(PortModelOptions.NODE_OPTION) && !portModel.portType.equals(PortType.MISSING_PORT)) {
                 disconnectPort(portModel);
                 if (graphModel != null) {
                     graphModel.unregisterPort(portModel);
                 }
                 removedPortModels.add(portModel);
             } else if (portModel.portType.equals(PortType.MISSING_PORT) && !portModel.getConnectedWires().isEmpty()) {
-                // Prevents added missing ports that aren't obsolete yet from being overwritten by newly instantiated ports in OnDefineNode().
+                // Prevents added missing ports that aren't obsolete yet from being overwritten by newly instantiated
+                // ports in OnDefineNode().
                 inputPortInfos.portsById.add(portModel);
             }
         }
@@ -340,15 +347,15 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
         for (var entry : outputPortInfos.previousPorts.entrySet()) {
             if (outputPortInfos.portsById.containsKey(entry.getKey())) continue;
             var portModel = entry.getValue();
-            if (!portModel.getOptions().hasFlag(PortModelOptions.NODE_OPTION)
-                    && !portModel.portType.equals(PortType.MISSING_PORT)) {
+            if (!portModel.getOptions().hasFlag(PortModelOptions.NODE_OPTION) && !portModel.portType.equals(PortType.MISSING_PORT)) {
                 disconnectPort(portModel);
                 if (graphModel != null) {
                     graphModel.unregisterPort(portModel);
                 }
                 removedPortModels.add(portModel);
             } else if (portModel.portType.equals(PortType.MISSING_PORT) && !portModel.getConnectedWires().isEmpty()) {
-                // Prevents added missing ports that aren't obsolete yet from being overwritten by newly instantiated ports in OnDefineNode().
+                // Prevents added missing ports that aren't obsolete yet from being overwritten by newly instantiated
+                // ports in OnDefineNode().
                 outputPortInfos.portsById.add(portModel);
             }
         }
@@ -360,8 +367,7 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
 
         // remove input constants that aren't used
         var idsToDelete = inputConstantsById.keySet().stream()
-                .filter(id -> !inputPortInfos.portsById.containsKey(id)
-                        && nodeOptions.stream().noneMatch(o -> o.portModel.getUniqueName().equals(id)))
+                .filter(id -> !inputPortInfos.portsById.containsKey(id) && nodeOptions.stream().noneMatch(o -> o.portModel.getUniqueName().equals(id)))
                 .toList();
         for (var id : idsToDelete) {
             inputConstantsById.remove(id);
@@ -383,6 +389,7 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
 
     /**
      * Deletes all the wires connected to a given port.
+     * 
      * @param portModel The port model to disconnect.
      */
     protected void disconnectPort(PortModel portModel) {
@@ -396,12 +403,12 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
      * Adds an input port to this node.
      */
     public PortModel addInputPort(String portId,
-                             TypeHandle dataType,
-                             @Nullable PortType portType,
-                             @Nullable PortOrientation orientation,
-                             @Nullable PortModelOptions options,
-                             @Nullable Consumer<Constant> initializationCallback,
-                             @Nullable Consumer<Object> setterAction) {
+                                  TypeHandle dataType,
+                                  @Nullable PortType portType,
+                                  @Nullable PortOrientation orientation,
+                                  @Nullable PortModelOptions options,
+                                  @Nullable Consumer<Constant> initializationCallback,
+                                  @Nullable Consumer<Object> setterAction) {
         if (options == null) options = PortModelOptions.NONE;
         if (orientation == null) orientation = PortOrientation.Horizontal;
         if (portType == null) portType = PortType.DEFAULT;
@@ -490,9 +497,9 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
     }
 
     public PortModel addSubPort(PortModel parent,
-                                   String portId,
-                                   TypeHandle dataType,
-                                   @Nullable PortModelOptions options) {
+                                String portId,
+                                TypeHandle dataType,
+                                @Nullable PortModelOptions options) {
         var port = commonAddSubPort(parent, portId, dataType, options);
         port.setComputedConstant(null);
         return port;
@@ -527,7 +534,8 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
 
         var portId = PORT_ID_PREFIX + optionId;
 
-        // Now constants for NodeOptions have NodeOption.k_OptionIdPrefix in their id. We need to migrate constants with no prefix to the new id.
+        // Now constants for NodeOptions have NodeOption.k_OptionIdPrefix in their id. We need to migrate constants with
+        // no prefix to the new id.
         if (!isNodeOptionConstantsMigrated() && !inputConstantsById.containsKey(portId)) {
             Constant oldConstant = inputConstantsById.remove(optionId);
             if (oldConstant != null) {
@@ -535,7 +543,8 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
             }
         }
 
-        // A node option consists in a no connector port with extra info. We add a prefix to avoid id conflicts with regular ports.
+        // A node option consists in a no connector port with extra info. We add a prefix to avoid id conflicts with
+        // regular ports.
         var noConnectorPort = addNoConnectorInputPort(portId, dataType, PortType.DEFAULT, PortOrientation.Horizontal, PortModelOptions.NODE_OPTION, initializationCallback, setterAction);
         noConnectorPort.setTitle(Component.translatable(optionId));
 
@@ -552,15 +561,14 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
     /**
      * Updates an input port's constant.
      *
-     * @param inputPort               the port to update
-     * @param initializationCallback  initialization method for the constant
-     * @param setterAction            method called after the constant value changes
+     * @param inputPort              the port to update
+     * @param initializationCallback initialization method for the constant
+     * @param setterAction           method called after the constant value changes
      */
     protected void updateConstantForInput(
-            PortModel inputPort,
-            @Nullable Consumer<Constant> initializationCallback,
-            @Nullable Consumer<Object> setterAction
-    ) {
+                                          PortModel inputPort,
+                                          @Nullable Consumer<Constant> initializationCallback,
+                                          @Nullable Consumer<Object> setterAction) {
         var id = inputPort.getUniqueName();
         if (inputPort.options.hasFlag(PortModelOptions.NO_EMBEDDED_CONSTANT)) {
             inputConstantsById.remove(id);
@@ -640,8 +648,10 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
     }
 
     /**
-     * Searches for a reusable port in the previous ports or the GraphModel. If a reusable port is found, it is returned. Otherwise, null is returned.
+     * Searches for a reusable port in the previous ports or the GraphModel. If a reusable port is found, it is
+     * returned. Otherwise, null is returned.
      * On return, the port must have the passed direction, type and data type.
+     * 
      * @return A port that has the passed direction, type and data type.
      */
     @Nullable
@@ -669,12 +679,12 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
         return null;
     }
 
-
     /**
      * Reuses an existing port model if a reusable one matching the provided parameters is found.
      * Otherwise, a new port model is created with the given options and parameters. The method also
      * handles registering the port model with the graph model and establishing any required
      * parent-child relationships for hierarchical ports.
+     * 
      * @return The reused or newly created {@link PortModel} instance.
      */
     protected PortModel reuseOrCreatePortModel(PortDirection direction,
@@ -685,7 +695,8 @@ public abstract class NodeModel extends InputOutputPortsNodeModel implements INo
                                                PortModelOptions options,
                                                PortInfos portInfos,
                                                @Nullable PortModel parentPort) {
-        // If a port is added outside onDefineNode, clear the visible ports list to force a rebuild. ( Case of missing ports )
+        // If a port is added outside onDefineNode, clear the visible ports list to force a rebuild. ( Case of missing
+        // ports )
         if (!isCurrentlyDefiningNode) {
             getPortInfos(direction).orderedVisiblePorts.clear();
         }

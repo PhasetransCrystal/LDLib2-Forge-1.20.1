@@ -5,18 +5,20 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModelBase;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.IGroupItemModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.*;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
-
 
 import java.util.List;
 import java.util.UUID;
 
 public final class VariableDeclarationCommands {
+
     /**
      * Command to create a variable.
      */
     public static class CreateGraphVariableDeclarationCommand extends UndoableGraphCommand {
+
         public static final Component NAME = Component.translatable("graph.commands.create_variable");
 
         /**
@@ -97,8 +99,7 @@ public final class VariableDeclarationCommands {
                     .setModifiers(newVariableDeclaration.getModifiers())
                     .setScope(scope)
                     .setTypeHandle(typeHandle)
-                    .setVariableType(variableType)
-            );
+                    .setVariableType(variableType));
 
             graphModel.updateSubGraphs();
 
@@ -122,6 +123,7 @@ public final class VariableDeclarationCommands {
      * removes from the previous parent automatically.
      */
     public static class MoveGroupItemCommand extends UndoableGraphCommand {
+
         public static final Component NAME = Component.translatable("graph.commands.move_group_item");
         private final IGroupItemModel item;
         private final GroupModelBase targetGroup;
@@ -147,12 +149,13 @@ public final class VariableDeclarationCommands {
     }
 
     public static class ChangeVariableModifiersCommand extends UndoableGraphCommand {
+
         public static final Component NAME = Component.translatable("graph.commands.change_variable_modifiers");
 
         public List<? extends VariableDeclarationModelBase> variableDeclarationModels;
         public ModifierFlags modifierFlags;
 
-        public ChangeVariableModifiersCommand( List<? extends VariableDeclarationModelBase> variableDeclarationModels, ModifierFlags modifierFlags) {
+        public ChangeVariableModifiersCommand(List<? extends VariableDeclarationModelBase> variableDeclarationModels, ModifierFlags modifierFlags) {
             this.variableDeclarationModels = variableDeclarationModels;
             this.modifierFlags = modifierFlags;
         }

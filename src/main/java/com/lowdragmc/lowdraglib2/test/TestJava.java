@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestJava {
+
     public class A<T> {
+
         public List<T> list;
         public T t;
     }

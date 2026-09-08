@@ -20,5 +20,4 @@ public abstract class Curve<T> {
         }
         return points;
     }
-
 }

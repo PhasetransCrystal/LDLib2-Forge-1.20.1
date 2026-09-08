@@ -1,7 +1,8 @@
 package com.lowdragmc.lowdraglib2.gui.slot;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
+import com.google.common.base.Predicates;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -12,19 +13,25 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import javax.annotation.Nonnull;
+
 @KJSBindings
 public class ItemHandlerSlot extends Slot {
+
     private static final Container emptyInventory = new SimpleContainer(0);
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     private Predicate<ItemStack> canPlace = Predicates.alwaysTrue();
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     private Predicate<Player> canTake = Predicates.alwaysTrue();
     @Getter
     private final IItemHandlerModifiable itemHandler;
@@ -69,9 +76,7 @@ public class ItemHandlerSlot extends Slot {
     }
 
     @Override
-    public void onQuickCraft(@Nonnull ItemStack oldStackIn, @Nonnull ItemStack newStackIn) {
-
-    }
+    public void onQuickCraft(@Nonnull ItemStack oldStackIn, @Nonnull ItemStack newStackIn) {}
 
     @Override
     public int getMaxStackSize() {
@@ -102,5 +107,4 @@ public class ItemHandlerSlot extends Slot {
     public void setChanged() {
         changeListeners.forEach(Runnable::run);
     }
-
 }

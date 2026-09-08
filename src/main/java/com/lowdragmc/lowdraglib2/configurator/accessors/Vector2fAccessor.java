@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import org.jetbrains.annotations.Nullable;
@@ -40,13 +41,13 @@ public class Vector2fAccessor extends TypesAccessor<Vector2f> {
                         defaultValue(field).x, forceUpdate),
                 y = new NumberConfigurator("y", () -> supplier.get().y,
                         v -> consumer.accept(new Vector2f(supplier.get().x, v.floatValue())),
-                        defaultValue(field).y, forceUpdate)
-        ).layout(layout -> {
-            layout.gapAll(2);
-            layout.marginLeft(2);
-            layout.flexDirection(FlexDirection.ROW);
-            layout.wrap(FlexWrap.WRAP);
-        });
+                        defaultValue(field).y, forceUpdate))
+                .layout(layout -> {
+                    layout.gapAll(2);
+                    layout.marginLeft(2);
+                    layout.flexDirection(FlexDirection.ROW);
+                    layout.wrap(FlexWrap.WRAP);
+                });
         x.layout(layout -> {
             layout.flex(1);
             layout.minWidth(40);
@@ -70,5 +71,4 @@ public class Vector2fAccessor extends TypesAccessor<Vector2f> {
         configurator.setPastable(Vector2f.class, consumer);
         return configurator;
     }
-
 }

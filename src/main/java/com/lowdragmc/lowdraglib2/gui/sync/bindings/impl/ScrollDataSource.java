@@ -4,12 +4,13 @@ import com.lowdragmc.lowdraglib2.gui.sync.bindings.IDataProvider;
 import com.lowdragmc.lowdraglib2.gui.util.ITickable;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,11 +20,14 @@ import java.util.function.Function;
 @Data(staticConstructor = "of")
 @KJSBindings
 public final class ScrollDataSource<T> implements IDataProvider<T>, ITickable, IPausable {
+
     @Getter
     private final List<T> data;
     private final List<Consumer<T>> listeners = new ArrayList<>();
     private volatile T lastValue;
-    @Setter @Getter @Accessors(chain = true, fluent = true)
+    @Setter
+    @Getter
+    @Accessors(chain = true, fluent = true)
     private int frequency = 20;
     // runtime
     @Getter

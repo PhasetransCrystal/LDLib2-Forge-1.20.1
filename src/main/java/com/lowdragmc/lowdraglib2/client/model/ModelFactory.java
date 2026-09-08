@@ -1,11 +1,10 @@
 package com.lowdragmc.lowdraglib2.client.model;
 
-import com.google.gson.JsonParseException;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.ModelBakeryAccessor;
+
+import com.google.gson.JsonParseException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Transformation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -19,13 +18,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.function.Function;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Function;
 
 /**
  * Author: KilaBash
@@ -36,6 +38,7 @@ import java.util.function.Function;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ModelFactory {
+
     public static final ItemModelGenerator ITEM_MODEL_GENERATOR = new ItemModelGenerator();
 
     public static ModelBakery getModelBakery() {
@@ -62,6 +65,7 @@ public class ModelFactory {
 
     public static ModelBaker getModelBaker() {
         return new ModelBaker() {
+
             @Override
             public UnbakedModel getModel(ResourceLocation location) {
                 return getUnBakedModel(location);
@@ -90,6 +94,7 @@ public class ModelFactory {
 
     public static ModelBaker getRegisteredModelBaker() {
         return new ModelBaker() {
+
             @Override
             public UnbakedModel getModel(ResourceLocation location) {
                 var model = getTopLevelModel(location);
@@ -139,7 +144,7 @@ public class ModelFactory {
     }
 
     public static @Nullable UnbakedModel getTopLevelModel(ResourceLocation modelLocation) {
-        return ((ModelBakeryAccessor)getModelBakery()).getTopLevelModels().get(modelLocation);
+        return ((ModelBakeryAccessor) getModelBakery()).getTopLevelModels().get(modelLocation);
     }
 
     /**
@@ -236,6 +241,7 @@ public class ModelFactory {
     }
 
     private record ModelStateWrapper(ModelState modelState, boolean lockedUV) implements ModelState {
+
         @Override
         @Nonnull
         public Transformation getRotation() {

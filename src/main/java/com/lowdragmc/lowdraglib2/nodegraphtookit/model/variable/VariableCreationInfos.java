@@ -3,12 +3,16 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModel;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@Getter @Setter @Accessors(chain = true)
+@Getter
+@Setter
+@Accessors(chain = true)
 public class VariableCreationInfos {
+
     /**
      * The type of the variable declaration model.
      */

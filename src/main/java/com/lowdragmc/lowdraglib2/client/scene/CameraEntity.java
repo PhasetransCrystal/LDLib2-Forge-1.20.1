@@ -22,19 +22,13 @@ public class CameraEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
-
-    }
+    protected void defineSynchedData() {}
 
     @Override
-    protected void readAdditionalSaveData(@Nonnull CompoundTag pCompound) {
-
-    }
+    protected void readAdditionalSaveData(@Nonnull CompoundTag pCompound) {}
 
     @Override
-    protected void addAdditionalSaveData(@Nonnull CompoundTag pCompound) {
-
-    }
+    protected void addAdditionalSaveData(@Nonnull CompoundTag pCompound) {}
 
     @Override
     @Nonnull

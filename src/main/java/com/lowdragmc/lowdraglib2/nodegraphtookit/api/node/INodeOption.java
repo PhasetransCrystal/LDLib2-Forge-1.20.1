@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import java.lang.reflect.Type;
 
 public interface INodeOption {
+
     /**
      * Gets the data type of the node option.
      *
@@ -30,8 +31,10 @@ public interface INodeOption {
     /**
      * Retrieves the value associated with the node option.
      *
-     * <p>This method can be used to get the underlying data stored in the current option,
-     * with the return type determined by the generic parameter {@code <T>}.</p>
+     * <p>
+     * This method can be used to get the underlying data stored in the current option,
+     * with the return type determined by the generic parameter {@code <T>}.
+     * </p>
      *
      * @param <T> the type of the value to be returned
      * @return the value of the node option cast to the specified type {@code <T>}

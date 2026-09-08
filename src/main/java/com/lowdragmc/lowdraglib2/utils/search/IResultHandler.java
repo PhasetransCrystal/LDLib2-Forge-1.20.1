@@ -3,8 +3,8 @@ package com.lowdragmc.lowdraglib2.utils.search;
 import java.util.function.Consumer;
 
 @FunctionalInterface
-public
-interface IResultHandler<T> extends Consumer<T> {
+public interface IResultHandler<T> extends Consumer<T> {
+
     /**
      * Handles the result of a search or processing operation.
      * <br/>

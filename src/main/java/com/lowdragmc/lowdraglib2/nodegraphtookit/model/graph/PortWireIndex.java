@@ -13,6 +13,7 @@ import java.util.*;
  * it needs to be notified when any of the ports of a wire changes, so that the index can be updated.
  */
 public class PortWireIndex<TWire extends IPortWireIndexModel> {
+
     private final List<TWire> wireModels; // equivalent to IReadOnlyList<TWire>
     private boolean isDirty;
 
@@ -51,8 +52,7 @@ public class PortWireIndex<TWire extends IPortWireIndexModel> {
         PortKey key = new PortKey(
                 portModel.getNodeModel().getUid(),
                 portModel.getUniqueName(),
-                portModel.getDirection()
-        );
+                portModel.getDirection());
 
         return wiresByPort.get(key);
     }
@@ -218,8 +218,7 @@ public class PortWireIndex<TWire extends IPortWireIndexModel> {
             reorderElements(list, new HashSet<>(oneWireList), reorderType);
         } else {
             throw new IndexOutOfBoundsException(
-                    wireModel + " not part of the " + PortWireIndex.class.getSimpleName() + "."
-            );
+                    wireModel + " not part of the " + PortWireIndex.class.getSimpleName() + ".");
         }
     }
 
@@ -269,12 +268,13 @@ public class PortWireIndex<TWire extends IPortWireIndexModel> {
      *
      * @param nodeGuid Hash128 in C#, use your Java type here
      */
-    private record PortKey(UUID nodeGuid, String portUniqueName, PortDirection direction) { }
+    private record PortKey(UUID nodeGuid, String portUniqueName, PortDirection direction) {}
 
     /**
      * TestAccess equivalent.
      */
     public static final class TestAccess<TTestWire extends IPortWireIndexModel> {
+
         private final PortWireIndex<TTestWire> portWireIndex;
 
         public TestAccess(PortWireIndex<TTestWire> portWireIndex) {

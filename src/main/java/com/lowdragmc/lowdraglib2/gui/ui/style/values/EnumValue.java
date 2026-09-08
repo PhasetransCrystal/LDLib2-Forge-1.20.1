@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
 import com.lowdragmc.lowdraglib2.gui.ui.style.ValueParser;
 
 public class EnumValue<T extends Enum<T>> extends StyleValue<T> {
+
     private final Class<T> clazz;
 
     public EnumValue(Class<T> clazz, String rawValue) {

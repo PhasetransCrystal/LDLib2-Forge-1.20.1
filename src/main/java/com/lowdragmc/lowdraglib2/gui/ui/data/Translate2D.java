@@ -1,22 +1,23 @@
 package com.lowdragmc.lowdraglib2.gui.ui.data;
 
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Data;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 
 /**
  * Immutable 2D translation with per-axis px/percent support.
  */
 @Data
 public final class Translate2D {
+
     public static final Translate2D ZERO = new Translate2D(LengthPercent.ZERO, LengthPercent.ZERO);
 
     public static final Codec<Translate2D> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             LengthPercent.CODEC.fieldOf("x").forGetter(Translate2D::getX),
-            LengthPercent.CODEC.fieldOf("y").forGetter(Translate2D::getY)
-    ).apply(instance, Translate2D::new));
+            LengthPercent.CODEC.fieldOf("y").forGetter(Translate2D::getY)).apply(instance, Translate2D::new));
 
     public static final StreamCodec<FriendlyByteBuf, Translate2D> STREAM_CODEC = StreamCodec.of(
             (buf, t) -> {
@@ -25,9 +26,7 @@ public final class Translate2D {
             },
             buf -> new Translate2D(
                     LengthPercent.STREAM_CODEC.decode(buf),
-                    LengthPercent.STREAM_CODEC.decode(buf)
-            )
-    );
+                    LengthPercent.STREAM_CODEC.decode(buf)));
 
     private final LengthPercent x;
     private final LengthPercent y;
@@ -67,7 +66,6 @@ public final class Translate2D {
     public static Translate2D lerp(Translate2D a, Translate2D b, float t) {
         return new Translate2D(
                 LengthPercent.lerp(a.x, b.x, t),
-                LengthPercent.lerp(a.y, b.y, t)
-        );
+                LengthPercent.lerp(a.y, b.y, t));
     }
 }

@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.VariableNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableScope;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
@@ -195,8 +196,7 @@ public class GraphFuzzTest {
     // --- Operations ---
 
     private static final List<Class<? extends Node>> NODE_TYPES = List.of(
-            TestAddNode.class, TestStringConcatNode.class, TestColorBlendNode.class, TestConstantNode.class
-    );
+            TestAddNode.class, TestStringConcatNode.class, TestColorBlendNode.class, TestConstantNode.class);
 
     private static void createRandomNode(CustomGraphModelImpl gm, Random rng) {
         var pos = new Vector2f(rng.nextFloat() * 1000, rng.nextFloat() * 1000);
@@ -242,8 +242,7 @@ public class GraphFuzzTest {
 
         var fromPort = outputs.get(rng.nextInt(outputs.size()));
         var toPort = inputs.get(rng.nextInt(inputs.size()));
-        if (fromPort != null && toPort != null
-                && fromPort.getNodeModel() != toPort.getNodeModel()) {
+        if (fromPort != null && toPort != null && fromPort.getNodeModel() != toPort.getNodeModel()) {
             try {
                 gm.createWire(toPort, fromPort);
             } catch (Exception e) {
@@ -282,8 +281,7 @@ public class GraphFuzzTest {
     // --- Variable types and kinds for fuzz ---
 
     private static final List<Class<?>> VAR_TYPES = List.of(
-            float.class, int.class, boolean.class, String.class, Float.class, Integer.class
-    );
+            float.class, int.class, boolean.class, String.class, Float.class, Integer.class);
 
     private static final VariableKind[] VAR_KINDS = VariableKind.values();
     private static final ModifierFlags[] MODIFIER_FLAGS = ModifierFlags.values();
@@ -365,13 +363,17 @@ public class GraphFuzzTest {
             var from = varOutputs.get(rng.nextInt(varOutputs.size()));
             var to = otherInputs.get(rng.nextInt(otherInputs.size()));
             if (from != null && to != null && from.getNodeModel() != to.getNodeModel()) {
-                try { gm.createWire(to, from); } catch (Exception ignored) {}
+                try {
+                    gm.createWire(to, from);
+                } catch (Exception ignored) {}
             }
         } else if (!otherOutputs.isEmpty() && !varInputs.isEmpty()) {
             var from = otherOutputs.get(rng.nextInt(otherOutputs.size()));
             var to = varInputs.get(rng.nextInt(varInputs.size()));
             if (from != null && to != null && from.getNodeModel() != to.getNodeModel()) {
-                try { gm.createWire(to, from); } catch (Exception ignored) {}
+                try {
+                    gm.createWire(to, from);
+                } catch (Exception ignored) {}
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.texture;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 
@@ -14,9 +15,9 @@ import java.util.function.BiFunction;
  * @implNote Icons
  */
 public class Icons {
+
     private static final ResourceLocation GDP_ICONS = LDLib2.id("textures/gui/icon/gdp_icons.png");
-    private static final BiFunction<String, String, SpriteTexture> CACHE = Util.memoize((modID, name) -> 
-            SpriteTexture.of("%s:textures/gui/icon/%s.png".formatted(modID, name)));
+    private static final BiFunction<String, String, SpriteTexture> CACHE = Util.memoize((modID, name) -> SpriteTexture.of("%s:textures/gui/icon/%s.png".formatted(modID, name)));
     private static final Map<String, SpriteTexture> FILE_ICONS = new HashMap<>();
     public static SpriteTexture ICON = SpriteTexture.of("ldlib2:textures/gui/icon.png");
     public static SpriteTexture LEFT = SpriteTexture.of("ldlib2:textures/gui/left.png");
@@ -84,7 +85,7 @@ public class Icons {
     public static SpriteTexture WINDOW_MAXIMIZE = icon("window_maximize");
     public static SpriteTexture WINDOW_RESTORE = icon("window_restore");
     public static SpriteTexture WINDOW_CLOSE = icon("window_close");
-    //align
+    // align
     public static SpriteTexture ALIGN_H_C = icon("align_horizontal_center");
     public static SpriteTexture ALIGN_H_D = icon("align_horizontal_distribute");
     public static SpriteTexture ALIGN_H_L = icon("align_horizontal_left");
@@ -112,21 +113,20 @@ public class Icons {
     public static SpriteTexture EXPAND_VERTICAL = icon("expand_vertical");
     public static SpriteTexture EXPAND_HORIZONTAL = icon("expand_horizontal");
 
-
     public static SpriteTexture CHECK_SPRITE = SpriteTexture.of(GDP_ICONS).setSprite(72, 0, 12, 12);
 
     public static SpriteTexture DOWN_ARROW_NO_BAR = SpriteTexture.of(GDP_ICONS).setSprite(36, 24, 12, 12);
     public static SpriteTexture DOWN_ARROW_NO_BAR_S = SpriteTexture.of(GDP_ICONS).setSprite(114, 230, 5, 5);
     public static SpriteTexture DOWN_ARROW_NO_BAR_S_LIGHT = SpriteTexture.of(GDP_ICONS).setSprite(126, 230, 5, 5);
-    public static SpriteTexture DOWN_ARROW_NO_BAR_S_WHITE= SpriteTexture.of(GDP_ICONS).setSprite(132, 230, 5, 5);
+    public static SpriteTexture DOWN_ARROW_NO_BAR_S_WHITE = SpriteTexture.of(GDP_ICONS).setSprite(132, 230, 5, 5);
     public static SpriteTexture UP_ARROW_NO_BAR = SpriteTexture.of(GDP_ICONS).setSprite(48, 24, 12, 12);
     public static SpriteTexture UP_ARROW_NO_BAR_S = SpriteTexture.of(GDP_ICONS).setSprite(114, 226, 5, 5);
     public static SpriteTexture UP_ARROW_NO_BAR_S_LIGHT = SpriteTexture.of(GDP_ICONS).setSprite(126, 226, 5, 5);
-    public static SpriteTexture UP_ARROW_NO_BAR_S_WHITE= SpriteTexture.of(GDP_ICONS).setSprite(132, 226, 5, 5);
+    public static SpriteTexture UP_ARROW_NO_BAR_S_WHITE = SpriteTexture.of(GDP_ICONS).setSprite(132, 226, 5, 5);
     public static SpriteTexture LEFT_ARROW_NO_BAR = SpriteTexture.of(GDP_ICONS).setSprite(0, 24, 12, 12);
     public static SpriteTexture LEFT_ARROW_NO_BAR_S = SpriteTexture.of(GDP_ICONS).setSprite(154, 240, 5, 5);
     public static SpriteTexture LEFT_ARROW_NO_BAR_S_LIGHT = SpriteTexture.of(GDP_ICONS).setSprite(174, 240, 5, 5);
-    public static SpriteTexture LEFT_ARROW_NO_BAR_S_WHITE= SpriteTexture.of(GDP_ICONS).setSprite(184, 240, 5, 5);
+    public static SpriteTexture LEFT_ARROW_NO_BAR_S_WHITE = SpriteTexture.of(GDP_ICONS).setSprite(184, 240, 5, 5);
     public static SpriteTexture RIGHT_ARROW_NO_BAR = SpriteTexture.of(GDP_ICONS).setSprite(12, 24, 12, 12);
     public static SpriteTexture RIGHT_ARROW_NO_BAR_S = SpriteTexture.of(GDP_ICONS).setSprite(158, 240, 5, 5);
     public static SpriteTexture RIGHT_ARROW_NO_BAR_S_LIGHT = SpriteTexture.of(GDP_ICONS).setSprite(178, 240, 5, 5);
@@ -136,7 +136,6 @@ public class Icons {
     public static SpriteTexture ARROW_UP_DOWN = SpriteTexture.of(GDP_ICONS).setSprite(219, 233, 7, 11);
     public static SpriteTexture ARROW_LT_RB = (SpriteTexture) SpriteTexture.of(GDP_ICONS).setSprite(214, 191, 13, 7).rotate(45);
     public static SpriteTexture ARROW_RT_LB = (SpriteTexture) SpriteTexture.of(GDP_ICONS).setSprite(214, 191, 13, 7).rotate(-45);
-
 
     public static SpriteTexture NOWRAP = icon("nowrap");
     public static SpriteTexture WRAP = icon("wrap");
@@ -177,5 +176,4 @@ public class Icons {
     public static SpriteTexture getIcon(String suffix) {
         return FILE_ICONS.getOrDefault(suffix.toLowerCase(), FILE);
     }
-
 }

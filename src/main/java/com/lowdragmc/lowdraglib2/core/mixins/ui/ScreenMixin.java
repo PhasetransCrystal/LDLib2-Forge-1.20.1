@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.core.mixins.ui;
 
 import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolder;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin extends AbstractContainerEventHandler implements ContainerEventHandler, GuiEventListener {
+
     @Shadow(aliases = "m_6702_")
     public abstract List<? extends GuiEventListener> children();
 
@@ -74,5 +76,4 @@ public abstract class ScreenMixin extends AbstractContainerEventHandler implemen
             }
         }
     }
-
 }

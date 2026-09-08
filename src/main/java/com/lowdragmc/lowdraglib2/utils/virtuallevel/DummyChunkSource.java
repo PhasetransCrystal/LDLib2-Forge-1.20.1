@@ -8,12 +8,14 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.lighting.LevelLightEngine;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.BooleanSupplier;
 
+import javax.annotation.Nonnull;
+
 public class DummyChunkSource extends ChunkSource {
+
     private final DummyWorld world;
     private final Long2ObjectMap<VirtualChunk> chunks = new Long2ObjectOpenHashMap<>();
     private final LevelLightEngine lightEngine;
@@ -24,9 +26,7 @@ public class DummyChunkSource extends ChunkSource {
     }
 
     @Override
-    public void tick(BooleanSupplier booleanSupplier, boolean p_202163_) {
-
-    }
+    public void tick(BooleanSupplier booleanSupplier, boolean p_202163_) {}
 
     @Nullable
     @Override
@@ -61,5 +61,4 @@ public class DummyChunkSource extends ChunkSource {
     public BlockGetter getLevel() {
         return world;
     }
-
 }

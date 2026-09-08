@@ -4,13 +4,13 @@ import lombok.experimental.UtilityClass;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 @UtilityClass
 public final class LDProgramDefineManager {
+
     private static final Set<String> PROGRAM_DEFINES = new LinkedHashSet<>();
 
     public static void addProgramDefine(String define) {

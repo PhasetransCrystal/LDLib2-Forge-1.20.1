@@ -1,14 +1,15 @@
 package com.lowdragmc.lowdraglib2.gui.factory;
 
-import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class BlockUIMenuType {
+
     public static final StreamCodec<RegistryFriendlyByteBuf, BlockState> BLOCK_STATE_STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(BlockState.CODEC);
 
     /**
@@ -28,7 +30,7 @@ public class BlockUIMenuType {
      * supports a {@link BlockUI}.
      *
      * @param player the {@link Player} for whom the UI should be opened.
-     * @param pos the {@link BlockPos} representing the position of the block where the UI is being opened.
+     * @param pos    the {@link BlockPos} representing the position of the block where the UI is being opened.
      * @return {@code true} if the UI was successfully opened, {@code false} otherwise.
      */
     public static boolean openUI(ServerPlayer player, BlockPos pos) {
@@ -55,10 +57,12 @@ public class BlockUIMenuType {
 
     @FunctionalInterface
     public interface BlockUI {
+
         /**
          * Creates and returns the {@link ModularUI} associated with the provided {@link BlockUIHolder}.
          *
-         * @param holder the {@link BlockUIHolder} containing contextual information for constructing the {@link ModularUI}.
+         * @param holder the {@link BlockUIHolder} containing contextual information for constructing the
+         *               {@link ModularUI}.
          * @return a {@link ModularUI} generated based on the given {@link BlockUIHolder}.
          */
         ModularUI createUI(BlockUIHolder holder);
@@ -66,8 +70,8 @@ public class BlockUIMenuType {
         /**
          * Creates a {@link BlockUIHolder} for handling UI interactions associated with a specific block in the world.
          *
-         * @param player the {@link Player} interacting with the block.
-         * @param pos the {@link BlockPos} representing the position of the block in the world.
+         * @param player     the {@link Player} interacting with the block.
+         * @param pos        the {@link BlockPos} representing the position of the block in the world.
          * @param blockState the {@link BlockState} representing the current state of the block.
          * @return a new {@link BlockUIHolder} instance containing the provided contextual information.
          */
@@ -80,7 +84,8 @@ public class BlockUIMenuType {
          * is still valid in the current game context.
          *
          * @param holder the {@link BlockUIHolder} that contains the block state, player, and position data.
-         * @return {@code true} if the block state in the {@link BlockUIHolder} matches the current block state at the position;
+         * @return {@code true} if the block state in the {@link BlockUIHolder} matches the current block state at the
+         *         position;
          *         {@code false} otherwise.
          */
         default boolean stillValid(BlockUIHolder holder) {
@@ -96,6 +101,7 @@ public class BlockUIMenuType {
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
     public static class BlockUIHolder implements MenuProvider, IContainerUIHolder {
+
         public final BlockUI blockUI;
         public final Player player;
         public final BlockPos pos;

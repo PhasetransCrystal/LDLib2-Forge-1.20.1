@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.core.mixins;
 
 import com.lowdragmc.lowdraglib2.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
+
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,16 +19,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ItemRendererMixin {
 
     @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
-    public void injectRenderItem(ItemStack stack, 
-                                 ItemDisplayContext itemDisplayContext, 
-                                 boolean leftHanded, 
-                                 PoseStack matrices, 
+    public void injectRenderItem(ItemStack stack,
+                                 ItemDisplayContext itemDisplayContext,
+                                 boolean leftHanded,
+                                 PoseStack matrices,
                                  MultiBufferSource buffer,
-                                 int light, int overlay, 
+                                 int light, int overlay,
                                  BakedModel model,
-                                 CallbackInfo ci){
+                                 CallbackInfo ci) {
         if (stack.getItem() instanceof IItemRendererProvider && !IItemRendererProvider.disabled.get()) {
-            IRenderer renderer =((IItemRendererProvider) stack.getItem()).getRenderer(stack);
+            IRenderer renderer = ((IItemRendererProvider) stack.getItem()).getRenderer(stack);
             if (renderer != null) {
                 if (itemDisplayContext == ItemDisplayContext.GUI) {
                     if (renderer.useBlockLight(stack) != model.usesBlockLight()) {
@@ -53,5 +54,4 @@ public abstract class ItemRendererMixin {
             }
         }
     }
-
 }

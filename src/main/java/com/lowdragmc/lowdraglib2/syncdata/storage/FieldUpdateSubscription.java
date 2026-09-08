@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.syncdata.storage;
 
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @implNote FieldUpdateSubscription
  */
 public abstract class FieldUpdateSubscription implements ISubscription {
+
     @NotNull
     public final ManagedKey key;
     @NotNull

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

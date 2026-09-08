@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.configurator.ui;
 
-import org.appliedenergistics.yoga.YogaDisplay;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ConfiguratorSelectorConfigurator<T> extends SelectorConfigurator<T> {
+
     public final BiConsumer<T, ConfiguratorGroup> configuratorBuilder;
     public final ConfiguratorGroup container = new ConfiguratorGroup();
 

@@ -7,16 +7,16 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin
 import com.lowdragmc.lowdraglib2.math.interpolate.IEase
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription
 import com.lowdragmc.lowdraglib2.utils.animation.AnimationRuntime
+
 import it.unimi.dsi.fastutil.floats.FloatObjectPair
+
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
 data class StyleKeyFrame<T>(val progress: Float, val value: T)
 
 @UIDslMarker
-class StyleAnimationDsl internal constructor(
-    private val animation: StyleAnimation,
-) {
+class StyleAnimationDsl internal constructor(private val animation: StyleAnimation) {
     fun duration(value: Number) = apply { animation.duration(value.toFloat()) }
 
     fun delay(value: Number) = apply { animation.delay(value.toFloat()) }

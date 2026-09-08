@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.integration.xei.jei;
 
-import com.google.common.base.Suppliers;
 import mezz.jei.api.gui.builder.IIngredientConsumer;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
@@ -14,7 +13,6 @@ import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.common.Internal;
 import mezz.jei.common.config.IClientConfig;
-import mezz.jei.common.gui.JeiTooltip;
 import mezz.jei.common.platform.IPlatformRenderHelper;
 import mezz.jei.common.platform.Services;
 import mezz.jei.common.util.SafeIngredientUtil;
@@ -22,7 +20,6 @@ import mezz.jei.library.gui.ingredients.TagContentTooltipComponent;
 import mezz.jei.library.ingredients.DisplayIngredientAcceptor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
@@ -31,7 +28,6 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,12 +35,15 @@ import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * This is a utility class to provide recipe slot under the mouse
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class JEIRecipeSlotWidget implements IRecipeSlotDrawable {
+
     public final Supplier<Matrix4f> localToWorldSupplier;
     public final BiPredicate<Float, Float> isMouseOver;
     public final Supplier<ITypedIngredient<?>> displayedIngredient;
@@ -56,15 +55,16 @@ public class JEIRecipeSlotWidget implements IRecipeSlotDrawable {
     /**
      * Constructs a new {@code DirectRecipeSlot}.
      *
-     * @param isMouseOver A {@link BiPredicate} that determines if the mouse is over this slot
-     *                    based on the given X and Y coordinates.
+     * @param isMouseOver         A {@link BiPredicate} that determines if the mouse is over this slot
+     *                            based on the given X and Y coordinates.
      * @param displayedIngredient A {@link Supplier} that provides the currently displayed ingredient
      *                            within this slot. May return {@code null}.
-     * @param allIngredients A {@link Supplier} that provides a list of all ingredients
-     *                       associated with this slot. You'd better list all possible ingredients of this slot.
-     *                       For example, if you want to display a tooltip to show tag support. you should list all items of this tag here.
-     * @param tooltipCallback A {@link IRecipeSlotRichTooltipCallback} that defines the behavior
-     *                        for custom tooltips when interacting with this slot.
+     * @param allIngredients      A {@link Supplier} that provides a list of all ingredients
+     *                            associated with this slot. You'd better list all possible ingredients of this slot.
+     *                            For example, if you want to display a tooltip to show tag support. you should list all
+     *                            items of this tag here.
+     * @param tooltipCallback     A {@link IRecipeSlotRichTooltipCallback} that defines the behavior
+     *                            for custom tooltips when interacting with this slot.
      */
     public JEIRecipeSlotWidget(Supplier<Matrix4f> localToWorldSupplier,
                                BiPredicate<Float, Float> isMouseOver,
@@ -103,14 +103,10 @@ public class JEIRecipeSlotWidget implements IRecipeSlotDrawable {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics) {
-
-    }
+    public void draw(GuiGraphics guiGraphics) {}
 
     @Override
-    public void drawHoverOverlays(GuiGraphics guiGraphics) {
-
-    }
+    public void drawHoverOverlays(GuiGraphics guiGraphics) {}
 
     @Override
     @Deprecated
@@ -145,13 +141,11 @@ public class JEIRecipeSlotWidget implements IRecipeSlotDrawable {
                 .ifPresent(tagKeyEquivalent -> {
                     tooltip.add(
                             Component.translatable("jei.tooltip.recipe.tag", "")
-                                    .withStyle(ChatFormatting.GRAY)
-                    );
+                                    .withStyle(ChatFormatting.GRAY));
                     IPlatformRenderHelper renderHelper = Services.PLATFORM.getRenderHelper();
                     Component tagName = renderHelper.getName(tagKeyEquivalent);
                     tooltip.add(
-                            tagName.copy().withStyle(ChatFormatting.GRAY)
-                    );
+                            tagName.copy().withStyle(ChatFormatting.GRAY));
                 });
     }
 
@@ -178,9 +172,7 @@ public class JEIRecipeSlotWidget implements IRecipeSlotDrawable {
     }
 
     @Override
-    public void setPosition(int x, int y) {
-
-    }
+    public void setPosition(int x, int y) {}
 
     @Nullable
     private DisplayIngredientAcceptor displayOverrides;
@@ -216,9 +208,7 @@ public class JEIRecipeSlotWidget implements IRecipeSlotDrawable {
     }
 
     @Override
-    public void drawHighlight(GuiGraphics guiGraphics, int color) {
-
-    }
+    public void drawHighlight(GuiGraphics guiGraphics, int color) {}
 
     @Override
     public Optional<String> getSlotName() {

@@ -1,40 +1,44 @@
 package com.lowdragmc.lowdraglib2.syncdata;
 
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.utils.PersistedParser;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.NotNull;
-import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 
 /**
  * Class with this interface can serialize and deserialize itself by detecting fields with
  * {@link Persisted} and {@link Configurable} annotation.
  * <br>
  * <br>
- * It will use {@link PersistedParser} to serialize and deserialize. Don't override methods of {@link #serializeNBT(HolderLookup.Provider)} and {@link #deserializeNBT(HolderLookup.Provider, CompoundTag)}. unless you know what you are doing.
+ * It will use {@link PersistedParser} to serialize and deserialize. Don't override methods of
+ * {@link #serializeNBT(HolderLookup.Provider)} and {@link #deserializeNBT(HolderLookup.Provider, CompoundTag)}. unless
+ * you know what you are doing.
  * <br>
  * <br>
- * For additional serialization, you can override {@link #serializeAdditionalNBT(HolderLookup.Provider)}. and {@link #deserializeAdditionalNBT(Tag, HolderLookup.Provider)}.
+ * For additional serialization, you can override {@link #serializeAdditionalNBT(HolderLookup.Provider)}. and
+ * {@link #deserializeAdditionalNBT(Tag, HolderLookup.Provider)}.
  * <br>
  * <br>
  * The serialization process will be:
  * <ol>
- *     <li>Call {@link #beforeSerialize()}</li>
- *     <li>Serialize fields with annotation</li>
- *     <li>Call {@link #serializeAdditionalNBT(HolderLookup.Provider)}</li>
- *     <li>Call {@link #afterSerialize()}</li>
+ * <li>Call {@link #beforeSerialize()}</li>
+ * <li>Serialize fields with annotation</li>
+ * <li>Call {@link #serializeAdditionalNBT(HolderLookup.Provider)}</li>
+ * <li>Call {@link #afterSerialize()}</li>
  * </ol>
  * The deserialization process will be:
  * <ol>
- *     <li>Call {@link #beforeDeserialize()}</li>
- *     <li>Deserialize fields with annotation</li>
- *     <li>Call {@link #deserializeAdditionalNBT(Tag, HolderLookup.Provider)}</li>
- *     <li>Call {@link #afterDeserialize()}</li>
+ * <li>Call {@link #beforeDeserialize()}</li>
+ * <li>Deserialize fields with annotation</li>
+ * <li>Call {@link #deserializeAdditionalNBT(Tag, HolderLookup.Provider)}</li>
+ * <li>Call {@link #afterDeserialize()}</li>
  * </ol>
  */
 public interface IPersistedSerializable extends IProviderAwareNBTSerializable<CompoundTag> {
@@ -56,9 +60,7 @@ public interface IPersistedSerializable extends IProviderAwareNBTSerializable<Co
      *
      * This default implementation provides no behavior and may be safely overridden.
      */
-    default void beforeSerialize() {
-
-    }
+    default void beforeSerialize() {}
 
     /**
      * Serializes the current state of this object into a {@link CompoundTag}.
@@ -107,9 +109,7 @@ public interface IPersistedSerializable extends IProviderAwareNBTSerializable<Co
      * It allows for any final adjustments, cleanup, or actions to be taken
      * after the object has been serialized.
      */
-    default void afterSerialize() {
-
-    }
+    default void afterSerialize() {}
 
     /**
      * This method is invoked before the deserialization process begins.
@@ -117,9 +117,7 @@ public interface IPersistedSerializable extends IProviderAwareNBTSerializable<Co
      * cleanup necessary prior to processing fields annotated with
      * {@link Persisted} and {@link Configurable}.
      */
-    default void beforeDeserialize() {
-
-    }
+    default void beforeDeserialize() {}
 
     /**
      * Deserializes the state of this object from the given {@link CompoundTag}.
@@ -163,9 +161,7 @@ public interface IPersistedSerializable extends IProviderAwareNBTSerializable<Co
      * @param provider The {@link HolderLookup.Provider} providing contextual
      *                 information or dependencies necessary for deserialization.
      */
-    default void deserializeAdditionalNBT(Tag tag, HolderLookup.@NotNull Provider provider) {
-
-    }
+    default void deserializeAdditionalNBT(Tag tag, HolderLookup.@NotNull Provider provider) {}
 
     /**
      * This method is invoked after the deserialization process is completed.
@@ -175,7 +171,5 @@ public interface IPersistedSerializable extends IProviderAwareNBTSerializable<Co
      * The default implementation provides no behavior and can be safely overridden
      * in implementing classes to execute custom post-deserialization logic if necessary.
      */
-    default void afterDeserialize() {
-
-    }
+    default void afterDeserialize() {}
 }

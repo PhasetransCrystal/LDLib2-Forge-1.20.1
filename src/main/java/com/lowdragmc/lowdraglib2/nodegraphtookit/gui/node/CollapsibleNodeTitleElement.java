@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Toggle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,10 +17,13 @@ import org.jetbrains.annotations.Nullable;
  * Only meaningful when the model has the {@code COLLAPSIBLE} capability; if the capability is
  * absent the toggle is not created and the title behaves identically to the base class.
  *
- * <p>Used by {@link CollapsibleInOutNodeElement}. Other node element kinds keep the lighter
- * {@link NodeTitleElement} without the toggle/spacer overhead.</p>
+ * <p>
+ * Used by {@link CollapsibleInOutNodeElement}. Other node element kinds keep the lighter
+ * {@link NodeTitleElement} without the toggle/spacer overhead.
+ * </p>
  */
 public class CollapsibleNodeTitleElement extends NodeTitleElement {
+
     /** Flexible spacer that grows to push {@link #collapseToggle} to the right edge of {@link #titleContainer}. */
     @Getter
     @Nullable

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import dev.vfyjxf.taffy.style.LengthPercentageAuto;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * Parses CSS LengthPercentageAuto syntax.
  *
  * Supported syntax:
+ * 
  * <pre>
  * auto                  // Auto sizing
  * 100px or 100          // Absolute length

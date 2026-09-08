@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.utils;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+
 import lombok.experimental.UtilityClass;
 import net.minecraft.util.Mth;
 import org.joml.Vector4f;
@@ -17,14 +18,14 @@ public final class ColorUtils {
         return 0xff000000 |
                 ((minR + LDLib2.RANDOM.nextInt(maxR + 1 - minR)) << 16) |
                 ((minG + LDLib2.RANDOM.nextInt(maxG + 1 - minG)) << 8) |
-                ((minB + LDLib2.RANDOM.nextInt(maxB + 1 - minB))) ;
+                ((minB + LDLib2.RANDOM.nextInt(maxB + 1 - minB)));
     }
 
     public static int randomColor(int minA, int maxA, int minR, int maxR, int minG, int maxG, int minB, int maxB) {
-        return  ((minR + LDLib2.RANDOM.nextInt(maxA + 1 - minA)) << 24) |
+        return ((minR + LDLib2.RANDOM.nextInt(maxA + 1 - minA)) << 24) |
                 ((minR + LDLib2.RANDOM.nextInt(maxR + 1 - minR)) << 16) |
                 ((minG + LDLib2.RANDOM.nextInt(maxG + 1 - minG)) << 8) |
-                ((minB + LDLib2.RANDOM.nextInt(maxB + 1 - minB))) ;
+                ((minB + LDLib2.RANDOM.nextInt(maxB + 1 - minB)));
     }
 
     public static int randomColor(int colorA, int colorB) {
@@ -35,7 +36,7 @@ public final class ColorUtils {
     }
 
     public static int randomColor() {
-        return randomColor(0, 255, 0, 255,0, 255);
+        return randomColor(0, 255, 0, 255, 0, 255);
     }
 
     public static int averageColor(int... colors) {
@@ -104,11 +105,11 @@ public final class ColorUtils {
     }
 
     public static int color(float alpha, float red, float green, float blue) {
-        return color((int)(alpha * 255), (int)(red * 255), (int)(green * 255), (int)(blue * 255));
+        return color((int) (alpha * 255), (int) (red * 255), (int) (green * 255), (int) (blue * 255));
     }
 
     public static int color(double alpha, double red, double green, double blue) {
-        return color((int)(alpha * 255), (int)(red * 255), (int)(green * 255), (int)(blue * 255));
+        return color((int) (alpha * 255), (int) (red * 255), (int) (green * 255), (int) (blue * 255));
     }
 
     public static int HSBtoRGB(float hue, float saturation, float brightness, float alpha) {
@@ -116,7 +117,7 @@ public final class ColorUtils {
         if (saturation == 0) {
             r = g = b = (int) (brightness * 255.0f + 0.5f);
         } else {
-            float h = (hue - (float)Math.floor(hue)) * 6.0f;
+            float h = (hue - (float) Math.floor(hue)) * 6.0f;
             float f = h - (float) Math.floor(h);
             float p = brightness * (1.0f - saturation);
             float q = brightness * (1.0f - saturation * f);
@@ -193,7 +194,7 @@ public final class ColorUtils {
             if (hue < 0)
                 hue = hue + 1.0f;
         }
-        return new float[]{hue, saturation, brightness};
+        return new float[] { hue, saturation, brightness };
     }
 
     public static int blendRGBColor(int from, int to, float lerp) {
@@ -201,8 +202,7 @@ public final class ColorUtils {
                 Mth.lerp(lerp, alpha(from), alpha(to)),
                 Mth.lerp(lerp, red(from), red(to)),
                 Mth.lerp(lerp, green(from), green(to)),
-                Mth.lerp(lerp, blue(from), blue(to))
-        );
+                Mth.lerp(lerp, blue(from), blue(to)));
     }
 
     public static int blendOklabColor(int from, int to, float lerp) {
@@ -217,8 +217,8 @@ public final class ColorUtils {
         int ta = (to >> 24) & 0xFF;
 
         // Convert to linear sRGB
-        double[] fromLinear = {fr / 255.0, fg / 255.0, fb / 255.0};
-        double[] toLinear = {tr / 255.0, tg / 255.0, tb / 255.0};
+        double[] fromLinear = { fr / 255.0, fg / 255.0, fb / 255.0 };
+        double[] toLinear = { tr / 255.0, tg / 255.0, tb / 255.0 };
 
         // Convert to OKLAB
         double[] fromOklab = rgbToOklab(fromLinear);
@@ -258,7 +258,7 @@ public final class ColorUtils {
         m = Math.cbrt(m);
         s = Math.cbrt(s);
 
-        return new double[]{
+        return new double[] {
                 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
                 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
                 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s
@@ -274,7 +274,7 @@ public final class ColorUtils {
         m = m * m * m;
         s = s * s * s;
 
-        return new double[]{
+        return new double[] {
                 +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
                 -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
                 -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
@@ -307,7 +307,7 @@ public final class ColorUtils {
             h /= 6.0;
         }
 
-        return new double[]{h, s, l};
+        return new double[] { h, s, l };
     }
 
     public double[] hslToRGB(double[] hsl) {
@@ -328,7 +328,7 @@ public final class ColorUtils {
             b = hueToRGB(p, q, h - 1.0 / 3.0);
         }
 
-        return new double[]{r, g, b};
+        return new double[] { r, g, b };
     }
 
     private double hueToRGB(double p, double q, double t) {
@@ -353,8 +353,7 @@ public final class ColorUtils {
                 alpha(color0) + alpha(color1),
                 red(color0) + red(color1),
                 green(color0) + green(color1),
-                blue(color0) + blue(color1)
-        );
+                blue(color0) + blue(color1));
     }
 
     public static int subColor(int color0, int color1) {
@@ -362,8 +361,7 @@ public final class ColorUtils {
                 alpha(color0) - alpha(color1),
                 red(color0) - red(color1),
                 green(color0) - green(color1),
-                blue(color0) - blue(color1)
-        );
+                blue(color0) - blue(color1));
     }
 
     public static int mulColor(int color0, int color1) {
@@ -371,8 +369,7 @@ public final class ColorUtils {
                 alpha(color0) * alpha(color1),
                 red(color0) * red(color1),
                 green(color0) * green(color1),
-                blue(color0) * blue(color1)
-        )                                         ;
+                blue(color0) * blue(color1));
     }
 
     public static Integer parseColor(String value) {
@@ -423,8 +420,7 @@ public final class ColorUtils {
                 int a = Math.round(alpha * 255);
                 return (a << 24) | (r << 16) | (g << 8) | b;
             }
-        } catch (NumberFormatException ignored) {
-        }
+        } catch (NumberFormatException ignored) {}
         return null;
     }
 
@@ -436,5 +432,4 @@ public final class ColorUtils {
             return -1;
         }
     }
-
 }

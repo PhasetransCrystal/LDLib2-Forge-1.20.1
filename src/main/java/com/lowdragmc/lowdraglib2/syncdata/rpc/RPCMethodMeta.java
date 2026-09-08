@@ -1,18 +1,20 @@
 package com.lowdragmc.lowdraglib2.syncdata.rpc;
 
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.networking.rpc.RPCPacketHandler;
 import com.lowdragmc.lowdraglib2.syncdata.AccessorRegistries;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.IDirectAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.var.ManagedHolderVar;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
+
 import lombok.Getter;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 public final class RPCMethodMeta implements RPCPacketHandler {
+
     @Getter
     private final String name;
     private final IDirectAccessor<?>[] argsAccessor;
@@ -63,14 +65,14 @@ public final class RPCMethodMeta implements RPCPacketHandler {
             args[0] = sender;
             for (int i = 0; i < argsAccessor.length; i++) {
                 var holder = ManagedHolderVar.ofType(argsType[i]);
-                ((IDirectAccessor)argsAccessor[i]).writeDirectVarFromStream(buf, holder);
+                ((IDirectAccessor) argsAccessor[i]).writeDirectVarFromStream(buf, holder);
                 args[i + 1] = holder.value();
             }
         } else {
             args = new Object[argsAccessor.length];
             for (int i = 0; i < argsAccessor.length; i++) {
                 var holder = ManagedHolderVar.ofType(argsType[i]);
-                ((IDirectAccessor)argsAccessor[i]).writeDirectVarFromStream(buf, holder);
+                ((IDirectAccessor) argsAccessor[i]).writeDirectVarFromStream(buf, holder);
                 args[i] = holder.value();
             }
         }
@@ -84,11 +86,11 @@ public final class RPCMethodMeta implements RPCPacketHandler {
 
     @SuppressWarnings("unchecked")
     public void serializeArgs(RegistryFriendlyByteBuf buf, Object[] args) {
-        if(argsAccessor.length != args.length) {
+        if (argsAccessor.length != args.length) {
             throw new IllegalArgumentException("Invalid number of arguments, expected " + argsAccessor.length + " but got " + args.length);
         }
         for (int i = 0; i < argsAccessor.length; i++) {
-            ((IDirectAccessor)argsAccessor[i]).readDirectVarToStream(buf, ManagedHolderVar.of(args[i]));
+            ((IDirectAccessor) argsAccessor[i]).readDirectVarToStream(buf, ManagedHolderVar.of(args[i]));
         }
     }
 
@@ -105,8 +107,7 @@ public final class RPCMethodMeta implements RPCPacketHandler {
 
     @Override
     public byte[] args2Bytes(Object... args) {
-        return ByteBufUtil.writeCustomData(buf ->
-                serializeArgs(buf, args), Platform.getFrozenRegistry());
+        return ByteBufUtil.writeCustomData(buf -> serializeArgs(buf, args), Platform.getFrozenRegistry());
     }
 
     @Override
@@ -115,7 +116,7 @@ public final class RPCMethodMeta implements RPCPacketHandler {
         ByteBufUtil.readCustomData(data, buf -> {
             for (int i = 0; i < argsAccessor.length; i++) {
                 var holder = ManagedHolderVar.ofType(argsType[i]);
-                ((IDirectAccessor)argsAccessor[i]).writeDirectVarFromStream(buf, holder);
+                ((IDirectAccessor) argsAccessor[i]).writeDirectVarFromStream(buf, holder);
                 args[i] = holder.value();
             }
         }, Platform.getFrozenRegistry());
@@ -125,12 +126,12 @@ public final class RPCMethodMeta implements RPCPacketHandler {
     @Override
     public void handler(RPCSender sender, Object... args) {
         try {
-           if (isFirstArgSender) {
-               var newArgs = new Object[args.length + 1];
-               newArgs[0] = sender;
-               System.arraycopy(args, 0, newArgs, 1, args.length);
-               args = newArgs;
-           }
+            if (isFirstArgSender) {
+                var newArgs = new Object[args.length + 1];
+                newArgs[0] = sender;
+                System.arraycopy(args, 0, newArgs, 1, args.length);
+                args = newArgs;
+            }
             method.invoke(null, args);
         } catch (Exception e) {
             throw new RuntimeException(e);

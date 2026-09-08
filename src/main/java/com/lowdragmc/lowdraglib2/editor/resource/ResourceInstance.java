@@ -2,27 +2,28 @@ package com.lowdragmc.lowdraglib2.editor.resource;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.LDLib2Registries;
-import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
 import com.lowdragmc.lowdraglib2.editor.ui.resource.ResourceContainer;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
+
 import lombok.Getter;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.INBTSerializable;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 public class ResourceInstance<T> implements INBTSerializable<CompoundTag> {
+
     public final Resource<T> resource;
 
     @Getter
@@ -185,8 +186,8 @@ public class ResourceInstance<T> implements INBTSerializable<CompoundTag> {
     /**
      * Creates a selector dialog to allow users to select a resource.
      *
-     * @param mouseX the x-coordinate of the mouse position to display the dialog.
-     * @param mouseY the y-coordinate of the mouse position to display the dialog.
+     * @param mouseX        the x-coordinate of the mouse position to display the dialog.
+     * @param mouseY        the y-coordinate of the mouse position to display the dialog.
      * @param onValueSelect a callback function of type {@code Consumer<T>}
      *                      that is triggered when a resource is selected.
      * @return an instance of {@link Dialog} configured with the resource selector.

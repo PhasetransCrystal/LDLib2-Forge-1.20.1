@@ -12,5 +12,6 @@ package com.lowdragmc.lowdraglib2.gui.util;
  * @see #tick()
  */
 public interface ITickable {
+
     void tick();
 }

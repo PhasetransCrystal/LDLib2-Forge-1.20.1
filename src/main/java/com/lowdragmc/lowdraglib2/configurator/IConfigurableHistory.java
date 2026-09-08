@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.configurator;
 
 import com.lowdragmc.lowdraglib2.gui.ui.utils.IHistoryStack;
+
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +24,7 @@ public interface IConfigurableHistory {
     Handle record(IHistoryStack stack, Component name, @Nullable Object source);
 
     interface Handle {
+
         Handle setOnExecute(@Nullable Runnable onExecute);
 
         Handle setOnUndo(@Nullable Runnable onUndo);
@@ -35,6 +37,7 @@ public interface IConfigurableHistory {
         return (stack, name, source) -> {
             var action = stack.recordSerializableObject(name, serializable, source);
             return new Handle() {
+
                 @Override
                 public Handle setOnExecute(@Nullable Runnable onExecute) {
                     action.setOnExecute(onExecute == null ? null : value -> onExecute.run());

@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.elements.inventory.InventorySlots
 import com.lowdragmc.lowdraglib2.integration.xei.IngredientIO
+
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.item.ItemStack
 import net.minecraftforge.items.IItemHandlerModifiable
@@ -20,13 +21,7 @@ fun <T : ItemSlot> T.slotStyleDsl(init: ItemSlot.SlotStyle.() -> Unit = {}): T {
 /**
  * Specification for ItemSlot element
  */
-open class ItemSlotSpec<T : ItemSlot>(
-    var slotStyle: (ItemSlot.SlotStyle.() -> Unit)? = null,
-    var item: ItemStack? = null,
-    var itemHandler: IItemHandlerModifiable? = null,
-    var slotIndex: Int? = null,
-    var slot: Slot? = null,
-) : ElementSpec<T>() {
+open class ItemSlotSpec<T : ItemSlot>(var slotStyle: (ItemSlot.SlotStyle.() -> Unit)? = null, var item: ItemStack? = null, var itemHandler: IItemHandlerModifiable? = null, var slotIndex: Int? = null, var slot: Slot? = null) : ElementSpec<T>() {
     /**
      * Bind to item handler
      */
@@ -46,13 +41,8 @@ open class ItemSlotSpec<T : ItemSlot>(
 /**
  * ItemSlot element builder
  */
-open class ItemSlotElement<T : ItemSlot>(
-    element: T,
-    spec: (ItemSlotSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, ItemSlotSpec<T>>(element, spec) {
-    override fun makeSpec(): ItemSlotSpec<T>? {
-        return spec?.let { ItemSlotSpec<T>().apply(it) }
-    }
+open class ItemSlotElement<T : ItemSlot>(element: T, spec: (ItemSlotSpec<T>.() -> Unit)? = null) : UIContainer<T, ItemSlotSpec<T>>(element, spec) {
+    override fun makeSpec(): ItemSlotSpec<T>? = spec?.let { ItemSlotSpec<T>().apply(it) }
 
     override fun build(spec: ItemSlotSpec<T>?): T {
         val e = super.build(spec)
@@ -78,42 +68,27 @@ open class ItemSlotElement<T : ItemSlot>(
 /**
  * Top Level - Create a standalone ItemSlot element
  */
-fun itemSlot(spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null,
-             init: ItemSlotElement<ItemSlot>.() -> Unit = {}): ItemSlot {
-    return ItemSlotElement(ItemSlot(), spec).apply(init).build()
-}
+fun itemSlot(spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null, init: ItemSlotElement<ItemSlot>.() -> Unit = {}): ItemSlot = ItemSlotElement(ItemSlot(), spec).apply(init).build()
 
 /**
  * Top Level - Create ItemSlot with specific slot
  */
-fun itemSlot(slot: Slot,
-             spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null,
-             init: ItemSlotElement<ItemSlot>.() -> Unit = {}): ItemSlot {
-    return ItemSlotElement(ItemSlot(slot), spec).apply(init).build()
-}
+fun itemSlot(slot: Slot, spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null, init: ItemSlotElement<ItemSlot>.() -> Unit = {}): ItemSlot = ItemSlotElement(ItemSlot(slot), spec).apply(init).build()
 
 /**
  * Internal Builder - Add ItemSlot as a child to a container
  */
-fun UIContainer<*, *>.itemSlot(spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null,
-                                init: ItemSlotElement<ItemSlot>.() -> Unit = {}) =
-    add(ItemSlotElement(ItemSlot(), spec), init)
+fun UIContainer<*, *>.itemSlot(spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null, init: ItemSlotElement<ItemSlot>.() -> Unit = {}) = add(ItemSlotElement(ItemSlot(), spec), init)
 
 /**
  * Internal Builder - Add ItemSlot with specific slot as a child to a container
  */
-fun UIContainer<*, *>.itemSlot(slot: Slot,
-                                spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null,
-                                init: ItemSlotElement<ItemSlot>.() -> Unit = {}) =
-    add(ItemSlotElement(ItemSlot(slot), spec), init)
+fun UIContainer<*, *>.itemSlot(slot: Slot, spec: (ItemSlotSpec<ItemSlot>.() -> Unit)? = null, init: ItemSlotElement<ItemSlot>.() -> Unit = {}) = add(ItemSlotElement(ItemSlot(slot), spec), init)
 
 /**
  * DSL converter - Convert existing ItemSlot to DSL builder
  */
-fun <T : ItemSlot> T.dsl(spec: (ItemSlotSpec<T>.() -> Unit)? = null,
-                         init: ItemSlotElement<T>.() -> Unit = {}): ItemSlotElement<T> {
-    return ItemSlotElement(this, spec).apply(init)
-}
+fun <T : ItemSlot> T.dsl(spec: (ItemSlotSpec<T>.() -> Unit)? = null, init: ItemSlotElement<T>.() -> Unit = {}): ItemSlotElement<T> = ItemSlotElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -186,4 +161,3 @@ fun <T : ItemSlot> ItemSlotElement<T>.asXeiRecipeIngredient(io: IngredientIO): I
 fun <T : ItemSlot> ItemSlotElement<T>.asXeiRecipeSlot(io: IngredientIO = IngredientIO.NONE, chance: Float = 1f): ItemSlotElement<T> = apply {
     element.xeiRecipeSlot(io, chance)
 }
-

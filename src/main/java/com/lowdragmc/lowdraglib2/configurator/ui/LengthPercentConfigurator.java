@@ -4,20 +4,24 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.LengthPercent;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Selector;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import net.minecraft.network.chat.Component;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
 
 /**
  * Configurator for LengthPercent values (px or %).
  */
 public class LengthPercentConfigurator extends ValueConfigurator<LengthPercent> {
+
     public enum Unit {
-        PX, PERCENT
+        PX,
+        PERCENT
     }
 
     public final TextField textField;

@@ -1,10 +1,12 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.UUID;
 
 public interface IScene {
+
     @Nullable
     ISceneObject getSceneObject(UUID uuid);
 
@@ -29,5 +31,4 @@ public interface IScene {
      * Remove a scene object from the scene root.
      */
     void removeSceneObjectInternal(ISceneObject sceneObject);
-
 }

@@ -1,28 +1,31 @@
 package com.lowdragmc.lowdraglib2.integration.xei.rei;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalNotification;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventDispatcher;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.IModularUIProvider;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.handler.REIRecipeIngredientHandler;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.handler.REIRecipeWidgetHandler;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalNotification;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public abstract class ModularUIDisplayCategory<T extends ModularUIDisplay> implements DisplayCategory<T> {
+
     public final IModularUIProvider<T> uiProvider;
     // runtime
     protected final LoadingCache<T, ModularUI> uiCache;
@@ -40,6 +43,7 @@ public abstract class ModularUIDisplayCategory<T extends ModularUIDisplay> imple
                     }
                 })
                 .build(new CacheLoader<>() {
+
                     @Override
                     public ModularUI load(T display) {
                         var mui = uiProvider.createModularUI(display);
@@ -54,6 +58,7 @@ public abstract class ModularUIDisplayCategory<T extends ModularUIDisplay> imple
                 .expireAfterAccess(10, TimeUnit.SECONDS)
                 .maximumSize(10)
                 .build(new CacheLoader<>() {
+
                     @Override
                     public REIRecipeIngredientHandler load(T display) {
                         var mui = getUIForDisplay(display);

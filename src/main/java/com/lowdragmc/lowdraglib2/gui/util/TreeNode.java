@@ -1,9 +1,8 @@
 package com.lowdragmc.lowdraglib2.gui.util;
 
 import lombok.Getter;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,12 +10,16 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
 /***
  * Tree
+ * 
  * @param <T> key
  * @param <K> leaf
  */
 public class TreeNode<T, K> implements ITreeNode<T, K> {
+
     @Nullable
     @Getter
     public final TreeNode<T, K> parent;
@@ -61,20 +64,20 @@ public class TreeNode<T, K> implements ITreeNode<T, K> {
     public TreeNode<T, K> getOrCreateChild(T childKey) {
         TreeNode<T, K> result;
         if (children != null) {
-            result = children.stream().filter(child -> areKeysEqual(child.key, childKey)).findFirst().orElseGet(()->{
+            result = children.stream().filter(child -> areKeysEqual(child.key, childKey)).findFirst().orElseGet(() -> {
                 TreeNode<T, K> newNode = createNode(this, dimension + 1, childKey).setValid(valid);
                 children.add(newNode);
                 return newNode;
             });
         } else {
             children = new ArrayList<>();
-            result = createNode(this,  dimension + 1, childKey).setValid(valid);
+            result = createNode(this, dimension + 1, childKey).setValid(valid);
             children.add(result);
         }
         return result;
     }
 
-    public TreeNode<T, K> createChild (T childKey) {
+    public TreeNode<T, K> createChild(T childKey) {
         if (children == null) {
             children = new ArrayList<>();
         }
@@ -116,7 +119,6 @@ public class TreeNode<T, K> implements ITreeNode<T, K> {
     public String toString() {
         return key.toString();
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -8,6 +8,7 @@ import java.io.File;
 import java.nio.file.Files;
 
 public class UIXmlProjectType extends ProjectType {
+
     public static final UIXmlProjectType TYPE = new UIXmlProjectType();
 
     private UIXmlProjectType() {

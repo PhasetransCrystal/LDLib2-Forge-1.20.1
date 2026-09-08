@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.IPlaceHolder;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.PlaceholderModelHelper;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,19 +14,27 @@ import lombok.Setter;
  * A model that represents the placeholder of a variable declaration.
  */
 public class VariableDeclarationPlaceholder extends VariableDeclarationModelBase implements IPlaceHolder {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private VariableFlags variableFlags = VariableFlags.NONE;
-    @Getter @Setter
+    @Getter
+    @Setter
     private ModifierFlags modifiers = ModifierFlags.NONE;
-    @Getter @Setter
+    @Getter
+    @Setter
     private VariableScope scope = VariableScope.UNKNOWN;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean isShowOnInspectorOnly = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     private TypeHandle dataTypeHandle = TypeHandles.UNKNOWN;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Constant initializationModel;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Tooltips tooltips = Tooltips.empty();
 
     public VariableDeclarationPlaceholder() {
@@ -33,7 +42,5 @@ public class VariableDeclarationPlaceholder extends VariableDeclarationModelBase
     }
 
     @Override
-    public void createInitializationValue() {
-
-    }
+    public void createInitializationValue() {}
 }

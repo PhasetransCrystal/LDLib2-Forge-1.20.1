@@ -2,28 +2,30 @@ package com.lowdragmc.lowdraglib2.client.utils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderUtils {
+
     /***
      * used to render pixels in stencil mask. (e.g. Restrict rendering results to be displayed only in Monitor Screens)
      * if you want to do the similar things in Gui(2D) not World(3D)
      * that you don't need to draw mask to build a rect mask easily.
-     * @param mask draw mask
-     * @param renderInMask rendering in the mask
+     * 
+     * @param mask              draw mask
+     * @param renderInMask      rendering in the mask
      * @param renderMaskVisible should mask be rendered too
      */
     public static void useStencil(Runnable mask, Runnable renderInMask, boolean renderMaskVisible) {
@@ -147,8 +149,7 @@ public class RenderUtils {
                 poseStack.mulPose(new Quaternionf().rotateAxis(Mth.PI, new Vector3f(0, 1, 0)));
                 poseStack.mulPose(new Quaternionf().rotateAxis(angle, new Vector3f(0, 0, 1)));
             }
-            default -> {
-            }
+            default -> {}
         }
     }
 }

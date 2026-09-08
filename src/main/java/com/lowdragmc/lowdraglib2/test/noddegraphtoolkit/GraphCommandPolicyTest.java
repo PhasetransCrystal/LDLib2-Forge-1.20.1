@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.test.noddegraphtoolkit;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.IGraphCommand;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraftforge.gametest.GameTestHolder;
@@ -13,15 +14,18 @@ import net.minecraftforge.gametest.PrefixGameTestTemplate;
  * {@code CustomGraphModelImpl}'s delegation. The actual veto/listener behavior at
  * {@code GraphView.dispatchCommand} is UI and validated manually.
  *
- * <p>Commands are passed as {@code null} so no real command object (which references the client-only
+ * <p>
+ * Commands are passed as {@code null} so no real command object (which references the client-only
  * {@code GraphView} in its signatures) is constructed on the dedicated server — the overrides ignore
- * the argument and decide by flag/counter.</p>
+ * the argument and decide by flag/counter.
+ * </p>
  */
 @GameTestHolder(LDLib2.MOD_ID)
 public class GraphCommandPolicyTest {
 
     /** A TestGraph whose command policy is driven by a flag, recording post-execute calls. */
     private static class PolicyTestGraph extends TestGraph {
+
         boolean allowCommands = true;
         int executedCount = 0;
 
@@ -45,11 +49,13 @@ public class GraphCommandPolicyTest {
 
         // GraphModel must forward to the Graph override.
         if (!graph.graphModel.canExecuteCommand(null)) {
-            helper.fail("expected canExecuteCommand to allow by default flag (true)"); return;
+            helper.fail("expected canExecuteCommand to allow by default flag (true)");
+            return;
         }
         graph.allowCommands = false;
         if (graph.graphModel.canExecuteCommand(null)) {
-            helper.fail("canExecuteCommand did not delegate the false flag through GraphModel"); return;
+            helper.fail("canExecuteCommand did not delegate the false flag through GraphModel");
+            return;
         }
 
         LDLib2.LOGGER.info("End canExecuteCommandDelegatesToGraph - PASSED");
@@ -66,7 +72,8 @@ public class GraphCommandPolicyTest {
         graph.graphModel.onCommandExecuted(null);
 
         if (graph.executedCount != 2) {
-            helper.fail("expected 2 post-execute delegations, got " + graph.executedCount); return;
+            helper.fail("expected 2 post-execute delegations, got " + graph.executedCount);
+            return;
         }
 
         LDLib2.LOGGER.info("End onCommandExecutedDelegatesToGraph - PASSED");
@@ -81,12 +88,14 @@ public class GraphCommandPolicyTest {
         var graph = new TestGraph();
         // Default graph allows everything and the post-hook is a no-op that must not throw.
         if (!graph.graphModel.canExecuteCommand(null)) {
-            helper.fail("default canExecuteCommand should allow"); return;
+            helper.fail("default canExecuteCommand should allow");
+            return;
         }
         try {
             graph.graphModel.onCommandExecuted(null);
         } catch (Exception e) {
-            helper.fail("default onCommandExecuted should be a no-op, threw: " + e.getMessage()); return;
+            helper.fail("default onCommandExecuted should be a no-op, threw: " + e.getMessage());
+            return;
         }
 
         LDLib2.LOGGER.info("End defaultsArePermissive - PASSED");

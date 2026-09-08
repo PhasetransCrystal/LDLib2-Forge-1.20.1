@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.LPARect;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.TaffyCodecs;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.LPARectValue;
+
 import dev.vfyjxf.taffy.geometry.TaffyRect;
 import dev.vfyjxf.taffy.style.LengthPercentageAuto;
 import lombok.experimental.Accessors;
@@ -18,6 +19,7 @@ import java.util.function.Supplier;
  */
 @Accessors(chain = true)
 public class LPARectProperty extends Property<LPARect> {
+
     public LPARectProperty(String name, LPARect initialValue) {
         super(name, LPARect.class, TaffyCodecs.LPA_RECT_CODEC, initialValue, LPARectValue::new);
         setAllowTransition(true);
@@ -37,8 +39,7 @@ public class LPARectProperty extends Property<LPARect> {
                     }
                 },
                 "auto",
-                true
-        );
+                true);
     }
 
     private LPARect interpolate(LPARect from, LPARect to, float interpolation) {

@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEmitter;
 import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEventBuilder;
 import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -17,22 +18,22 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.HoverTooltips;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.gui.util.TextFormattingUtil;
+import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.integration.xei.IngredientIO;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.LDLibEMIPlugin;
 import com.lowdragmc.lowdraglib2.integration.xei.jei.LDLibJEIPlugin;
-import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.LDLibREIPlugin;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
 import com.lowdragmc.lowdraglib2.utils.FluidHelper;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import dev.emi.emi.api.stack.*;
 import lombok.Getter;
@@ -53,10 +54,9 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -66,14 +66,18 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @Accessors(chain = true)
 @KJSBindings
 @LDLRegister(name = "fluid-slot", group = "inventory", registry = "ldlib2:ui_element")
 public class FluidSlot extends BindableUIElement<FluidStack> {
+
     @Configurable(name = "SlotStyle")
     public class SlotStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.HOVER_OVERLAY,
                 PropertyRegistry.SLOT_OVERLAY,
@@ -81,6 +85,7 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
                 PropertyRegistry.FILL_DIRECTION,
                 PropertyRegistry.SHOW_FLUID_TOOLTIPS,
         };
+
         public SlotStyle() {
             super(FluidSlot.this);
             setDefault(PropertyRegistry.HOVER_OVERLAY, new ColorRectTexture(0x80FFFFFF));
@@ -140,9 +145,11 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
     public final Label amountLabel = new Label();
     @Getter
     private final SlotStyle slotStyle = new SlotStyle();
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean allowClickFilled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean allowClickDrained = true;
     // editor support
     @Configurable(name = "EditorFluidDisplay")
@@ -152,9 +159,10 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
     // runtime
     @Getter
     private FluidStack fluid = FluidStack.EMPTY;
-    @Getter @Setter
+    @Getter
+    @Setter
     @Configurable(name = "Capacity")
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     private int capacity = 0;
     private final RPCEmitter clickEvent;
 
@@ -189,13 +197,11 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
         amountLabel.textStyle(textStyle -> textStyle
                 .textAlignVertical(Vertical.BOTTOM)
                 .textAlignHorizontal(Horizontal.RIGHT)
-                .fontSize(4.5f)
-        );
+                .fontSize(4.5f));
         amountLabel.bindDataSource(SupplierDataSource.of(this::getFluidAmountText));
         addChild(amountLabel);
         internalSetup();
     }
-
 
     public FluidSlot slotStyle(Consumer<SlotStyle> style) {
         style.accept(slotStyle);
@@ -356,12 +362,11 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
         }
     }
 
-
     protected void onMouseDown(UIEvent event) {
         clickEvent.send(event.isShiftDown());
     }
 
-    public FluidSlot  setFluid(FluidStack fluid) {
+    public FluidSlot setFluid(FluidStack fluid) {
         return setValue(fluid, true);
     }
 
@@ -462,7 +467,6 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
         guiContext.drawTexture(slotStyle.hoverOverlay(), contentX, contentY, contentWidth, contentHeight);
     }
 
-
     /// Editor Support
     @ConfigSetter(field = "editorFluidDisplay")
     private void setEditorFluidDisplay(FluidStack fluidStack) {
@@ -485,7 +489,7 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
     private boolean skipAllowXEILookup(boolean allowXEILookup) {
         return allowXEILookup;
     }
-    
+
     @SkipPersistedValue(field = "capacity")
     private boolean skipCapacity(int capacity) {
         return capacity == 0;
@@ -526,6 +530,7 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
 
     // region XEI Support
     public static class JEISupport {
+
         public static void clickableIngredient(FluidSlot fluidSlot) {
             LDLibJEIPlugin.clickableIngredient(fluidSlot, () -> {
                 if (!fluidSlot.allowXEILookup) return null;
@@ -569,6 +574,7 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
     }
 
     public static class REISupport {
+
         public static void focusedStack(FluidSlot fluidSlot) {
             LDLibREIPlugin.focusedStack(fluidSlot, () -> {
                 if (!fluidSlot.allowXEILookup) return null;
@@ -598,8 +604,7 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
         public static void recipeIngredient(FluidSlot fluidSlot, IngredientIO io, Supplier<Stream<FluidStack>> allPossibleFluids) {
             LDLibREIPlugin.recipeIngredient(fluidSlot, io, () -> allPossibleFluids.get()
                     .map(fluidStack -> EntryIngredients.of(FluidStackHooksForge.fromForge(fluidStack)))
-                    .toList()
-            );
+                    .toList());
         }
 
         public static void recipeSlot(FluidSlot fluidSlot, IngredientIO io) {
@@ -614,6 +619,7 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
     }
 
     public static class EMISupport {
+
         public static void stackProvider(FluidSlot fluidSlot) {
             LDLibEMIPlugin.stackProvider(fluidSlot, () -> {
                 if (!fluidSlot.allowXEILookup) return null;
@@ -648,8 +654,7 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
         public static void recipeIngredient(FluidSlot fluidSlot, IngredientIO io, Supplier<Stream<FluidStack>> allPossibleFluids) {
             LDLibEMIPlugin.recipeIngredient(fluidSlot, io, () -> allPossibleFluids.get()
                     .map(EMISupport::toEmiStack)
-                    .collect(Collectors.toList())
-            );
+                    .collect(Collectors.toList()));
         }
 
         public static void recipeSlot(FluidSlot fluidSlot, float chance) {
@@ -660,11 +665,11 @@ public class FluidSlot extends BindableUIElement<FluidStack> {
         }
 
         public static void recipeSlot(FluidSlot fluidSlot, Supplier<Float> chance, IntSupplier amount, Supplier<Stream<FluidStack>> allPossibleFluids) {
-            LDLibEMIPlugin.recipeSlot(fluidSlot, () ->
-                    new ListEmiIngredient(
-                            allPossibleFluids.get().map(EMISupport::toEmiStack)
-                                    .map(e -> e.setChance(chance.get())).collect(Collectors.toList()), amount.getAsInt())
-                            .setChance(chance.get()));
+            LDLibEMIPlugin.recipeSlot(fluidSlot, () -> new ListEmiIngredient(
+                    allPossibleFluids.get().map(EMISupport::toEmiStack)
+                            .map(e -> e.setChance(chance.get())).collect(Collectors.toList()),
+                    amount.getAsInt())
+                    .setChance(chance.get()));
         }
 
         private static EmiStack toEmiStack(FluidStack fluid) {

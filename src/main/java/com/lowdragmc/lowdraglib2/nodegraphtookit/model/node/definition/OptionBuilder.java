@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.ITypeConfigurable;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
+
 import com.mojang.serialization.Codec;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -15,9 +16,12 @@ import java.util.function.Consumer;
 /**
  * Concrete implementation of option builder.
  *
- * <p>Used to create and configure node options using a fluent builder pattern.</p>
+ * <p>
+ * Used to create and configure node options using a fluent builder pattern.
+ * </p>
  */
 public class OptionBuilder implements IOptionBuilder<OptionBuilder> {
+
     protected OptionDefinitionContext context;
     protected String optionId;
     protected Component displayName;

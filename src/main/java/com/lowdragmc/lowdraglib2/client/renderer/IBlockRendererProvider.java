@@ -8,13 +8,13 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 import org.jetbrains.annotations.Nullable;
 
 public interface IBlockRendererProvider {
 
     /**
      * Get the renderer for the block state.
+     * 
      * @return return null if the block state does not have a renderer.
      */
     @Nullable
@@ -45,5 +45,4 @@ public interface IBlockRendererProvider {
     default ModelState getModelState(BlockAndTintGetter world, BlockPos pos, BlockState state) {
         return BlockModelRotation.X0_Y0;
     }
-
 }

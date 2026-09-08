@@ -8,10 +8,11 @@ import java.util.*;
  * Java equivalent of C# OrderedPorts.
  *
  * Supports:
- *  - lookup by uniqueName (map)
- *  - ordered (and re-orderable) list view via 'order' indirection
+ * - lookup by uniqueName (map)
+ * - ordered (and re-orderable) list view via 'order' indirection
  */
 public final class OrderedPorts implements Iterable<PortModel> {
+
     private final HashMap<String, PortModel> dictionary;
     /**
      * orderViewIndex -> portModelsIndex
@@ -172,11 +173,11 @@ public final class OrderedPorts implements Iterable<PortModel> {
 
         // find where those underlying indexes appear in the order list?
         // NOTE: In your C# code, they do:
-        //   int indexA = m_PortModels.IndexOf(a);
-        //   int indexB = m_PortModels.IndexOf(b);
-        //   int oldAOrder = m_Order[indexA];
-        //   m_Order[indexA] = m_Order[indexB];
-        //   m_Order[indexB] = oldAOrder;
+        // int indexA = m_PortModels.IndexOf(a);
+        // int indexB = m_PortModels.IndexOf(b);
+        // int oldAOrder = m_Order[indexA];
+        // m_Order[indexA] = m_Order[indexB];
+        // m_Order[indexB] = oldAOrder;
         //
         // That means: they treat "indexA/indexB" as positions in order list too,
         // implying m_Order is aligned with m_PortModels indices (same length) and
@@ -227,6 +228,7 @@ public final class OrderedPorts implements Iterable<PortModel> {
     public @NotNull Iterator<PortModel> iterator() {
         checkInvariant();
         return new Iterator<>() {
+
             private int i = 0;
 
             @Override

@@ -7,6 +7,7 @@ import java.util.List;
  * A container for graph elements.
  */
 public interface IGraphElementContainer {
+
     /**
      * Gets the contained graph element models.
      *
@@ -16,6 +17,7 @@ public interface IGraphElementContainer {
 
     /**
      * Removes the given graph element models from the container.
+     * 
      * @param elementsToRemove The graph element models to remove.
      */
     void removeContainerElements(Collection<? extends GraphElementModel> elementsToRemove);

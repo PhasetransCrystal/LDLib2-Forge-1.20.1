@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.sync.bindings.IDataProvider;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.IPausable;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.ModularUIEMIWidget;
+
 import dev.emi.emi.screen.RecipeScreen;
 import dev.emi.emi.screen.WidgetGroup;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +18,9 @@ import java.util.List;
 
 @Mixin(RecipeScreen.class)
 public abstract class RecipeScreenMixin {
-    @Shadow(remap = false) private List<WidgetGroup> currentPage;
+
+    @Shadow(remap = false)
+    private List<WidgetGroup> currentPage;
 
     @Inject(method = "mouseClicked", at = @At(value = "HEAD"), cancellable = true)
     private void ldlib2$mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {

@@ -1,0 +1,32 @@
+tasks.withType(ProcessResources).configureEach {
+    def replaceProperties = [
+            "mod_id"             : mod_id,
+            "version"            : version,
+            "loader_version"     : loader_version,
+            "forge_version"      : forge_version.split("\\.")[0],
+            "minecraft_version"  : minecraft_version,
+            "kotlin_for_forge_version": kotlin_for_forge_version,
+            "mod_license"        : mod_license,
+            "mod_name"           : mod_name,
+            "mod_description"    : mod_description,
+            "mod_url"            : mod_url,
+            "resource_pack_format": resource_pack_format
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    srcDir(layout.buildDirectory.dir("generated/resources/taffy"))
+}
+sourceSets.main.kotlin { srcDir("src/main/java") }
+sourceSets.main.java { srcDir(layout.buildDirectory.dir("generated/sources/yoga")) }

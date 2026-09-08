@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.holder;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -33,9 +34,7 @@ public class ModularUIContainerScreen extends AbstractContainerScreen<ModularUIC
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-
-    }
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {}
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -44,8 +43,5 @@ public class ModularUIContainerScreen extends AbstractContainerScreen<ModularUIC
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-
-    }
-
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {}
 }

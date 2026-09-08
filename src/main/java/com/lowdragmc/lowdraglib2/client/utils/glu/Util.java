@@ -7,15 +7,15 @@
  * met:
  *
  * * Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
+ * notice, this list of conditions and the following disclaimer.
  *
  * * Redistributions in binary form must reproduce the above copyright
- *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
  *
  * * Neither the name of 'LWJGL' nor the names of
- *   its contributors may be used to endorse or promote products derived
- *   from this software without specific prior written permission.
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -49,200 +49,199 @@ import static org.lwjgl.opengl.GL12.GL_BGRA;
  */
 public class Util {
 
-	/**
-	 * temp IntBuffer of one for getting an int from some GL functions
-	 */
-	private static IntBuffer scratch = BufferUtils.createIntBuffer(16);
+    /**
+     * temp IntBuffer of one for getting an int from some GL functions
+     */
+    private static IntBuffer scratch = BufferUtils.createIntBuffer(16);
 
-	/**
-	 * Return ceiling of integer division
-	 *
-	 * @param a
-	 * @param b
-	 *
-	 * @return int
-	 */
-	protected static int ceil(int a, int b) {
-		return (a % b == 0 ? a / b : a / b + 1);
-	}
+    /**
+     * Return ceiling of integer division
+     *
+     * @param a
+     * @param b
+     *
+     * @return int
+     */
+    protected static int ceil(int a, int b) {
+        return (a % b == 0 ? a / b : a / b + 1);
+    }
 
-	/**
-	 * Normalize vector
-	 *
-	 * @param v
-	 *
-	 * @return float[]
-	 */
-	protected static float[] normalize(float[] v) {
-		float r;
+    /**
+     * Normalize vector
+     *
+     * @param v
+     *
+     * @return float[]
+     */
+    protected static float[] normalize(float[] v) {
+        float r;
 
-		r = (float)Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-		if ( r == 0.0 )
-			return v;
+        r = (float) Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+        if (r == 0.0)
+            return v;
 
-		r = 1.0f / r;
+        r = 1.0f / r;
 
-		v[0] *= r;
-		v[1] *= r;
-		v[2] *= r;
+        v[0] *= r;
+        v[1] *= r;
+        v[2] *= r;
 
-		return v;
-	}
+        return v;
+    }
 
-	/**
-	 * Calculate cross-product
-	 *
-	 * @param v1
-	 * @param v2
-	 * @param result
-	 */
-	protected static void cross(float[] v1, float[] v2, float[] result) {
-		result[0] = v1[1] * v2[2] - v1[2] * v2[1];
-		result[1] = v1[2] * v2[0] - v1[0] * v2[2];
-		result[2] = v1[0] * v2[1] - v1[1] * v2[0];
-	}
+    /**
+     * Calculate cross-product
+     *
+     * @param v1
+     * @param v2
+     * @param result
+     */
+    protected static void cross(float[] v1, float[] v2, float[] result) {
+        result[0] = v1[1] * v2[2] - v1[2] * v2[1];
+        result[1] = v1[2] * v2[0] - v1[0] * v2[2];
+        result[2] = v1[0] * v2[1] - v1[1] * v2[0];
+    }
 
-	/**
-	 * Method compPerPix.
-	 *
-	 * @param format
-	 *
-	 * @return int
-	 */
-	protected static int compPerPix(int format) {
-		/* Determine number of components per pixel */
-		switch ( format ) {
-			case GL_COLOR_INDEX:
-			case GL_STENCIL_INDEX:
-			case GL_DEPTH_COMPONENT:
-			case GL_RED:
-			case GL_GREEN:
-			case GL_BLUE:
-			case GL_ALPHA:
-			case GL_LUMINANCE:
-				return 1;
-			case GL_LUMINANCE_ALPHA:
-				return 2;
-			case GL_RGB:
-			case GL_BGR:
-				return 3;
-			case GL_RGBA:
-			case GL_BGRA:
-				return 4;
-			default :
-				return -1;
-		}
-	}
+    /**
+     * Method compPerPix.
+     *
+     * @param format
+     *
+     * @return int
+     */
+    protected static int compPerPix(int format) {
+        /* Determine number of components per pixel */
+        switch (format) {
+            case GL_COLOR_INDEX:
+            case GL_STENCIL_INDEX:
+            case GL_DEPTH_COMPONENT:
+            case GL_RED:
+            case GL_GREEN:
+            case GL_BLUE:
+            case GL_ALPHA:
+            case GL_LUMINANCE:
+                return 1;
+            case GL_LUMINANCE_ALPHA:
+                return 2;
+            case GL_RGB:
+            case GL_BGR:
+                return 3;
+            case GL_RGBA:
+            case GL_BGRA:
+                return 4;
+            default:
+                return -1;
+        }
+    }
 
-	/**
-	 * Method nearestPower.
-	 * <p/>
-	 * Compute the nearest power of 2 number.  This algorithm is a little strange, but it works quite well.
-	 *
-	 * @param value
-	 *
-	 * @return int
-	 */
-	protected static int nearestPower(int value) {
-		int i;
+    /**
+     * Method nearestPower.
+     * <p/>
+     * Compute the nearest power of 2 number. This algorithm is a little strange, but it works quite well.
+     *
+     * @param value
+     *
+     * @return int
+     */
+    protected static int nearestPower(int value) {
+        int i;
 
-		i = 1;
+        i = 1;
 
-		/* Error! */
-		if ( value == 0 )
-			return -1;
+        /* Error! */
+        if (value == 0)
+            return -1;
 
-		for ( ; ; ) {
-			if ( value == 1 ) {
-				return i;
-			} else if ( value == 3 ) {
-				return i << 2;
-			}
-			value >>= 1;
-			i <<= 1;
-		}
-	}
+        for (;;) {
+            if (value == 1) {
+                return i;
+            } else if (value == 3) {
+                return i << 2;
+            }
+            value >>= 1;
+            i <<= 1;
+        }
+    }
 
-	/**
-	 * Method bytesPerPixel.
-	 *
-	 * @param format
-	 * @param type
-	 *
-	 * @return int
-	 */
-	protected static int bytesPerPixel(int format, int type) {
-		int n, m;
+    /**
+     * Method bytesPerPixel.
+     *
+     * @param format
+     * @param type
+     *
+     * @return int
+     */
+    protected static int bytesPerPixel(int format, int type) {
+        int n, m;
 
-		switch ( format ) {
-			case GL_COLOR_INDEX:
-			case GL_STENCIL_INDEX:
-			case GL_DEPTH_COMPONENT:
-			case GL_RED:
-			case GL_GREEN:
-			case GL_BLUE:
-			case GL_ALPHA:
-			case GL_LUMINANCE:
-				n = 1;
-				break;
-			case GL_LUMINANCE_ALPHA:
-				n = 2;
-				break;
-			case GL_RGB:
-			case GL_BGR:
-				n = 3;
-				break;
-			case GL_RGBA:
-			case GL_BGRA:
-				n = 4;
-				break;
-			default :
-				n = 0;
-		}
+        switch (format) {
+            case GL_COLOR_INDEX:
+            case GL_STENCIL_INDEX:
+            case GL_DEPTH_COMPONENT:
+            case GL_RED:
+            case GL_GREEN:
+            case GL_BLUE:
+            case GL_ALPHA:
+            case GL_LUMINANCE:
+                n = 1;
+                break;
+            case GL_LUMINANCE_ALPHA:
+                n = 2;
+                break;
+            case GL_RGB:
+            case GL_BGR:
+                n = 3;
+                break;
+            case GL_RGBA:
+            case GL_BGRA:
+                n = 4;
+                break;
+            default:
+                n = 0;
+        }
 
-		switch ( type ) {
-			case GL_UNSIGNED_BYTE:
-				m = 1;
-				break;
-			case GL_BYTE:
-				m = 1;
-				break;
-			case GL_BITMAP:
-				m = 1;
-				break;
-			case GL_UNSIGNED_SHORT:
-				m = 2;
-				break;
-			case GL_SHORT:
-				m = 2;
-				break;
-			case GL_UNSIGNED_INT:
-				m = 4;
-				break;
-			case GL_INT:
-				m = 4;
-				break;
-			case GL_FLOAT:
-				m = 4;
-				break;
-			default :
-				m = 0;
-		}
+        switch (type) {
+            case GL_UNSIGNED_BYTE:
+                m = 1;
+                break;
+            case GL_BYTE:
+                m = 1;
+                break;
+            case GL_BITMAP:
+                m = 1;
+                break;
+            case GL_UNSIGNED_SHORT:
+                m = 2;
+                break;
+            case GL_SHORT:
+                m = 2;
+                break;
+            case GL_UNSIGNED_INT:
+                m = 4;
+                break;
+            case GL_INT:
+                m = 4;
+                break;
+            case GL_FLOAT:
+                m = 4;
+                break;
+            default:
+                m = 0;
+        }
 
-		return n * m;
-	}
+        return n * m;
+    }
 
-	/**
-	 * Convenience method for returning an int, rather than getting it out of a buffer yourself.
-	 *
-	 * @param what
-	 *
-	 * @return int
-	 */
-	protected static int glGetIntegerv(int what) {
-		scratch.rewind();
+    /**
+     * Convenience method for returning an int, rather than getting it out of a buffer yourself.
+     *
+     * @param what
+     *
+     * @return int
+     */
+    protected static int glGetIntegerv(int what) {
+        scratch.rewind();
         org.lwjgl.opengl.GL11.glGetIntegerv(what, scratch);
-		return scratch.get();
-	}
-
+        return scratch.get();
+    }
 }

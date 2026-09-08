@@ -14,29 +14,28 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class VirtualChunk extends LevelChunk {
 
-	public VirtualChunk(DummyWorld level, int x, int z) {
-		super(level, new ChunkPos(x, z));
-	}
+    public VirtualChunk(DummyWorld level, int x, int z) {
+        super(level, new ChunkPos(x, z));
+    }
 
-	public DummyWorld getDummyWorld() {
-		return (DummyWorld) this.getLevel();
-	}
+    public DummyWorld getDummyWorld() {
+        return (DummyWorld) this.getLevel();
+    }
 
-	public @Nullable BlockState setBlockState(BlockPos pos, BlockState state, boolean isMoving) {
-		var dummyWorld = this.getDummyWorld();
-		dummyWorld.prepareLighting(pos);
-		BlockState result = super.setBlockState(pos, state, isMoving);
-		if (state.isAir()) {
-			dummyWorld.removeFilledBlock(pos);
-		} else {
-			dummyWorld.addFilledBlock(pos);
-		}
+    public @Nullable BlockState setBlockState(BlockPos pos, BlockState state, boolean isMoving) {
+        var dummyWorld = this.getDummyWorld();
+        dummyWorld.prepareLighting(pos);
+        BlockState result = super.setBlockState(pos, state, isMoving);
+        if (state.isAir()) {
+            dummyWorld.removeFilledBlock(pos);
+        } else {
+            dummyWorld.addFilledBlock(pos);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	public FullChunkStatus getFullStatus() {
-		return FullChunkStatus.FULL;
-	}
-
+    public FullChunkStatus getFullStatus() {
+        return FullChunkStatus.FULL;
+    }
 }

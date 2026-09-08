@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.syncdata.holder;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.utils.TagUtils;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -13,6 +14,7 @@ import net.minecraft.nbt.NbtOps;
  * @see Persisted
  */
 public interface IPersistManagedHolder extends IManagedHolder {
+
     default void saveManagedPersistentData(HolderLookup.Provider provider, CompoundTag tag, boolean forDrop) {
         var persistedFields = getRootStorage().getPersistedFields();
         var managedTag = new CompoundTag();
@@ -52,18 +54,13 @@ public interface IPersistManagedHolder extends IManagedHolder {
         loadCustomPersistedData(provider, tag.getCompound("custom"));
     }
 
-
     /**
      * write custom data to the save
      */
-    default void saveCustomPersistedData(HolderLookup.Provider provider, CompoundTag tag, boolean forDrop) {
-
-    }
+    default void saveCustomPersistedData(HolderLookup.Provider provider, CompoundTag tag, boolean forDrop) {}
 
     /**
      * read custom data from the save
      */
-    default void loadCustomPersistedData(HolderLookup.Provider provider, CompoundTag tag) {
-    }
-
+    default void loadCustomPersistedData(HolderLookup.Provider provider, CompoundTag tag) {}
 }

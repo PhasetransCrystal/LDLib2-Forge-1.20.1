@@ -14,6 +14,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModelBase;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,10 +22,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class VariableNodeModel extends NodeModel implements ISingleInputPortNodeModel, ISingleOutputPortNodeModel, IHasDeclarationModel {
+
     public static final String MAIN_PORT_ID = "main";
     @Nullable
     private VariableDeclarationModelBase declarationModel;
-    @Persisted @Nullable
+    @Persisted
+    @Nullable
     private UUID declarationModelUid;
     @Nullable
     protected PortModel mainPortModel;
@@ -40,8 +43,7 @@ public class VariableNodeModel extends NodeModel implements ISingleInputPortNode
     public void updateTypeFromDeclaration() {
         if (!Objects.equals(
                 mainPortModel == null ? null : mainPortModel.getDataTypeHandle(),
-                getVariableDeclarationModel().getDataTypeHandle()
-        )) {
+                getVariableDeclarationModel().getDataTypeHandle())) {
             defineNode();
             if (graphModel != null) {
                 graphModel.getCurrentGraphChangeDescription().addChangedModel(this, ChangeHint.DATA);

@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import lombok.Getter;
@@ -45,8 +46,7 @@ public class VanillaSpriteTexture extends TransformTexture {
     @Setter
     private int color = -1;
 
-    public VanillaSpriteTexture() {
-    }
+    public VanillaSpriteTexture() {}
 
     public VanillaSpriteTexture(ResourceLocation sprite) {
         this.sprite = sprite;
@@ -88,6 +88,7 @@ public class VanillaSpriteTexture extends TransformTexture {
     @OnlyIn(Dist.CLIENT)
     private SearchComponentConfigurator.ISearchConfigurator<ResourceLocation> searchSprites() {
         return new SearchComponentConfigurator.ISearchConfigurator<>() {
+
             @Override
             @NotNull
             public ResourceLocation defaultValue() {
@@ -182,5 +183,4 @@ public class VanillaSpriteTexture extends TransformTexture {
             }
         }
     }
-
 }

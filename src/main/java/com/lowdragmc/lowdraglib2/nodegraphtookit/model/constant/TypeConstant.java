@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandleHelpers;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.syncdata.AccessorRegistries;
 import com.lowdragmc.lowdraglib2.syncdata.SyncValueHolder;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
@@ -23,12 +24,15 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TypeConstant extends Constant {
+
     @Getter
     private Type type;
     @Getter
     @Nullable
     private Object value;
-    @Nullable @Getter @Setter
+    @Nullable
+    @Getter
+    @Setter
     private Object defaultValue;
 
     public TypeConstant() {}
@@ -46,7 +50,8 @@ public class TypeConstant extends Constant {
             var graphModel = owner.getGraphModel();
             if (graphModel != null) {
                 graphModel.getCurrentGraphChangeDescription().addChangedModel(owner, ChangeHint.DATA);
-                // If OwnerModel is a PortModel, the graph object will not be marked as dirty (since PortModels are not serialized).
+                // If OwnerModel is a PortModel, the graph object will not be marked as dirty (since PortModels are not
+                // serialized).
                 // Make sure the asset is marked as dirty so the changes to the Constant are saved.
                 graphModel.setGraphObjectDirty();
             }
@@ -69,7 +74,9 @@ public class TypeConstant extends Constant {
      * {@link Constant#getCustomCodec() custom codec}. Used to keep the warn log to one line per
      * unique type rather than spamming once per port instance.
      *
-     * <p>Package-private for tests that want to assert warn-once semantics.</p>
+     * <p>
+     * Package-private for tests that want to assert warn-once semantics.
+     * </p>
      */
     static final Set<Type> WARNED_UNSERIALIZABLE_TYPES = ConcurrentHashMap.newKeySet();
 
@@ -86,16 +93,20 @@ public class TypeConstant extends Constant {
     /**
      * Serializes a Constant to a CompoundTag.
      *
-     * <p>Branch order:</p>
+     * <p>
+     * Branch order:
+     * </p>
      * <ol>
-     *   <li>{@code constant.serializationEnabled == false} → only the type identifier is written.</li>
-     *   <li>{@code constant.customCodec != null} → encoded via the codec.</li>
-     *   <li>Otherwise the legacy {@link SyncValueHolder} / {@code AccessorRegistries} path,
-     *       gracefully skipping (with a one-time warn) when no accessor is registered.</li>
+     * <li>{@code constant.serializationEnabled == false} → only the type identifier is written.</li>
+     * <li>{@code constant.customCodec != null} → encoded via the codec.</li>
+     * <li>Otherwise the legacy {@link SyncValueHolder} / {@code AccessorRegistries} path,
+     * gracefully skipping (with a one-time warn) when no accessor is registered.</li>
      * </ol>
      *
-     * <p>The whole method is try/catched at the outer level so a corrupt accessor or codec can
-     * never crash a graph save — at worst the affected value is dropped from the tag.</p>
+     * <p>
+     * The whole method is try/catched at the outer level so a corrupt accessor or codec can
+     * never crash a graph save — at worst the affected value is dropped from the tag.
+     * </p>
      */
     public static CompoundTag serializeConstant(Constant constant, HolderLookup.Provider provider) {
         var tag = new CompoundTag();
@@ -123,12 +134,16 @@ public class TypeConstant extends Constant {
      * second pass ({@link ConstantNodeModel}, {@link VariableDeclarationModel}, and ports/options
      * whose builder has no extra state) can act on the constant directly.
      *
-     * <p>"No builder state" here means: no custom codec, no {@code withoutSerialization()}, no
+     * <p>
+     * "No builder state" here means: no custom codec, no {@code withoutSerialization()}, no
      * builder-supplied default value. In that scenario Phase 1's accessor decode produces the
      * same value Phase 2 would, so {@link NodeModel#updateConstantForInput} skips Phase 2 to
-     * avoid redundant work.</p>
+     * avoid redundant work.
+     * </p>
      *
-     * <p>Wrapped in try/catch so a corrupt tag never throws past this call.</p>
+     * <p>
+     * Wrapped in try/catch so a corrupt tag never throws past this call.
+     * </p>
      */
     @Nullable
     public static Constant deserializeConstant(CompoundTag tag, HolderLookup.Provider provider) {
@@ -158,12 +173,16 @@ public class TypeConstant extends Constant {
      * {@code serializationEnabled} flag have already been installed by
      * {@code initializationCallback}.
      *
-     * <p>Only called by the port/option pipeline when the builder actually has state worth
+     * <p>
+     * Only called by the port/option pipeline when the builder actually has state worth
      * applying (custom codec, {@code withoutSerialization}, or a builder-supplied default). For
-     * stateless ports Phase 1's result is final.</p>
+     * stateless ports Phase 1's result is final.
+     * </p>
      *
-     * <p>The provider is looked up via {@link Platform#getFrozenRegistry()} (the project's
-     * standard fallback) — there's no reason to cache one passed in from phase 1.</p>
+     * <p>
+     * The provider is looked up via {@link Platform#getFrozenRegistry()} (the project's
+     * standard fallback) — there's no reason to cache one passed in from phase 1.
+     * </p>
      */
     public static void deserializeIntoConstant(Constant target, CompoundTag tag) {
         target.setDeserializeFailed(false);
@@ -235,7 +254,7 @@ public class TypeConstant extends Constant {
         if (failed) target.setDeserializeFailed(true);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static Optional<Tag> encodeField(Constant constant, DynamicOps<Tag> ops, Object value, String fieldName) {
         var codec = constant.getCustomCodec();
         if (codec != null) {
@@ -266,7 +285,7 @@ public class TypeConstant extends Constant {
      * phase 2; phase 2 inspects the empty-Optional to decide whether to mark the constant as
      * failed and whether to emit the warn-once.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static Optional<Object> tryDecodeField(Constant constant, DynamicOps<Tag> ops, Tag tag, String fieldName) {
         if (tag == null) return Optional.empty();
         var codec = constant.getCustomCodec();

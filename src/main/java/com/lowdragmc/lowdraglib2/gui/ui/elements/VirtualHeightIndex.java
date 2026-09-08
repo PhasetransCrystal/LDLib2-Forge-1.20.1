@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements;
 import java.util.Arrays;
 
 public class VirtualHeightIndex {
+
     private VirtualItemHeightMode mode = VirtualItemHeightMode.VARIABLE;
     private int itemCount;
     private float estimatedHeight = 1;

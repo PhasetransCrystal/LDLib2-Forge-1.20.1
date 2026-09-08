@@ -2,18 +2,21 @@ package com.lowdragmc.lowdraglib2.gui.ui.style;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.Nonnull;
+
 @KJSBindings
 public final class StylesheetManager implements ResourceManagerReloadListener {
+
     public static final StylesheetManager INSTANCE = new StylesheetManager();
     public static final String PATH = "lss";
 
@@ -33,8 +36,7 @@ public final class StylesheetManager implements ResourceManagerReloadListener {
     private final Map<String, Stylesheet> mergedStylesheets = new ConcurrentHashMap<>();
 
     /** Live StyleEngine instances (held via WeakReference for auto-cleanup). */
-    private final Set<WeakReference<StyleEngine>> activeEngines =
-            Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final Set<WeakReference<StyleEngine>> activeEngines = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     private StylesheetManager() {}
 

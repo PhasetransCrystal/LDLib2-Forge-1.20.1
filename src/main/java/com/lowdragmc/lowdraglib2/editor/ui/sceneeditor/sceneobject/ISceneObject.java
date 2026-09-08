@@ -1,10 +1,11 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject;
 
 import com.lowdragmc.lowdraglib2.math.Transform;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -16,6 +17,7 @@ import java.util.function.Consumer;
  */
 @OnlyIn(Dist.CLIENT)
 public interface ISceneObject {
+
     /**
      * Get the unique id of the object.
      */
@@ -45,7 +47,8 @@ public interface ISceneObject {
 
     /**
      * Sets the scene for the object and manages its association with the scene.
-     * If the object is already part of another scene, it will be removed from that scene before being added to the new scene.
+     * If the object is already part of another scene, it will be removed from that scene before being added to the new
+     * scene.
      * This method also updates the scene association for all child objects recursively.
      *
      * @param scene the scene to set for this object. Can be null to remove the object from its current scene.
@@ -79,7 +82,8 @@ public interface ISceneObject {
 
     /**
      * Get the children of the object. (read-only)
-     * if possible, please cache the children list. and update it when the children is changed. see {@link #onChildChanged()}
+     * if possible, please cache the children list. and update it when the children is changed. see
+     * {@link #onChildChanged()}
      */
     default List<ISceneObject> children() {
         return transform().children().stream().map(Transform::sceneObject).toList();
@@ -93,33 +97,27 @@ public interface ISceneObject {
     /**
      * Called when the transform of the object is changed.
      */
-    default void onTransformChanged() {
-    }
+    default void onTransformChanged() {}
 
     /**
      * Called when the children of the object is changed.
      */
-    default void onChildChanged() {
-    }
+    default void onChildChanged() {}
 
     /**
      * Called when the parent of the object is changed.
      */
-    default void onParentChanged() {
-
-    }
+    default void onParentChanged() {}
 
     /**
      * Update the interactable per tick.
      */
-    default void updateTick() {
-    }
+    default void updateTick() {}
 
     /**
      * Update the interactable per frame.
      */
-    default void updateFrame(float partialTicks) {
-    }
+    default void updateFrame(float partialTicks) {}
 
     /**
      * Execute the consumer for the object and all children.
@@ -145,5 +143,4 @@ public interface ISceneObject {
     default void awake() {
         transform().awake();
     }
-
 }

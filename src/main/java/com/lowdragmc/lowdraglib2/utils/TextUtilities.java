@@ -27,11 +27,10 @@ public final class TextUtilities {
      * @return A list of tuples containing the formatted text and its width.
      */
     public static List<Tuple<FormattedCharSequence, Float>> computeFormattedLines(
-            Font font,
-            FormattedText text,
-            float lineHeight,
-            float maxWidth
-    ) {
+                                                                                  Font font,
+                                                                                  FormattedText text,
+                                                                                  float lineHeight,
+                                                                                  float maxWidth) {
         var defaultLineHeight = font.lineHeight;
         var scale = lineHeight / defaultLineHeight;
         var maxWidthScaled = (int) (maxWidth / scale);
@@ -66,7 +65,7 @@ public final class TextUtilities {
     public Component truncateStyled(Component styled, int charCount) {
         MutableComponent result = Component.empty();
         if (charCount <= 0) return result;
-        var remaining = new int[]{charCount};
+        var remaining = new int[] { charCount };
         styled.visit((style, content) -> {
             if (remaining[0] > 0) {
                 var take = Math.min(content.length(), remaining[0]);
@@ -77,5 +76,4 @@ public final class TextUtilities {
         }, Style.EMPTY);
         return result;
     }
-
 }

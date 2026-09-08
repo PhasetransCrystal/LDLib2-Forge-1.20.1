@@ -1,25 +1,27 @@
 package com.lowdragmc.lowdraglib2.math;
 
-import com.google.common.collect.ImmutableList;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
+import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
-import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneObject;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
+import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author KilaBash
@@ -28,6 +30,7 @@ import java.util.UUID;
  */
 @Accessors(fluent = true)
 public final class Transform implements IPersistedSerializable, IConfigurable {
+
     @Getter
     @Accessors(fluent = true)
     @Persisted
@@ -37,7 +40,7 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
      */
     @Getter
     @Configurable(name = "transform.position", tips = "transform.position.tips")
-    @ConfigNumber(range = {-Float.MAX_VALUE, Float.MAX_VALUE})
+    @ConfigNumber(range = { -Float.MAX_VALUE, Float.MAX_VALUE })
     private Vector3f localPosition = new Vector3f();
 
     /**
@@ -45,7 +48,7 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
      */
     @Getter
     @Configurable(name = "transform.rotation", tips = "transform.rotation.tips")
-    @ConfigNumber(range = {-Float.MAX_VALUE, Float.MAX_VALUE}, wheel = 1)
+    @ConfigNumber(range = { -Float.MAX_VALUE, Float.MAX_VALUE }, wheel = 1)
     private Quaternionf localRotation = new Quaternionf();
 
     /**
@@ -53,7 +56,7 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
      */
     @Getter
     @Configurable(name = "transform.scale", tips = "transform.scale.tips")
-    @ConfigNumber(range = {-Float.MAX_VALUE, Float.MAX_VALUE})
+    @ConfigNumber(range = { -Float.MAX_VALUE, Float.MAX_VALUE })
     private Vector3f localScale = new Vector3f(1, 1, 1);
 
     /**
@@ -122,8 +125,9 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
 
     /**
      * Set the parent transform of the transform.
-     * @param parent The parent transform.
-     *               If the parent is null, the transform will be the root transform.
+     * 
+     * @param parent             The parent transform.
+     *                           If the parent is null, the transform will be the root transform.
      * @param keepWorldTransform If true, the world space position, rotation, and scale of the transform will be kept.
      */
     public void parent(@Nullable Transform parent, boolean keepWorldTransform) {
@@ -407,6 +411,7 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
 
     /**
      * Rotate the transform to look at a target position.
+     * 
      * @param target The world position to look at
      */
     public void lookAt(Vector3f target) {
@@ -415,8 +420,9 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
 
     /**
      * Rotate the transform to look at a target position with a specific up direction.
+     * 
      * @param target The world position to look at
-     * @param up The up direction vector
+     * @param up     The up direction vector
      */
     public void lookAt(Vector3f target, Vector3f up) {
         Vector3f direction = new Vector3f(target).sub(position()).normalize();
@@ -428,8 +434,9 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
 
     /**
      * Translate the transform in the specified direction.
+     * 
      * @param direction The direction vector in world space
-     * @param distance The distance to translate
+     * @param distance  The distance to translate
      */
     public void translate(Vector3f direction, float distance) {
         Vector3f translation = new Vector3f(direction).normalize().mul(distance);
@@ -438,8 +445,9 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
 
     /**
      * Translate the transform relative to its local coordinate system.
+     * 
      * @param localDirection The direction vector in local space
-     * @param distance The distance to translate
+     * @param distance       The distance to translate
      */
     public void translateLocal(Vector3f localDirection, float distance) {
         Vector3f worldDirection = rotation().transform(new Vector3f(localDirection).normalize());
@@ -448,7 +456,8 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
 
     /**
      * Rotate the transform around a specific axis by the given angle.
-     * @param axis The rotation axis in world space
+     * 
+     * @param axis  The rotation axis in world space
      * @param angle The rotation angle in radians
      */
     public void rotate(Vector3f axis, float angle) {
@@ -458,6 +467,7 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
 
     /**
      * Rotate the transform around its local axes.
+     * 
      * @param eulerAngles The rotation angles in radians (x, y, z)
      */
     public void rotateLocal(Vector3f eulerAngles) {
@@ -478,7 +488,7 @@ public final class Transform implements IPersistedSerializable, IConfigurable {
         if (sceneObject.getScene() == null) {
             throw new RuntimeException("trying to awake transform before set scene");
         }
-        if ( _parentId != null && parent == null) {
+        if (_parentId != null && parent == null) {
             var parent = sceneObject.getScene().getSceneObject(_parentId);
             if (parent != null) {
                 parent(parent.transform(), false);

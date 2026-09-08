@@ -10,6 +10,7 @@ import java.util.Set;
  * @implNote TypesAccessor
  */
 public abstract class TypesAccessor<T> implements IConfiguratorAccessor<T> {
+
     public Set<Class<?>> types = new HashSet<>();
 
     public TypesAccessor(Class<?>... types) {

@@ -1,20 +1,24 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
+
 import lombok.Getter;
 import lombok.Setter;
-
 
 import java.util.*;
 
 /**
  * Concrete implementation of {@link IOptionDefinitionContext}.
  *
- * <p>Provides methods to define node options during node definition.</p>
+ * <p>
+ * Provides methods to define node options during node definition.
+ * </p>
  */
 public class OptionDefinitionContext implements IOptionDefinitionContext {
+
     // runtime
-    @Getter @Setter
+    @Getter
+    @Setter
     private NodeDefinitionScope<?> scope;
     private final List<OptionBuilder> pool = new ArrayList<>();
     private final List<OptionBuilder> active = new ArrayList<>();

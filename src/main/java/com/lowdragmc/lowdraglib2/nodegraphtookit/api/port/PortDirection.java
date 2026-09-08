@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * Enumeration representing the direction of a port.
  */
 public enum PortDirection implements StringRepresentable {
+
     NONE(0, "none"),
     INPUT(1, "input"),
     OUTPUT(2, "output");

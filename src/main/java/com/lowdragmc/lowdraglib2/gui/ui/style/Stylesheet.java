@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.style;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
@@ -12,9 +13,12 @@ import java.util.regex.Pattern;
 
 @KJSBindings
 public final class Stylesheet {
-    @Setter @Getter
+
+    @Setter
+    @Getter
     private String name = "unknown";
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private String rawLss;
     public static final Pattern RULE = Pattern.compile("(?s)([^{]+)\\{([^}]*)}");
     public static final Pattern DECL = Pattern.compile("(?m)\\s*([\\w-]+)\\s*:\\s*([^;]+)\\s*;?");

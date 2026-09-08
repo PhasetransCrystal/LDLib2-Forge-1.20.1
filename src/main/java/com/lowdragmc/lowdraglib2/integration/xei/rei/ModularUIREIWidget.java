@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.sync.bindings.IDataProvider;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.IPausable;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import lombok.Getter;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.ClientHelper;
@@ -15,20 +16,21 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ModularUIREIWidget extends Widget {
+
     public final ModularUI modularUI;
     public final Rectangle bounds;
     // runtime
@@ -46,6 +48,7 @@ public class ModularUIREIWidget extends Widget {
                 .add(mouseX, mouseY, 0);
         return new Vector2f(realMouse.x, realMouse.y);
     }
+
     public Vector2f getWorldMouseNormal(float mouseX, float mouseY) {
         var realMouse = localToWorld.transformDirection(new Vector3f(0, 0, 0))
                 .mul(-1)
@@ -137,7 +140,6 @@ public class ModularUIREIWidget extends Widget {
     public boolean isFocused() {
         return modularUI.getWidget().isFocused();
     }
-
 
     @Override
     public List<? extends GuiEventListener> children() {

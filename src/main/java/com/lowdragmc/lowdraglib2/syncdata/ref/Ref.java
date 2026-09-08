@@ -2,14 +2,16 @@ package com.lowdragmc.lowdraglib2.syncdata.ref;
 
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
+
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import lombok.Getter;
 import lombok.Setter;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Predicate;
 
 public abstract class Ref<TYPE> implements IRef<TYPE> {
+
     @Getter
     protected final ManagedKey key;
     @Getter

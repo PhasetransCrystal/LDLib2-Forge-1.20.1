@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.RegistrySearchComponent;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -15,6 +16,7 @@ import java.util.function.Supplier;
 
 @LDLRegisterClient(name = "entity_type", registry = "ldlib2:configurator_accessor")
 public class EntityTypeAccessor extends TypesAccessor<EntityType<?>> {
+
     public EntityTypeAccessor() {
         super(EntityType.class);
     }

@@ -11,6 +11,5 @@ import java.lang.annotation.Target;
  * @implNote LDLibPlugin
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
-public @interface LDLibPlugin {
-}
+@Target({ ElementType.TYPE })
+public @interface LDLibPlugin {}

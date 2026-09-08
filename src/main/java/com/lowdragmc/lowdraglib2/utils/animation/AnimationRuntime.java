@@ -1,9 +1,11 @@
 package com.lowdragmc.lowdraglib2.utils.animation;
 
 import com.lowdragmc.lowdraglib2.math.interpolate.Interpolator;
+
 import lombok.Getter;
 
 public class AnimationRuntime {
+
     public final KeyFrameAnimation animation;
     // runtime
     private final float initialTime;
@@ -30,12 +32,12 @@ public class AnimationRuntime {
         }
     }
 
-    public void update(float currentTime){
+    public void update(float currentTime) {
         if (animation.animation().delay() > currentTime - initialTime) return;
         this.interpolator.update(currentTime);
     }
 
-    public boolean isFinished(){
+    public boolean isFinished() {
         return interpolator.isFinished();
     }
 }

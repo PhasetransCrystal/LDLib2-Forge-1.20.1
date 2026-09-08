@@ -1,29 +1,28 @@
 package com.lowdragmc.lowdraglib2.math;
 
-import com.google.common.base.MoreObjects;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
+
 import com.mojang.serialization.Codec;
 import lombok.Data;
 import net.minecraft.Util;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 
 import java.util.List;
 import java.util.Objects;
 
 @Data(staticConstructor = "of")
 public final class Size {
+
     public final static Codec<Size> CODEC = Codec.INT.listOf().comapFlatMap(
             list -> Util.fixedSize(list, 2).map(l -> Size.of(l.get(0), l.get(1))),
-            size -> List.of(size.width, size.height)
-    );
+            size -> List.of(size.width, size.height));
 
     public final static StreamCodec<FriendlyByteBuf, Size> STREAM_CODEC = StreamCodec.of(
             (byteBuf, size) -> {
                 byteBuf.writeVarInt(size.width);
                 byteBuf.writeVarInt(size.height);
             },
-            byteBuf -> Size.of(byteBuf.readVarInt(), byteBuf.readVarInt())
-    );
+            byteBuf -> Size.of(byteBuf.readVarInt(), byteBuf.readVarInt()));
 
     public static final Size ZERO = Size.of(0, 0);
 

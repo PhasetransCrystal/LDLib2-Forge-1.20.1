@@ -12,21 +12,24 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.LayoutProperties;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 public class ViewContainer extends UIElement {
+
     public final TabView tabView;
     public final Button collapseButton;
     public final UIElement buttonIcon;
@@ -37,7 +40,8 @@ public class ViewContainer extends UIElement {
     private final List<View> views = new ArrayList<>();
     @Nullable
     private UIElement tabPlaceHolder;
-    @Nullable @Getter
+    @Nullable
+    @Getter
     private SplittableWindow window;
 
     public ViewContainer() {
@@ -60,8 +64,7 @@ public class ViewContainer extends UIElement {
         collapseButton.addChild(buttonIcon = new UIElement()
                 .addClass("__white_icon__")
                 .layout(layout -> layout.width(10).height(10))
-                .style(style -> style.backgroundTexture(Icons.COLLAPSE_HORIZONTAL).tooltips("collapse_or_expand"))
-        );
+                .style(style -> style.backgroundTexture(Icons.COLLAPSE_HORIZONTAL).tooltips("collapse_or_expand")));
         collapseButton.layout(layout -> Style.defaultPipeline(layout, s -> s.width(14).height(14).alignItems(AlignItems.CENTER).justifyContent(AlignContent.CENTER)));
         collapseButton.setDisplay(false);
         collapseButton.setOnClick(e -> {
@@ -72,7 +75,6 @@ public class ViewContainer extends UIElement {
             }
         });
         collapseButton.addClass("__view-container_collapse-button__");
-
 
         tabView.tabScroller.getLayout().flex(1);
         tabView.tabHeaderContainer.addChildren(collapseButton);
@@ -179,7 +181,6 @@ public class ViewContainer extends UIElement {
                 Icons.COLLAPSE_VERTICAL :
                 Icons.COLLAPSE_HORIZONTAL));
         isCollapse = false;
-
     }
 
     protected void onTabHeaderDragEnter(UIEvent event) {
@@ -280,8 +281,8 @@ public class ViewContainer extends UIElement {
      * Adds the specified view to the ViewContainer at the specified index, setting up its associated tab
      * and updating its internal state to reference this container.
      *
-     * @param view the {@link View} instance to be added. This view will be removed from its current container,
-     *             have a tab created for it, and its internal state updated to reference this container.
+     * @param view  the {@link View} instance to be added. This view will be removed from its current container,
+     *              have a tab created for it, and its internal state updated to reference this container.
      * @param index the position at which the view should be inserted in the container. If the index is out of bounds,
      *              it may be adjusted to fit within the valid range.
      */
@@ -347,5 +348,4 @@ public class ViewContainer extends UIElement {
             }
         }
     }
-
 }

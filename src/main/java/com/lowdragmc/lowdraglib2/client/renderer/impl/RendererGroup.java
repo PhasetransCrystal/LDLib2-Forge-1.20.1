@@ -1,8 +1,10 @@
 package com.lowdragmc.lowdraglib2.client.renderer.impl;
 
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
+import com.lowdragmc.lowdraglib2.compat.TriState;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,7 +27,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.data.ModelData;
-import com.lowdragmc.lowdraglib2.compat.TriState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,6 +37,7 @@ import java.util.function.Consumer;
 
 @LDLRegisterClient(name = "renderer_group", registry = "ldlib2:renderer")
 public class RendererGroup implements IRenderer {
+
     @Configurable(collapse = false)
     @Getter
     private IRenderer[] renderers;
@@ -189,7 +191,6 @@ public class RendererGroup implements IRenderer {
         }
         return IRenderer.EMPTY.reBakeCustomQuads();
     }
-
 
     @Override
     @OnlyIn(Dist.CLIENT)

@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.api.node;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ContextNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomBlockNodeModelImpl;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomContextNodeModelImpl;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -12,18 +13,24 @@ import java.util.List;
 /**
  * Base class for context nodes — nodes that hold an ordered list of {@link BlockNode}s.
  *
- * <p>Subclass and annotate with {@link NodeAttribute}. The framework will auto-create the
+ * <p>
+ * Subclass and annotate with {@link NodeAttribute}. The framework will auto-create the
  * backing {@link CustomContextNodeModelImpl} when the node is added to a graph. Use
- * {@link #onDefinePorts} / {@link #onDefineOptions} for the context's own ports / options.</p>
+ * {@link #onDefinePorts} / {@link #onDefineOptions} for the context's own ports / options.
+ * </p>
  *
- * <p>To restrict which block types this context accepts, either:</p>
+ * <p>
+ * To restrict which block types this context accepts, either:
+ * </p>
  * <ul>
- *   <li>Place {@link UseWithContext} on each {@link BlockNode} subclass (declarative), or</li>
- *   <li>Override {@link #getSupportBlocks()} to return an explicit list (programmatic).</li>
+ * <li>Place {@link UseWithContext} on each {@link BlockNode} subclass (declarative), or</li>
+ * <li>Override {@link #getSupportBlocks()} to return an explicit list (programmatic).</li>
  * </ul>
  *
- * <p>The default {@link #getSupportBlocks()} scans the host graph's registered nodes for
- * {@link BlockNode}s whose {@link UseWithContext} includes this context's class.</p>
+ * <p>
+ * The default {@link #getSupportBlocks()} scans the host graph's registered nodes for
+ * {@link BlockNode}s whose {@link UseWithContext} includes this context's class.
+ * </p>
  */
 public abstract class ContextNode extends Node implements IContextNode {
 
@@ -33,8 +40,10 @@ public abstract class ContextNode extends Node implements IContextNode {
      * for {@link BlockNode} subclasses whose {@link UseWithContext} value contains this
      * context's runtime class.
      *
-     * <p>Override to opt in additional blocks, exclude blocks, or replace the discovery
-     * entirely (e.g. to support contexts whose accepted blocks vary by configuration).</p>
+     * <p>
+     * Override to opt in additional blocks, exclude blocks, or replace the discovery
+     * entirely (e.g. to support contexts whose accepted blocks vary by configuration).
+     * </p>
      */
     public List<Class<? extends BlockNode>> getSupportBlocks() {
         var model = getContextNodeModel();

@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSelector;
 import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.*;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -49,12 +50,12 @@ public class StringAccessor extends TypesAccessor<String> {
                 }
                 selector = new ConfiguratorSelectorConfigurator<>(name, supplier, consumer, defaultValue, forceUpdate,
                         Arrays.stream(configSelector.candidate()).toList(), s -> s, (value, group) -> {
-                    try {
-                        builderMethod.invoke(owner, value, group);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                });
+                            try {
+                                builderMethod.invoke(owner, value, group);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
             } else {
                 selector = new SelectorConfigurator<>(name, supplier, consumer, defaultValue, forceUpdate,
                         Arrays.stream(configSelector.candidate()).toList(), s -> s);

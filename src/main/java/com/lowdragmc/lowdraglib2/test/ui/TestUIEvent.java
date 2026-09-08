@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import dev.vfyjxf.taffy.style.TaffyPosition;
@@ -22,9 +23,10 @@ import org.joml.Vector4f;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@LDLRegisterClient(name="ui_event", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "ui_event", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestUIEvent implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var root = new UIElement().addClass("panel_bg");
@@ -48,8 +50,7 @@ public class TestUIEvent implements IScreenTest {
 
         root.getLayout().width(300).height(150).flexDirection(FlexDirection.ROW);
         root.addChildren(
-                new SplitView.Horizontal().left(left).right(right)
-        );
+                new SplitView.Horizontal().left(left).right(right));
         var ui = UI.of(root, StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MODERN));
         return new ModularUI(ui);
     }
@@ -129,5 +130,4 @@ public class TestUIEvent implements IScreenTest {
         });
         return target;
     }
-
 }

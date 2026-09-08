@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire;
 
 public enum WireSide {
+
     FROM,
     TO;
 

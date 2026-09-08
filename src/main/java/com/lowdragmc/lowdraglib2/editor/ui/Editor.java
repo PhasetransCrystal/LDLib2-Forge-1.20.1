@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.editor.ui;
 
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.editor.project.IProject;
 import com.lowdragmc.lowdraglib2.editor.settings.AppearanceSettings;
@@ -14,12 +13,12 @@ import com.lowdragmc.lowdraglib2.editor.ui.view.ResourceView;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.SpriteTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
-import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Menu;
 import com.lowdragmc.lowdraglib2.gui.ui.event.CommandEvents;
@@ -29,6 +28,8 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.gui.util.TreeNode;
+
+import com.google.common.util.concurrent.Runnables;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDimension;
@@ -36,23 +37,25 @@ import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import org.appliedenergistics.yoga.*;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Deque;
 import java.util.function.Supplier;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public abstract class Editor extends UIElement {
+
     public final UIElement top;
     public final UIElement icon;
     public final UIElement menuContainer;
@@ -164,35 +167,33 @@ public abstract class Editor extends UIElement {
                     layout.flexDirection(FlexDirection.ROW);
                     layout.gapAll(2);
                 }).style(style -> style.backgroundTexture(Sprites.RECT_SOLID))
-                .addChildren(
-                        icon.layout(layout -> {
-                            layout.width(11);
-                            layout.height(11);
-                            layout.marginAll(1);
-                            layout.marginHorizontal(5);
-                        }).style(style -> style.backgroundTexture(new SpriteTexture())),
-                        menuContainer.layout(layout -> {
-                            layout.heightPercent(100);
-                            layout.flexDirection(FlexDirection.ROW);
-                            layout.gapAll(2);
-                        }).addClass("__editor_top-menu-container__"),
-                        topPlaceholder.layout(layout -> layout.flex(1))
-                                .addClass("__editor_top-placeholder__"), // placeholder
-                        buttonContainer.layout(layout -> {
-                            layout.flexDirection(FlexDirection.ROW);
-                            layout.alignItems(AlignItems.CENTER);
-                            layout.gapAll(2);
-                            layout.marginRight(1);
-                        }).addChildren(
-                                closeButton.noText().addPreIcon(Icons.WINDOW_CLOSE).layout(layout -> layout.height(12))
-                                        .addClass("__white_icon__")
-                        ).addClass("__editor_top_button-container__")
-                ),
+                        .addChildren(
+                                icon.layout(layout -> {
+                                    layout.width(11);
+                                    layout.height(11);
+                                    layout.marginAll(1);
+                                    layout.marginHorizontal(5);
+                                }).style(style -> style.backgroundTexture(new SpriteTexture())),
+                                menuContainer.layout(layout -> {
+                                    layout.heightPercent(100);
+                                    layout.flexDirection(FlexDirection.ROW);
+                                    layout.gapAll(2);
+                                }).addClass("__editor_top-menu-container__"),
+                                topPlaceholder.layout(layout -> layout.flex(1))
+                                        .addClass("__editor_top-placeholder__"), // placeholder
+                                buttonContainer.layout(layout -> {
+                                    layout.flexDirection(FlexDirection.ROW);
+                                    layout.alignItems(AlignItems.CENTER);
+                                    layout.gapAll(2);
+                                    layout.marginRight(1);
+                                }).addChildren(
+                                        closeButton.noText().addPreIcon(Icons.WINDOW_CLOSE).layout(layout -> layout.height(12))
+                                                .addClass("__white_icon__"))
+                                        .addClass("__editor_top_button-container__")),
                 mainView.layout(layout -> {
                     layout.widthPercent(100);
                     layout.flex(1);
-                }).addChild(rootWindow)
-        );
+                }).addChild(rootWindow));
 
         closeButton.setOnClick(e -> close());
 
@@ -641,6 +642,7 @@ public abstract class Editor extends UIElement {
 
     /**
      * Ask the user to save the current project if it is dirty.
+     * 
      * @param onFinish Runnable to run after the dialog is closed, regardless of whether the project was saved or not.
      */
     public void askToSaveProject(@Nullable Runnable onFinish) {
@@ -679,7 +681,9 @@ public abstract class Editor extends UIElement {
 
     /**
      * Save the current project to its file if it exists, or prompt to save as if it does not.
-     * @param onFinish Runnable to run after the save operation is complete, regardless of whether it was successful or not.
+     * 
+     * @param onFinish Runnable to run after the save operation is complete, regardless of whether it was successful or
+     *                 not.
      */
     public void saveProject(@Nullable Runnable onFinish, boolean showNotification) {
         if (currentProject != null) {
@@ -704,7 +708,9 @@ public abstract class Editor extends UIElement {
 
     /**
      * Save the current project as a new file.
-     * @param onFinish Runnable to run after the save operation is complete, regardless of whether it was successful or not.
+     * 
+     * @param onFinish Runnable to run after the save operation is complete, regardless of whether it was successful or
+     *                 not.
      */
     public void saveAsProject(@Nullable Runnable onFinish) {
         if (currentProject == null) return;
@@ -716,8 +722,10 @@ public abstract class Editor extends UIElement {
 
     /**
      * Save the current project as a new file.
+     * 
      * @param defaultSaveFile default file to prefill in the save dialog, can be null
-     * @param onFinish Runnable to run after the save operation is complete, regardless of whether it was successful or not.
+     * @param onFinish        Runnable to run after the save operation is complete, regardless of whether it was
+     *                        successful or not.
      */
     public void saveAsProject(@Nullable File defaultSaveFile, @Nullable Runnable onFinish) {
         if (currentProject != null) {
@@ -751,12 +759,12 @@ public abstract class Editor extends UIElement {
     public final void loadProject(IProject project, @Nullable File projectFile) {
         if (currentProject != null) {
             if (window != null) {
-                Dialog.showCheckBox("Dialog.info","editor.loadProject.info", result -> {
-                   if (result) {
-                       window.createNewEditor(this::createNewEditorInstance).loadNewProject(project, projectFile);
-                   } else {
-                       closeCurrentProject(true, () -> loadNewProject(project, projectFile));
-                   }
+                Dialog.showCheckBox("Dialog.info", "editor.loadProject.info", result -> {
+                    if (result) {
+                        window.createNewEditor(this::createNewEditorInstance).loadNewProject(project, projectFile);
+                    } else {
+                        closeCurrentProject(true, () -> loadNewProject(project, projectFile));
+                    }
                 }).show(window);
             } else {
                 closeCurrentProject(true, () -> loadNewProject(project, projectFile));
@@ -783,7 +791,6 @@ public abstract class Editor extends UIElement {
             EditorLayoutStore.load(project.getProjectType().getName()).ifPresent(this::applyLayout);
         }
     }
-
 
     /**
      * Close the current project and clear the views.
@@ -836,6 +843,7 @@ public abstract class Editor extends UIElement {
 
     public static Editor emptyEditor() {
         return new Editor() {
+
             @Override
             protected Editor createNewEditorInstance() {
                 return emptyEditor();

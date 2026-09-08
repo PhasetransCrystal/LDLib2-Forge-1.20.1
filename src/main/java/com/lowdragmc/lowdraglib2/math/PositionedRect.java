@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Data(staticConstructor = "of")
 public final class PositionedRect {
+
     public final Position position;
     public final Size size;
 

@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.configurator.ui.HeaderConfigurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.SearchComponentConfigurator;
 import com.lowdragmc.lowdraglib2.utils.ReflectionUtils;
+
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Field;
@@ -41,7 +42,8 @@ public final class ConfiguratorParser {
     }
 
     /**
-     * This method is used to create configurators for the given object fields with  {@link Configurable} annotation under the given father group.
+     * This method is used to create configurators for the given object fields with {@link Configurable} annotation
+     * under the given father group.
      */
     public static void createConfigurators(ConfiguratorGroup father, Map<String, Method> setters, Class<?> clazz, Object object, boolean recursive) {
         if (clazz == Object.class || clazz == null) return;
@@ -76,7 +78,8 @@ public final class ConfiguratorParser {
     }
 
     /**
-     * This method is used to create configurators for the given field with {@link Configurable} annotation under the given father group.
+     * This method is used to create configurators for the given field with {@link Configurable} annotation under the
+     * given father group.
      */
     public static void createFieldConfigurator(Field field, ConfiguratorGroup father, Class<?> clazz, Map<String, Method> setters, Object object) {
         if (Modifier.isStatic(field.getModifiers())) {
@@ -167,5 +170,4 @@ public final class ConfiguratorParser {
             }
         }
     }
-
 }

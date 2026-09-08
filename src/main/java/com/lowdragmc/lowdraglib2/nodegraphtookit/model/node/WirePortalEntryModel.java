@@ -1,12 +1,15 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.node;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.NodeDefinitionScope;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-public class WirePortalEntryModel extends WirePortalModel implements ISingleInputPortNodeModel{
-    @Getter @Setter(AccessLevel.PROTECTED)
+public class WirePortalEntryModel extends WirePortalModel implements ISingleInputPortNodeModel {
+
+    @Getter
+    @Setter(AccessLevel.PROTECTED)
     private PortModel inputPort;
 
     @Override

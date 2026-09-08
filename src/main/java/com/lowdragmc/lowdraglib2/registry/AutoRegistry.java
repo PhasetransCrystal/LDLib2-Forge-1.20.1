@@ -1,12 +1,13 @@
 package com.lowdragmc.lowdraglib2.registry;
 
-import com.google.common.base.Predicates;
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
-import com.lowdragmc.lowdraglib2.utils.ReflectionUtils;
-import net.minecraft.resources.ResourceLocation;
 import com.lowdragmc.lowdraglib2.registry.annotation.*;
+import com.lowdragmc.lowdraglib2.utils.ReflectionUtils;
+
+import com.google.common.base.Predicates;
+import com.google.common.util.concurrent.Runnables;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,10 +21,13 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * AutoRegistry is used to register objects automatically by detecting the class with the given annotation {@link LDLRegister} and {@link LDLRegisterClient}.
+ * AutoRegistry is used to register objects automatically by detecting the class with the given annotation
+ * {@link LDLRegister} and {@link LDLRegisterClient}.
  */
 public class AutoRegistry<A extends Annotation, C, V> extends LDLRegistry.String<AutoRegistry.Holder<A, C, V>> {
+
     public record Holder<A extends Annotation, C, V>(A annotation, Class<? extends C> clazz, V value) {
+
         public static <A extends Annotation, C, V> Holder<A, C, V> of(A annotation, Class<? extends C> clazz, V value) {
             return new Holder<>(annotation, clazz, value);
         }
@@ -40,15 +44,14 @@ public class AutoRegistry<A extends Annotation, C, V> extends LDLRegistry.String
     @Nullable
     private final Comparator<AutoRegistry.Holder<A, C, V>> sorter;
 
-
     protected AutoRegistry(ResourceLocation registryName,
-                         Class<A> annotationClass,
-                         Class<C> baseClazz,
-                         @Nullable Predicate<Map<java.lang.String, Object>> annotationFilter,
-                         @Nullable Predicate<Class<? extends C>> classFilter,
-                         BiFunction<A, Class<? extends C>, java.lang.String> keyFactory,
-                         BiFunction<A, Class<? extends C>, V> supplier,
-                         @Nullable Comparator<Holder<A, C, V>> sorter) {
+                           Class<A> annotationClass,
+                           Class<C> baseClazz,
+                           @Nullable Predicate<Map<java.lang.String, Object>> annotationFilter,
+                           @Nullable Predicate<Class<? extends C>> classFilter,
+                           BiFunction<A, Class<? extends C>, java.lang.String> keyFactory,
+                           BiFunction<A, Class<? extends C>, V> supplier,
+                           @Nullable Comparator<Holder<A, C, V>> sorter) {
         super(registryName);
         this.annotationClass = annotationClass;
         this.baseClazz = baseClazz;
@@ -78,7 +81,7 @@ public class AutoRegistry<A extends Annotation, C, V> extends LDLRegistry.String
                 clazz -> {
                     if (baseClazz.isAssignableFrom(clazz)) {
                         try {
-                            Class<? extends C> realClass =  (Class<? extends C>) clazz;
+                            Class<? extends C> realClass = (Class<? extends C>) clazz;
                             if (classFilter == null || classFilter.test(realClass)) {
                                 var annotation = clazz.getAnnotation(annotationClass);
                                 var key = keyFactory.apply(annotation, realClass);
@@ -107,7 +110,7 @@ public class AutoRegistry<A extends Annotation, C, V> extends LDLRegistry.String
         try {
             var constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-            return () ->  {
+            return () -> {
                 try {
                     return constructor.newInstance();
                 } catch (Throwable e) {
@@ -123,7 +126,7 @@ public class AutoRegistry<A extends Annotation, C, V> extends LDLRegistry.String
         try {
             var constructor = clazz.getDeclaredConstructor(argType);
             constructor.setAccessible(true);
-            return (a) ->  {
+            return (a) -> {
                 try {
                     return constructor.newInstance(a);
                 } catch (Throwable e) {
@@ -142,6 +145,7 @@ public class AutoRegistry<A extends Annotation, C, V> extends LDLRegistry.String
     }
 
     public static final class LDLibRegister<C extends ILDLRegister, V> extends AutoRegistry<LDLRegister, C, V> {
+
         private LDLibRegister(ResourceLocation registryName,
                               Class<C> baseClazz,
                               BiFunction<LDLRegister, Class<? extends C>, V> supplier) {
@@ -168,9 +172,10 @@ public class AutoRegistry<A extends Annotation, C, V> extends LDLRegistry.String
     }
 
     public static final class LDLibRegisterClient<C extends ILDLRegisterClient, V> extends AutoRegistry<LDLRegisterClient, C, V> {
+
         private LDLibRegisterClient(ResourceLocation registryName,
-                              Class<C> baseClazz,
-                              BiFunction<LDLRegisterClient, Class<? extends C>, V> supplier) {
+                                    Class<C> baseClazz,
+                                    BiFunction<LDLRegisterClient, Class<? extends C>, V> supplier) {
             super(registryName, LDLRegisterClient.class, baseClazz, annotationData -> {
                 if (annotationData.containsKey("registry") && annotationData.get("registry") instanceof java.lang.String targetRegistry) {
                     if (!registryName.toString().equals(targetRegistry)) return false;

@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TagOrCycleItemStackTransfer implements IItemHandlerModifiable {
+
     @Getter
     private List<Either<List<Pair<TagKey<Item>, Integer>>, List<ItemStack>>> stacks;
 
     private List<List<ItemStack>> unwrapped = null;
-
 
     public TagOrCycleItemStackTransfer(List<Either<List<Pair<TagKey<Item>, Integer>>, List<ItemStack>>> stacks) {
         updateStacks(stacks);
@@ -63,7 +63,7 @@ public class TagOrCycleItemStackTransfer implements IItemHandlerModifiable {
     @Override
     public ItemStack getStackInSlot(int slot) {
         List<ItemStack> stackList = getUnwrapped().get(slot);
-        return stackList == null || stackList.isEmpty() ? ItemStack.EMPTY : stackList.get(Math.abs((int)(System.currentTimeMillis() / 1000) % stackList.size()));
+        return stackList == null || stackList.isEmpty() ? ItemStack.EMPTY : stackList.get(Math.abs((int) (System.currentTimeMillis() / 1000) % stackList.size()));
     }
 
     @Override

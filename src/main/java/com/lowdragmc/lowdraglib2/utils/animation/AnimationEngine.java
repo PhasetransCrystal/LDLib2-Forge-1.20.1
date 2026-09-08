@@ -8,6 +8,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class AnimationEngine {
+
     private final long startTime = System.nanoTime();
     // runtime
     private final Queue<KeyFrameAnimation> waitToPlay = new ConcurrentLinkedQueue<>();

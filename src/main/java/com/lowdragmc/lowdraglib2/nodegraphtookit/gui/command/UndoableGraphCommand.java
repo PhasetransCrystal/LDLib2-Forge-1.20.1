@@ -5,9 +5,11 @@ import com.lowdragmc.lowdraglib2.configurator.EditAction;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.HistoryStack;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphView;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
+
 import org.jetbrains.annotations.NotNull;
 
 public abstract class UndoableGraphCommand implements IUndoableGraphCommand {
+
     // runtime
     protected GraphView view;
     protected GraphModel graphModel;
@@ -26,9 +28,14 @@ public abstract class UndoableGraphCommand implements IUndoableGraphCommand {
         var afterTag = graphModel.serializeNBT(provider);
 
         historyStack.pushHistory(getCommandName(), EditAction.of(
-                () -> { graphModel.deserializeNBT(provider, afterTag); view.rebuildGraphUI(); },
-                () -> { graphModel.deserializeNBT(provider, beforeTag); view.rebuildGraphUI(); }
-        ), getSource(), false);
+                () -> {
+                    graphModel.deserializeNBT(provider, afterTag);
+                    view.rebuildGraphUI();
+                },
+                () -> {
+                    graphModel.deserializeNBT(provider, beforeTag);
+                    view.rebuildGraphUI();
+                }), getSource(), false);
     }
 
     /**
@@ -37,7 +44,5 @@ public abstract class UndoableGraphCommand implements IUndoableGraphCommand {
      */
     public abstract void execute();
 
-    protected void generalActionData() {
-
-    }
+    protected void generalActionData() {}
 }

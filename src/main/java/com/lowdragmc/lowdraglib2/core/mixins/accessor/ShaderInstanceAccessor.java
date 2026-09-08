@@ -14,12 +14,16 @@ import java.util.Map;
 
 @Mixin(ShaderInstance.class)
 public interface ShaderInstanceAccessor {
+
     @Accessor
     List<String> getSamplerNames();
+
     @Accessor
     Map<String, Uniform> getUniformMap();
+
     @Accessor
     Map<String, Object> getSamplerMap();
+
     @Invoker
     static Program invokeGetOrCreate(final ResourceProvider resourceProvider, Program.Type programType, String name) throws IOException {
         throw new AssertionError();

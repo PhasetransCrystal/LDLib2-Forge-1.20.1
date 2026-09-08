@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.LPSize;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.TaffyCodecs;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.LPSizeValue;
+
 import dev.vfyjxf.taffy.style.LengthPercentage;
 import lombok.experimental.Accessors;
 
@@ -17,6 +18,7 @@ import java.util.function.Supplier;
  */
 @Accessors(chain = true)
 public class LPSizeProperty extends Property<LPSize> {
+
     public LPSizeProperty(String name, LPSize initialValue) {
         super(name, LPSize.class, TaffyCodecs.LP_SIZE_CODEC, initialValue, LPSizeValue::new);
         setAllowTransition(true);
@@ -36,8 +38,7 @@ public class LPSizeProperty extends Property<LPSize> {
                     }
                 },
                 "0",
-                true
-        );
+                true);
     }
 
     private LPSize interpolate(LPSize from, LPSize to, float interpolation) {

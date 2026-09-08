@@ -5,13 +5,13 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import lombok.Data;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 @Data(staticConstructor = "of")
 @KJSBindings
 public final class UI {
+
     private static final UI EMPTY = UI.of(new UIElement());
 
     public static UI empty() {
@@ -28,6 +29,7 @@ public final class UI {
 
     @FunctionalInterface
     public interface DynamicSizeProvider extends Function<Size, Size> {
+
         /**
          * Applies a transformation to the given screen size and returns a new {@code Size} object.
          *
@@ -37,6 +39,7 @@ public final class UI {
         @Override
         Size apply(Size screenSize);
     }
+
     public final UIElement rootElement;
     public final List<Stylesheet> stylesheets;
     @Nullable

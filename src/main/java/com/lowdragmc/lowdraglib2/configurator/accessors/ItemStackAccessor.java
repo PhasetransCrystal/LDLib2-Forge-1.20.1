@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.configurator.accessors;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
@@ -13,9 +12,10 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.inventory.InventorySlots;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
+import com.google.common.base.Predicates;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDimension;
@@ -76,8 +76,8 @@ public class ItemStackAccessor extends TypesAccessor<ItemStack> {
             var dialog = new Dialog().setTitle("ldlib.gui.editor.configurator.select_item");
             dialog.width(TaffyDimension.length(180));
 
-            var selected = new ItemSlot[]{null};
-            var selectedStack = new ItemStack[]{ItemStack.EMPTY};
+            var selected = new ItemSlot[] { null };
+            var selectedStack = new ItemStack[] { ItemStack.EMPTY };
 
             var picker = new UIElement().layout(layout -> layout.alignItems(AlignItems.CENTER));
 

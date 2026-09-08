@@ -7,11 +7,13 @@ import com.lowdragmc.lowdraglib2.editor.resource.ResourceInstance;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.SpriteTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.UIResourceTexture;
+
 import net.minecraft.resources.ResourceLocation;
 
 import java.lang.reflect.Modifier;
 
 public class OreSprites {
+
     public static ResourceLocation ORE = LDLib2.id("textures/gui/ore_styles.png");
 
     public static IGuiTexture BTN_DEFAULT = SpriteTexture.of(ORE).setSprite(0, 0, 5, 7).setBorder(2, 2, 2, 4);
@@ -60,10 +62,9 @@ public class OreSprites {
     public static IGuiTexture TAB_ON_DEFAULT_GREEN = SpriteTexture.of(ORE).setSprite(83, 14, 11, 7).setBorder(2, 4, 2, 2);
     public static IGuiTexture TAB_ON_HOVER_GREEN = SpriteTexture.of(ORE).setSprite(83, 14, 11, 7).setBorder(2, 4, 2, 2);
 
-
     public static IGuiTexture BORDER = SpriteTexture.of(ORE).setSprite(0, 71, 62, 64).setBorder(5, 5, 5, 7);
     public static IGuiTexture BORDER_2 = SpriteTexture.of(ORE).setSprite(62, 71, 62, 64).setBorder(5, 5, 5, 7);
-    public static IGuiTexture BORDER_3 = SpriteTexture.of(ORE).setSprite(0, 135 , 62, 64).setBorder(5, 5, 5, 7);
+    public static IGuiTexture BORDER_3 = SpriteTexture.of(ORE).setSprite(0, 135, 62, 64).setBorder(5, 5, 5, 7);
     public static IGuiTexture BORDER_4 = SpriteTexture.of(ORE).setSprite(62, 135, 62, 64).setBorder(5, 5, 5, 7);
     public static IGuiTexture BORDER_5 = SpriteTexture.of(ORE).setSprite(0, 199, 50, 251 - 199).setBorder(3, 3, 3, 5);
     public static IGuiTexture BORDER_6 = SpriteTexture.of(ORE).setSprite(128, 1, 128, 128).setBorder(6, 6, 6, 8);
@@ -75,8 +76,7 @@ public class OreSprites {
     public static void init(ResourceInstance<IGuiTexture> instance) {
         var provider = new BuiltinResourceProvider<>("ui-ore", instance);
         for (var field : OreSprites.class.getDeclaredFields()) {
-            if (IGuiTexture.class.isAssignableFrom(field.getType())
-                    && Modifier.isStatic(field.getModifiers()) ) {
+            if (IGuiTexture.class.isAssignableFrom(field.getType()) && Modifier.isStatic(field.getModifiers())) {
                 try {
                     var texture = (IGuiTexture) field.get(null);
                     provider.addResource(field.getName(), texture);

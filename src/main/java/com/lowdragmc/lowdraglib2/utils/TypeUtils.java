@@ -20,20 +20,20 @@ public final class TypeUtils {
 
         // ParameterizedType vs ParameterizedType
         if (target instanceof ParameterizedType tp &&
-            source instanceof ParameterizedType sp) {
+                source instanceof ParameterizedType sp) {
             return isParameterizedAssignable(tp, sp);
         }
 
         // ParameterizedType vs Class
         if (target instanceof ParameterizedType tp &&
-            source instanceof Class<?> sc) {
+                source instanceof Class<?> sc) {
             return isClassAssignable(
                     (Class<?>) tp.getRawType(), sc);
         }
 
         // Class vs ParameterizedType
         if (target instanceof Class<?> tc &&
-            source instanceof ParameterizedType sp) {
+                source instanceof ParameterizedType sp) {
             return isClassAssignable(tc,
                     (Class<?>) sp.getRawType());
         }
@@ -60,9 +60,8 @@ public final class TypeUtils {
     // ParameterizedType assignable
     // ===========================
     private static boolean isParameterizedAssignable(
-            ParameterizedType target,
-            ParameterizedType source) {
-
+                                                     ParameterizedType target,
+                                                     ParameterizedType source) {
         Class<?> targetRaw = (Class<?>) target.getRawType();
         Class<?> sourceRaw = (Class<?>) source.getRawType();
 
@@ -93,9 +92,8 @@ public final class TypeUtils {
     // ===========================
 
     private static boolean isTypeArgumentAssignable(
-            Type target,
-            Type source) {
-
+                                                    Type target,
+                                                    Type source) {
         // Exact match
         if (target.equals(source)) {
             return true;
@@ -118,17 +116,15 @@ public final class TypeUtils {
     // ===========================
     // Primitive → Wrapper
     // ===========================
-    private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPERS =
-            Map.of(
-                    boolean.class, Boolean.class,
-                    byte.class, Byte.class,
-                    short.class, Short.class,
-                    int.class, Integer.class,
-                    long.class, Long.class,
-                    float.class, Float.class,
-                    double.class, Double.class,
-                    char.class, Character.class
-            );
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPERS = Map.of(
+            boolean.class, Boolean.class,
+            byte.class, Byte.class,
+            short.class, Short.class,
+            int.class, Integer.class,
+            long.class, Long.class,
+            float.class, Float.class,
+            double.class, Double.class,
+            char.class, Character.class);
 
     private static Class<?> primitiveToWrapper(Class<?> c) {
         return PRIMITIVE_WRAPPERS.getOrDefault(c, c);

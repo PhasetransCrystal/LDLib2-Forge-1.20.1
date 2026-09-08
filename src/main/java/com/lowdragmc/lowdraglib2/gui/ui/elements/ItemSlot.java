@@ -1,33 +1,34 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.core.mixins.accessor.AbstractContainerMenuAccessor;
-import com.lowdragmc.lowdraglib2.core.mixins.accessor.AbstractContainerScreenAccessor;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
+import com.lowdragmc.lowdraglib2.core.mixins.accessor.AbstractContainerMenuAccessor;
+import com.lowdragmc.lowdraglib2.core.mixins.accessor.AbstractContainerScreenAccessor;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.SlotAccessor;
+import com.lowdragmc.lowdraglib2.gui.holder.IItemSlotHolderMenu;
 import com.lowdragmc.lowdraglib2.gui.slot.ItemHandlerSlot;
 import com.lowdragmc.lowdraglib2.gui.slot.LocalSlot;
 import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib2.gui.holder.IItemSlotHolderMenu;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.event.HoverTooltips;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
+import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.integration.xei.IngredientIO;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.LDLibEMIPlugin;
 import com.lowdragmc.lowdraglib2.integration.xei.jei.*;
-import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.LDLibREIPlugin;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.EmiStackInteraction;
 import dev.emi.emi.api.stack.ItemEmiStack;
@@ -48,8 +49,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -58,16 +57,21 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @KJSBindings
 @LDLRegister(name = "item-slot", group = "inventory", registry = "ldlib2:ui_element")
 public class ItemSlot extends BindableUIElement<ItemStack> {
+
     public final static IGuiTexture ITEM_SLOT_TEXTURE = Sprites.RECT_RD_T.copy().setColor(0xffbbbbbb);
     public final static IGuiTexture DRAGGING_BG = new ColorRectTexture(0x80FFFFFF);
 
     @Configurable(name = "SlotStyle")
     public class SlotStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.HOVER_OVERLAY,
                 PropertyRegistry.SLOT_OVERLAY,
@@ -150,7 +154,6 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
             set(PropertyRegistry.ACCEPT_QUICK_MOVE, accept);
             return this;
         }
-
     }
 
     @Getter
@@ -489,6 +492,7 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
 
     // region XEI Supports
     public static class JEISupport {
+
         public static void clickableIngredient(ItemSlot itemSlot) {
             LDLibJEIPlugin.clickableIngredient(itemSlot, () -> {
                 if (!itemSlot.allowXEILookup) return null;
@@ -522,11 +526,12 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
             LDLibJEIPlugin.recipeSlot(itemSlot, () -> {
                 var item = itemSlot.getValue();
                 return item.isEmpty() ? null : TypedItemStack.create(item);
-            }, () ->allPossibleItems.get().map(TypedItemStack::create).collect(Collectors.toList()));
+            }, () -> allPossibleItems.get().map(TypedItemStack::create).collect(Collectors.toList()));
         }
     }
 
     public static class REISupport {
+
         public static void focusedStack(ItemSlot itemSlot) {
             LDLibREIPlugin.focusedStack(itemSlot, () -> {
                 if (!itemSlot.allowXEILookup) return null;
@@ -556,8 +561,7 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
         public static void recipeIngredient(ItemSlot itemSlot, IngredientIO io, Supplier<Stream<ItemStack>> allPossibleItems) {
             LDLibREIPlugin.recipeIngredient(itemSlot, io, () -> allPossibleItems.get()
                     .map(EntryIngredients::of)
-                    .toList()
-            );
+                    .toList());
         }
 
         public static void recipeSlot(ItemSlot itemSlot, IngredientIO io) {
@@ -572,6 +576,7 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
     }
 
     public static class EMISupport {
+
         public static void stackProvider(ItemSlot itemSlot) {
             LDLibEMIPlugin.stackProvider(itemSlot, () -> {
                 if (!itemSlot.allowXEILookup) return null;
@@ -603,8 +608,7 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
         public static void recipeIngredient(ItemSlot itemSlot, IngredientIO io, Supplier<Stream<ItemStack>> allPossibleItems) {
             LDLibEMIPlugin.recipeIngredient(itemSlot, io, () -> allPossibleItems.get()
                     .map(EmiStack::of)
-                    .collect(Collectors.toList())
-            );
+                    .collect(Collectors.toList()));
         }
 
         public static void recipeSlot(ItemSlot itemSlot, float chance) {
@@ -612,11 +616,11 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
         }
 
         public static void recipeSlot(ItemSlot itemSlot, Supplier<Float> chance, IntSupplier amount, Supplier<Stream<ItemStack>> allPossibleItems) {
-            LDLibEMIPlugin.recipeSlot(itemSlot, () ->
-                    new ListEmiIngredient(
-                            allPossibleItems.get().map(EmiStack::of)
-                            .map(e -> e.setChance(chance.get())).collect(Collectors.toList()), amount.getAsInt())
-                            .setChance(chance.get()));
+            LDLibEMIPlugin.recipeSlot(itemSlot, () -> new ListEmiIngredient(
+                    allPossibleItems.get().map(EmiStack::of)
+                            .map(e -> e.setChance(chance.get())).collect(Collectors.toList()),
+                    amount.getAsInt())
+                    .setChance(chance.get()));
         }
     }
     // endregion

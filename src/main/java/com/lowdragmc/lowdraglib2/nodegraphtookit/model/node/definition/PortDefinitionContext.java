@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +11,12 @@ import java.util.List;
 /**
  * Concrete implementation of {@link IPortDefinitionContext}.
  *
- * <p>Provides methods to define input and output ports on a node during node definition.</p>
+ * <p>
+ * Provides methods to define input and output ports on a node during node definition.
+ * </p>
  */
 public class PortDefinitionContext implements IPortDefinitionContext {
+
     // runtime
     @Getter
     @Setter
@@ -37,7 +41,6 @@ public class PortDefinitionContext implements IPortDefinitionContext {
         pool.add(builder);
         builder.reset();
     }
-
 
     public void finish() {
         while (!active.isEmpty()) {

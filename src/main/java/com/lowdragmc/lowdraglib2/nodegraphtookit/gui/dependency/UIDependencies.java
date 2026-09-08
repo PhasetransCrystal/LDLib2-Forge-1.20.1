@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency;
 
-
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventListener;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
@@ -8,13 +7,15 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphView;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.ModelElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHintList;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.GraphElementModel;
+
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class UIDependencies {
-    public record Dependency(ModelElement element, DependencyTypes type) { }
+
+    public record Dependency(ModelElement element, DependencyTypes type) {}
 
     protected static ModelUpdateVisitor LAYOUT_VISITOR = new ModelUpdateVisitor(ChangeHintList.LAYOUT);
     protected static ModelUpdateVisitor STYLE_VISITOR = new ModelUpdateVisitor(ChangeHintList.STYLE);
@@ -111,7 +112,7 @@ public class UIDependencies {
     public void updateDependencyLists() {
         // clean up first
         clearDependencyLists();
-        
+
         if (owner.hasForwardsDependenciesChanged())
             owner.addForwardDependencies();
 
@@ -173,5 +174,4 @@ public class UIDependencies {
             graphView.addModelDependency(model.getUid(), owner);
         }
     }
-
 }

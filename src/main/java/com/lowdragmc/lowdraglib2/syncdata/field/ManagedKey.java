@@ -1,17 +1,18 @@
 package com.lowdragmc.lowdraglib2.syncdata.field;
 
-import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.AccessorRegistries;
+import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.ref.IRef;
+
 import lombok.Getter;
 import lombok.ToString;
-
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.*;
 
 @ToString
 public final class ManagedKey {
+
     @Getter
     private final String name;
     @Getter
@@ -98,7 +99,6 @@ public final class ManagedKey {
         }
         return Object.class;
     }
-
 
     private IAccessor<?> fieldAccessor;
 

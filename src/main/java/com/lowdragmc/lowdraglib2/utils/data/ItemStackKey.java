@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Arrays;
 
 public final class ItemStackKey {
+
     private final ItemStack[] itemStack;
     private final int hashCode;
 
@@ -24,7 +25,6 @@ public final class ItemStackKey {
     public ItemStack[] getItemStack() {
         return itemStack;
     }
-
 
     @Override
     public boolean equals(Object o) {

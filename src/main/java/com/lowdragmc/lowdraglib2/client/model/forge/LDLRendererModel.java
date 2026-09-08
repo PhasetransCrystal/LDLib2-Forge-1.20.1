@@ -1,10 +1,12 @@
 package com.lowdragmc.lowdraglib2.client.model.forge;
 
+import com.lowdragmc.lowdraglib2.client.renderer.IBlockRendererProvider;
+import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
+import com.lowdragmc.lowdraglib2.compat.TriState;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.lowdragmc.lowdraglib2.client.renderer.IBlockRendererProvider;
-import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
@@ -17,9 +19,9 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,14 +31,14 @@ import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
-import com.lowdragmc.lowdraglib2.compat.TriState;
 import org.jetbrains.annotations.NotNull;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * @author KilaBash
@@ -46,6 +48,7 @@ import java.util.function.Function;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class LDLRendererModel implements IUnbakedGeometry<LDLRendererModel> {
+
     public static final LDLRendererModel INSTANCE = new LDLRendererModel();
 
     private LDLRendererModel() {}
@@ -99,7 +102,6 @@ public class LDLRendererModel implements IUnbakedGeometry<LDLRendererModel> {
         public static final ModelProperty<BlockPos> POS = new ModelProperty<>();
         public static final ModelProperty<ModelData> MODEL_DATA = new ModelProperty<>();
 
-
         @Override
         public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData data, @Nullable RenderType renderType) {
             var renderer = data.get(RENDERER);
@@ -126,7 +128,6 @@ public class LDLRendererModel implements IUnbakedGeometry<LDLRendererModel> {
             }
             return BakedModel.super.useAmbientOcclusion(state, renderType);
         }
-
 
         @Override
         public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
@@ -172,6 +173,7 @@ public class LDLRendererModel implements IUnbakedGeometry<LDLRendererModel> {
     public static final class Loader implements IGeometryLoader<LDLRendererModel> {
 
         public static final Loader INSTANCE = new Loader();
+
         private Loader() {}
 
         @Override
@@ -179,5 +181,4 @@ public class LDLRendererModel implements IUnbakedGeometry<LDLRendererModel> {
             return LDLRendererModel.INSTANCE;
         }
     }
-
 }

@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.IntValue;
+
 import com.mojang.serialization.Codec;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +16,13 @@ import java.util.function.Supplier;
 
 @Accessors(chain = true)
 public class IntProperty extends Property<Integer> {
+
     @Setter
     private int min = Integer.MIN_VALUE;
     @Setter
     private int max = Integer.MAX_VALUE;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int step = 1;
 
     public IntProperty(String name, int initialValue) {

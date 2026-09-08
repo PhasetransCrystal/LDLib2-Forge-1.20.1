@@ -1,24 +1,25 @@
 package com.lowdragmc.lowdraglib2.gui.texture;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
-import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
+import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Setter;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector4f;
 
 import java.util.Collections;
@@ -42,10 +43,10 @@ public class TextTexture extends TransformTexture {
     public int backgroundColor;
 
     @Configurable(tips = "ldlib.gui.editor.tips.image_text_width")
-    @ConfigNumber(range = {1, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 1, Integer.MAX_VALUE })
     public int width;
     @Configurable
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Setter
     public float rollSpeed = 1;
     @Configurable
@@ -130,8 +131,7 @@ public class TextTexture extends TransformTexture {
         this.width = width;
         if (LDLib2.isClient()) {
             if (this.width > 0) {
-                texts = Minecraft.getInstance()
-                        .font.getSplitter()
+                texts = Minecraft.getInstance().font.getSplitter()
                         .splitLines(text, width, Style.EMPTY)
                         .stream().map(FormattedText::getString)
                         .collect(Collectors.toList());
@@ -237,7 +237,7 @@ public class TextTexture extends TransformTexture {
         var realPos = trans.transform(new Vector4f(x, y, 0, 1));
         var realPos2 = trans.transform(new Vector4f(x + width, y + height, 0, 1));
         graphics.enableScissor((int) realPos.x, (int) realPos.y, (int) realPos2.x, (int) realPos2.y);
-        var t = rollSpeed > 0 ? ((((rollSpeed * Math.abs((int)(System.currentTimeMillis() % 1000000)) / 10) % (totalW))) / (totalW)) : 0.5;
+        var t = rollSpeed > 0 ? ((((rollSpeed * Math.abs((int) (System.currentTimeMillis() % 1000000)) / 10) % (totalW))) / (totalW)) : 0.5;
         graphics.drawString(fontRenderer, line, (int) (from - t * totalW), (int) _y, color, dropShadow);
         graphics.disableScissor();
     }
@@ -255,7 +255,7 @@ public class TextTexture extends TransformTexture {
         return texts.size();
     }
 
-    public enum TextType{
+    public enum TextType {
         NORMAL,
         HIDE,
         ROLL,

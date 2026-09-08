@@ -3,25 +3,31 @@ package com.lowdragmc.lowdraglib2.configurator.ui;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Selector;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDimension;
 import net.minecraft.network.chat.Component;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
 
 /**
  * Configurator for TaffyDimension values (width, height, size, min/max-size, etc.)
  */
 public class DimensionConfigurator extends ValueConfigurator<TaffyDimension> {
+
     public enum Unit {
-        AUTO, LENGTH, PERCENT,
+        AUTO,
+        LENGTH,
+        PERCENT,
         MIN_CONTENT,
         MAX_CONTENT,
         FIT_CONTENT,
-        STRETCH, CONTENT
+        STRETCH,
+        CONTENT
     }
 
     public final TextField textField;
@@ -52,8 +58,7 @@ public class DimensionConfigurator extends ValueConfigurator<TaffyDimension> {
                 Unit.MAX_CONTENT,
                 Unit.FIT_CONTENT,
                 Unit.STRETCH,
-                Unit.CONTENT
-        ));
+                Unit.CONTENT));
         updateSelector();
 
         unitSelector.setOnValueChanged(unit -> {

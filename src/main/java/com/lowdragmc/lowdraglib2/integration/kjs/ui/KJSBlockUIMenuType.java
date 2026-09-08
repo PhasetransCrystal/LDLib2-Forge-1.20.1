@@ -1,14 +1,15 @@
 package com.lowdragmc.lowdraglib2.integration.kjs.ui;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.gui.factory.BlockUIMenuType;
 import com.lowdragmc.lowdraglib2.gui.factory.LDMenuTypes;
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+
 import dev.latvian.mods.kubejs.script.ScriptType;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +21,7 @@ import net.minecraftforge.network.NetworkHooks;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class KJSBlockUIMenuType {
+
     public static boolean openUI(ServerPlayer player, BlockPos pos, String id) {
         var blockstate = player.level().getBlockState(pos);
         var event = new BlockUIEventJS(player, pos, blockstate, id);
@@ -42,6 +44,7 @@ public class KJSBlockUIMenuType {
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
     public static class BlockUIEventJS extends UIEventJS {
+
         public final BlockPos pos;
         public final BlockState blockState;
 

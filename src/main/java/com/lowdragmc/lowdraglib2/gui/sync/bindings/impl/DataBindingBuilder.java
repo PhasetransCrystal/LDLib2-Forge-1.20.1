@@ -4,6 +4,9 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.IDataSource;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+import com.lowdragmc.lowdraglib2.utils.function.LDSuppliers;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,23 +16,24 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fluids.FluidStack;
-import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
-import com.lowdragmc.lowdraglib2.utils.function.LDSuppliers;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.lang.reflect.Type;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @Accessors(chain = true, fluent = true)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @KJSBindings
 public class DataBindingBuilder<T> {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private String name = "unknown";
     @Setter
     private SyncStrategy s2cStrategy = SyncStrategy.CHANGED_PERIODIC;
@@ -105,9 +109,7 @@ public class DataBindingBuilder<T> {
             if (remoteSetter != null || remoteGetter != null) {
                 binding.setRemoteDataSource(IDataSource.of(
                         remoteSetter == null ? LDConsumers.nop() : remoteSetter,
-                        remoteGetter == null ? LDSuppliers.nul() : remoteGetter
-                        )
-                );
+                        remoteGetter == null ? LDSuppliers.nul() : remoteGetter));
             }
         } else {
             binding.setServerDataSource(IDataSource.of(setter, getter));
@@ -116,7 +118,7 @@ public class DataBindingBuilder<T> {
         return binding;
     }
 
-    ///  Built-in
+    /// Built-in
     /**
      * Creates and returns a data binding holder for {@link ItemStack} that supports synchronization
      * and data manipulation using the provided getter and setter functions.
@@ -300,5 +302,4 @@ public class DataBindingBuilder<T> {
     public static DataBindingBuilder<String> stringC2S(Consumer<String> setter) {
         return string(LDSuppliers.nul(), setter).s2cStrategy(SyncStrategy.NONE);
     }
-
 }

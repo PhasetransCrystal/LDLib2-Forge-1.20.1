@@ -16,42 +16,45 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarat
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.IGhostWireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireSide;
+
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
-import it.unimi.dsi.fastutil.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public final class NodeCommands {
+
     public static class CreateNodeCommand extends UndoableGraphCommand {
+
         private final static Component NAME = Component.translatable("graph.commands.create_node");
 
         /**
          * Command to create a node from a {@link NodeModelLibraryItem}
-         * @param position position to create the node at
-         * @param wireToInsertOn The wire model on which to insert the newly created node.
-         * @param portModel The port to which to connect the new node.
-         * @param variableDeclaration The variable declaration to create.
-         * @param nodeLibraryItem representing the node to create.
-         * @param uid The guid to assign to the newly created item.
-         * @param wiresToConnect The wire models on which to connect the newly created node.
-         * @param variableCreationInfos The variable creation infos to use to create the variable.
+         * 
+         * @param position               position to create the node at
+         * @param wireToInsertOn         The wire model on which to insert the newly created node.
+         * @param portModel              The port to which to connect the new node.
+         * @param variableDeclaration    The variable declaration to create.
+         * @param nodeLibraryItem        representing the node to create.
+         * @param uid                    The guid to assign to the newly created item.
+         * @param wiresToConnect         The wire models on which to connect the newly created node.
+         * @param variableCreationInfos  The variable creation infos to use to create the variable.
          * @param variableDeclarationUid The guid of the variable declaration to create.
          */
         public record NodeData(
-                Vector2f position,
-                WireModel wireToInsertOn,
-                PortModel portModel,
-                VariableDeclarationModelBase variableDeclaration,
-                NodeModelLibraryItem nodeLibraryItem,
-                UUID uid,
-                List<Pair<WireModel, WireSide>> wiresToConnect,
-                VariableCreationInfos variableCreationInfos,
-                UUID variableDeclarationUid
-        ) {}
+                               Vector2f position,
+                               WireModel wireToInsertOn,
+                               PortModel portModel,
+                               VariableDeclarationModelBase variableDeclaration,
+                               NodeModelLibraryItem nodeLibraryItem,
+                               UUID uid,
+                               List<Pair<WireModel, WireSide>> wiresToConnect,
+                               VariableCreationInfos variableCreationInfos,
+                               UUID variableDeclarationUid) {}
 
         public enum ConnectionsToMake {
             NONE,
@@ -63,7 +66,6 @@ public final class NodeCommands {
         protected final List<NodeData> creationData = new ArrayList<>();
 
         public CreateNodeCommand() {}
-
 
         public CreateNodeCommand withNode(NodeData data) {
             creationData.add(data);
@@ -83,19 +85,20 @@ public final class NodeCommands {
          * Add a node from an item inserted on wires.
          */
         public CreateNodeCommand withNodeOnWires(NodeModelLibraryItem item,
-                                    List<Pair<WireModel, WireSide>> wiresToConnect,
-                                    Vector2f position,
-                                    @Nullable UUID uid) {
+                                                 List<Pair<WireModel, WireSide>> wiresToConnect,
+                                                 Vector2f position,
+                                                 @Nullable UUID uid) {
             return withNode(new NodeData(position, null, null, null, item, uid, wiresToConnect, null, null));
         }
 
         /**
-         * Adds a variable node connected to a port to a {@link CreateNodeCommand}. Also creates the corresponding variable declaration.
+         * Adds a variable node connected to a port to a {@link CreateNodeCommand}. Also creates the corresponding
+         * variable declaration.
          */
         public CreateNodeCommand withNodeOnPort(VariableDeclarationModelBase variableDeclaration,
-                                   PortModel portModel,
-                                   Vector2f position,
-                                   @Nullable UUID uid) {
+                                                PortModel portModel,
+                                                Vector2f position,
+                                                @Nullable UUID uid) {
             return withNode(new NodeData(position, null, portModel, variableDeclaration, null, uid, null, null, null));
         }
 
@@ -149,8 +152,7 @@ public final class NodeCommands {
                                     creationInfos.getGroup(),
                                     creationInfos.getIndexInGroup(),
                                     null,
-                                    nodeData.variableDeclarationUid(), null
-                            );
+                                    nodeData.variableDeclarationUid(), null);
                     }
 
                     if (variableDeclaration == null) {
@@ -170,9 +172,7 @@ public final class NodeCommands {
                         continue;
                     }
 
-                    connectionsToMake = nodeData.wiresToConnect != null
-                            ? ConnectionsToMake.EXISTING_WIRES
-                            : ConnectionsToMake.INSERT_ON_WIRE;
+                    connectionsToMake = nodeData.wiresToConnect != null ? ConnectionsToMake.EXISTING_WIRES : ConnectionsToMake.INSERT_ON_WIRE;
                 }
 
                 var uid = nodeData.uid == null ? UUID.randomUUID() : nodeData.uid;
@@ -190,20 +190,20 @@ public final class NodeCommands {
                 } else if (nodeData.nodeLibraryItem != null) { // todo sub graph
                     // If there is a port, try to create a variable from the variable creation infos
                     createdElement = nodeData.nodeLibraryItem.createNode(
-                            new GraphNodeCreationData(graphModel, nodeData.position(), SpawnFlags.DEFAULT, uid)
-                    );
+                            new GraphNodeCreationData(graphModel, nodeData.position(), SpawnFlags.DEFAULT, uid));
                 }
 
                 if (createdElement != null) {
                     if (nodeData.variableCreationInfos != null && createdElement instanceof VariableNodeModel variableNode) {
-                        // Variable node should not be selected, their declaration should be (which is done in GraphVariablesObserver)
-//                        if (variableNode.getVariableDeclarationModel().isRenamable())
-//                            graphUpdater.markForRename(createdElement);
+                        // Variable node should not be selected, their declaration should be (which is done in
+                        // GraphVariablesObserver)
+                        // if (variableNode.getVariableDeclarationModel().isRenamable())
+                        // graphUpdater.markForRename(createdElement);
 
                         // When a variable node is created on the graph with the "Create Variable" item,
                         // it should be expanded in the bb for the user to change its type more easily if needed
-//                        if (connectionsToMake == ConnectionsToMake.NONE)
-//                            graphUpdater.markForExpand(new[] { variableDeclaration });
+                        // if (connectionsToMake == ConnectionsToMake.NONE)
+                        // graphUpdater.markForExpand(new[] { variableDeclaration });
                     }
                     elementsToSelect.add(createdElement);
                 }
@@ -214,12 +214,8 @@ public final class NodeCommands {
                     case NONE -> {}
                     case EXISTING_PORT -> {
                         var existingPortToConnect = nodeData.portModel;
-                        var portToConnectItem = nodeData.nodeLibraryItem == null
-                                ? null
-                                : (nodeData.nodeLibraryItem.getData() instanceof NodeItemLibraryData data ? data.portToConnect() : null);
-                        var newPortToConnect = portToConnectItem == null
-                                ? (portNodeModel == null ? null : portNodeModel.getPortFitToConnectTo(existingPortToConnect))
-                                : (portNodeModel == null ? null : portNodeModel.getPorts().stream()
+                        var portToConnectItem = nodeData.nodeLibraryItem == null ? null : (nodeData.nodeLibraryItem.getData() instanceof NodeItemLibraryData data ? data.portToConnect() : null);
+                        var newPortToConnect = portToConnectItem == null ? (portNodeModel == null ? null : portNodeModel.getPortFitToConnectTo(existingPortToConnect)) : (portNodeModel == null ? null : portNodeModel.getPorts().stream()
                                 .filter(p -> p.getUniqueName().equals(portToConnectItem.getUniqueName()))
                                 .findFirst()
                                 .orElse(null));
@@ -259,17 +255,12 @@ public final class NodeCommands {
                         for (var wire : nodeData.wiresToConnect) {
                             var wireModel = wire.left();
                             var wireSide = wire.right();
-                            var portToConnect = nodeData.nodeLibraryItem == null ? null : (
-                                    nodeData.nodeLibraryItem.getData() instanceof NodeItemLibraryData data ? data.portToConnect() : null
-                                    );
+                            var portToConnect = nodeData.nodeLibraryItem == null ? null : (nodeData.nodeLibraryItem.getData() instanceof NodeItemLibraryData data ? data.portToConnect() : null);
 
-                            var newPort = portToConnect == null
-                                    ? (portNodeModel == null ? null : portNodeModel.getPortFitToConnectTo(wireModel.getOtherPort(wireSide)))
-                                    : (portNodeModel == null ? null : portNodeModel.getPorts().stream()
+                            var newPort = portToConnect == null ? (portNodeModel == null ? null : portNodeModel.getPortFitToConnectTo(wireModel.getOtherPort(wireSide))) : (portNodeModel == null ? null : portNodeModel.getPorts().stream()
                                     .filter(p -> p.getUniqueName().equals(portToConnect.getUniqueName()))
                                     .findFirst()
                                     .orElse(null));
-
 
                             WireModel newWire = null;
                             if (newPort != null) {
@@ -302,6 +293,5 @@ public final class NodeCommands {
             }
             creationData.clear();
         }
-
     }
 }

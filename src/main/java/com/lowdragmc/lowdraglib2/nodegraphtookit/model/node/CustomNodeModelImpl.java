@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortOrientation;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortType;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.NodeDefinitionScope;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomNodeModelImpl extends NodeModel implements ICustomNodeModel {
-    @Getter @Nullable
+
+    @Getter
+    @Nullable
     private Node node;
     // runtime
     @Getter

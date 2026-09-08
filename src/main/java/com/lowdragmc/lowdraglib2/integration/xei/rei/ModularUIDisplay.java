@@ -1,18 +1,20 @@
 package com.lowdragmc.lowdraglib2.integration.xei.rei;
 
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import net.minecraft.MethodsReturnNonnullByDefault;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public interface ModularUIDisplay extends Display {
 
     @Nullable

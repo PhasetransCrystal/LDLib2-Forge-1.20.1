@@ -1,8 +1,11 @@
 package com.lowdragmc.lowdraglib2.registry;
 
+import com.lowdragmc.lowdraglib2.LDLib2;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.lowdragmc.lowdraglib2.LDLib2;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import lombok.Getter;
@@ -11,15 +14,14 @@ import lombok.experimental.Accessors;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 public abstract class LDLRegistry<K, V> implements Iterable<V> {
+
     public static final Map<ResourceLocation, LDLRegistry<?, ?>> REGISTERED = new LinkedHashMap<>();
 
     protected final BiMap<K, V> registry;
@@ -27,7 +29,9 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
     protected final ResourceLocation registryName;
     @Getter
     protected boolean frozen = false;
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     protected K missingKey = null;
 
     public LDLRegistry(ResourceLocation registryName) {
@@ -156,7 +160,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
 
     public abstract StreamCodec<RegistryFriendlyByteBuf, V> streamCodec();
 
-    //************************ Built-in Registry ************************//
+    // ************************ Built-in Registry ************************//
 
     public static class String<V> extends LDLRegistry<java.lang.String, V> {
 
@@ -210,7 +214,6 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
         public StreamCodec<RegistryFriendlyByteBuf, V> streamCodec() {
             return StreamCodec.of((buf, value) -> buf.writeUtf(getKey(value)), buf -> Objects.requireNonNull(get(buf.readUtf())));
         }
-
     }
 
     public static class RL<V> extends LDLRegistry<ResourceLocation, V> {

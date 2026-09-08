@@ -8,10 +8,12 @@ import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.NodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 public class GraphPreview extends UIElement implements IGraphTool {
+
     private static final float PADDING = 20f;
     private static final int HIGHLIGHT_COLOR = 0xFF_4488FF;
     private static final int DEFAULT_NODE_COLOR = 0xFF_555555;
@@ -86,8 +88,7 @@ public class GraphPreview extends UIElement implements IGraphTool {
         float ty = newOffsetY * s;
         gv.contentRoot.transform(transform -> transform
                 .translate(-tx, -ty)
-                .scale(s)
-        );
+                .scale(s));
     }
 
     private Bounds computeNodesBounds() {

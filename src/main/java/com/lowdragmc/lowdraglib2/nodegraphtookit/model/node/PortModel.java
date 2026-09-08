@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.utils.ReorderType;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
+
 import com.mojang.serialization.DataResult;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
@@ -27,10 +27,13 @@ import java.util.function.Predicate;
 /**
  * Model representing a port on a node.
  *
- * <p>Ports are connection points on nodes that allow data or execution flow to pass between nodes.
- * Each port has a direction (input or output), a data type, and can be connected to other compatible ports.</p>
+ * <p>
+ * Ports are connection points on nodes that allow data or execution flow to pass between nodes.
+ * Each port has a direction (input or output), a data type, and can be connected to other compatible ports.
+ * </p>
  */
 public class PortModel extends GraphElementModel implements IPort, IHasDisplayName, IHasContextualMenuItems, IFieldConstantConfigurable {
+
     @Getter
     protected PortNodeModel nodeModel;
     @Getter
@@ -47,16 +50,20 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
     protected PortCapacity portCapacity;
     @Getter
     protected PortModelOptions options;
-    @Getter @Nullable
+    @Getter
+    @Nullable
     protected PortModel parentPort;
     @Getter
     protected final List<PortModel> subPorts = new ArrayList<>();
-    @Getter(AccessLevel.PROTECTED) @Setter(AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PROTECTED)
     protected Constant computedConstant;
     protected Tooltips tooltips = Tooltips.empty();
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean isExpandable = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean isExpanded;
 
     // runtime
@@ -69,24 +76,28 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
      * {@code IInputPortBuilder.withConfigurable} or {@code IOptionBuilder.withConfigurable}.
      * Not persisted — reapplied on every {@code defineNode} call.
      */
-    @Setter @Nullable
+    @Setter
+    @Nullable
     protected ITypeConfigurable customTypeConfigurable;
     /**
      * Per-port toggle for the inspector field. When {@code false}, {@link #buildConfigurator}
      * (inherited from {@link IFieldConstantConfigurable}) is a no-op. Reapplied on every
      * {@code defineNode} call, mirroring the {@link #customTypeConfigurable} lifecycle.
      */
-    @Setter @Getter
+    @Setter
+    @Getter
     protected boolean configuratorEnabled = true;
     /**
      * Optional reflection field this port maps to. Surfaced by {@link #getValueField()} so the
      * default configurator accessor can read annotations such as {@code @ConfigNumber}. Not
      * persisted — reapplied on every {@code defineNode} call.
      */
-    @Setter @Nullable
+    @Setter
+    @Nullable
     protected Field valueField;
     /** Object owner paired with {@link #valueField} for reflective annotation access. */
-    @Setter @Nullable
+    @Setter
+    @Nullable
     protected Object valueOwer;
 
     public PortModel(PortNodeModel nodeModel,
@@ -123,18 +134,18 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
 
     static String computeUniqueName(String uniqueId, String parentPortUniqueName) {
         var uniqueName = uniqueId;
-        if(parentPortUniqueName != null) {
+        if (parentPortUniqueName != null) {
             uniqueName = uniqueId + "." + parentPortUniqueName;
         }
         return uniqueName;
     }
 
     protected static UUID computePortUid(PortNodeModel nodeModel,
-                                PortDirection direction,
-                                String portId,
-                                PortType portType,
-                                TypeHandle dataType,
-                                @Nullable PortModel parentPort) {
+                                         PortDirection direction,
+                                         String portId,
+                                         PortType portType,
+                                         TypeHandle dataType,
+                                         @Nullable PortModel parentPort) {
         return UUID.nameUUIDFromBytes((nodeModel.getUid() + "|" +
                 direction + "|" +
                 portId + "|" +
@@ -263,6 +274,7 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
 
     /**
      * Gets the ports connected to this port.
+     * 
      * @return The ports connected to this port
      */
     public List<PortModel> getConnectedPorts() {
@@ -277,7 +289,6 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
         }
         return results;
     }
-
 
     /**
      * Tells if a port can be connected to this one, taking into account the polymorphic configuration
@@ -326,13 +337,14 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
 
     /**
      * The default tooltip for the port.
-     * @return The default tooltip is "[name] [Input|Output] of type (friendly name of the port type)" for ports (e.g. "input of type float").
+     * 
+     * @return The default tooltip is "[name] [Input|Output] of type (friendly name of the port type)" for ports (e.g.
+     *         "input of type float").
      */
     public Tooltips getDefaultTooltips() {
         return Tooltips.of(getTitle().copy().append(" (")
                 .append(Component.literal(dataTypeHandle.getFriendlyName()).withStyle(style -> style.withColor(dataTypeHandle.getTypeColor())))
-                .append(")")
-        );
+                .append(")"));
     }
 
     public Tooltips getTooltips() {
@@ -368,6 +380,7 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
 
     /**
      * Checks whether two ports are connected.
+     * 
      * @param otherPort The second port.
      * @return True if there is at least one wire that connects the two ports.
      */
@@ -389,9 +402,7 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
         if (otherPortModel == null)
             return false;
 
-        return direction == otherPortModel.direction
-                && nodeModel.getUid().equals(otherPortModel.getUid())
-                && getUniqueName().equals(otherPortModel.getUniqueName());
+        return direction == otherPortModel.direction && nodeModel.getUid().equals(otherPortModel.getUid()) && getUniqueName().equals(otherPortModel.getUniqueName());
     }
 
     public boolean hasReorderableWires() {
@@ -424,7 +435,8 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
 
     /**
      * Changes the order of a wire among its siblings.
-     * @param wireModel The wire to reorder.
+     * 
+     * @param wireModel   The wire to reorder.
      * @param reorderType the type of move to do.
      */
     public void reorderWire(WireModel wireModel, ReorderType reorderType) {
@@ -435,6 +447,7 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
 
     /**
      * Gets the order of a wire on this port
+     * 
      * @param wireModel the wire to get the order of.
      * @return the index
      */
@@ -445,6 +458,7 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
     /**
      * Adds a sub port to this port.
      * Users of the NodeModel class must not use this method directly, but rely on {@link NodeModel#addSubPort} instead.
+     * 
      * @param portModel The sub port to add.
      */
     public void addSubPort(PortModel portModel) {
@@ -474,7 +488,6 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
         if (parentPort == null) return false;
         return parentPort.isDescendantOf(ancestor);
     }
-
 
     /**
      * Called when this port gets connected to another port.
@@ -538,7 +551,7 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
             var port = wire.getToPort() == this ? wire.getFromPort() : wire.getToPort();
             if (port == null)
                 return true;
-            if (port.nodeModel instanceof WirePortalModel portal){
+            if (port.nodeModel instanceof WirePortalModel portal) {
                 var declaration = portal.getDeclarationModel();
 
                 var nodes = port.getNodeModel() instanceof WirePortalEntryModel ? getGraphModel().getExitPortals(declaration) : getGraphModel().getEntryPortals(declaration);
@@ -585,15 +598,15 @@ public class PortModel extends GraphElementModel implements IPort, IHasDisplayNa
         return Collections.emptyList();
     }
 
-//    public static final List<ContextualMenuItem> PORT_MENU_ITEMS = List.of(
-//            ContextualMenuHelpers.addNodeFromPortItem,
-//            ContextualMenuHelpers.createVariableFromPortItem,
-//            ContextualMenuHelpers.copyValueItem,
-//            ContextualMenuHelpers.pasteValueItem,
-//            ContextualMenuHelpers.disconnectAllWiresItem,
-//            ContextualMenuHelpers.expandPortItem,
-//            ContextualMenuHelpers.collapsePortItem
-//    );
+    // public static final List<ContextualMenuItem> PORT_MENU_ITEMS = List.of(
+    // ContextualMenuHelpers.addNodeFromPortItem,
+    // ContextualMenuHelpers.createVariableFromPortItem,
+    // ContextualMenuHelpers.copyValueItem,
+    // ContextualMenuHelpers.pasteValueItem,
+    // ContextualMenuHelpers.disconnectAllWiresItem,
+    // ContextualMenuHelpers.expandPortItem,
+    // ContextualMenuHelpers.collapsePortItem
+    // );
 
     @Override
     public String toString() {

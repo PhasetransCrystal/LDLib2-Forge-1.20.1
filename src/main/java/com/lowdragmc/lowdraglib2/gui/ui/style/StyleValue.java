@@ -1,11 +1,13 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 public abstract class StyleValue<T> {
+
     public final String rawValue;
     private volatile T computedValue;
     private volatile boolean computed = false;

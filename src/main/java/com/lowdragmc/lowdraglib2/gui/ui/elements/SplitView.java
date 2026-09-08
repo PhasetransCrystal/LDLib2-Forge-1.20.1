@@ -13,6 +13,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDimension;
 import lombok.Getter;
@@ -28,14 +29,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 public abstract class SplitView extends UIElement {
+
     private static final Object DRAGGING = new Object();
     public final UIElement first = new UIElement();
     public final UIElement second = new UIElement();
-    @Getter @Setter
+    @Getter
+    @Setter
     private float borderSize = 2;
-    @Getter @Setter
+    @Getter
+    @Setter
     private float minPercentage = 5;
-    @Getter @Setter
+    @Getter
+    @Setter
     private float maxPercentage = 95;
 
     public SplitView() {
@@ -79,11 +84,11 @@ public abstract class SplitView extends UIElement {
 
     protected void onMouseDown(UIEvent event) {
         // use int mouse coordinates to avoid issues with floating point precision
-        if (event.button == 0 && isHoverDragging((int) event.x, (int) event.y)){
+        if (event.button == 0 && isHoverDragging((int) event.x, (int) event.y)) {
             var icon = getDraggingIcon();
             var width = icon.spriteSize.width;
             var height = icon.spriteSize.height;
-            startDrag(DRAGGING, icon).setDragTexture(- width / 2f, -height / 2f, width, height);
+            startDrag(DRAGGING, icon).setDragTexture(-width / 2f, -height / 2f, width, height);
         }
     }
 
@@ -135,6 +140,7 @@ public abstract class SplitView extends UIElement {
     @KJSBindings("SplitViewHorizontal")
     @LDLRegister(name = "split-view-horizontal", group = "container", registry = "ldlib2:ui_element")
     public static class Horizontal extends SplitView {
+
         public Horizontal() {
             getLayout().flexDirection(FlexDirection.ROW);
             first.getLayout().widthPercent(50);
@@ -163,7 +169,6 @@ public abstract class SplitView extends UIElement {
             second(right);
             return this;
         }
-
 
         @Override
         protected void onDragSourceUpdate(UIEvent event) {
@@ -197,6 +202,7 @@ public abstract class SplitView extends UIElement {
     @KJSBindings("SplitViewVertical")
     @LDLRegister(name = "split-view-vertical", group = "container", registry = "ldlib2:ui_element")
     public static class Vertical extends SplitView {
+
         public Vertical() {
             first.getLayout().widthPercent(100);
             first.getLayout().heightPercent(50);

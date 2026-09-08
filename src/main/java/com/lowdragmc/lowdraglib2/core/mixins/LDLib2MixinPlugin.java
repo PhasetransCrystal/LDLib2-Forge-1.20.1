@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public class LDLib2MixinPlugin implements IMixinConfigPlugin, MixinPluginShared {
+
     @Override
     public void onLoad(String mixinPackage) {
         MixinExtrasBootstrap.init();
@@ -34,9 +35,7 @@ public class LDLib2MixinPlugin implements IMixinConfigPlugin, MixinPluginShared 
     }
 
     @Override
-    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
-
-    }
+    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
 
     @Override
     public List<String> getMixins() {
@@ -44,12 +43,8 @@ public class LDLib2MixinPlugin implements IMixinConfigPlugin, MixinPluginShared 
     }
 
     @Override
-    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
+    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
 
     @Override
-    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
+    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
 }

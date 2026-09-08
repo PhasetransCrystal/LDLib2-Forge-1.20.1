@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.style;
 
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import lombok.Getter;
 
 import java.util.*;
@@ -10,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 public final class StyleEngine {
+
     public final ModularUI modularUI;
     public final List<Stylesheet> globalSheets = new CopyOnWriteArrayList<>();
 

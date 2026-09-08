@@ -5,9 +5,10 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents the sender of an RPC call.
-
+ * 
  */
 public interface RPCSender {
+
     /**
      * @return true if the sender is the server, false if the sender is remote.
      */
@@ -26,6 +27,7 @@ public interface RPCSender {
     }
 
     record ClientRPCSender(ServerPlayer player) implements RPCSender {
+
         @Override
         public boolean isServer() {
             return false;
@@ -44,5 +46,4 @@ public interface RPCSender {
     static RPCSender ofServer() {
         return () -> true;
     }
-
 }

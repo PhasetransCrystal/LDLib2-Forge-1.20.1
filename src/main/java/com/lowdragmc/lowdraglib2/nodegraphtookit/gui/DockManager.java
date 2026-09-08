@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.gui;
 import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import org.jetbrains.annotations.Nullable;
@@ -14,11 +15,13 @@ import java.util.List;
 /**
  * Manages docking of {@link GraphPanel} instances into {@link DockSlot}s.
  *
- * <p>Each corner slot holds at most one {@link GraphPanel}; multiple {@link IGraphTool}s
+ * <p>
+ * Each corner slot holds at most one {@link GraphPanel}; multiple {@link IGraphTool}s
  * landing in the same corner are merged into a single panel using its internal {@code TabView}.
  * The {@link DockSlot#CENTER} "slot" is a free-floating area: any number of panels can live there.
  */
 public class DockManager {
+
     /** Pixel size of the corner hit zones used to detect docking. */
     public static final float CORNER_HIT_SIZE = 30f;
     /** Highlight overlay color (semi-transparent blue). */
@@ -104,14 +107,14 @@ public class DockManager {
         float cw = canvas.getSizeWidth();
         float ch = canvas.getSizeHeight();
 
-        boolean left   = worldX >= cx           && worldX <= cx + CORNER_HIT_SIZE;
-        boolean right  = worldX >= cx + cw - CORNER_HIT_SIZE && worldX <= cx + cw;
-        boolean top    = worldY >= cy           && worldY <= cy + CORNER_HIT_SIZE;
+        boolean left = worldX >= cx && worldX <= cx + CORNER_HIT_SIZE;
+        boolean right = worldX >= cx + cw - CORNER_HIT_SIZE && worldX <= cx + cw;
+        boolean top = worldY >= cy && worldY <= cy + CORNER_HIT_SIZE;
         boolean bottom = worldY >= cy + ch - CORNER_HIT_SIZE && worldY <= cy + ch;
 
-        if (left  && top)    return DockSlot.TOP_LEFT;
-        if (right && top)    return DockSlot.TOP_RIGHT;
-        if (left  && bottom) return DockSlot.BOTTOM_LEFT;
+        if (left && top) return DockSlot.TOP_LEFT;
+        if (right && top) return DockSlot.TOP_RIGHT;
+        if (left && bottom) return DockSlot.BOTTOM_LEFT;
         if (right && bottom) return DockSlot.BOTTOM_RIGHT;
         return DockSlot.CENTER;
     }
@@ -156,11 +159,25 @@ public class DockManager {
 
         float left, top;
         switch (slot) {
-            case TOP_LEFT     -> { left = cx;             top = cy; }
-            case TOP_RIGHT    -> { left = cx + cw - w;    top = cy; }
-            case BOTTOM_LEFT  -> { left = cx;             top = cy + ch - h; }
-            case BOTTOM_RIGHT -> { left = cx + cw - w;    top = cy + ch - h; }
-            default -> { return; }
+            case TOP_LEFT -> {
+                left = cx;
+                top = cy;
+            }
+            case TOP_RIGHT -> {
+                left = cx + cw - w;
+                top = cy;
+            }
+            case BOTTOM_LEFT -> {
+                left = cx;
+                top = cy + ch - h;
+            }
+            case BOTTOM_RIGHT -> {
+                left = cx + cw - w;
+                top = cy + ch - h;
+            }
+            default -> {
+                return;
+            }
         }
 
         float fLeft = left, fTop = top, fW = w, fH = h;

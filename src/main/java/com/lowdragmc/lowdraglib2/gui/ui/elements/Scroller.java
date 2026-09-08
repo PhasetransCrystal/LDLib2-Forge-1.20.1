@@ -3,16 +3,17 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import it.unimi.dsi.fastutil.floats.FloatConsumer;
@@ -20,18 +21,21 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public abstract class Scroller extends BindableUIElement<Float> {
+
     @Configurable(name = "ScrollerStyle")
     public class ScrollerStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.SCROLL_DELTA,
                 PropertyRegistry.SCROLL_BAR_SIZE,
@@ -76,7 +80,6 @@ public abstract class Scroller extends BindableUIElement<Float> {
         }
     }
 
-
     public final Button headButton;
     public final Button tailButton;
     public final UIElement scrollContainer;
@@ -91,7 +94,8 @@ public abstract class Scroller extends BindableUIElement<Float> {
     protected float maxValue = 1;
     @Configurable(name = "value")
     protected float value = 0;
-    @Getter @Setter
+    @Getter
+    @Setter
     @Accessors(chain = true)
     protected Function<Float, Float> clampNormalizedValue = Function.identity();
     // runtime
@@ -223,6 +227,7 @@ public abstract class Scroller extends BindableUIElement<Float> {
 
     /**
      * Set the size of the scroll bar in percent.
+     * 
      * @param size the size of the scroll bar in percent (0-100)
      */
     public Scroller setScrollBarSize(float size) {
@@ -275,6 +280,7 @@ public abstract class Scroller extends BindableUIElement<Float> {
     @KJSBindings("ScrollerVertical")
     @LDLRegister(name = "scroller-vertical", group = "utils", registry = "ldlib2:ui_element")
     public static class Vertical extends Scroller {
+
         public Vertical() {
             getLayout().flexDirection(FlexDirection.COLUMN);
             getLayout().gapRow(1);
@@ -283,25 +289,22 @@ public abstract class Scroller extends BindableUIElement<Float> {
             headButton.buttonStyle(style -> style
                     .baseTexture(Icons.UP_ARROW_NO_BAR_S)
                     .hoverTexture(Icons.UP_ARROW_NO_BAR_S_LIGHT)
-                    .pressedTexture(Icons.UP_ARROW_NO_BAR_S_WHITE)
-            );
+                    .pressedTexture(Icons.UP_ARROW_NO_BAR_S_WHITE));
             tailButton.buttonStyle(style -> style
                     .baseTexture(Icons.DOWN_ARROW_NO_BAR_S)
                     .hoverTexture(Icons.DOWN_ARROW_NO_BAR_S_LIGHT)
-                    .pressedTexture(Icons.DOWN_ARROW_NO_BAR_S_WHITE)
-            );
+                    .pressedTexture(Icons.DOWN_ARROW_NO_BAR_S_WHITE));
             scrollContainer.style(style -> style.backgroundTexture(Sprites.SCROLL_CONTAINER_V));
             scrollBar.buttonStyle(style -> style
                     .baseTexture(Sprites.SCROLL_BAR_V)
                     .hoverTexture(Sprites.SCROLL_BAR_LIGHT_V)
-                    .pressedTexture(Sprites.SCROLL_BAR_WHITE_V)
-            );
+                    .pressedTexture(Sprites.SCROLL_BAR_WHITE_V));
             updateScrollBarPosition();
             internalSetup();
         }
 
         @Override
-        protected void updateScrollBarPosition()  {
+        protected void updateScrollBarPosition() {
             var scrollBarSize = getScrollerStyle().scrollBarSize();
             float remainingSpace = 100 - scrollBarSize;
             float position = getNormalizedValue() * remainingSpace;
@@ -343,6 +346,7 @@ public abstract class Scroller extends BindableUIElement<Float> {
     @KJSBindings("ScrollerHorizontal")
     @LDLRegister(name = "scroller-horizontal", group = "utils", registry = "ldlib2:ui_element")
     public static class Horizontal extends Scroller {
+
         public Horizontal() {
             getLayout().flexDirection(FlexDirection.ROW);
             getLayout().gapColumn(1);
@@ -351,19 +355,16 @@ public abstract class Scroller extends BindableUIElement<Float> {
             headButton.buttonStyle(style -> style
                     .baseTexture(Icons.LEFT_ARROW_NO_BAR_S)
                     .hoverTexture(Icons.LEFT_ARROW_NO_BAR_S_LIGHT)
-                    .pressedTexture(Icons.LEFT_ARROW_NO_BAR_S_WHITE)
-            );
+                    .pressedTexture(Icons.LEFT_ARROW_NO_BAR_S_WHITE));
             tailButton.buttonStyle(style -> style
                     .baseTexture(Icons.RIGHT_ARROW_NO_BAR_S)
                     .hoverTexture(Icons.RIGHT_ARROW_NO_BAR_S_LIGHT)
-                    .pressedTexture(Icons.RIGHT_ARROW_NO_BAR_S_WHITE)
-            );
+                    .pressedTexture(Icons.RIGHT_ARROW_NO_BAR_S_WHITE));
             scrollContainer.style(style -> style.backgroundTexture(Sprites.SCROLL_CONTAINER_H));
             scrollBar.buttonStyle(style -> style
                     .baseTexture(Sprites.SCROLL_BAR_H)
                     .hoverTexture(Sprites.SCROLL_BAR_LIGHT_H)
-                    .pressedTexture(Sprites.SCROLL_BAR_WHITE_H)
-            );
+                    .pressedTexture(Sprites.SCROLL_BAR_WHITE_H));
             updateScrollBarPosition();
             internalSetup();
         }

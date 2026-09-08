@@ -1,27 +1,29 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject;
 
 import com.lowdragmc.lowdraglib2.math.Transform;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.StringTag;
 import net.minecraftforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TransformRef implements INBTSerializable<StringTag> {
+
     @Nullable
-    @Getter @Setter
+    @Getter
+    @Setter
     private UUID transformId = null;
 
-    public TransformRef() {
-
-    }
+    public TransformRef() {}
 
     public TransformRef(@Nullable Transform transform) {
         this.transformId = transform == null ? null : transform.id();

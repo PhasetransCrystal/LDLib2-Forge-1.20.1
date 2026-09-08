@@ -14,13 +14,15 @@ import java.util.List;
  * split tree plus, for each leaf {@link ViewContainer}, which views inhabit it (in tab order)
  * and which is selected.
  *
- * <p>{@code path} is a string of {@code 'f'} (first) / {@code 's'} (second) characters describing
+ * <p>
+ * {@code path} is a string of {@code 'f'} (first) / {@code 's'} (second) characters describing
  * the descent from {@code rootWindow} to the leaf window containing the slot. Empty string means
  * {@code rootWindow} itself.
  */
 public record EditorLayout(SplittableWindow.LayoutConfig layoutConfig, List<SlotEntry> slots) {
 
     public record SlotEntry(String path, List<String> viewNames, @Nullable String selectedViewName) {
+
         public CompoundTag serialize() {
             var tag = new CompoundTag();
             tag.putString("path", path);

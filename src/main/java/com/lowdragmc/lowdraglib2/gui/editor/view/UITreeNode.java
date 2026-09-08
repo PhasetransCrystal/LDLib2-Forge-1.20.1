@@ -2,13 +2,16 @@ package com.lowdragmc.lowdraglib2.gui.editor.view;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.util.ITreeNode;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class UITreeNode implements ITreeNode<UIElement, Void> {
+
     @Getter
     @Nullable
     public final UITreeNode parent;

@@ -4,11 +4,9 @@ import java.util.function.Consumer;
 
 public final class LDConsumers {
 
-    private LDConsumers() {
-    }
+    private LDConsumers() {}
 
     public static <T> Consumer<T> nop() {
-        return ignored -> {
-        };
+        return ignored -> {};
     }
 }

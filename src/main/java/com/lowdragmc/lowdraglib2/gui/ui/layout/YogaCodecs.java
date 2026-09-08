@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.layout;
 
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.Codec;
 import lombok.experimental.UtilityClass;
 import net.minecraft.nbt.*;
@@ -12,6 +13,7 @@ import org.appliedenergistics.yoga.style.StyleSizeLength;
 @UtilityClass
 @Deprecated
 public final class YogaCodecs {
+
     public static final Codec<FloatOptional> FLOAT_OPTIONAL_CODEC = LDLibExtraCodecs.TAG.xmap(YogaCodecs::decodeFloatOptional, YogaCodecs::encodeFloatOptional);
     public static final Codec<StyleSizeLength> STYLE_SIZE_LENGTH_CODEC = LDLibExtraCodecs.TAG.xmap(YogaCodecs::decodeStyleSizeLength, YogaCodecs::encodeStyleSizeLength);
     public static final Codec<StyleLength> STYLE_LENGTH_CODEC = LDLibExtraCodecs.TAG.xmap(YogaCodecs::decodeStyleLength, YogaCodecs::encodeStyleLength);

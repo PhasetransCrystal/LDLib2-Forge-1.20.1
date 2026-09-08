@@ -4,17 +4,16 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.editor.resource.FilePath;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.variable.VariableKind;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.editor.IGraphReferenceResolver;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.editor.SubgraphRegistry;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.SpawnFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.CustomGraphModelImpl;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.SubgraphNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModel;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
@@ -39,7 +38,10 @@ public class GraphSubgraphTest {
 
         // Build inline subgraph + node
         var sub = rootModel.createLocalSubgraphInstance();
-        if (sub == null) { helper.fail("createLocalSubgraphInstance returned null"); return; }
+        if (sub == null) {
+            helper.fail("createLocalSubgraphInstance returned null");
+            return;
+        }
         rootModel.addLocalSubgraph(sub);
         var subNode = rootModel.createNodeWithType(SubgraphNodeModel.class, "sub",
                 new Vector2f(50, 50), null,
@@ -60,8 +62,7 @@ public class GraphSubgraphTest {
         root2.graphModel.deserializeNBT(provider, serialized);
 
         // localSubGraphs preserved + parent pointer rebuilt
-        if (root2.graphModel.getLocalSubGraphs() == null
-                || countNonNull(root2.graphModel.getLocalSubGraphs()) != 1) {
+        if (root2.graphModel.getLocalSubGraphs() == null || countNonNull(root2.graphModel.getLocalSubGraphs()) != 1) {
             helper.fail("localSubGraphs not restored");
             return;
         }
@@ -83,7 +84,10 @@ public class GraphSubgraphTest {
                 break;
             }
         }
-        if (restoredNode == null) { helper.fail("SubgraphNodeModel not restored"); return; }
+        if (restoredNode == null) {
+            helper.fail("SubgraphNodeModel not restored");
+            return;
+        }
         if (restoredNode.getKind() != SubgraphNodeModel.Kind.LOCAL) {
             helper.fail("kind mismatch: " + restoredNode.getKind());
             return;
@@ -100,7 +104,8 @@ public class GraphSubgraphTest {
                 2, countNonNull(restoredSub.getGraphVariableModels()));
 
         // silence unused warnings
-        var _vIn = vIn; var _vOut = vOut;
+        var _vIn = vIn;
+        var _vOut = vOut;
 
         LDLib2.LOGGER.info("End localSubgraphSerializationRoundTrip - PASSED");
         helper.succeed();
@@ -149,7 +154,10 @@ public class GraphSubgraphTest {
                 break;
             }
         }
-        if (restoredNode == null) { helper.fail("external SubgraphNodeModel not restored"); return; }
+        if (restoredNode == null) {
+            helper.fail("external SubgraphNodeModel not restored");
+            return;
+        }
         if (restoredNode.getKind() != SubgraphNodeModel.Kind.EXTERNAL) {
             helper.fail("kind mismatch: " + restoredNode.getKind());
             return;
@@ -183,7 +191,10 @@ public class GraphSubgraphTest {
 
         var root = new TestGraph();
         var sub = root.graphModel.createLocalSubgraphInstance();
-        if (sub == null) { helper.fail("createLocalSubgraphInstance returned null"); return; }
+        if (sub == null) {
+            helper.fail("createLocalSubgraphInstance returned null");
+            return;
+        }
         root.graphModel.addLocalSubgraph(sub);
         var subNode = root.graphModel.createNodeWithType(SubgraphNodeModel.class, "sub",
                 new Vector2f(0, 0), null,
@@ -222,8 +233,8 @@ public class GraphSubgraphTest {
 
     // ------------------------------------------------------------------
     // 4. Variable type change: port type updates, ports keyed by variable uid
-    //    so the same variable's port survives a rename (id-stable) but changes
-    //    type when the variable's data type changes.
+    // so the same variable's port survives a rename (id-stable) but changes
+    // type when the variable's data type changes.
     // ------------------------------------------------------------------
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)
@@ -232,7 +243,10 @@ public class GraphSubgraphTest {
 
         var root = new TestGraph();
         var sub = root.graphModel.createLocalSubgraphInstance();
-        if (sub == null) { helper.fail("createLocalSubgraphInstance returned null"); return; }
+        if (sub == null) {
+            helper.fail("createLocalSubgraphInstance returned null");
+            return;
+        }
         root.graphModel.addLocalSubgraph(sub);
         var subNode = root.graphModel.createNodeWithType(SubgraphNodeModel.class, "sub",
                 new Vector2f(0, 0), null,
@@ -241,7 +255,10 @@ public class GraphSubgraphTest {
         var v = (VariableDeclarationModel) sub.createVariable("v", int.class, 0, VariableKind.INPUT);
         subNode.defineNode();
         var ports = subNode.getInputsById();
-        if (ports.size() != 1) { helper.fail("expected 1 input port, got " + ports.size()); return; }
+        if (ports.size() != 1) {
+            helper.fail("expected 1 input port, got " + ports.size());
+            return;
+        }
         var port = ports.values().iterator().next();
         if (!port.getDataTypeHandle().equals(TypeHandles.INT)) {
             helper.fail("initial port type wrong: " + port.getDataTypeHandle());
@@ -251,7 +268,10 @@ public class GraphSubgraphTest {
         // Change type — port should re-bind to new type
         v.setDataTypeHandle(TypeHandles.STRING);
         var ports2 = subNode.getInputsById();
-        if (ports2.size() != 1) { helper.fail("after type change: expected 1 input, got " + ports2.size()); return; }
+        if (ports2.size() != 1) {
+            helper.fail("after type change: expected 1 input, got " + ports2.size());
+            return;
+        }
         var port2 = ports2.values().iterator().next();
         if (!port2.getDataTypeHandle().equals(TypeHandles.STRING)) {
             helper.fail("port type not updated to STRING: " + port2.getDataTypeHandle());
@@ -279,7 +299,10 @@ public class GraphSubgraphTest {
 
         var root = new TestGraph();
         var sub = root.graphModel.createLocalSubgraphInstance();
-        if (sub == null) { helper.fail("createLocalSubgraphInstance returned null"); return; }
+        if (sub == null) {
+            helper.fail("createLocalSubgraphInstance returned null");
+            return;
+        }
         root.graphModel.addLocalSubgraph(sub);
         var subNode = root.graphModel.createNodeWithType(SubgraphNodeModel.class, "sub",
                 new Vector2f(0, 0), null,
@@ -326,23 +349,27 @@ public class GraphSubgraphTest {
         var root2 = new TestGraph();
         root2.graphModel.deserializeNBT(provider, serialized);
 
-        if (root2.graphModel.getLocalSubGraphs() == null
-                || countNonNull(root2.graphModel.getLocalSubGraphs()) != 1) {
-            helper.fail("root.localSubGraphs not restored"); return;
+        if (root2.graphModel.getLocalSubGraphs() == null || countNonNull(root2.graphModel.getLocalSubGraphs()) != 1) {
+            helper.fail("root.localSubGraphs not restored");
+            return;
         }
         var rA = root2.graphModel.getLocalSubGraphs().get(0);
         if (rA.getParentGraph() != root2.graphModel) {
-            helper.fail("A.parentGraph not root"); return;
+            helper.fail("A.parentGraph not root");
+            return;
         }
         if (rA.getLocalSubGraphs() == null || countNonNull(rA.getLocalSubGraphs()) != 1) {
-            helper.fail("A.localSubGraphs not restored"); return;
+            helper.fail("A.localSubGraphs not restored");
+            return;
         }
         var rB = rA.getLocalSubGraphs().get(0);
         if (rB.getParentGraph() != rA) {
-            helper.fail("B.parentGraph not A"); return;
+            helper.fail("B.parentGraph not A");
+            return;
         }
         if (countNonNull(rB.getGraphVariableModels()) != 1) {
-            helper.fail("B.variables not restored"); return;
+            helper.fail("B.variables not restored");
+            return;
         }
 
         LDLib2.LOGGER.info("End nestedLocalSubgraphSerialization - PASSED");
@@ -426,9 +453,9 @@ public class GraphSubgraphTest {
         var bOut = addB.getOutputsById().get("out");
         var cIn1 = addC.getInputsById().get("in1");
 
-        // c1.out → addA.in1   (crossing-READ)
+        // c1.out → addA.in1 (crossing-READ)
         gm.createWire(aIn1, c1Out);
-        // c2.out → addA.in2   (crossing-READ)
+        // c2.out → addA.in2 (crossing-READ)
         gm.createWire(aIn2, c2Out);
         // addA.out → addB.in1 (internal)
         gm.createWire(bIn1, aOut);
@@ -441,13 +468,17 @@ public class GraphSubgraphTest {
         // Selection: addA + addB
         var subNode = gm.extractSelectionToLocalSubgraph(
                 java.util.List.of(addA, addB), provider);
-        if (subNode == null) { helper.fail("extract returned null"); return; }
+        if (subNode == null) {
+            helper.fail("extract returned null");
+            return;
+        }
 
         // Outer graph: c1, c2, addC, subNode (4 nodes). Originals A, B removed.
         assertEq(helper, "outer node count after extract", 4, countNonNull(gm.getNodeModels()));
         // Local subgraph created
         if (gm.getLocalSubGraphs() == null || countNonNull(gm.getLocalSubGraphs()) != 1) {
-            helper.fail("local subgraph not created"); return;
+            helper.fail("local subgraph not created");
+            return;
         }
         var sub = gm.getLocalSubGraphs().get(0);
 
@@ -472,7 +503,8 @@ public class GraphSubgraphTest {
                 .filter(n -> n instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomNodeModelImpl)
                 .count();
         if (pastedTestAdds != 2) {
-            helper.fail("expected 2 pasted custom nodes, got " + pastedTestAdds); return;
+            helper.fail("expected 2 pasted custom nodes, got " + pastedTestAdds);
+            return;
         }
 
         // Outer wires: c1→subNode, c2→subNode, subNode→addC = 3 wires.
@@ -495,8 +527,7 @@ public class GraphSubgraphTest {
         var serialized = gm.serializeNBT(provider);
         var graph2 = new TestGraph();
         graph2.graphModel.deserializeNBT(provider, serialized);
-        if (graph2.graphModel.getLocalSubGraphs() == null
-                || countNonNull(graph2.graphModel.getLocalSubGraphs()) != 1) {
+        if (graph2.graphModel.getLocalSubGraphs() == null || countNonNull(graph2.graphModel.getLocalSubGraphs()) != 1) {
             helper.fail("local subgraph not restored after extract+round-trip");
             return;
         }
@@ -538,16 +569,21 @@ public class GraphSubgraphTest {
         var selection = java.util.List.<com.lowdragmc.lowdraglib2.nodegraphtookit.model.GraphElementModel>of(
                 addA, addB, pm, sn, crossing);
         var subNode = gm.extractSelectionToLocalSubgraph(selection, provider);
-        if (subNode == null) { helper.fail("extract returned null with mixed selection"); return; }
+        if (subNode == null) {
+            helper.fail("extract returned null with mixed selection");
+            return;
+        }
 
         // Outer: only c1 + subNode remain
         assertEq(helper, "outer nodes (c1 + subNode)", 2, countNonNull(gm.getNodeModels()));
         // Placemat moved to subgraph
         if (countNonNull(gm.getPlacematModels()) != 0) {
-            helper.fail("placemat not removed from outer"); return;
+            helper.fail("placemat not removed from outer");
+            return;
         }
         if (countNonNull(gm.getStickyNoteModels()) != 0) {
-            helper.fail("sticky note not removed from outer"); return;
+            helper.fail("sticky note not removed from outer");
+            return;
         }
 
         var sub = gm.getLocalSubGraphs().get(0);
@@ -595,7 +631,7 @@ public class GraphSubgraphTest {
 
     // ------------------------------------------------------------------
     // 8d. LOCAL SubgraphNodeModel selected: its referenced subgraph is transplanted
-    //     into the newly created subgraph (nested local subgraph survives the extract).
+    // into the newly created subgraph (nested local subgraph survives the extract).
     // ------------------------------------------------------------------
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)
@@ -614,7 +650,8 @@ public class GraphSubgraphTest {
                 n -> n.setLocalSubgraph(innerOld), SpawnFlags.DEFAULT);
 
         if (countNonNull(gm.getLocalSubGraphs()) != 1) {
-            helper.fail("setup: expected 1 local subgraph"); return;
+            helper.fail("setup: expected 1 local subgraph");
+            return;
         }
 
         // Extract refNode (the LOCAL SubgraphNodeModel itself) into a new subgraph.
@@ -622,31 +659,44 @@ public class GraphSubgraphTest {
         // pasted SubgraphNodeModel inside newSub can still resolve to it.
         var subNode = gm.extractSelectionToLocalSubgraph(
                 java.util.List.of(refNode), provider);
-        if (subNode == null) { helper.fail("extract returned null"); return; }
+        if (subNode == null) {
+            helper.fail("extract returned null");
+            return;
+        }
 
         // Outer's localSubGraphs should now contain only the newly created `sub` — innerOld got
         // transplanted under it.
         assertEq(helper, "outer local subs after extract", 1, countNonNull(gm.getLocalSubGraphs()));
         var newSub = gm.getLocalSubGraphs().get(0);
         if (newSub.getLocalSubGraphs() == null || countNonNull(newSub.getLocalSubGraphs()) != 1) {
-            helper.fail("nested local subgraph not transplanted"); return;
+            helper.fail("nested local subgraph not transplanted");
+            return;
         }
         var transplanted = newSub.getLocalSubGraphs().get(0);
         if (!transplanted.getUid().equals(innerOld.getUid())) {
-            helper.fail("transplanted subgraph uid mismatch"); return;
+            helper.fail("transplanted subgraph uid mismatch");
+            return;
         }
         if (transplanted.getParentGraph() != newSub) {
-            helper.fail("parentGraph not rewired to newSub"); return;
+            helper.fail("parentGraph not rewired to newSub");
+            return;
         }
 
         // The pasted SubgraphNodeModel inside newSub must resolve to the transplanted inner.
         SubgraphNodeModel pastedRef = null;
         for (var n : newSub.getNodeModels()) {
-            if (n instanceof SubgraphNodeModel s) { pastedRef = s; break; }
+            if (n instanceof SubgraphNodeModel s) {
+                pastedRef = s;
+                break;
+            }
         }
-        if (pastedRef == null) { helper.fail("pasted SubgraphNodeModel missing inside newSub"); return; }
+        if (pastedRef == null) {
+            helper.fail("pasted SubgraphNodeModel missing inside newSub");
+            return;
+        }
         if (pastedRef.getSubgraphModel() != transplanted) {
-            helper.fail("pasted SubgraphNodeModel doesn't resolve to transplanted inner"); return;
+            helper.fail("pasted SubgraphNodeModel doesn't resolve to transplanted inner");
+            return;
         }
 
         helper.succeed();
@@ -654,7 +704,7 @@ public class GraphSubgraphTest {
 
     // ------------------------------------------------------------------
     // 8e. Listener-mode SubgraphRegistry: external-save broadcast hits a Listener
-    //     even when the listener isn't a GraphModel.
+    // even when the listener isn't a GraphModel.
     // ------------------------------------------------------------------
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)
@@ -666,7 +716,8 @@ public class GraphSubgraphTest {
         try {
             SubgraphRegistry.INSTANCE.notifyExternalGraphSaved(path);
             if (received[0] == null || !received[0].equals(path)) {
-                helper.fail("listener did not receive broadcast"); return;
+                helper.fail("listener did not receive broadcast");
+                return;
             }
         } finally {
             SubgraphRegistry.INSTANCE.unregisterListener(listener);
@@ -675,15 +726,16 @@ public class GraphSubgraphTest {
         received[0] = null;
         SubgraphRegistry.INSTANCE.notifyExternalGraphSaved(path);
         if (received[0] != null) {
-            helper.fail("listener still received after unregister"); return;
+            helper.fail("listener still received after unregister");
+            return;
         }
         helper.succeed();
     }
 
     // ------------------------------------------------------------------
     // 8f. IGraphReferenceResolver.save() is plumbed through SubgraphNodeModel's path:
-    //     a resolver with custom save() must be invoked from notifyExternalGraphSaved
-    //     consumers (verified via the resolver-state-mutation behavior).
+    // a resolver with custom save() must be invoked from notifyExternalGraphSaved
+    // consumers (verified via the resolver-state-mutation behavior).
     // ------------------------------------------------------------------
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)
@@ -696,8 +748,8 @@ public class GraphSubgraphTest {
 
     // ------------------------------------------------------------------
     // 8g. Same-graph copy/paste of a LOCAL SubgraphNodeModel deep-clones the inner graph —
-    //     pasted node must have a DIFFERENT localGraphId, and mutating one side must not affect
-    //     the other.
+    // pasted node must have a DIFFERENT localGraphId, and mutating one side must not affect
+    // the other.
     // ------------------------------------------------------------------
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)
@@ -716,7 +768,8 @@ public class GraphSubgraphTest {
                 n -> n.setLocalSubgraph(inner), SpawnFlags.DEFAULT);
 
         if (countNonNull(gm.getLocalSubGraphs()) != 1) {
-            helper.fail("setup: expected 1 local subgraph"); return;
+            helper.fail("setup: expected 1 local subgraph");
+            return;
         }
 
         // Copy + paste in the same graph
@@ -725,17 +778,22 @@ public class GraphSubgraphTest {
         SubgraphNodeModel pastedNode = null;
         for (var n : pasted.elements()) {
             if (n instanceof SubgraphNodeModel s && !s.getUid().equals(origNode.getUid())) {
-                pastedNode = s; break;
+                pastedNode = s;
+                break;
             }
         }
-        if (pastedNode == null) { helper.fail("pasted node not found"); return; }
+        if (pastedNode == null) {
+            helper.fail("pasted node not found");
+            return;
+        }
 
         // Outer graph now has 2 local subgraphs (the original and the clone)
         assertEq(helper, "local subgraphs after paste", 2, countNonNull(gm.getLocalSubGraphs()));
 
         // localGraphId differs between original and pasted
         if (origNode.getLocalGraphId() == null || pastedNode.getLocalGraphId() == null) {
-            helper.fail("localGraphId should not be null"); return;
+            helper.fail("localGraphId should not be null");
+            return;
         }
         if (origNode.getLocalGraphId().equals(pastedNode.getLocalGraphId())) {
             helper.fail("pasted SubgraphNodeModel still shares localGraphId with original — deep clone failed");
@@ -746,7 +804,8 @@ public class GraphSubgraphTest {
         var origInner = origNode.getSubgraphModel();
         var pastedInner = pastedNode.getSubgraphModel();
         if (origInner == null || pastedInner == null) {
-            helper.fail("one of the inner graphs failed to resolve"); return;
+            helper.fail("one of the inner graphs failed to resolve");
+            return;
         }
         if (origInner == pastedInner) {
             helper.fail("inner graphs are the same instance — deep clone failed");
@@ -771,8 +830,8 @@ public class GraphSubgraphTest {
 
     // ------------------------------------------------------------------
     // 8h. Cross-graph paste of a LOCAL SubgraphNodeModel: the destination's localSubGraphs picks
-    //     up the cloned inner graph and the pasted node resolves into it. Without the deep-clone
-    //     pipeline, the pasted node would dangle (target graph has no matching localSubGraphs entry).
+    // up the cloned inner graph and the pasted node resolves into it. Without the deep-clone
+    // pipeline, the pasted node would dangle (target graph has no matching localSubGraphs entry).
     // ------------------------------------------------------------------
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)
@@ -792,18 +851,18 @@ public class GraphSubgraphTest {
 
         // Empty destination graph
         var dst = new TestGraph();
-        if (dst.graphModel.getLocalSubGraphs() != null
-                && countNonNull(dst.graphModel.getLocalSubGraphs()) != 0) {
-            helper.fail("dst should start with no local subgraphs"); return;
+        if (dst.graphModel.getLocalSubGraphs() != null && countNonNull(dst.graphModel.getLocalSubGraphs()) != 0) {
+            helper.fail("dst should start with no local subgraphs");
+            return;
         }
 
         var copyData = src.graphModel.copyElements(java.util.List.of(srcNode), provider);
         var pasted = dst.graphModel.pasteElementsWithMap(copyData, new org.joml.Vector2f(0, 0));
 
         // Destination now has 1 local subgraph
-        if (dst.graphModel.getLocalSubGraphs() == null
-                || countNonNull(dst.graphModel.getLocalSubGraphs()) != 1) {
-            helper.fail("dst.localSubGraphs not populated by paste"); return;
+        if (dst.graphModel.getLocalSubGraphs() == null || countNonNull(dst.graphModel.getLocalSubGraphs()) != 1) {
+            helper.fail("dst.localSubGraphs not populated by paste");
+            return;
         }
         var dstInner = dst.graphModel.getLocalSubGraphs().get(0);
         if (dstInner == inner) {
@@ -811,28 +870,35 @@ public class GraphSubgraphTest {
             return;
         }
         if (countNonNull(dstInner.getGraphVariableModels()) != 1) {
-            helper.fail("cloned inner graph did not preserve variables"); return;
+            helper.fail("cloned inner graph did not preserve variables");
+            return;
         }
         if (dstInner.getParentGraph() != dst.graphModel) {
-            helper.fail("cloned inner graph's parentGraph not wired to dst"); return;
+            helper.fail("cloned inner graph's parentGraph not wired to dst");
+            return;
         }
 
         // The pasted SubgraphNodeModel resolves to the dst clone
         SubgraphNodeModel pastedNode = null;
         for (var n : pasted.elements()) {
-            if (n instanceof SubgraphNodeModel s) { pastedNode = s; break; }
+            if (n instanceof SubgraphNodeModel s) {
+                pastedNode = s;
+                break;
+            }
         }
-        if (pastedNode == null) { helper.fail("pasted SubgraphNodeModel not in result"); return; }
+        if (pastedNode == null) {
+            helper.fail("pasted SubgraphNodeModel not in result");
+            return;
+        }
         if (pastedNode.getSubgraphModel() != dstInner) {
             helper.fail("pasted node does not resolve to the dst clone");
             return;
         }
 
         // Source is untouched
-        if (src.graphModel.getLocalSubGraphs() == null
-                || countNonNull(src.graphModel.getLocalSubGraphs()) != 1
-                || src.graphModel.getLocalSubGraphs().get(0) != inner) {
-            helper.fail("src local subgraph mutated by cross-graph paste"); return;
+        if (src.graphModel.getLocalSubGraphs() == null || countNonNull(src.graphModel.getLocalSubGraphs()) != 1 || src.graphModel.getLocalSubGraphs().get(0) != inner) {
+            helper.fail("src local subgraph mutated by cross-graph paste");
+            return;
         }
 
         LDLib2.LOGGER.info("End copyPasteLocalSubgraphCrossGraph - PASSED");
@@ -841,7 +907,7 @@ public class GraphSubgraphTest {
 
     // ------------------------------------------------------------------
     // 9. Backward compat: graph NBT without 'localSubGraphs' / 'kind' fields
-    //    must deserialize cleanly.
+    // must deserialize cleanly.
     // ------------------------------------------------------------------
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)
@@ -863,8 +929,7 @@ public class GraphSubgraphTest {
             helper.fail("legacy NBT deserialize threw: " + e.getMessage());
             return;
         }
-        if (root2.graphModel.getLocalSubGraphs() != null
-                && countNonNull(root2.graphModel.getLocalSubGraphs()) != 0) {
+        if (root2.graphModel.getLocalSubGraphs() != null && countNonNull(root2.graphModel.getLocalSubGraphs()) != 0) {
             helper.fail("legacy NBT produced non-empty localSubGraphs");
             return;
         }
@@ -880,7 +945,10 @@ public class GraphSubgraphTest {
     public static void graphCanDisableSubgraphVariablePorts(GameTestHelper helper) {
         var root = new NoSubgraphVariableTestGraph();
         var sub = root.graphModel.createLocalSubgraphInstance();
-        if (sub == null) { helper.fail("createLocalSubgraphInstance returned null"); return; }
+        if (sub == null) {
+            helper.fail("createLocalSubgraphInstance returned null");
+            return;
+        }
         root.graphModel.addLocalSubgraph(sub);
         var subNode = root.graphModel.createNodeWithType(SubgraphNodeModel.class, "sub",
                 new Vector2f(0, 0), null,
@@ -906,7 +974,10 @@ public class GraphSubgraphTest {
     public static void graphCanRestrictSubgraphVariablePortDirection(GameTestHelper helper) {
         var root = new InputOnlySubgraphVariableTestGraph();
         var sub = root.graphModel.createLocalSubgraphInstance();
-        if (sub == null) { helper.fail("createLocalSubgraphInstance returned null"); return; }
+        if (sub == null) {
+            helper.fail("createLocalSubgraphInstance returned null");
+            return;
+        }
         root.graphModel.addLocalSubgraph(sub);
         var subNode = root.graphModel.createNodeWithType(SubgraphNodeModel.class, "sub",
                 new Vector2f(0, 0), null,
@@ -931,6 +1002,7 @@ public class GraphSubgraphTest {
     // --- Helpers ---
 
     public static class NoSubgraphVariableTestGraph extends TestGraph {
+
         @Override
         public java.util.Set<VariableKind> getSupportedSubgraphVariableKinds() {
             return java.util.Set.of();
@@ -938,6 +1010,7 @@ public class GraphSubgraphTest {
     }
 
     public static class InputOnlySubgraphVariableTestGraph extends TestGraph {
+
         @Override
         public java.util.Set<VariableKind> getSupportedSubgraphVariableKinds() {
             return java.util.Set.of(VariableKind.INPUT);

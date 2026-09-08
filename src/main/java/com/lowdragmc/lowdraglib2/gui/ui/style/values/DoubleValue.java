@@ -12,5 +12,4 @@ public class DoubleValue extends StyleValue<Double> {
     protected Double doCompute(String rawValue) {
         return Double.parseDouble(rawValue.trim());
     }
-    
 }

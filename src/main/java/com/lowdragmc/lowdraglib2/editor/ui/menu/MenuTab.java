@@ -10,12 +10,14 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 
 public abstract class MenuTab {
+
     public final Editor editor;
     private final List<BiConsumer<MenuTab, TreeBuilder.Menu>> menuCreators = new ArrayList<>();
 
@@ -32,7 +34,8 @@ public abstract class MenuTab {
     }
 
     /**
-     * Create the default menu for this tab. To append additional leafs, register menu creators via {@link #registerMenuCreator(BiConsumer)}.
+     * Create the default menu for this tab. To append additional leafs, register menu creators via
+     * {@link #registerMenuCreator(BiConsumer)}.
      */
     protected abstract TreeBuilder.Menu createDefaultMenu();
 
@@ -51,10 +54,10 @@ public abstract class MenuTab {
 
     public UIElement createMenuTab() {
         return new TextElement().textStyle(textStyle -> textStyle.adaptiveWidth(true)
-                        .textAlignHorizontal(Horizontal.CENTER)
-                        .textAlignVertical(Vertical.CENTER))
+                .textAlignHorizontal(Horizontal.CENTER)
+                .textAlignVertical(Vertical.CENTER))
                 .setText(getComponent())
-                .layout(layout ->{
+                .layout(layout -> {
                     layout.heightPercent(100);
                     layout.paddingHorizontal(2);
                 })
@@ -66,6 +69,4 @@ public abstract class MenuTab {
                     editor.openMenu(e.currentElement.getPositionX(), e.currentElement.getPositionY() + e.currentElement.getSizeHeight(), createMenu());
                 });
     }
-
-
 }

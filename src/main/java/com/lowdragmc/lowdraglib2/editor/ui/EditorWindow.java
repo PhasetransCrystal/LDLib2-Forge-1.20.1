@@ -1,21 +1,22 @@
 package com.lowdragmc.lowdraglib2.editor.ui;
 
-import com.google.common.collect.Maps;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.editor.settings.AppearanceSettings;
+import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.DynamicTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
-import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.util.WindowDragHelper;
+
+import com.google.common.collect.Maps;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyPosition;
@@ -25,16 +26,17 @@ import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.appliedenergistics.yoga.*;
-import org.joml.Vector2f;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2f;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class EditorWindow extends UIElement {
+
     public static final ResourceLocation DEFAULT_ID = LDLib2.id("default");
     private static final Map<ResourceLocation, EditorWindow> MINIMIZED_WINDOWS = Maps.newConcurrentMap();
 
@@ -69,8 +71,7 @@ public class EditorWindow extends UIElement {
             Minecraft.getInstance().getToasts().addToast(new SystemToast(
                     SystemToast.SystemToastIds.PERIODIC_NOTIFICATION,
                     Component.translatable("editor.minimized.title"),
-                    Component.translatable("editor.minimized.tips")
-            ));
+                    Component.translatable("editor.minimized.tips")));
             if (editorWindow.currentEditor != null && LDLib2.isClient()) {
                 editorWindow.currentEditor.editorSettings.getSettings(AppearanceSettings.ID).ifPresent(settings -> {
                     if (settings instanceof AppearanceSettings appearanceSettings) {
@@ -202,8 +203,7 @@ public class EditorWindow extends UIElement {
                 windowTop = pos.y + e.y - e.dragStartY;
                 window.layout(layout -> layout
                         .left(windowLeft)
-                        .top(windowTop)
-                );
+                        .top(windowTop));
             }
         });
         // editor button
@@ -217,7 +217,8 @@ public class EditorWindow extends UIElement {
     }
 
     /**
-     * Removes the specified {@link Editor} from the {@code EditorWindow}. Notes, it won't save the dirty project of the editor.
+     * Removes the specified {@link Editor} from the {@code EditorWindow}. Notes, it won't save the dirty project of the
+     * editor.
      * To save the project, use {@link Editor#exit()} instead.
      *
      * @param editor the {@link Editor} to be removed from the {@code EditorWindow}.
@@ -288,8 +289,7 @@ public class EditorWindow extends UIElement {
                 .left(0)
                 .top(0)
                 .widthPercent(100)
-                .heightPercent(100)
-        );
+                .heightPercent(100));
         maximized = true;
 
         var mui = getModularUI();
@@ -309,8 +309,7 @@ public class EditorWindow extends UIElement {
                 .left(windowLeft)
                 .top(windowTop)
                 .width(windowWidth)
-                .height(windowHeight)
-        );
+                .height(windowHeight));
         var minecraft = Minecraft.getInstance();
         maximized = false;
 
@@ -332,15 +331,14 @@ public class EditorWindow extends UIElement {
             style.setPipelineState(StyleOrigin.INLINE);
         }).addClass("__editor-window_editor-button__").moveInlineAsDefault().addChildren(
                 new TextElement().setText(editor.getTitle()).textStyle(style -> style
-                                .textAlignVertical(Vertical.CENTER)
-                                .textAlignHorizontal(Horizontal.CENTER)
-                                .textWrap(TextWrap.HOVER_ROLL)
-                        )
+                        .textAlignVertical(Vertical.CENTER)
+                        .textAlignHorizontal(Horizontal.CENTER)
+                        .textWrap(TextWrap.HOVER_ROLL))
                         .layout(layout -> {
                             layout.heightPercent(100);
                             layout.flex(1);
                         }).addEventListener(UIEvents.TICK, e -> {
-                            if (e.target.getModularUI().getTickCounter() % 20 ==0) {
+                            if (e.target.getModularUI().getTickCounter() % 20 == 0) {
                                 var currentTitle = editor.getTitle();
                                 if (e.target instanceof TextElement text && !text.getText().equals(currentTitle)) {
                                     text.setText(currentTitle);
@@ -359,8 +357,7 @@ public class EditorWindow extends UIElement {
                     layout.height(9);
                     layout.setAspectRatio(1);
                     layout.marginRight(2);
-                })
-        ).addEventListener(UIEvents.MOUSE_DOWN, e -> showEditor(editor));
+                })).addEventListener(UIEvents.MOUSE_DOWN, e -> showEditor(editor));
     }
 
     @Override

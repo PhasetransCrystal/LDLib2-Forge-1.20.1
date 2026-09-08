@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import com.mojang.datafixers.util.Either;
 
 import java.util.ArrayList;
@@ -17,12 +18,14 @@ import java.util.regex.Pattern;
  * Supports CSS state pseudo-class sugar: any {@code :xxx} pseudo-class (that is not a scope modifier)
  * is automatically translated to the internal class {@code __xxx__}.
  * Examples:
+ * 
  * <pre>
  *   button:hover          →  button.__hover__
  *   button:hover:focus    →  button.__hover__.__focus__
  *   .panel:disabled       →  .panel.__disabled__
  *   button:my-state       →  button.__my-state__   (custom state, no hardcoded map needed)
  * </pre>
+ * 
  * Scope modifiers ({@code :host}, {@code :internal}) are NOT converted to classes and continue
  * to work as before.
  * <p>
@@ -49,8 +52,7 @@ public class HierarchicalStyleMatcher {
     // Match selectors and combinators: element, class, ID, or >
     // Updated to support multiple pseudo-class suffixes (e.g. button:hover:focus)
     private static final Pattern SELECTOR_PATTERN = Pattern.compile(
-            ":not\\((.*?)\\)|((?:[a-zA-Z0-9*_-]+|[#.][a-zA-Z0-9_-]+)(?::(?!not\\()[a-zA-Z0-9_-]+)*)|(>)|(\\s+)"
-    );
+            ":not\\((.*?)\\)|((?:[a-zA-Z0-9*_-]+|[#.][a-zA-Z0-9_-]+)(?::(?!not\\()[a-zA-Z0-9_-]+)*)|(>)|(\\s+)");
 
     /**
      * Parse selector string.
@@ -137,9 +139,9 @@ public class HierarchicalStyleMatcher {
         for (String pseudo : pseudos) {
             if (SCOPE_PSEUDO_CLASSES.contains(pseudo)) {
                 scope = switch (pseudo) {
-                    case "host"     -> SelectorScope.HOST;
+                    case "host" -> SelectorScope.HOST;
                     case "internal" -> SelectorScope.INTERNAL;
-                    default         -> scope;
+                    default -> scope;
                 };
             } else {
                 if (pseudo.equals("hover")) {
@@ -261,6 +263,5 @@ public class HierarchicalStyleMatcher {
      *
      * @param isChildCombinator false = descendant selector，true = child selector
      */
-    public record SelectorGroup(StyleMatcher styleMatcher, boolean isChildCombinator) {
-    }
+    public record SelectorGroup(StyleMatcher styleMatcher, boolean isChildCombinator) {}
 }

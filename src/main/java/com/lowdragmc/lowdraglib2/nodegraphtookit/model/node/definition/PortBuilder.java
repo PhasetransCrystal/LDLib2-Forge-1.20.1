@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModelImpl;
+
 import com.mojang.serialization.Codec;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +15,7 @@ import java.lang.reflect.Field;
 import java.util.function.Consumer;
 
 public class PortBuilder implements IInputPortBuilder<PortBuilder>, IOutputPortBuilder<PortBuilder> {
+
     // runtime
     protected PortDefinitionContext context = null;
     protected String portId;
@@ -175,5 +177,4 @@ public class PortBuilder implements IInputPortBuilder<PortBuilder>, IOutputPortB
         context.freeBuilder(this);
         return result;
     }
-
 }

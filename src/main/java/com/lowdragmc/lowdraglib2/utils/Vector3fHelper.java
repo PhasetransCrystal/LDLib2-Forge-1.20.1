@@ -11,6 +11,7 @@ import org.joml.Vector3f;
  */
 @UtilityClass
 public final class Vector3fHelper {
+
     public static float min(Vector3f vec) {
         return vec.x < vec.y ? Math.min(vec.x, vec.z) : Math.min(vec.y, vec.z);
     }
@@ -24,7 +25,7 @@ public final class Vector3fHelper {
     }
 
     public static boolean isZero(Vector3f vec) {
-        return vec.x == 0 && vec.y ==0 && vec.z == 0;
+        return vec.x == 0 && vec.y == 0 && vec.z == 0;
     }
 
     public static BlockPos toBlockPos(Vector3f vec) {
@@ -41,5 +42,4 @@ public final class Vector3fHelper {
         }
         return a;
     }
-
 }

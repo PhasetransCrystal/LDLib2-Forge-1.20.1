@@ -2,8 +2,8 @@ package com.lowdragmc.lowdraglib2.editor.resource;
 
 import com.lowdragmc.lowdraglib2.editor.ui.resource.ResourceContainer;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
-import net.minecraft.nbt.CompoundTag;
 
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class ResourceProviderType {
@@ -41,13 +41,16 @@ public abstract class ResourceProviderType {
     /**
      * Deserializes a {@link ResourceProvider} instance of the specified resource type from the given NBT data.
      * This method interprets the data stored in the {@code CompoundTag} and reconstructs a corresponding
-     * {@link ResourceProvider} instance if possible. If deserialization fails or the data is invalid, it will return {@code null}.
+     * {@link ResourceProvider} instance if possible. If deserialization fails or the data is invalid, it will return
+     * {@code null}.
      *
      * @param resourceHolder the {@link ResourceInstance} representing the type and details of the resource
      *                       associated with the {@link ResourceProvider}.
-     * @param tag a {@code CompoundTag} containing the serialized data for reconstructing the {@link ResourceProvider}.
-     * @param <T> the type of resource managed by the {@link ResourceProvider}.
-     * @return a {@link ResourceProvider} instance reconstructed from the NBT data, or {@code null} if the data is invalid
+     * @param tag            a {@code CompoundTag} containing the serialized data for reconstructing the
+     *                       {@link ResourceProvider}.
+     * @param <T>            the type of resource managed by the {@link ResourceProvider}.
+     * @return a {@link ResourceProvider} instance reconstructed from the NBT data, or {@code null} if the data is
+     *         invalid
      *         or the deserialization process fails.
      */
     @Nullable
@@ -63,8 +66,5 @@ public abstract class ResourceProviderType {
      *                  This container encapsulates the resource instance, editor, and toggles for resource providers.
      * @param <T>       the type of the resource managed within the {@code ResourceContainer}.
      */
-    public <T> void onCreateCustom(ResourceContainer<T> container) {
-
-    }
-
+    public <T> void onCreateCustom(ResourceContainer<T> container) {}
 }

@@ -1,20 +1,19 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject;
 
 import com.lowdragmc.lowdraglib2.math.Ray;
+
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 import org.jetbrains.annotations.Nullable;
-
 
 /**
  * @author KilaBash
  * @date 2024/06/26
  * @implNote A scene object that can be interacted in the scene editor.
-
+ * 
  */
 @OnlyIn(Dist.CLIENT)
 public interface ISceneInteractable extends ISceneObject {
@@ -27,7 +26,7 @@ public interface ISceneInteractable extends ISceneObject {
     }
 
     /**
-     * @param ray the ray to check collision.
+     * @param ray       the ray to check collision.
      * @param transform whether to transform the ray to local space.
      * @return the hit result if collide with the ray, null if not collide.
      */
@@ -49,17 +48,14 @@ public interface ISceneInteractable extends ISceneObject {
 
     /**
      * Called when the mouse is clicked on the interactable.
+     * 
      * @return true to consume the event, false to pass it to the next interactable.
      */
     default boolean onMouseClick(Ray mouseRay) {
         return false;
     }
 
-    default void onMouseRelease(Ray mouseRay) {
+    default void onMouseRelease(Ray mouseRay) {}
 
-    }
-
-    default void onMouseDrag(Ray mouseRay) {
-    }
-
+    default void onMouseDrag(Ray mouseRay) {}
 }

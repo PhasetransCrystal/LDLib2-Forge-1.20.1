@@ -11,6 +11,7 @@ import java.util.Objects;
  * {@link Objects#equals(Object, Object)} is used to compare the value.
  */
 public class UniqueDirectRef<TYPE> extends DirectRef<TYPE> {
+
     protected TYPE oldValue;
 
     public UniqueDirectRef(IVar<TYPE> field, ManagedKey key, IAccessor<TYPE> accessor) {

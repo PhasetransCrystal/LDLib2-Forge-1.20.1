@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigList;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.ui.ArrayConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
+
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,8 +20,9 @@ import java.util.function.Supplier;
  * @implNote ArrayConfiguratorAccessor
  */
 @AllArgsConstructor
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class CollectionConfiguratorAccessor implements IConfiguratorAccessor<Collection> {
+
     private final Class<?> baseType;
     private final Class<?> childType;
     private final IConfiguratorAccessor childAccessor;
@@ -49,7 +51,6 @@ public class CollectionConfiguratorAccessor implements IConfiguratorAccessor<Col
             isCollapse = field.getAnnotation(Configurable.class).collapse();
             canCollapse = field.getAnnotation(Configurable.class).canCollapse();
         }
-
 
         ArrayConfiguratorGroup.IConfiguratorProvider<Object> provider = (getter, setter) -> childAccessor.create("", getter, setter, forceUpdate, field, owner);
         ArrayConfiguratorGroup.IAddDefault<Object> addDefault = () -> childAccessor.defaultValue(field, childType);

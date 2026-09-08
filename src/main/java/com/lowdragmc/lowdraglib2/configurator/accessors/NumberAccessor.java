@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.ReflectionUtils;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;

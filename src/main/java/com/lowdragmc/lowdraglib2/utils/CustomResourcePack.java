@@ -9,8 +9,9 @@ import net.minecraft.server.packs.resources.IoSupplier;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.*;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * @author KilaBash
@@ -20,6 +21,7 @@ import java.io.*;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class CustomResourcePack extends PathPackResources {
+
     private final PackType type;
     private final String namespace;
 
@@ -41,5 +43,4 @@ public class CustomResourcePack extends PathPackResources {
         }
         return super.getRootResource(pathSegments);
     }
-
 }

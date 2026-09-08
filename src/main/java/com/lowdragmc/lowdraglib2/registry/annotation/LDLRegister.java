@@ -8,12 +8,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The annotation for registering elements in the auto registry. see{@link com.lowdragmc.lowdraglib2.registry.AutoRegistry.LDLibRegister}
+ * The annotation for registering elements in the auto registry.
+ * see{@link com.lowdragmc.lowdraglib2.registry.AutoRegistry.LDLibRegister}
  * <br>
- * make sure the class with this annotation has implemented the interface {@link com.lowdragmc.lowdraglib2.registry.ILDLRegister}
+ * make sure the class with this annotation has implemented the interface
+ * {@link com.lowdragmc.lowdraglib2.registry.ILDLRegister}
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target({ ElementType.TYPE, ElementType.FIELD })
 public @interface LDLRegister {
 
     /**
@@ -43,9 +45,11 @@ public @interface LDLRegister {
 
     /**
      * Whether the element should be registered manually. If true, the element will not be registered automatically.
-     * If false you HAVE TO register it manually in the {@link com.lowdragmc.lowdraglib2.registry.AutoRegistry.LDLibRegister}
+     * If false you HAVE TO register it manually in the
+     * {@link com.lowdragmc.lowdraglib2.registry.AutoRegistry.LDLibRegister}
+     * 
      * @deprecated since 26.1. Use {@link #environment()} with {@link RegistrationEnvironment#MANUAL} instead.
-     * TODO: Remove in a future version.
+     *             TODO: Remove in a future version.
      */
     @Deprecated(since = "26.1")
     boolean manual() default false;

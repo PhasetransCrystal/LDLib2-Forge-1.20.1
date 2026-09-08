@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.sync;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.networking.LDLNetworking;
@@ -9,16 +10,17 @@ import com.lowdragmc.lowdraglib2.networking.both.PacketUIRPCEvent;
 import com.lowdragmc.lowdraglib2.networking.both.PacketUIRPCEventReturn;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import com.lowdragmc.lowdraglib2.utils.IdentityMap;
-import lombok.Getter;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
 import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+
+import lombok.Getter;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public class UISyncManager {
+
     public final ModularUI modularUI;
     // runtime
     private final IdentityMap<SyncValue<?>> syncValues = new IdentityMap<>();
@@ -51,7 +53,6 @@ public class UISyncManager {
         rpcEvents.remove(rpcEvent);
         return this;
     }
-
 
     /// Sync Data Logic
     public final void tick() {
@@ -207,5 +208,4 @@ public class UISyncManager {
             callback.accept(rpcEvent.readReturnValueFromBuffer(buf));
         }
     }
-
 }

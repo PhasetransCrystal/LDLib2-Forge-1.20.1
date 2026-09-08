@@ -6,14 +6,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 public @interface ConfigSearch {
+
     /**
-     * Retrieves the name of the method which returns {@link com.lowdragmc.lowdraglib2.configurator.ui.SearchComponentConfigurator.ISearchConfigurator} used for searching or configuring
+     * Retrieves the name of the method which returns
+     * {@link com.lowdragmc.lowdraglib2.configurator.ui.SearchComponentConfigurator.ISearchConfigurator} used for
+     * searching or configuring
      * related configurations within the annotated field.
      *
      * <pre>{@code
-     * @ConfigSearch(searchConfiguratorMethod = "createSearchConfigurator")
+     * &#64;ConfigSearch(searchConfiguratorMethod = "createSearchConfigurator")
      * Block block = Blocks.STONE;
      *
      * public ISearchConfigurator createSearchConfigurator() {

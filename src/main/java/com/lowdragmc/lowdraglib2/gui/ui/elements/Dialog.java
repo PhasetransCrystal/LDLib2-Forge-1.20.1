@@ -1,15 +1,15 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.LayoutProperties;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
@@ -17,6 +17,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.FileNode;
 import com.lowdragmc.lowdraglib2.gui.util.WindowDragHelper;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import dev.vfyjxf.taffy.style.*;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import lombok.Setter;
@@ -25,10 +26,10 @@ import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import org.appliedenergistics.yoga.style.StyleSizeLength;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
-import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.List;
 import java.util.function.Consumer;
@@ -36,6 +37,7 @@ import java.util.function.Predicate;
 
 @KJSBindings
 public class Dialog extends UIElement {
+
     public final UIElement overlay;
     public final UIElement titleBar;
     public final UIElement contentContainer;
@@ -43,7 +45,8 @@ public class Dialog extends UIElement {
     private boolean autoClose = true;
     private boolean clickOutsideClose = false;
     @Nullable
-    @Setter @Accessors(chain = true)
+    @Setter
+    @Accessors(chain = true)
     private Runnable onClose;
     private boolean windowMode = false;
     private boolean isResizing;
@@ -186,7 +189,7 @@ public class Dialog extends UIElement {
     /**
      * Closes the dialog and removes it from its parent if it has one.
      */
-    public void close(){
+    public void close() {
         if (this.getParent() != null) {
             this.getParent().removeChild(this);
             if (onClose != null) {
@@ -359,10 +362,10 @@ public class Dialog extends UIElement {
      * The confirm button will call the provided result consumer with the input text.
      * Don't forget to call {@link Dialog#show(UIElement)} to display the dialog.
      *
-     * @param title the title of the dialog
-     * @param initial the initial text to display in the text field
+     * @param title     the title of the dialog
+     * @param initial   the initial text to display in the text field
      * @param predicate an optional predicate to validate the input text
-     * @param result a consumer that will receive the input text when the confirm button is clicked
+     * @param result    a consumer that will receive the input text when the confirm button is clicked
      */
     public static Dialog stringEditorDialog(String title, String initial, @Nullable Predicate<String> predicate, Consumer<String> result) {
         var textField = new TextField().setText(initial, false);
@@ -390,7 +393,7 @@ public class Dialog extends UIElement {
      * Displays a notification dialog with a message and a progress bar that fills over a specified duration.
      * The dialog will automatically close when the progress bar completes.
      *
-     * @param info the information text or message to display in the notification dialog
+     * @param info     the information text or message to display in the notification dialog
      * @param duration the duration (in seconds) for which the progress bar will fill before the dialog closes
      * @return the {@code Dialog} instance representing the notification
      */
@@ -410,15 +413,14 @@ public class Dialog extends UIElement {
                 .addChild(
                         new UIElement().layout(layout -> layout.heightPercent(100).widthPercent(0))
                                 .style(style -> Style.defaultPipeline(style,
-                                        s-> s.backgroundTexture(ColorPattern.WHITE.rectTexture())))
+                                        s -> s.backgroundTexture(ColorPattern.WHITE.rectTexture())))
                                 .addClass("__dialog_progress-bar__")
                                 .animation(animation -> animation
                                         .duration(duration)
                                         .style(LayoutProperties.WIDTH, TaffyDimension.percent(1))
                                         .onFinished(target -> dialog.close())
-                                        .start())
-                ), 0
-        );
+                                        .start())),
+                0);
         return dialog;
     }
 
@@ -426,8 +428,9 @@ public class Dialog extends UIElement {
      * Shows a notification dialog with a title and information text.
      * This dialog will have a single button to close it.
      * Don't forget to call {@link Dialog#show(UIElement)} to display the dialog.
-     * @param title the title of the dialog
-     * @param info the information text to display in the dialog
+     * 
+     * @param title    the title of the dialog
+     * @param info     the information text to display in the dialog
      * @param onClosed an optional runnable that will be called when the dialog is closed
      */
     public static Dialog showNotification(String title, String info, @Nullable Runnable onClosed) {
@@ -442,11 +445,14 @@ public class Dialog extends UIElement {
 
     /**
      * Shows a dialog with a title and information text, along with two buttons: confirm and cancel.
-     * This dialog will call the provided BooleanConsumer with true if confirm is clicked, or false if cancel is clicked.
+     * This dialog will call the provided BooleanConsumer with true if confirm is clicked, or false if cancel is
+     * clicked.
      * Don't forget to call {@link Dialog#show(UIElement)} to display the dialog.
-     * @param title the title of the dialog
-     * @param info the information text to display in the dialog
-     * @param onClosed a BooleanConsumer that will be called with true if confirm is clicked, or false if cancel is clicked
+     * 
+     * @param title    the title of the dialog
+     * @param info     the information text to display in the dialog
+     * @param onClosed a BooleanConsumer that will be called with true if confirm is clicked, or false if cancel is
+     *                 clicked
      */
     public static Dialog showCheckBox(String title, String info, BooleanConsumer onClosed) {
         var dialog = new Dialog();
@@ -494,11 +500,13 @@ public class Dialog extends UIElement {
      * The dialog will have a confirm button to select the file or directory, and a cancel button to close the dialog.
      * You can also provide a predicate to validate the selected file or directory.
      * Don't forget to call {@link Dialog#show(UIElement)} to display the dialog.
-     * @param title the title of the dialog
-     * @param dir the directory to start from, it will be created if it does not exist
-     * @param isSelector if true, the dialog will allow selecting a file or directory, otherwise it will allow creating a new file in the selected directory
-     * @param valid a predicate to validate the selected file or directory, can be null to allow all files
-     * @param result a consumer that will receive the selected file or directory when the confirm button is clicked
+     * 
+     * @param title      the title of the dialog
+     * @param dir        the directory to start from, it will be created if it does not exist
+     * @param isSelector if true, the dialog will allow selecting a file or directory, otherwise it will allow creating
+     *                   a new file in the selected directory
+     * @param valid      a predicate to validate the selected file or directory, can be null to allow all files
+     * @param result     a consumer that will receive the selected file or directory when the confirm button is clicked
      */
     public static Dialog showFileDialog(String title, File dir, boolean isSelector, @Nullable Predicate<FileNode> valid, Consumer<File> result) {
         return showFileDialog(title, dir, isSelector, null, valid, result);
@@ -511,12 +519,15 @@ public class Dialog extends UIElement {
      * The dialog will have a confirm button to select the file or directory, and a cancel button to close the dialog.
      * You can also provide a predicate to validate the selected file or directory.
      * Don't forget to call {@link Dialog#show(UIElement)} to display the dialog.
-     * @param title the title of the dialog
-     * @param dir the directory to start from, it will be created if it does not exist
-     * @param isSelector if true, the dialog will allow selecting a file or directory, otherwise it will allow creating a new file in the selected directory
+     * 
+     * @param title        the title of the dialog
+     * @param dir          the directory to start from, it will be created if it does not exist
+     * @param isSelector   if true, the dialog will allow selecting a file or directory, otherwise it will allow
+     *                     creating a new file in the selected directory
      * @param defaultValue the default file or directory to select or prefill, can be null
-     * @param valid a predicate to validate the selected file or directory, can be null to allow all files
-     * @param result a consumer that will receive the selected file or directory when the confirm button is clicked
+     * @param valid        a predicate to validate the selected file or directory, can be null to allow all files
+     * @param result       a consumer that will receive the selected file or directory when the confirm button is
+     *                     clicked
      */
     public static Dialog showFileDialog(String title, File dir, boolean isSelector, @Nullable File defaultValue, @Nullable Predicate<FileNode> valid, Consumer<File> result) {
         var dialog = new Dialog();
@@ -582,7 +593,7 @@ public class Dialog extends UIElement {
                         var file = new File(textField.getText());
                         if (file.isDirectory() || file.exists()) {
                             result.accept(file);
-                        } else if (parent != null){
+                        } else if (parent != null) {
                             Dialog.showNotification("editor.error", "editor.file_not_found", null).show(parent);
                         }
                     } else {
@@ -633,6 +644,7 @@ public class Dialog extends UIElement {
 
     /**
      * Creates a predicate that filters out nodes based on their suffixes.
+     * 
      * @param suffixes the suffixes to filter out, e.g. ".txt", ".jpg"
      */
     public static Predicate<FileNode> suffixFilter(String... suffixes) {

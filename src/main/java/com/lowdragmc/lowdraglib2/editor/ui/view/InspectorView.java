@@ -7,11 +7,13 @@ import com.lowdragmc.lowdraglib2.editor.ui.Editor;
 import com.lowdragmc.lowdraglib2.editor.ui.View;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Inspector;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
 public class InspectorView extends View {
+
     public final Inspector inspector;
     public final Editor editor;
 
@@ -46,5 +48,4 @@ public class InspectorView extends View {
     public <T extends IConfigurable> ConfiguratorGroup inspect(T configurable, @Nullable Consumer<Configurator> listener, @Nullable Runnable onClose, @Nullable Runnable historyAction) {
         return inspector.inspect(configurable, listener, onClose, historyAction);
     }
-
 }

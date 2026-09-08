@@ -3,31 +3,34 @@ package com.lowdragmc.lowdraglib2.editor.resource;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.editor.ui.resource.ResourceProviderContainer;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.Tag;
-
-import org.jetbrains.annotations.Nullable;
-import java.io.File;
-
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.MinecraftForge;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 
 public abstract class Resource<T> {
+
     public enum DisplayMode {
         LIST,
         GRID,
     }
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private DisplayMode defaultDisplayMode = DisplayMode.GRID;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int defaultUIWidth = 30;
     @Getter(lazy = true)
     private final ResourceInstance<T> resourceInstance = createResourceInstance();
 
-    public Resource() {
-    }
+    public Resource() {}
 
     /**
      * Resource icon, it can be used to display the resource in the UI.
@@ -70,11 +73,11 @@ public abstract class Resource<T> {
     /**
      * Generate builtin resources
      */
-    public void buildBuiltin(BuiltinResourceProvider<T> provider) {
-    }
+    public void buildBuiltin(BuiltinResourceProvider<T> provider) {}
 
     /**
-     * Create a resource provider container for the given provider. You should override it to attach additional UI elements or behaviors.
+     * Create a resource provider container for the given provider. You should override it to attach additional UI
+     * elements or behaviors.
      * e.g. how to add a new resource, how to display the resource in the UI, etc.
      */
     public ResourceProviderContainer<T> createResourceProviderContainer(IResourceProvider<T> provider) {
@@ -101,5 +104,4 @@ public abstract class Resource<T> {
     public String toString() {
         return getName();
     }
-
 }

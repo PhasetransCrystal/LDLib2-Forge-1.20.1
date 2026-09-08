@@ -1,19 +1,18 @@
 package com.lowdragmc.lowdraglib2.compat.network.codec;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtAccounter;
-import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagTypes;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.joml.Quaternionf;
@@ -26,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public final class ByteBufCodecs {
+
     public static final StreamCodec<ByteBuf, Integer> VAR_INT = StreamCodec.of(ByteBufCodecs::writeVarInt, ByteBufCodecs::readVarInt);
     public static final StreamCodec<ByteBuf, Long> VAR_LONG = StreamCodec.of(ByteBufCodecs::writeVarLong, ByteBufCodecs::readVarLong);
     public static final StreamCodec<ByteBuf, Float> FLOAT = StreamCodec.of(ByteBuf::writeFloat, ByteBuf::readFloat);
@@ -35,23 +35,15 @@ public final class ByteBufCodecs {
     public static final StreamCodec<ByteBuf, Short> SHORT = StreamCodec.of((buf, value) -> buf.writeShort(value), ByteBuf::readShort);
     public static final StreamCodec<ByteBuf, String> STRING_UTF8 = StreamCodec.of(ByteBufCodecs::writeUtf, ByteBufCodecs::readUtf);
 
-    public static final StreamCodec<FriendlyByteBuf, ResourceLocation> RESOURCE_LOCATION =
-            StreamCodec.of(FriendlyByteBuf::writeResourceLocation, FriendlyByteBuf::readResourceLocation);
-    public static final StreamCodec<FriendlyByteBuf, BlockPos> BLOCK_POS =
-            StreamCodec.of(FriendlyByteBuf::writeBlockPos, FriendlyByteBuf::readBlockPos);
-    public static final StreamCodec<FriendlyByteBuf, ItemStack> OPTIONAL_ITEM_STACK =
-            StreamCodec.of(FriendlyByteBuf::writeItem, FriendlyByteBuf::readItem);
-    public static final StreamCodec<FriendlyByteBuf, FluidStack> OPTIONAL_FLUID_STACK =
-            StreamCodec.of((buf, stack) -> stack.writeToPacket(buf), FluidStack::readFromPacket);
-    public static final StreamCodec<FriendlyByteBuf, Vector3f> VECTOR3F =
-            StreamCodec.of(FriendlyByteBuf::writeVector3f, FriendlyByteBuf::readVector3f);
-    public static final StreamCodec<FriendlyByteBuf, Quaternionf> QUATERNIONF =
-            StreamCodec.of(FriendlyByteBuf::writeQuaternion, FriendlyByteBuf::readQuaternion);
-    public static final StreamCodec<FriendlyByteBuf, Tag> TRUSTED_TAG =
-            StreamCodec.of(ByteBufCodecs::writeTag, ByteBufCodecs::readTag);
+    public static final StreamCodec<FriendlyByteBuf, ResourceLocation> RESOURCE_LOCATION = StreamCodec.of(FriendlyByteBuf::writeResourceLocation, FriendlyByteBuf::readResourceLocation);
+    public static final StreamCodec<FriendlyByteBuf, BlockPos> BLOCK_POS = StreamCodec.of(FriendlyByteBuf::writeBlockPos, FriendlyByteBuf::readBlockPos);
+    public static final StreamCodec<FriendlyByteBuf, ItemStack> OPTIONAL_ITEM_STACK = StreamCodec.of(FriendlyByteBuf::writeItem, FriendlyByteBuf::readItem);
+    public static final StreamCodec<FriendlyByteBuf, FluidStack> OPTIONAL_FLUID_STACK = StreamCodec.of((buf, stack) -> stack.writeToPacket(buf), FluidStack::readFromPacket);
+    public static final StreamCodec<FriendlyByteBuf, Vector3f> VECTOR3F = StreamCodec.of(FriendlyByteBuf::writeVector3f, FriendlyByteBuf::readVector3f);
+    public static final StreamCodec<FriendlyByteBuf, Quaternionf> QUATERNIONF = StreamCodec.of(FriendlyByteBuf::writeQuaternion, FriendlyByteBuf::readQuaternion);
+    public static final StreamCodec<FriendlyByteBuf, Tag> TRUSTED_TAG = StreamCodec.of(ByteBufCodecs::writeTag, ByteBufCodecs::readTag);
 
-    private ByteBufCodecs() {
-    }
+    private ByteBufCodecs() {}
 
     public static <T> StreamCodec<RegistryFriendlyByteBuf, T> fromCodec(Codec<T> codec) {
         return StreamCodec.of((buf, value) -> buf.writeWithCodec(RegistryOps.create(net.minecraft.nbt.NbtOps.INSTANCE, buf.registryAccess()), codec, value),
@@ -111,10 +103,10 @@ public final class ByteBufCodecs {
 
     private static void writeVarLong(ByteBuf buf, long value) {
         while ((value & -128L) != 0L) {
-            buf.writeByte((int)(value & 127L) | 128);
+            buf.writeByte((int) (value & 127L) | 128);
             value >>>= 7;
         }
-        buf.writeByte((int)value);
+        buf.writeByte((int) value);
     }
 
     private static long readVarLong(ByteBuf buf) {
@@ -123,7 +115,7 @@ public final class ByteBufCodecs {
         byte next;
         do {
             next = buf.readByte();
-            result |= (long)(next & 127) << shift++ * 7;
+            result |= (long) (next & 127) << shift++ * 7;
             if (shift > 10) throw new RuntimeException("VarLong too big");
         } while ((next & 128) == 128);
         return result;
@@ -153,6 +145,7 @@ public final class ByteBufCodecs {
     }
 
     private static final class ByteBufOutputStreamAdapter extends java.io.OutputStream {
+
         private final ByteBuf buf;
 
         private ByteBufOutputStreamAdapter(ByteBuf buf) {
@@ -166,6 +159,7 @@ public final class ByteBufCodecs {
     }
 
     private static final class ByteBufInputStreamAdapter extends java.io.InputStream {
+
         private final ByteBuf buf;
 
         private ByteBufInputStreamAdapter(ByteBuf buf) {

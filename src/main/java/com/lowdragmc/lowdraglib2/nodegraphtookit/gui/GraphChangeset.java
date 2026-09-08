@@ -1,11 +1,13 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.gui;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHintList;
+
 import lombok.Getter;
 
 import java.util.*;
 
 public class GraphChangeset {
+
     @Getter
     private Set<UUID> newModels;
     @Getter

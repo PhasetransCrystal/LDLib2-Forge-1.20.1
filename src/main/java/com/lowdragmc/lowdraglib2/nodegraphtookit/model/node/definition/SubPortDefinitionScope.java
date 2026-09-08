@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortModelOptions;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,10 +13,13 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Scope for defining sub ports. Provides methods to instantiate, configure and add sub ports within the context of a parent port.
+ * Scope for defining sub ports. Provides methods to instantiate, configure and add sub ports within the context of a
+ * parent port.
+ * 
  * @param <T>
  */
 public class SubPortDefinitionScope<T extends NodeModel> {
+
     public final T nodeModel;
     public List<PortModel> addedPorts;
     public PortModel parentPort;
@@ -47,8 +51,7 @@ public class SubPortDefinitionScope<T extends NodeModel> {
         return port;
     }
 
-
-    public PortModel addSubPort(String portId, TypeHandle dataType, @Nullable PortModelOptions options ) {
+    public PortModel addSubPort(String portId, TypeHandle dataType, @Nullable PortModelOptions options) {
         var port = nodeModel.addSubPort(parentPort, portId, dataType, options);
         if (addedPorts != null) {
             addedPorts.add(port);
@@ -57,21 +60,21 @@ public class SubPortDefinitionScope<T extends NodeModel> {
     }
 
     // todo field and property?
-//    /// <inheritdoc />
-//    public PortModel AddFieldSubPort(FieldInfo fieldInfo, string portName = null, string portId = null, PortModelOptions options = PortModelOptions.None, Attribute[] attributes = null)
-//    {
-//        var port = m_NodeModel.AddFieldSubPort(ParentPort, fieldInfo, portName, portId, options, attributes);
-//        AddedPorts?.Add(port);
-//        return port;
-//    }
-//
-//    /// <inheritdoc />
-//    public PortModel AddPropertySubPort(PropertyInfo propertyInfo, string portName = null, string portId = null, PortModelOptions options = PortModelOptions.None, Attribute[] attributes = null)
-//    {
-//        var port = m_NodeModel.AddPropertySubPort(ParentPort, propertyInfo, portName, portId, options, attributes);
-//        AddedPorts?.Add(port);
-//        return port;
-//    }
-
-
+    // /// <inheritdoc />
+    // public PortModel AddFieldSubPort(FieldInfo fieldInfo, string portName = null, string portId = null,
+    // PortModelOptions options = PortModelOptions.None, Attribute[] attributes = null)
+    // {
+    // var port = m_NodeModel.AddFieldSubPort(ParentPort, fieldInfo, portName, portId, options, attributes);
+    // AddedPorts?.Add(port);
+    // return port;
+    // }
+    //
+    // /// <inheritdoc />
+    // public PortModel AddPropertySubPort(PropertyInfo propertyInfo, string portName = null, string portId = null,
+    // PortModelOptions options = PortModelOptions.None, Attribute[] attributes = null)
+    // {
+    // var port = m_NodeModel.AddPropertySubPort(ParentPort, propertyInfo, portName, portId, options, attributes);
+    // AddedPorts?.Add(port);
+    // return port;
+    // }
 }

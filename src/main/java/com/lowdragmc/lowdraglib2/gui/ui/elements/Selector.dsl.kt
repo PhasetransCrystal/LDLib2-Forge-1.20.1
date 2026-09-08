@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider
+
 import java.util.function.Consumer
 
 /**
@@ -16,13 +17,7 @@ fun <T> Selector<T>.selectorStyleDsl(init: Selector<T>.SelectorStyle.() -> Unit 
 /**
  * Specification for Selector element
  */
-open class SelectorSpec<T, E : Selector<T>>(
-    var selectorStyle: (Selector<T>.SelectorStyle.() -> Unit)? = null,
-    var candidates: List<T>? = null,
-    var candidateUIProvider: UIElementProvider<T>? = null,
-    var selectedValue: T? = null,
-    var onValueChanged: Consumer<T>? = null,
-) : ElementSpec<E>() {
+open class SelectorSpec<T, E : Selector<T>>(var selectorStyle: (Selector<T>.SelectorStyle.() -> Unit)? = null, var candidates: List<T>? = null, var candidateUIProvider: UIElementProvider<T>? = null, var selectedValue: T? = null, var onValueChanged: Consumer<T>? = null) : ElementSpec<E>() {
     /**
      * Set candidates list
      */
@@ -64,19 +59,13 @@ open class SelectorSpec<T, E : Selector<T>>(
     fun onChange(handler: (T) -> Unit) = apply {
         this.onValueChanged = Consumer { handler(it) }
     }
-
 }
 
 /**
  * Selector element builder
  */
-open class SelectorElement<T, E : Selector<T>>(
-    element: E,
-    spec: (SelectorSpec<T, E>.() -> Unit)? = null,
-) : UIContainer<E, SelectorSpec<T, E>>(element, spec) {
-    override fun makeSpec(): SelectorSpec<T, E>? {
-        return spec?.let { SelectorSpec<T, E>().apply(it) }
-    }
+open class SelectorElement<T, E : Selector<T>>(element: E, spec: (SelectorSpec<T, E>.() -> Unit)? = null) : UIContainer<E, SelectorSpec<T, E>>(element, spec) {
+    override fun makeSpec(): SelectorSpec<T, E>? = spec?.let { SelectorSpec<T, E>().apply(it) }
 
     override fun build(spec: SelectorSpec<T, E>?): E {
         val e = super.build(spec)
@@ -96,25 +85,17 @@ open class SelectorElement<T, E : Selector<T>>(
 /**
  * Top Level - Create a standalone Selector element
  */
-fun <T> selector(spec: (SelectorSpec<T, Selector<T>>.() -> Unit)? = null,
-                 init: SelectorElement<T, Selector<T>>.() -> Unit = {}): Selector<T> {
-    return SelectorElement(Selector<T>(), spec).apply(init).build()
-}
+fun <T> selector(spec: (SelectorSpec<T, Selector<T>>.() -> Unit)? = null, init: SelectorElement<T, Selector<T>>.() -> Unit = {}): Selector<T> = SelectorElement(Selector<T>(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Selector as a child to a container
  */
-fun <T> UIContainer<*, *>.selector(spec: (SelectorSpec<T, Selector<T>>.() -> Unit)? = null,
-                                    init: SelectorElement<T, Selector<T>>.() -> Unit = {}) =
-    add(SelectorElement(Selector<T>(), spec), init)
+fun <T> UIContainer<*, *>.selector(spec: (SelectorSpec<T, Selector<T>>.() -> Unit)? = null, init: SelectorElement<T, Selector<T>>.() -> Unit = {}) = add(SelectorElement(Selector<T>(), spec), init)
 
 /**
  * DSL converter - Convert existing Selector to DSL builder
  */
-fun <T> Selector<T>.dsl(spec: (SelectorSpec<T, Selector<T>>.() -> Unit)? = null,
-                        init: SelectorElement<T, Selector<T>>.() -> Unit = {}): SelectorElement<T, Selector<T>> {
-    return SelectorElement(this, spec).apply(init)
-}
+fun <T> Selector<T>.dsl(spec: (SelectorSpec<T, Selector<T>>.() -> Unit)? = null, init: SelectorElement<T, Selector<T>>.() -> Unit = {}): SelectorElement<T, Selector<T>> = SelectorElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.api.port;
 
 public enum PortModelOptions {
+
     NONE(0),
     NO_EMBEDDED_CONSTANT(1),
     HIDDEN(1 << 1),

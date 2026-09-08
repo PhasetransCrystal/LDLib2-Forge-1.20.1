@@ -1,12 +1,11 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style;
 
-public record StyleSlot<T> (
-        Property<T> property,
-        StyleOrigin origin,
-        int specificity,
-        int sourceOrder,
-        T value
-) {
+public record StyleSlot<T>(
+                           Property<T> property,
+                           StyleOrigin origin,
+                           int specificity,
+                           int sourceOrder,
+                           T value) {
 
     public static <T> StyleSlot<T> of(Property<T> property, StyleOrigin origin, int specificity, int sourceOrder, T value) {
         return new StyleSlot<>(property, origin, specificity, sourceOrder, value);

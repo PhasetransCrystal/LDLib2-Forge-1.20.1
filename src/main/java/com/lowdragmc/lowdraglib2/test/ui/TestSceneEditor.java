@@ -7,15 +7,16 @@ import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import lombok.NoArgsConstructor;
 import net.minecraft.world.entity.player.Player;
-import org.appliedenergistics.yoga.YogaEdge;
 
 import java.util.List;
 
-@LDLRegisterClient(name="scene_editor", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "scene_editor", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestSceneEditor implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var root = new UIElement();
@@ -36,8 +37,7 @@ public class TestSceneEditor implements IScreenTest {
                         entityPlayer.getOnPos().offset(-1, 0, -1),
                         entityPlayer.getOnPos().offset(0, 0, -1),
                         entityPlayer.getOnPos().offset(1, 0, -1),
-                        entityPlayer.getOnPos().offset(-1, 0, 1)
-                ))
+                        entityPlayer.getOnPos().offset(-1, 0, 1)))
                 .useCacheBuffer();
         root.layout(layout -> {
             layout.width(300);
@@ -55,5 +55,4 @@ public class TestSceneEditor implements IScreenTest {
         sceneEditor.setTransformGizmoTarget(childModel.transform());
         return new ModularUI(UI.of(root));
     }
-
 }

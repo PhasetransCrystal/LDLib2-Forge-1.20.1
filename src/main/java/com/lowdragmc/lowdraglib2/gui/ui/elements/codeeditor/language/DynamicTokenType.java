@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 @Accessors(chain = true)
 public class DynamicTokenType<T> extends TokenType {
+
     @Getter
     private final Function<T, String> patternCreator;
 
@@ -18,6 +19,4 @@ public class DynamicTokenType<T> extends TokenType {
     public TokenType createTokenType(T value) {
         return new TokenType(this.name).setPattern(this.patternCreator.apply(value));
     }
-
 }
-

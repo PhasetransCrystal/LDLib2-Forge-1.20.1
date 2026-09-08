@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Mixin(AbstractContainerScreen.class)
 public interface AbstractContainerScreenAccessor {
+
     @Accessor("clickedSlot")
     Slot ldlib2$getClickedSlot();
 

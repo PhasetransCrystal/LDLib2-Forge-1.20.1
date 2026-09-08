@@ -5,14 +5,16 @@ import mezz.jei.api.ingredients.ITypedIngredient;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.renderer.Rect2i;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class JEITargetsTypedHandler<I> {
+
     public final boolean doStart;
     public final ITypedIngredient<I> ingredient;
     public final List<IGhostIngredientHandler.Target<I>> targets;
@@ -29,6 +31,7 @@ public final class JEITargetsTypedHandler<I> {
 
     public <T> void add(Rect2i area, Consumer<T> onClicked) {
         add(new IGhostIngredientHandler.Target<>() {
+
             @Override
             public Rect2i getArea() {
                 return area;
@@ -40,5 +43,4 @@ public final class JEITargetsTypedHandler<I> {
             }
         });
     }
-
 }

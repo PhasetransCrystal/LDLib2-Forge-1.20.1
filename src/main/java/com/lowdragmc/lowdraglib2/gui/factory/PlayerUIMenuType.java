@@ -1,10 +1,11 @@
 package com.lowdragmc.lowdraglib2.gui.factory;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,14 +15,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.network.NetworkHooks;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class PlayerUIMenuType {
+
     private final static Map<ResourceLocation, Function<Player, PlayerUIHolder>> UI_HOLDERS = new ConcurrentHashMap<>();
 
     public static void register(ResourceLocation id, Function<Player, PlayerUIHolder> holder) {
@@ -38,7 +41,7 @@ public class PlayerUIMenuType {
      * creates the holder instance using the associated provider, and opens the menu for the player.
      *
      * @param player the {@link Player} for whom the UI should be opened
-     * @param id the {@link ResourceLocation} identifier of the UI to be opened
+     * @param id     the {@link ResourceLocation} identifier of the UI to be opened
      * @return {@code true} if the UI was successfully opened, {@code false} if the id is not registered
      *         or the holder instance could not be created
      */
@@ -53,6 +56,7 @@ public class PlayerUIMenuType {
         if (holder == null) return false;
         LDLib2.LOGGER.info("Opening LDLib2 player UI {} for {}", id, serverPlayer.getGameProfile().getName());
         NetworkHooks.openScreen(serverPlayer, new MenuProvider() {
+
             @Override
             public Component getDisplayName() {
                 return Component.translatable(id.toLanguageKey());
@@ -87,9 +91,9 @@ public class PlayerUIMenuType {
         return new ModularUIContainerMenu(LDMenuTypes.PLAYER_UI.get(), windowId, inv, holder);
     }
 
-
     @FunctionalInterface
     public interface PlayerUIHolder extends IContainerUIHolder {
+
         @Override
         default boolean isStillValid(Player player) {
             return true;

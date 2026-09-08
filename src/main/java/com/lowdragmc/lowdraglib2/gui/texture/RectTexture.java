@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import lombok.Getter;
@@ -24,13 +25,14 @@ import org.joml.Vector4f;
 @LDLRegisterClient(name = "rect_texture", registry = "ldlib2:gui_texture")
 @Accessors(chain = true)
 public class RectTexture extends TransformTexture {
+
     @Getter
     @Configurable
-    @ConfigNumber(range = {0f, Float.MAX_VALUE}, wheel = 1)
+    @ConfigNumber(range = { 0f, Float.MAX_VALUE }, wheel = 1)
     private Vector4f radius = new Vector4f(0, 0, 0, 0);
     @Getter
     @Configurable
-    @ConfigNumber(range = {0f, Float.MAX_VALUE}, wheel = 1)
+    @ConfigNumber(range = { 0f, Float.MAX_VALUE }, wheel = 1)
     private float stroke = 0;
     @Getter
     @Configurable
@@ -42,7 +44,7 @@ public class RectTexture extends TransformTexture {
     private int borderColor = 0xff000000;
     @Getter
     @Configurable
-    @ConfigNumber(range = {4, 32}, wheel = 1)
+    @ConfigNumber(range = { 4, 32 }, wheel = 1)
     private int cornerSegments = 8;
 
     private float[] cachedCornerArcXY = null;
@@ -60,14 +62,14 @@ public class RectTexture extends TransformTexture {
     @ConfigSetter(field = "radius")
     public RectTexture setRadius(Vector4f radius) {
         this.radius = radius;
-//        this.cachedSegments = false;
+        // this.cachedSegments = false;
         return this;
     }
 
     @ConfigSetter(field = "stroke")
     public RectTexture setStroke(float stroke) {
         this.stroke = stroke;
-//        this.cachedSegments = false;
+        // this.cachedSegments = false;
         return this;
     }
 
@@ -75,14 +77,14 @@ public class RectTexture extends TransformTexture {
     @ConfigSetter(field = "color")
     public RectTexture setColor(int color) {
         this.color = color;
-//        this.colorVec4 = ColorUtils.toVector4f(color);
+        // this.colorVec4 = ColorUtils.toVector4f(color);
         return this;
     }
 
     @ConfigSetter(field = "borderColor")
     public RectTexture setBorderColor(int borderColor) {
         this.borderColor = borderColor;
-//        this.borderColorVec4 = ColorUtils.toVector4f(borderColor);
+        // this.borderColorVec4 = ColorUtils.toVector4f(borderColor);
         return this;
     }
 
@@ -132,10 +134,10 @@ public class RectTexture extends TransformTexture {
         cachedCornerArcXY = new float[4 * cachedCornerStride];
 
         double[][] angleRanges = {
-            {Math.PI, Math.PI * 1.5},
-            {Math.PI * 1.5, Math.PI * 2},
-            {0, Math.PI * 0.5},
-            {Math.PI * 0.5, Math.PI}
+                { Math.PI, Math.PI * 1.5 },
+                { Math.PI * 1.5, Math.PI * 2 },
+                { 0, Math.PI * 0.5 },
+                { Math.PI * 0.5, Math.PI }
         };
 
         for (int corner = 0; corner < 4; corner++) {
@@ -159,10 +161,7 @@ public class RectTexture extends TransformTexture {
 
     boolean canUsePlainRectPath(float width, float height) {
         float maxRadius = Math.min(width * 0.5f, height * 0.5f);
-        return Math.min(radius.x, maxRadius) <= 0
-                && Math.min(radius.y, maxRadius) <= 0
-                && Math.min(radius.z, maxRadius) <= 0
-                && Math.min(radius.w, maxRadius) <= 0;
+        return Math.min(radius.x, maxRadius) <= 0 && Math.min(radius.y, maxRadius) <= 0 && Math.min(radius.z, maxRadius) <= 0 && Math.min(radius.w, maxRadius) <= 0;
     }
 
     private void appendCorner(float[] vertices, int vertexOffset, int corner, float centerX, float centerY, float radius) {

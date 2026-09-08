@@ -4,14 +4,14 @@ import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
+import com.lowdragmc.lowdraglib2.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
-import com.lowdragmc.lowdraglib2.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
@@ -20,6 +20,7 @@ import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import dev.vfyjxf.taffy.style.AlignItems;
@@ -30,14 +31,14 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import org.appliedenergistics.yoga.YogaEdge;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -46,7 +47,9 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "toggle", group = "basic", registry = "ldlib2:ui_element")
 public class Toggle extends BindableUIElement<Boolean> {
+
     public static class ToggleGroup implements IPersistedSerializable, IConfigurable {
+
         @Setter
         @Accessors(chain = true)
         @Configurable(name = "allowEmpty")
@@ -86,8 +89,10 @@ public class Toggle extends BindableUIElement<Boolean> {
             currentToggle = toggle;
         }
     }
+
     @Configurable(name = "ToggleStyle")
     public class ToggleStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.UNMARK_BACKGROUND,
                 PropertyRegistry.MARK_BACKGROUND,
@@ -108,9 +113,7 @@ public class Toggle extends BindableUIElement<Boolean> {
 
         private static <T> void onPropertyChanged(UIElement element, Property<T> property, @Nullable T oldValue, @Nullable T newValue) {
             if (element instanceof Toggle toggle) {
-                Style.importantPipeline(toggle.markIcon.getStyle(), style ->
-                        style.backgroundTexture(toggle.isOn ? toggle.toggleStyle.markTexture() : toggle.toggleStyle.unmarkTexture())
-                );
+                Style.importantPipeline(toggle.markIcon.getStyle(), style -> style.backgroundTexture(toggle.isOn ? toggle.toggleStyle.markTexture() : toggle.toggleStyle.unmarkTexture()));
             }
         }
 
@@ -298,9 +301,7 @@ public class Toggle extends BindableUIElement<Boolean> {
         } else {
             removeClass("__on__");
         }
-        Style.importantPipeline(this.markIcon.getStyle(), style ->
-            style.backgroundTexture(isOn ? toggleStyle.markTexture() : toggleStyle.unmarkTexture())
-        );
+        Style.importantPipeline(this.markIcon.getStyle(), style -> style.backgroundTexture(isOn ? toggleStyle.markTexture() : toggleStyle.unmarkTexture()));
         if (toggleGroup != null) {
             if (value) {
                 toggleGroup.setCurrentToggle(this);

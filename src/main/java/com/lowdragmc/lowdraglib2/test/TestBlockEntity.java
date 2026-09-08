@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib2.syncdata.annotation.*;
 import com.lowdragmc.lowdraglib2.syncdata.holder.blockentity.ISyncPersistRPCBlockEntity;
 import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
 import com.lowdragmc.lowdraglib2.syncdata.storage.FieldManagedStorage;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
@@ -33,17 +34,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.appliedenergistics.yoga.YogaEdge;
-import org.appliedenergistics.yoga.YogaGutter;
-import org.appliedenergistics.yoga.YogaJustify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class TestBlockEntity extends BlockEntity implements ISyncPersistRPCBlockEntity {
+
     @Getter
     private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
 
@@ -96,8 +94,7 @@ public class TestBlockEntity extends BlockEntity implements ISyncPersistRPCBlock
         var root = new UIElement().layout(layout -> layout
                 .paddingAll(4)
                 .gapAll(2)
-                .justifyContent(AlignContent.CENTER)
-        ).addClass("panel_bg");
+                .justifyContent(AlignContent.CENTER)).addClass("panel_bg");
         root.addChild(new Label().setText("Test Block UI"));
         root.addChild(new TextField());
         root.addChild(new Button().setText("Change Random Value").setOnServerClick(e -> {
@@ -108,9 +105,7 @@ public class TestBlockEntity extends BlockEntity implements ISyncPersistRPCBlock
                 new UIElement().layout(layout -> layout.widthPercent(100).flexDirection(FlexDirection.ROW))
                         .addChildren(
                                 new Button().setText("+").setOnServerClick(e -> intValue++).layout(l -> l.flex(1)),
-                                new Button().setText("-").setOnServerClick(e -> intValue--).layout(l -> l.flex(1))
-                        )
-        );
+                                new Button().setText("-").setOnServerClick(e -> intValue--).layout(l -> l.flex(1))));
         root.addChild(new ItemSlot().slotStyle(slotStyle -> slotStyle.slotOverlay(FlexIcons.ALIGN_CONTENTS_CENTER_ROW)).bindDataSource(SupplierDataSource.of(() -> itemStack)));
         root.addChild(new Label().bindDataSource(SupplierDataSource.of(() -> Component.literal(String.valueOf(intValue)))));
 
@@ -131,11 +126,9 @@ public class TestBlockEntity extends BlockEntity implements ISyncPersistRPCBlock
                                         roListManaged.put("k0", new ArrayList<>());
                                     }
                                     var first = roListManaged.values().iterator().next();
-                                    first.add(getBlockPos().offset((int)(Math.random()*8), 0, (int)(Math.random()*8)));
+                                    first.add(getBlockPos().offset((int) (Math.random() * 8), 0, (int) (Math.random() * 8)));
                                 }).layout(l -> l.flex(1)),
-                                new Button().setText("Clear").setOnServerClick(e -> roListManaged.clear()).layout(l -> l.flex(1))
-                        )
-        );
+                                new Button().setText("Clear").setOnServerClick(e -> roListManaged.clear()).layout(l -> l.flex(1))));
 
         root.addChild(new Button().setText("Test C2S RPC").setOnClick(e -> rpcToServer("rpcTest", "Hello from client!")));
         root.addChild(new Button().setText("Test C2S RPC").setOnServerClick(e -> rpcToTracking("rpcTest", "Hello from server!")));

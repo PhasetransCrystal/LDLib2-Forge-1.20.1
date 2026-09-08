@@ -1,16 +1,18 @@
 package com.lowdragmc.lowdraglib2.test;
 
 import com.lowdragmc.lowdraglib2.editor.project.IProject;
-import com.lowdragmc.lowdraglib2.editor.resource.*;
 import com.lowdragmc.lowdraglib2.editor.project.ProjectType;
-import com.lowdragmc.lowdraglib2.test.noddegraphtoolkit.TestGraphResource;
+import com.lowdragmc.lowdraglib2.editor.resource.*;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.test.noddegraphtoolkit.TestGraphResource;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
 public class TestProject implements IProject {
+
     public static final ProjectType TYPE = ProjectType.of(IGuiTexture.EMPTY, "project.test", ".test.nbt", TestProject::new);
 
     @Getter
@@ -22,8 +24,7 @@ public class TestProject implements IProject {
                 TexturesResource.INSTANCE,
                 IRendererResource.INSTANCE,
                 UIResource.INSTANCE,
-                TestGraphResource.INSTANCE
-        );
+                TestGraphResource.INSTANCE);
     }
 
     @Override
@@ -37,8 +38,5 @@ public class TestProject implements IProject {
     }
 
     @Override
-    public void deserializeProject(@NotNull HolderLookup.Provider provider, @NotNull CompoundTag nbt) {
-
-    }
-
+    public void deserializeProject(@NotNull HolderLookup.Provider provider, @NotNull CompoundTag nbt) {}
 }

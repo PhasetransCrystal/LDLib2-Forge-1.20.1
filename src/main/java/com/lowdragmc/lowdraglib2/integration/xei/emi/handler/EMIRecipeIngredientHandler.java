@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.integration.xei.emi.handler;
 
 import com.lowdragmc.lowdraglib2.integration.xei.IngredientIO;
+
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class EMIRecipeIngredientHandler {
+
     public final List<EmiIngredient> inputs = new ArrayList<>();
     public final List<EmiIngredient> catalysts = new ArrayList<>();
     public final List<EmiStack> outputs = new ArrayList<>();

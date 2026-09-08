@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Toggle;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,7 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Toggle Configurable is a configurable that can be toggled on and off.
- * By default, the object will not be serialized when it is disabled. To change this behavior, override the {@link #skipDisableSerialize()} method.
+ * By default, the object will not be serialized when it is disabled. To change this behavior, override the
+ * {@link #skipDisableSerialize()} method.
  */
 public interface IToggleConfigurable extends IConfigurable, IPersistedSerializable {
 
@@ -25,7 +27,7 @@ public interface IToggleConfigurable extends IConfigurable, IPersistedSerializab
     default void buildConfigurator(ConfiguratorGroup father) {
         father.setCanCollapse(isEnable());
         father.lineContainer.addChildAt(new Toggle()
-                .setOn(isEnable(),false)
+                .setOn(isEnable(), false)
                 .setOnToggleChanged(isOn -> {
                     setEnable(isOn);
                     father.setCollapse(!isOn);

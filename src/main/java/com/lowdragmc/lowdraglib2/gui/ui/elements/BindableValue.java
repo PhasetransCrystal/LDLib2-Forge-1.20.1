@@ -2,18 +2,21 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.Objects;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 @KJSBindings
 @LDLRegister(name = "bindable-value", group = "utils", registry = "ldlib2:ui_element")
 public class BindableValue<T> extends BindableUIElement<T> {
+
     @Getter
     private T value;
 

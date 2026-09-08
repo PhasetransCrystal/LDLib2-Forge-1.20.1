@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisit
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.InputOutputPortsNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortNodeModel;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class InOutPortContainerElement extends PortContainerElement {
+
     @Getter
     @Nullable
     protected PortContainer inputPortContainer;
@@ -72,10 +74,10 @@ public class InOutPortContainerElement extends PortContainerElement {
                 outputPortContainer.updatePorts(visitor, filteredPorts, getGraphView());
             }
 
-//            if (!portHolder.isCollapsible() || portHolder instanceof ICollapsible { Collapsed : true } collapsibleNode){
-//                anyVisible = true;
-//            }
+            // if (!portHolder.isCollapsible() || portHolder instanceof ICollapsible { Collapsed : true }
+            // collapsibleNode){
+            // anyVisible = true;
+            // }
         }
-
     }
 }

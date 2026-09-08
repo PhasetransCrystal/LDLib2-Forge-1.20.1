@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class CycleFluidTransfer implements IFluidHandlerModifiable {
+
     private List<List<FluidStack>> stacks;
 
     public CycleFluidTransfer(List<List<FluidStack>> stacks) {
@@ -25,7 +26,7 @@ public class CycleFluidTransfer implements IFluidHandlerModifiable {
     @Override
     public FluidStack getFluidInTank(int tank) {
         List<FluidStack> stackList = this.stacks.get(tank);
-        return stackList != null && !stackList.isEmpty() ? stackList.get(Math.abs((int)(System.currentTimeMillis() / 1000L) % stackList.size())) : FluidStack.EMPTY;
+        return stackList != null && !stackList.isEmpty() ? stackList.get(Math.abs((int) (System.currentTimeMillis() / 1000L) % stackList.size())) : FluidStack.EMPTY;
     }
 
     @Override

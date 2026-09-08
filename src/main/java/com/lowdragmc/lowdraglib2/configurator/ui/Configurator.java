@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventDispatcher;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -19,15 +20,17 @@ import org.appliedenergistics.yoga.*;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 public class Configurator extends UIElement {
+
     /**
      * The {@code configurator.change} is sent when a change is made by a configurator.
      * The {@link UIEvent#target} refers to the {@link Configurator} that triggered the change.
@@ -47,7 +50,8 @@ public class Configurator extends UIElement {
     @Nullable
     protected Consumer<?> onPaste;
     // runtime
-    @Setter @Nullable
+    @Setter
+    @Nullable
     private Component notifyName;
 
     public Configurator() {
@@ -197,8 +201,7 @@ public class Configurator extends UIElement {
                             .layout(layout -> {
                                 layout.left(layoutOffset.x);
                                 layout.top(layoutOffset.y);
-                            })
-                    );
+                            }));
                 }
 
             }
@@ -224,12 +227,11 @@ public class Configurator extends UIElement {
                 try {
                     var pasted = ClipboardManager.INSTANCE.paste();
                     if (pasted != null && onPaste != null) {
-                        ((Consumer)onPaste).accept(pasted);
+                        ((Consumer) onPaste).accept(pasted);
                     }
                 } catch (Exception ignored) {}
             });
         }
         return menu;
     }
-
 }

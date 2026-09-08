@@ -5,8 +5,11 @@ import lombok.Setter;
 import org.joml.Vector2f;
 
 public class PlaceholderData {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private String groupName = null;
-    @Getter @Setter
+    @Getter
+    @Setter
     Vector2f position = new Vector2f();
 }

@@ -6,9 +6,9 @@ import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Tooltips;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Transform2D;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.LayoutProperties;
 import com.lowdragmc.lowdraglib2.gui.ui.style.animation.Transition;
+
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import net.minecraft.network.chat.Component;
@@ -20,6 +20,7 @@ import java.util.Arrays;
 @RemapPrefixForJS("kjs$")
 @Configurable(name = "BasicStyle")
 public class BasicStyle extends Style {
+
     private final static Property<?>[] PROPERTIES = {
             PropertyRegistry.BACKGROUND,
             PropertyRegistry.OVERLAY,

@@ -11,6 +11,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisit
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ICustomNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodePreviewModel;
+
 import dev.vfyjxf.taffy.style.*;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
  * is the single writer of its own display, so the parent node element must not drive it.
  */
 public class NodePreviewElement extends GraphElement<NodePreviewModel> {
+
     public static final String COLLAPSED_CLASS = "__collapsed__";
 
     /** Header that stays visible while preview content is collapsed. */
@@ -117,10 +119,7 @@ public class NodePreviewElement extends GraphElement<NodePreviewModel> {
 
         // Let dynamic previews (e.g. a live shader) refresh when inputs/connections change.
         var parent = getModel().getParentNode();
-        if (contentContainer != null
-                && getModel().isExpanded()
-                && (visitor.hasHint(ChangeHint.DATA) || visitor.hasHint(ChangeHint.GRAPH_TOPOLOGY))
-                && parent instanceof ICustomNodeModel cn && cn.getNode() != null) {
+        if (contentContainer != null && getModel().isExpanded() && (visitor.hasHint(ChangeHint.DATA) || visitor.hasHint(ChangeHint.GRAPH_TOPOLOGY)) && parent instanceof ICustomNodeModel cn && cn.getNode() != null) {
             cn.getNode().onUpdateNodePreview(makeContext(contentContainer));
         }
     }

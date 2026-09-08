@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.math;
 
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
+
 import com.google.common.base.MoreObjects;
 import com.mojang.serialization.Codec;
 import lombok.Data;
 import net.minecraft.Util;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import net.minecraft.world.phys.Vec2;
 import org.joml.Vector2f;
 
@@ -14,18 +15,17 @@ import java.util.Objects;
 
 @Data(staticConstructor = "of")
 public final class Position {
+
     public final static Codec<Position> CODEC = Codec.INT.listOf().comapFlatMap(
             list -> Util.fixedSize(list, 2).map(l -> Position.of(l.get(0), l.get(1))),
-            position -> List.of(position.x, position.y)
-    );
+            position -> List.of(position.x, position.y));
 
     public final static StreamCodec<FriendlyByteBuf, Position> STREAM_CODEC = StreamCodec.of(
             (byteBuf, position) -> {
                 byteBuf.writeVarInt(position.x);
                 byteBuf.writeVarInt(position.y);
             },
-            byteBuf -> Position.of(byteBuf.readVarInt(), byteBuf.readVarInt())
-    );
+            byteBuf -> Position.of(byteBuf.readVarInt(), byteBuf.readVarInt()));
 
     public static final Position ORIGIN = Position.of(0, 0);
 
@@ -49,11 +49,11 @@ public final class Position {
     }
 
     public Position addX(int x) {
-        return Position.of(this.x + x,y);
+        return Position.of(this.x + x, y);
     }
 
-    public Position addY(int y){
-        return Position.of(x,this.y + y);
+    public Position addY(int y) {
+        return Position.of(x, this.y + y);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Menu;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
@@ -17,25 +18,26 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.TreeList;
 import com.lowdragmc.lowdraglib2.gui.ui.event.CommandEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
+import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-
-import javax.annotation.Nonnull;
-
-import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
 import java.util.*;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 public class UIHierarchy extends UIElement {
+
     public record DraggingUINode(UITreeNode draggedNode) {}
+
     public record NodeCopy(List<CompoundTag> copiedNodes) {}
 
     public final ScrollerView scrollerView = new ScrollerView();
@@ -45,10 +47,12 @@ public class UIHierarchy extends UIElement {
     @Setter
     protected Consumer<Set<UITreeNode>> onSelectedChanged = LDConsumers.nop();
 
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private UI ui;
     private long lastClickTime = 0;
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private UITreeNode rootNode;
 
     public UIHierarchy() {

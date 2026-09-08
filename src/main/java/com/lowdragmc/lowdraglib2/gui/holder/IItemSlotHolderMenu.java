@@ -2,9 +2,9 @@ package com.lowdragmc.lowdraglib2.gui.holder;
 
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.AbstractContainerMenuAccessor;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
+
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
-
 import org.jetbrains.annotations.Nullable;
 
 public interface IItemSlotHolderMenu {
@@ -31,7 +31,8 @@ public interface IItemSlotHolderMenu {
      * @param slot the {@link Slot} for which the associated {@link ItemSlot} is to be retrieved
      * @return the {@link ItemSlot} associated with the given {@link Slot}, or {@code null} if no association exists
      */
-    @Nullable ItemSlot getItemSlot(Slot slot);
+    @Nullable
+    ItemSlot getItemSlot(Slot slot);
 
     default boolean isItemSlot(Slot slot) {
         return getItemSlot(slot) != null;

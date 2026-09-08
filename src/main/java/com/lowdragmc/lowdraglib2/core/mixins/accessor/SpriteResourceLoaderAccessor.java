@@ -9,6 +9,7 @@ import java.util.List;
 
 @Mixin(SpriteResourceLoader.class)
 public interface SpriteResourceLoaderAccessor {
+
     @Accessor
     List<SpriteSource> getSources();
 }

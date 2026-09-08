@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
+
 import net.minecraft.network.chat.Component
 
 /**
@@ -15,13 +16,7 @@ fun <T : Toggle> T.toggleStyleDsl(init: Toggle.ToggleStyle.() -> Unit = {}): T {
 /**
  * Specification for Toggle element
  */
-open class ToggleSpec<T : Toggle>(
-    var toggleStyle: (Toggle.ToggleStyle.() -> Unit)? = null,
-    var text: Component? = null,
-    var isOn: Boolean? = null,
-    var onToggleChanged: ((Boolean) -> Unit)? = null,
-    var toggleGroup: Toggle.ToggleGroup? = null,
-) : ElementSpec<T>() {
+open class ToggleSpec<T : Toggle>(var toggleStyle: (Toggle.ToggleStyle.() -> Unit)? = null, var text: Component? = null, var isOn: Boolean? = null, var onToggleChanged: ((Boolean) -> Unit)? = null, var toggleGroup: Toggle.ToggleGroup? = null) : ElementSpec<T>() {
     fun text(text: String, translate: Boolean = true) = apply {
         this.text = if (translate) Component.translatable(text) else Component.literal(text)
     }
@@ -41,13 +36,8 @@ open class ToggleSpec<T : Toggle>(
 /**
  * Toggle element builder
  */
-open class ToggleElement<T : Toggle>(
-    element: T,
-    spec: (ToggleSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, ToggleSpec<T>>(element, spec) {
-    override fun makeSpec(): ToggleSpec<T>? {
-        return spec?.let { ToggleSpec<T>().apply(it) }
-    }
+open class ToggleElement<T : Toggle>(element: T, spec: (ToggleSpec<T>.() -> Unit)? = null) : UIContainer<T, ToggleSpec<T>>(element, spec) {
+    override fun makeSpec(): ToggleSpec<T>? = spec?.let { ToggleSpec<T>().apply(it) }
 
     override fun build(spec: ToggleSpec<T>?): T {
         val e = super.build(spec)
@@ -69,22 +59,14 @@ open class ToggleElement<T : Toggle>(
 /**
  * Top Level - Create a standalone Toggle element
  */
-fun toggle(spec: (ToggleSpec<Toggle>.() -> Unit)? = null,
-           init: ToggleElement<Toggle>.() -> Unit = {}): Toggle {
-    return ToggleElement(Toggle(), spec).apply(init).build()
-}
+fun toggle(spec: (ToggleSpec<Toggle>.() -> Unit)? = null, init: ToggleElement<Toggle>.() -> Unit = {}): Toggle = ToggleElement(Toggle(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Toggle as a child to a container
  */
-fun UIContainer<*, *>.toggle(spec: (ToggleSpec<Toggle>.() -> Unit)? = null,
-                              init: ToggleElement<Toggle>.() -> Unit = {}) =
-    add(ToggleElement(Toggle(), spec), init)
+fun UIContainer<*, *>.toggle(spec: (ToggleSpec<Toggle>.() -> Unit)? = null, init: ToggleElement<Toggle>.() -> Unit = {}) = add(ToggleElement(Toggle(), spec), init)
 
 /**
  * DSL converter - Convert existing Toggle to DSL builder
  */
-fun <T : Toggle> T.dsl(spec: (ToggleSpec<T>.() -> Unit)? = null,
-                       init: ToggleElement<T>.() -> Unit = {}): ToggleElement<T> {
-    return ToggleElement(this, spec).apply(init)
-}
+fun <T : Toggle> T.dsl(spec: (ToggleSpec<T>.() -> Unit)? = null, init: ToggleElement<T>.() -> Unit = {}): ToggleElement<T> = ToggleElement(this, spec).apply(init)

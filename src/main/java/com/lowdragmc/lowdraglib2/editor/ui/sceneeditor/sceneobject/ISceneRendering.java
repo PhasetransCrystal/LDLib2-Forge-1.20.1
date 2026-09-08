@@ -12,27 +12,26 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public interface ISceneRendering extends ISceneObject {
+
     /**
      * Called before draw the object in the scene.
      * before the transform is applied. all children will be drawn after this.
      */
     @OnlyIn(Dist.CLIENT)
-    default void preDraw(float partialTicks){
-    }
+    default void preDraw(float partialTicks) {}
 
     /**
      * Called after draw the object in the scene.
      * after the transform is applied. all children will be drawn before this.
      */
     @OnlyIn(Dist.CLIENT)
-    default void postDraw(float partialTicks){
-    }
+    default void postDraw(float partialTicks) {}
 
     /**
      * Draw the object in the scene. execute transform here.
      */
     @OnlyIn(Dist.CLIENT)
-    default void draw(PoseStack poseStack, MultiBufferSource bufferSource, float partialTicks){
+    default void draw(PoseStack poseStack, MultiBufferSource bufferSource, float partialTicks) {
         poseStack.pushPose();
         poseStack.mulPoseMatrix(transform().localToWorldMatrix());
         drawInternal(poseStack, bufferSource, partialTicks);

@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
+
 import java.util.function.Function
 
 /**
@@ -15,17 +16,7 @@ fun <T : Scroller> T.scrollerStyleDsl(init: Scroller.ScrollerStyle.() -> Unit = 
 /**
  * Base specification for Scroller elements
  */
-open class ScrollerSpec<T : Scroller>(
-    var scrollerStyle: (Scroller.ScrollerStyle.() -> Unit)? = null,
-    var minValue: Float? = null,
-    var maxValue: Float? = null,
-    var value: Float? = null,
-    var normalizedValue: Float? = null,
-    var scrollDelta: Float? = null,
-    var scrollBarSize: Float? = null,
-    var onValueChanged: ((Float) -> Unit)? = null,
-    var clampNormalizedValue: Function<Float, Float>? = null,
-) : ElementSpec<T>() {
+open class ScrollerSpec<T : Scroller>(var scrollerStyle: (Scroller.ScrollerStyle.() -> Unit)? = null, var minValue: Float? = null, var maxValue: Float? = null, var value: Float? = null, var normalizedValue: Float? = null, var scrollDelta: Float? = null, var scrollBarSize: Float? = null, var onValueChanged: ((Float) -> Unit)? = null, var clampNormalizedValue: Function<Float, Float>? = null) : ElementSpec<T>() {
     /**
      * Set the range of the scroller
      */
@@ -59,13 +50,8 @@ open class ScrollerSpec<T : Scroller>(
 /**
  * Base Scroller element builder
  */
-open class ScrollerElement<T : Scroller>(
-    element: T,
-    spec: (ScrollerSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, ScrollerSpec<T>>(element, spec) {
-    override fun makeSpec(): ScrollerSpec<T>? {
-        return spec?.let { ScrollerSpec<T>().apply(it) }
-    }
+open class ScrollerElement<T : Scroller>(element: T, spec: (ScrollerSpec<T>.() -> Unit)? = null) : UIContainer<T, ScrollerSpec<T>>(element, spec) {
+    override fun makeSpec(): ScrollerSpec<T>? = spec?.let { ScrollerSpec<T>().apply(it) }
 
     override fun build(spec: ScrollerSpec<T>?): T {
         val e = super.build(spec)
@@ -111,37 +97,24 @@ open class ScrollerHorizontalSpec : ScrollerSpec<Scroller.Horizontal>()
 /**
  * Horizontal Scroller element builder
  */
-open class ScrollerHorizontalElement(
-    element: Scroller.Horizontal,
-    spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null,
-) : ScrollerElement<Scroller.Horizontal>(element, spec) {
-    override fun makeSpec(): ScrollerHorizontalSpec? {
-        return spec?.let { ScrollerHorizontalSpec().apply(it) }
-    }
+open class ScrollerHorizontalElement(element: Scroller.Horizontal, spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null) : ScrollerElement<Scroller.Horizontal>(element, spec) {
+    override fun makeSpec(): ScrollerHorizontalSpec? = spec?.let { ScrollerHorizontalSpec().apply(it) }
 }
 
 /**
  * Top Level - Create a standalone Horizontal Scroller
  */
-fun scrollerHorizontal(spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null,
-                       init: ScrollerHorizontalElement.() -> Unit = {}): Scroller.Horizontal {
-    return ScrollerHorizontalElement(Scroller.Horizontal(), spec).apply(init).build()
-}
+fun scrollerHorizontal(spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null, init: ScrollerHorizontalElement.() -> Unit = {}): Scroller.Horizontal = ScrollerHorizontalElement(Scroller.Horizontal(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Horizontal Scroller as a child to a container
  */
-fun UIContainer<*, *>.scrollerHorizontal(spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null,
-                                         init: ScrollerHorizontalElement.() -> Unit = {}) =
-    add(ScrollerHorizontalElement(Scroller.Horizontal(), spec), init)
+fun UIContainer<*, *>.scrollerHorizontal(spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null, init: ScrollerHorizontalElement.() -> Unit = {}) = add(ScrollerHorizontalElement(Scroller.Horizontal(), spec), init)
 
 /**
  * DSL converter - Convert existing Horizontal Scroller to DSL builder
  */
-fun Scroller.Horizontal.dsl(spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null,
-                            init: ScrollerHorizontalElement.() -> Unit = {}): ScrollerHorizontalElement {
-    return ScrollerHorizontalElement(this, spec).apply(init)
-}
+fun Scroller.Horizontal.dsl(spec: (ScrollerSpec<Scroller.Horizontal>.() -> Unit)? = null, init: ScrollerHorizontalElement.() -> Unit = {}): ScrollerHorizontalElement = ScrollerHorizontalElement(this, spec).apply(init)
 
 // ============================================
 // Vertical Scroller (scroller-vertical)
@@ -155,37 +128,24 @@ open class ScrollerVerticalSpec : ScrollerSpec<Scroller.Vertical>()
 /**
  * Vertical Scroller element builder
  */
-open class ScrollerVerticalElement(
-    element: Scroller.Vertical,
-    spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null,
-) : ScrollerElement<Scroller.Vertical>(element, spec) {
-    override fun makeSpec(): ScrollerVerticalSpec? {
-        return spec?.let { ScrollerVerticalSpec().apply(it) }
-    }
+open class ScrollerVerticalElement(element: Scroller.Vertical, spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null) : ScrollerElement<Scroller.Vertical>(element, spec) {
+    override fun makeSpec(): ScrollerVerticalSpec? = spec?.let { ScrollerVerticalSpec().apply(it) }
 }
 
 /**
  * Top Level - Create a standalone Vertical Scroller
  */
-fun scrollerVertical(spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null,
-                     init: ScrollerVerticalElement.() -> Unit = {}): Scroller.Vertical {
-    return ScrollerVerticalElement(Scroller.Vertical(), spec).apply(init).build()
-}
+fun scrollerVertical(spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null, init: ScrollerVerticalElement.() -> Unit = {}): Scroller.Vertical = ScrollerVerticalElement(Scroller.Vertical(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Vertical Scroller as a child to a container
  */
-fun UIContainer<*, *>.scrollerVertical(spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null,
-                                       init: ScrollerVerticalElement.() -> Unit = {}) =
-    add(ScrollerVerticalElement(Scroller.Vertical(), spec), init)
+fun UIContainer<*, *>.scrollerVertical(spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null, init: ScrollerVerticalElement.() -> Unit = {}) = add(ScrollerVerticalElement(Scroller.Vertical(), spec), init)
 
 /**
  * DSL converter - Convert existing Vertical Scroller to DSL builder
  */
-fun Scroller.Vertical.dsl(spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null,
-                          init: ScrollerVerticalElement.() -> Unit = {}): ScrollerVerticalElement {
-    return ScrollerVerticalElement(this, spec).apply(init)
-}
+fun Scroller.Vertical.dsl(spec: (ScrollerSpec<Scroller.Vertical>.() -> Unit)? = null, init: ScrollerVerticalElement.() -> Unit = {}): ScrollerVerticalElement = ScrollerVerticalElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

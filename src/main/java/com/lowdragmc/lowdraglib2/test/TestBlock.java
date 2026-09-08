@@ -13,16 +13,17 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.syncdata.holder.IPersistManagedHolder;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -36,15 +37,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import org.appliedenergistics.yoga.YogaEdge;
-import org.appliedenergistics.yoga.YogaGutter;
-import org.appliedenergistics.yoga.YogaJustify;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * @author KilaBash
@@ -56,6 +54,7 @@ import java.util.Optional;
 public class TestBlock extends Block implements EntityBlock, IBlockRendererProvider, BlockUIMenuType.BlockUI {
 
     public static final TestBlock BLOCK = new TestBlock();
+
     private TestBlock() {
         super(Properties.of().noOcclusion().destroyTime(2));
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.NORTH));
@@ -83,7 +82,7 @@ public class TestBlock extends Block implements EntityBlock, IBlockRendererProvi
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
-        } else if (player instanceof ServerPlayer serverPlayer){
+        } else if (player instanceof ServerPlayer serverPlayer) {
             BlockUIMenuType.openUI(serverPlayer, pos);
             return InteractionResult.CONSUME;
         }
@@ -106,8 +105,7 @@ public class TestBlock extends Block implements EntityBlock, IBlockRendererProvi
                 .height(100)
                 .paddingAll(4)
                 .gapAll(2)
-                .justifyContent(AlignContent.CENTER)
-        ).style(style -> style.backgroundTexture(Sprites.BORDER));
+                .justifyContent(AlignContent.CENTER)).style(style -> style.backgroundTexture(Sprites.BORDER));
         root.addChild(new Label().setText("Test Block UI"));
         root.addChild(new TextField());
         return new ModularUI(UI.of(root), holder.player);

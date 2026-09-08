@@ -7,13 +7,14 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -21,32 +22,36 @@ import dev.vfyjxf.taffy.style.AlignItems;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 
-import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
 @KJSBindings
 @LDLRegisterClient(name = "shader_texture", registry = "ldlib2:gui_texture")
 public class ShaderTexture extends TransformTexture implements AutoCloseable {
+
     @Getter
     @Configurable(name = "ldlib.gui.editor.name.resource", tips = "ldlib.gui.editor.tips.shader_location")
     private ResourceLocation shaderLocation;
     @Configurable(name = "widget.basic.color")
     @ConfigColor
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     private int color = -1;
 
-    //runtime
-    @Getter @Nullable
+    // runtime
+    @Getter
+    @Nullable
     private LDShaderHolder shaderHolder;
 
     public ShaderTexture() {
@@ -98,7 +103,6 @@ public class ShaderTexture extends TransformTexture implements AutoCloseable {
     @OnlyIn(Dist.CLIENT)
     protected void drawInternal(GuiGraphics graphics, float mouseX, float mouseY,
                                 float x, float y, float width, float height, float partialTicks) {
-
         if (shaderHolder != null) {
             // TODO use rendertype instead?
             graphics.flush();
@@ -112,8 +116,7 @@ public class ShaderTexture extends TransformTexture implements AutoCloseable {
                     GlStateManager.SourceFactor.SRC_ALPHA,
                     GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                     GlStateManager.SourceFactor.ONE,
-                    GlStateManager.DestFactor.ZERO
-            );
+                    GlStateManager.DestFactor.ZERO);
             RenderSystem.disableDepthTest();
             var mat = graphics.pose().last().pose();
             var tesselator = Tesselator.getInstance();
@@ -142,21 +145,20 @@ public class ShaderTexture extends TransformTexture implements AutoCloseable {
             Dialog.showFileDialog("ldlib.gui.editor.tips.select_shader", LDLib2.getAssetsDir(), true, node -> {
                 if (!node.getKey().isFile() || node.getKey().getName().toLowerCase().endsWith(".json".toLowerCase())) {
                     if (node.getKey().isFile()) {
-                            return getShaderFromFile(node.getKey()) != null;
-                        }
-                        return true; // allow directories
+                        return getShaderFromFile(node.getKey()) != null;
                     }
-                    return false;
-                }, r -> {
-                    if (r != null && r.isFile()) {
-                        var location = getShaderFromFile(r);
-                        if (location == null) return;
-                        setShader(location);
-                        configurator.notifyChanges();
-                    }
-                }).show(e.currentElement.getModularUI());
-            }).layout(layout -> layout.alignSelf(AlignItems.CENTER)))
-        );
+                    return true; // allow directories
+                }
+                return false;
+            }, r -> {
+                if (r != null && r.isFile()) {
+                    var location = getShaderFromFile(r);
+                    if (location == null) return;
+                    setShader(location);
+                    configurator.notifyChanges();
+                }
+            }).show(e.currentElement.getModularUI());
+        }).layout(layout -> layout.alignSelf(AlignItems.CENTER))));
 
         // button to reload shader
         father.addConfigurator(new Configurator().addInlineChild(new Button().setText("reload").setOnClick(e -> {
@@ -175,14 +177,14 @@ public class ShaderTexture extends TransformTexture implements AutoCloseable {
         }
         holderConfigContainer.configuratorContainer.setDisplay(!holderConfigContainer.getConfigurators().isEmpty());
         holderConfigContainer.addEventListener(UIEvents.TICK, e -> {
-           if (holderRef.get() != shaderHolder) {
-               holderConfigContainer.removeAllConfigurators();
-               if (shaderHolder != null) {
-                   shaderHolder.buildConfigurator(holderConfigContainer);
-               }
-               holderConfigContainer.configuratorContainer.setDisplay(!holderConfigContainer.getConfigurators().isEmpty());
-               holderRef.set(shaderHolder);
-           }
+            if (holderRef.get() != shaderHolder) {
+                holderConfigContainer.removeAllConfigurators();
+                if (shaderHolder != null) {
+                    shaderHolder.buildConfigurator(holderConfigContainer);
+                }
+                holderConfigContainer.configuratorContainer.setDisplay(!holderConfigContainer.getConfigurators().isEmpty());
+                holderRef.set(shaderHolder);
+            }
         });
         father.addConfigurator(holderConfigContainer);
     }

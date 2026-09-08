@@ -17,6 +17,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import net.minecraft.network.chat.Component;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class UIXmlView extends View {
+
     public final UIXmlProject project;
     public final UIElement header = new UIElement();
     public final UICanvas canvas = new UICanvas();
@@ -132,9 +134,7 @@ public class UIXmlView extends View {
                                     layout.heightPercent(100);
                                     layout.setAspectRatio(1f);
                                 })
-                                .style(style -> style.tooltips("UIEditor.selection_box"))
-                )
-        );
+                                .style(style -> style.tooltips("UIEditor.selection_box"))));
         header.addClass("__ui-editor-view_header__").moveInlineAsDefault();
 
         // canvas initial
@@ -183,7 +183,7 @@ public class UIXmlView extends View {
                 .right(graphView));
 
         dynamicName = () -> {
-            var editor =  project.getEditor();
+            var editor = project.getEditor();
             if (editor != null && editor.getCurrentProject() == project && editor.getCurrentProjectFile() != null) {
                 return Component.literal(editor.getCurrentProjectFile().getName());
             }
@@ -206,7 +206,7 @@ public class UIXmlView extends View {
         this.modularUIPreview.clear();
         this.ui = null;
         this.document = null;
-        try(var inputStream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {
+        try (var inputStream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {
             this.document = XmlUtils.loadXml(inputStream);
             if (this.document != null) {
                 this.ui = UI.of(document);

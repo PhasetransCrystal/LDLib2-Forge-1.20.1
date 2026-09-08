@@ -5,22 +5,22 @@ import com.lowdragmc.lowdraglib2.client.model.ModelFactory;
 import com.lowdragmc.lowdraglib2.client.renderer.IBlockRendererProvider;
 import com.lowdragmc.lowdraglib2.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
-import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
-import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
+import com.lowdragmc.lowdraglib2.compat.TriState;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
+import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
+import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.editor.resource.IRendererResource;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.vfyjxf.taffy.style.AlignItems;
 import lombok.Getter;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
@@ -32,19 +32,22 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.data.ModelData;
-import com.lowdragmc.lowdraglib2.compat.TriState;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 @LDLRegisterClient(name = "json_model", registry = "ldlib2:renderer")
 public class IModelRenderer implements IRenderer {
+
     @Getter
     @Configurable
     protected ResourceLocation modelLocation;
@@ -247,12 +250,11 @@ public class IModelRenderer implements IRenderer {
                 modelLocation);
     }
 
-
     @OnlyIn(Dist.CLIENT)
     protected TextureAtlasSprite materialMapping(Material material) {
         return material.sprite();
     }
-    
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void onAdditionalModel(Consumer<ResourceLocation> registry) {
@@ -328,6 +330,7 @@ public class IModelRenderer implements IRenderer {
 
     @OnlyIn(Dist.CLIENT)
     protected record ModelStateCacheKey(TransformationKey rotation, boolean uvLocked) {
+
         static ModelStateCacheKey from(ModelState modelState) {
             return new ModelStateCacheKey(TransformationKey.from(modelState.getRotation()), modelState.isUvLocked());
         }
@@ -335,10 +338,11 @@ public class IModelRenderer implements IRenderer {
 
     @OnlyIn(Dist.CLIENT)
     protected record TransformationKey(
-            float m00, float m01, float m02, float m03,
-            float m10, float m11, float m12, float m13,
-            float m20, float m21, float m22, float m23,
-            float m30, float m31, float m32, float m33) {
+                                       float m00, float m01, float m02, float m03,
+                                       float m10, float m11, float m12, float m13,
+                                       float m20, float m21, float m22, float m23,
+                                       float m30, float m31, float m32, float m33) {
+
         static TransformationKey from(com.mojang.math.Transformation transformation) {
             var matrix = transformation.getMatrix();
             return new TransformationKey(

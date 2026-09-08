@@ -7,33 +7,38 @@ import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.OptionalInt;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ModularUIPreview extends UIElement {
+
     @Nullable
     public final UIEditorView editorView;
     public final SelectionBox selectionBox = new SelectionBox();
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean showSelectionBox = true;
 
     // runtime;
     private OptionalInt previewWidth = OptionalInt.empty();
     private OptionalInt previewHeight = OptionalInt.empty();
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private ModularUI previewModularUI;
 
     public ModularUIPreview(@Nullable UIEditorView editorView) {
@@ -125,7 +130,7 @@ public class ModularUIPreview extends UIElement {
             var matrix = buildTransformMatrix(selected);
 
             // Transform the 4 corners and compute AABB
-            var corners = new Vector4f[]{
+            var corners = new Vector4f[] {
                     new Vector4f(left, top, 0, 1),
                     new Vector4f(right, top, 0, 1),
                     new Vector4f(left, bottom, 0, 1),
@@ -189,6 +194,7 @@ public class ModularUIPreview extends UIElement {
     }
 
     public class SelectionBox extends UIElement {
+
         public final UIElement widgetsGroup;
         public final Label label;
 
@@ -209,13 +215,10 @@ public class ModularUIPreview extends UIElement {
                 layout.height(14);
             });
             widgetsGroup.addChildren(
-                    label.bindDataSource(SupplierDataSource.of(() ->
-                            editorView == null ? Component.empty() : editorView.hierarchy.getSelectedOne().map(UIElement::getEditorName).orElseGet(Component::empty)))
-                            .textStyle(textStyle -> textStyle.adaptiveWidth(true))
-            );
+                    label.bindDataSource(SupplierDataSource.of(() -> editorView == null ? Component.empty() : editorView.hierarchy.getSelectedOne().map(UIElement::getEditorName).orElseGet(Component::empty)))
+                            .textStyle(textStyle -> textStyle.adaptiveWidth(true)));
             widgetsGroup.getStyle().backgroundTexture(ColorPattern.BLUE.rectTexture());
             addChild(widgetsGroup);
         }
     }
-
 }

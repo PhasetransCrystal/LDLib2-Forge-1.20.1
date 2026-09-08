@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolder;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventDispatcher;
 import com.lowdragmc.lowdraglib2.integration.xei.jei.handler.JEITargetsTypedHandler;
+
 import lombok.experimental.UtilityClass;
 import mezz.jei.api.gui.handlers.IGhostIngredientHandler;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
@@ -14,16 +15,19 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @UtilityClass
 public final class ModularUIJEIHandlers {
+
     public static final IGuiContainerHandler<AbstractContainerScreen<?>> GUI_CONTAINER_HANDLER = new IGuiContainerHandler<>() {
+
         @Override
         public List<Rect2i> getGuiExtraAreas(AbstractContainerScreen<?> containerScreen) {
             var areas = new ArrayList<Rect2i>();
@@ -57,6 +61,7 @@ public final class ModularUIJEIHandlers {
     };
 
     public record SimpleClickableIngredient<I>(ITypedIngredient<I> typedIngredient, Rect2i area) implements IClickableIngredient<I> {
+
         @Override
         public ITypedIngredient<I> getTypedIngredient() {
             return typedIngredient;
@@ -68,8 +73,8 @@ public final class ModularUIJEIHandlers {
         }
     }
 
-
     public static final IGhostIngredientHandler GHOST_INGREDIENT_HANDLER = new IGhostIngredientHandler<>() {
+
         @Override
         public <I> List<Target<I>> getTargetsTyped(Screen gui, ITypedIngredient<I> ingredient, boolean doStart) {
             var targets = new JEITargetsTypedHandler<>(doStart, ingredient);
@@ -86,8 +91,6 @@ public final class ModularUIJEIHandlers {
         }
 
         @Override
-        public void onComplete() {
-
-        }
+        public void onComplete() {}
     };
 }

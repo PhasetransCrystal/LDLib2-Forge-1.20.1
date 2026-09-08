@@ -5,18 +5,19 @@ import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.client.ClientEventListener;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.holder.DebugScreen;
-import com.lowdragmc.lowdraglib2.gui.ui.debugger.UIDebugger;
-import com.lowdragmc.lowdraglib2.gui.ui.style.HierarchicalStyleMatcher;
-import com.lowdragmc.lowdraglib2.utils.animation.AnimationEngine;
-import com.lowdragmc.lowdraglib2.gui.sync.UISyncManager;
-import com.lowdragmc.lowdraglib2.gui.ui.event.*;
 import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolder;
+import com.lowdragmc.lowdraglib2.gui.sync.UISyncManager;
+import com.lowdragmc.lowdraglib2.gui.ui.debugger.UIDebugger;
+import com.lowdragmc.lowdraglib2.gui.ui.event.*;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.LayoutProperties;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
+import com.lowdragmc.lowdraglib2.gui.ui.style.HierarchicalStyleMatcher;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleEngine;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.math.Size;
+import com.lowdragmc.lowdraglib2.utils.animation.AnimationEngine;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.vfyjxf.taffy.geometry.TaffySize;
 import dev.vfyjxf.taffy.style.AvailableSpace;
@@ -47,28 +48,34 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.appliedenergistics.yoga.YogaConstants;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @KJSBindings
 public class ModularUI {
+
     public final UI ui;
     public final UISyncManager syncManager;
     @Nullable
     public final Player player;
 
-    @Setter @Getter @Accessors(fluent = true, chain = true)
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     private boolean shouldCloseOnEsc = true;
-    @Setter @Getter @Accessors(fluent = true, chain = true)
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     private boolean shouldCloseOnKeyInventory = true;
 
     // runtime
@@ -109,13 +116,17 @@ public class ModularUI {
     private final Set<NodeId> nodesWithNewGeometry = new HashSet<>();
 
     // UI state
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean tickWhileRending;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean focused;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean drawTooltips = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean drawDrag = true;
     @Nullable
     @Getter
@@ -133,12 +144,13 @@ public class ModularUI {
     @Getter
     private int lastMouseDownButton = -1, lastMouseClickButton = -1;
     @Getter
-    private int lastPressedKeyCode = - 1, lastPressedScanCode = -1, lastPressedModifiers = -1;
+    private int lastPressedKeyCode = -1, lastPressedScanCode = -1, lastPressedModifiers = -1;
     @Getter
     private long lastMouseClickTime;
     @Getter
     private float lastMouseX, lastMouseY, lastMouseDownX, lastMouseDownY;
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private UIElement focusedElement = null;
     private final List<Rect2i> extraAreas = new ArrayList<>();
 
@@ -154,9 +166,11 @@ public class ModularUI {
     private Font tooltipFont;
     @Getter
     private ItemStack tooltipStack = ItemStack.EMPTY;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean allowDebugMode = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean debugMode = false;
     @Nullable
     private UIDebugger uiDebuggerCache;
@@ -191,6 +205,7 @@ public class ModularUI {
     /**
      * Add an element to the registry for fast retrieval.
      * This method is automatically called when elements are added to the UI tree.
+     * 
      * @param element the element to add to the registry
      */
     public void registerElement(@Nullable UIElement element) {
@@ -225,6 +240,7 @@ public class ModularUI {
     /**
      * Remove an element from the registry.
      * This method is automatically called when elements are removed from the UI tree.
+     * 
      * @param element the element to remove from the registry
      */
     public void unregisterElement(@Nullable UIElement element) {
@@ -296,6 +312,7 @@ public class ModularUI {
 
     /**
      * Find the first element by its ID.
+     * 
      * @param id the ID of the element to find
      * @return the first element with the given ID, or null if not found
      */
@@ -308,6 +325,7 @@ public class ModularUI {
 
     /**
      * Find all elements by their ID.
+     * 
      * @param id the ID of the elements to find
      * @return a list of all elements with the given ID (never null, but may be empty)
      */
@@ -319,6 +337,7 @@ public class ModularUI {
 
     /**
      * Find the first element by its ID using regex pattern.
+     * 
      * @param pattern the regex pattern to match element IDs
      * @return the first element with an ID matching the pattern, or null if not found
      */
@@ -329,6 +348,7 @@ public class ModularUI {
 
     /**
      * Find all elements by their ID using regex pattern.
+     * 
      * @param pattern the regex pattern to match element IDs
      * @return a list of all elements with IDs matching the pattern (never null, but may be empty)
      */
@@ -339,6 +359,7 @@ public class ModularUI {
     /**
      * Find the first element by its ID using regex pattern with compiled Pattern.
      * This is more efficient when using the same pattern multiple times.
+     * 
      * @param pattern the compiled regex pattern to match element IDs
      * @return the first element with an ID matching the pattern, or null if not found
      */
@@ -355,6 +376,7 @@ public class ModularUI {
     /**
      * Find all elements by their ID using regex pattern with compiled Pattern.
      * This is more efficient when using the same pattern multiple times.
+     * 
      * @param pattern the compiled regex pattern to match element IDs
      * @return a list of all elements with IDs matching the pattern (never null, but may be empty)
      */
@@ -368,6 +390,7 @@ public class ModularUI {
 
     /**
      * Find elements by ID using partial matching (contains).
+     * 
      * @param substring the substring to search for in element IDs
      * @return a list of all elements with IDs containing the substring (never null, but may be empty)
      */
@@ -381,6 +404,7 @@ public class ModularUI {
 
     /**
      * Find elements by ID using prefix matching (starts with).
+     * 
      * @param prefix the prefix to search for in element IDs
      * @return a list of all elements with IDs starting with the prefix (never null, but may be empty)
      */
@@ -394,6 +418,7 @@ public class ModularUI {
 
     /**
      * Find elements by ID using suffix matching (ends with).
+     * 
      * @param suffix the suffix to search for in element IDs
      * @return a list of all elements with IDs ending with the suffix (never null, but may be empty)
      */
@@ -407,6 +432,7 @@ public class ModularUI {
 
     /**
      * Find all elements of a specific type.
+     * 
      * @param type the type of elements to find
      * @return a list of all elements of the given type (never null, but may be empty)
      */
@@ -423,28 +449,29 @@ public class ModularUI {
 
     /**
      * Get all registered elements by ID.
+     * 
      * @return a copy of the ID-to-elements mapping
      */
     public Map<String, List<UIElement>> getAllElementsById() {
         Map<String, List<UIElement>> result = new HashMap<>();
-        elementsById.forEach((id, elements) ->
-                result.put(id, new ArrayList<>(elements)));
+        elementsById.forEach((id, elements) -> result.put(id, new ArrayList<>(elements)));
         return result;
     }
 
     /**
      * Get all registered elements by type.
+     * 
      * @return a copy of the type-to-elements mapping
      */
     public Map<Class<?>, List<UIElement>> getAllElementsByType() {
         Map<Class<?>, List<UIElement>> result = new HashMap<>();
-        elementsByType.forEach((type, elements) ->
-                result.put(type, new ArrayList<>(elements)));
+        elementsByType.forEach((type, elements) -> result.put(type, new ArrayList<>(elements)));
         return result;
     }
 
     /**
      * Check if an element with the given ID exists.
+     * 
      * @param id the ID to check
      * @return true if at least one element with the given ID exists
      */
@@ -456,6 +483,7 @@ public class ModularUI {
 
     /**
      * Get the count of elements with the given ID.
+     * 
      * @param id the ID to count
      * @return the number of elements with the given ID
      */
@@ -564,8 +592,7 @@ public class ModularUI {
             if (taffyTree.isDirty(ui.rootElement.nodeId)) {
                 taffyTree.computeLayout(ui.rootElement.nodeId, new TaffySize<>(
                         Float.isNaN(layoutWidth) ? AvailableSpace.MAX_CONTENT : AvailableSpace.definite(layoutWidth),
-                        Float.isNaN(layoutHeight) ? AvailableSpace.MAX_CONTENT : AvailableSpace.definite(layoutHeight)
-                ));
+                        Float.isNaN(layoutHeight) ? AvailableSpace.MAX_CONTENT : AvailableSpace.definite(layoutHeight)));
 
                 for (var nodeId : nodesWithNewLayout) {
                     var element = elementByNode.get(nodeId);
@@ -611,6 +638,7 @@ public class ModularUI {
     /**
      * Request focus to the given element.
      * This will trigger FocusOut event on the old focused element and FocusIn event on the new focused element.
+     * 
      * @param element the element to focus, or null to clear focus
      */
     @OnlyIn(Dist.CLIENT)
@@ -654,7 +682,6 @@ public class ModularUI {
                 screen.setFocused(getWidget());
             }
         }
-
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -720,6 +747,7 @@ public class ModularUI {
     @MethodsReturnNonnullByDefault
     @OnlyIn(Dist.CLIENT)
     public class ModularUIWidget implements GuiEventListener, NarratableEntry, Renderable, IModularUIHolder {
+
         private long lastTick;
 
         @Override
@@ -738,9 +766,7 @@ public class ModularUI {
         }
 
         @Override
-        public void updateNarration(NarrationElementOutput narrationElementOutput) {
-
-        }
+        public void updateNarration(NarrationElementOutput narrationElementOutput) {}
 
         public boolean isHovered() {
             return lastHoveredElement != null;
@@ -977,7 +1003,7 @@ public class ModularUI {
                     hasHandler |= event.hasHandler;
                 }
                 return hasHandler;
-            } else if (command != null){
+            } else if (command != null) {
                 var event = createValidCommandEvent(command, keyCode, scanCode, modifiers);
                 event.target = ui.rootElement;
                 var handled = UIEventDispatcher.dispatchAllChildren(event);
@@ -1212,7 +1238,5 @@ public class ModularUI {
             DrawerHelper.drawSolidRect(graphics, contentX, contentY, contentWidth, contentHeight, 0x800000ff);
             graphics.pose().popPose();
         }
-
     }
-
 }

@@ -1,9 +1,10 @@
 package com.lowdragmc.lowdraglib2.core.mixins;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.SpriteResourceLoaderAccessor;
 import com.lowdragmc.lowdraglib2.editor.resource.IRendererResource;
+
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.renderer.texture.atlas.SpriteResourceLoader;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.resources.ResourceLocation;

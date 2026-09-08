@@ -3,11 +3,13 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.HistoryStack;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphView;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface IUndoableGraphCommand extends IGraphCommand {
+
     @Override
     default void execute(@NotNull GraphView view, @NotNull GraphModel graphModel) {
         execute(view, graphModel, view.getHistoryStack());
@@ -16,9 +18,10 @@ public interface IUndoableGraphCommand extends IGraphCommand {
     /**
      * Executes a command by applying an edit action and storing it in the history stack.
      *
-     * @param view the {@link GraphView} representing the current state of the graph; must not be {@code null}.
-     * @param graphModel the {@link GraphModel} representing the structure of the graph; must not be {@code null}.
-     * @param historyStack the {@link HistoryStack} to record the command's execution for undo/redo functionality; must not be {@code null}.
+     * @param view         the {@link GraphView} representing the current state of the graph; must not be {@code null}.
+     * @param graphModel   the {@link GraphModel} representing the structure of the graph; must not be {@code null}.
+     * @param historyStack the {@link HistoryStack} to record the command's execution for undo/redo functionality; must
+     *                     not be {@code null}.
      */
     void execute(@NotNull GraphView view, @NotNull GraphModel graphModel, @NotNull HistoryStack historyStack);
 

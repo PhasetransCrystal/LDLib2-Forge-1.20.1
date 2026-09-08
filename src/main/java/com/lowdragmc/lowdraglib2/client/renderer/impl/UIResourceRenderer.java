@@ -1,11 +1,13 @@
 package com.lowdragmc.lowdraglib2.client.renderer.impl;
 
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
+import com.lowdragmc.lowdraglib2.compat.TriState;
 import com.lowdragmc.lowdraglib2.editor.resource.BuiltinPath;
 import com.lowdragmc.lowdraglib2.editor.resource.IRendererResource;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,20 +32,21 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.data.ModelData;
-import com.lowdragmc.lowdraglib2.compat.TriState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @NoArgsConstructor
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @LDLRegisterClient(name = "ui_resource_renderer", registry = "ldlib2:renderer")
 public class UIResourceRenderer implements IRenderer {
+
     @Persisted
     private IResourcePath resourcePath = new BuiltinPath("");
     @Getter(lazy = true)
@@ -71,7 +74,7 @@ public class UIResourceRenderer implements IRenderer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public List<BakedQuad> renderModel(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState state, @Nullable Direction side, RandomSource rand,  ModelData data, @Nullable RenderType renderType) {
+    public List<BakedQuad> renderModel(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData data, @Nullable RenderType renderType) {
         return getInternalRenderer().renderModel(level, pos, state, side, rand, data, renderType);
     }
 

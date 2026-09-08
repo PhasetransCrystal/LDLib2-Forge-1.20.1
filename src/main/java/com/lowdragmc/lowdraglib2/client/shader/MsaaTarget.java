@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL30;
 
 @OnlyIn(Dist.CLIENT)
 public class MsaaTarget {
+
     @Getter
     private final boolean useDepth;
     @Getter
@@ -32,7 +33,7 @@ public class MsaaTarget {
     private int depthRboId;
 
     /**
-     * @param samples MSAA sampler (e.g. 2/4/8) will do clamp  [1, GL_MAX_SAMPLES]
+     * @param samples MSAA sampler (e.g. 2/4/8) will do clamp [1, GL_MAX_SAMPLES]
      */
     public MsaaTarget(int width, int height, int samples, boolean useDepth, boolean useStencil) {
         this.useDepth = useDepth;
@@ -83,7 +84,8 @@ public class MsaaTarget {
 
     /**
      * Resolve (multiple sampling) to a normal RenderTarget (single-sampling texture FBO).
-     * @param dst dest RenderTarget
+     * 
+     * @param dst  dest RenderTarget
      * @param mask GL_COLOR_BUFFER_BIT / GL_DEPTH_BUFFER_BIT
      */
     public void resolveTo(RenderTarget dst, int mask) {
@@ -101,8 +103,7 @@ public class MsaaTarget {
                 0, 0, this.width, this.height,
                 0, 0, dstW, dstH,
                 mask,
-                GL30.GL_NEAREST
-        );
+                GL30.GL_NEAREST);
 
         GlStateManager._glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
     }

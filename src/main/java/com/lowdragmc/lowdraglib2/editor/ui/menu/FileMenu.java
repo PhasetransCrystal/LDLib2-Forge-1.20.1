@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class FileMenu extends MenuTab {
+
     private final List<ProjectType> projectTypes = new ArrayList<>();
     private final List<BiConsumer<MenuTab, TreeBuilder.Menu>> newMenuCreators = new ArrayList<>();
 
@@ -63,6 +65,7 @@ public class FileMenu extends MenuTab {
 
     /**
      * Add a project type to the file menu. It will be displayed in the {@code new} branch
+     * 
      * @param projectType the project type to add
      */
     public void addProjectProvider(ProjectType projectType) {
@@ -97,5 +100,4 @@ public class FileMenu extends MenuTab {
                     }
                 }).show(editor);
     }
-
 }

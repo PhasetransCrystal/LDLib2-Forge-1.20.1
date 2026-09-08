@@ -4,10 +4,11 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.BlockNode;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.NodeAttribute;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.UseWithContext;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.IPortDefinitionContext;
+
 import net.minecraft.network.chat.Component;
 
-@NodeAttribute(name = "test_preview_block", group = "test", graphTypes = {TestGraph.class})
-@UseWithContext({TestContextNode.class})
+@NodeAttribute(name = "test_preview_block", group = "test", graphTypes = { TestGraph.class })
+@UseWithContext({ TestContextNode.class })
 public class TestPreviewBlock extends BlockNode {
 
     @Override

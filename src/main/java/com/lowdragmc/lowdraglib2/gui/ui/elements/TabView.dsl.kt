@@ -3,15 +3,15 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement
+
 import net.minecraft.network.chat.Component
+
 import java.util.function.Consumer
 
 /**
  * Specification for TabView element
  */
-open class TabViewSpec<T : TabView>(
-    var onTabSelected: Consumer<Tab>? = null,
-) : ElementSpec<T>() {
+open class TabViewSpec<T : TabView>(var onTabSelected: Consumer<Tab>? = null) : ElementSpec<T>() {
     /**
      * Callback when a tab is selected (Kotlin lambda)
      */
@@ -23,24 +23,16 @@ open class TabViewSpec<T : TabView>(
 /**
  * Represents a tab with its associated content for easy configuration
  */
-data class TabWithContent(
-    val tab: Tab,
-    val content: UIElement
-)
+data class TabWithContent(val tab: Tab, val content: UIElement)
 
 /**
  * TabView element builder
  */
-open class TabViewElement<T : TabView>(
-    element: T,
-    spec: (TabViewSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, TabViewSpec<T>>(element, spec) {
+open class TabViewElement<T : TabView>(element: T, spec: (TabViewSpec<T>.() -> Unit)? = null) : UIContainer<T, TabViewSpec<T>>(element, spec) {
 
     private val pendingTabs = mutableListOf<TabWithContent>()
 
-    override fun makeSpec(): TabViewSpec<T>? {
-        return spec?.let { TabViewSpec<T>().apply(it) }
-    }
+    override fun makeSpec(): TabViewSpec<T>? = spec?.let { TabViewSpec<T>().apply(it) }
 
     override fun build(spec: TabViewSpec<T>?): T {
         val e = super.build(spec)
@@ -57,12 +49,7 @@ open class TabViewElement<T : TabView>(
     /**
      * Add a tab with its content
      */
-    fun tab(
-        tabText: String,
-        translate: Boolean = false,
-        tabConfig: (Tab.() -> Unit)? = null,
-        contentBuilder: UIElement.() -> Unit
-    ) = apply {
+    fun tab(tabText: String, translate: Boolean = false, tabConfig: (Tab.() -> Unit)? = null, contentBuilder: UIElement.() -> Unit) = apply {
         val tab = Tab().apply {
             setText(tabText, translate)
             tabConfig?.invoke(this)
@@ -74,11 +61,7 @@ open class TabViewElement<T : TabView>(
     /**
      * Add a tab with Component text and its content
      */
-    fun tab(
-        tabText: Component,
-        tabConfig: (Tab.() -> Unit)? = null,
-        contentBuilder: UIElement.() -> Unit
-    ) = apply {
+    fun tab(tabText: Component, tabConfig: (Tab.() -> Unit)? = null, contentBuilder: UIElement.() -> Unit) = apply {
         val tab = Tab().apply {
             setText(tabText)
             tabConfig?.invoke(this)
@@ -98,25 +81,17 @@ open class TabViewElement<T : TabView>(
 /**
  * Top Level - Create a standalone TabView element
  */
-fun tabView(spec: (TabViewSpec<TabView>.() -> Unit)? = null,
-            init: TabViewElement<TabView>.() -> Unit = {}): TabView {
-    return TabViewElement(TabView(), spec).apply(init).build()
-}
+fun tabView(spec: (TabViewSpec<TabView>.() -> Unit)? = null, init: TabViewElement<TabView>.() -> Unit = {}): TabView = TabViewElement(TabView(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add TabView as a child to a container
  */
-fun UIContainer<*, *>.tabView(spec: (TabViewSpec<TabView>.() -> Unit)? = null,
-                               init: TabViewElement<TabView>.() -> Unit = {}) =
-    add(TabViewElement(TabView(), spec), init)
+fun UIContainer<*, *>.tabView(spec: (TabViewSpec<TabView>.() -> Unit)? = null, init: TabViewElement<TabView>.() -> Unit = {}) = add(TabViewElement(TabView(), spec), init)
 
 /**
  * DSL converter - Convert existing TabView to DSL builder
  */
-fun <T : TabView> T.dsl(spec: (TabViewSpec<T>.() -> Unit)? = null,
-                        init: TabViewElement<T>.() -> Unit = {}): TabViewElement<T> {
-    return TabViewElement(this, spec).apply(init)
-}
+fun <T : TabView> T.dsl(spec: (TabViewSpec<T>.() -> Unit)? = null, init: TabViewElement<T>.() -> Unit = {}): TabViewElement<T> = TabViewElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -125,11 +100,7 @@ fun <T : TabView> T.dsl(spec: (TabViewSpec<T>.() -> Unit)? = null,
 /**
  * Extension: Add a tab with simple text and content
  */
-fun <T : TabView> TabViewElement<T>.addTab(
-    text: String,
-    translate: Boolean = false,
-    content: UIElement.() -> Unit
-): TabViewElement<T> = apply {
+fun <T : TabView> TabViewElement<T>.addTab(text: String, translate: Boolean = false, content: UIElement.() -> Unit): TabViewElement<T> = apply {
     val tab = Tab().setText(text, translate)
     val contentElement = UIElement().apply(content)
     element.addTab(tab, contentElement)

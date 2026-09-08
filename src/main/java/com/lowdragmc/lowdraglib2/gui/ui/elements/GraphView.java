@@ -3,34 +3,37 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.SpriteTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.util.Mth;
-import org.appliedenergistics.yoga.YogaOverflow;
+
+import java.util.function.Consumer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @KJSBindings
 @LDLRegister(name = "graph-view", group = "container", registry = "ldlib2:ui_element")
 public class GraphView extends UIElement {
+
     public record DragOffset(float startOffsetX, float startOffsetY) {}
 
     @Configurable(name = "GraphViewStyle")
     public class GraphViewStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.ALLOW_ZOOM,
                 PropertyRegistry.ALLOW_PAN,
@@ -111,7 +114,8 @@ public class GraphView extends UIElement {
     private final GraphViewStyle graphViewStyle = new GraphViewStyle();
 
     // runtime
-    @Getter @Setter
+    @Getter
+    @Setter
     private float offsetX = 0f, offsetY = 0f;  // world offset
     @Getter
     private float scale = 1f;
@@ -165,8 +169,7 @@ public class GraphView extends UIElement {
     protected void refreshContentTransform() {
         contentRoot.transform(transform -> transform
                 .translate(-(offsetX * scale), -(offsetY * scale))
-                .scale(scale)
-        );
+                .scale(scale));
     }
 
     public void fitToChildren(float padding, float minScaleBound) {
@@ -184,12 +187,16 @@ public class GraphView extends UIElement {
             has = true;
         }
         if (!has) {
-            offsetX = 0f; offsetY = 0f; scale = Math.max(minScaleBound, 1f);
+            offsetX = 0f;
+            offsetY = 0f;
+            scale = Math.max(minScaleBound, 1f);
             refreshContentTransform();
             return;
         }
-        minX -= padding; minY -= padding;
-        maxX += padding; maxY += padding;
+        minX -= padding;
+        minY -= padding;
+        maxX += padding;
+        maxY += padding;
 
         fit(minX, minY, maxX, maxY, minScaleBound);
     }
@@ -215,10 +222,7 @@ public class GraphView extends UIElement {
     }
 
     protected void onMouseDown(UIEvent event) {
-        if (graphViewStyle.allowPan()
-                && (event.target == this && event.button == 0 || event.button == 2)
-                && isSelfOrChildHover()
-                && isMouseOverContent(event.x, event.y)) {
+        if (graphViewStyle.allowPan() && (event.target == this && event.button == 0 || event.button == 2) && isSelfOrChildHover() && isMouseOverContent(event.x, event.y)) {
             startDrag(new DragOffset(offsetX, offsetY), null);
         }
     }
@@ -237,9 +241,7 @@ public class GraphView extends UIElement {
     }
 
     protected void onMouseWheel(UIEvent event) {
-        if (graphViewStyle.allowZoom() && event.target == this
-                && isSelfOrChildHover()
-                && isMouseOverContent(event.x, event.y)) {
+        if (graphViewStyle.allowZoom() && event.target == this && isSelfOrChildHover() && isMouseOverContent(event.x, event.y)) {
             var newScale = Mth.clamp(scale + event.deltaY * 0.1f, graphViewStyle.minScale(), graphViewStyle.maxScale());
             if (newScale != scale) {
                 var localMouse = getLocalMouse(event.x, event.y);
@@ -260,7 +262,6 @@ public class GraphView extends UIElement {
         var y = getContentY();
         var w = getContentWidth();
         var h = getContentHeight();
-
 
         var imageWidth = graphViewStyle.gridSize();
         var imageHeight = graphViewStyle.gridSize();

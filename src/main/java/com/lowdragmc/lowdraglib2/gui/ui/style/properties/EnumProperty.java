@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.EnumValue;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +19,7 @@ import java.util.function.Supplier;
 
 @Accessors(chain = true)
 public class EnumProperty<T extends Enum<T>> extends Property<T> {
+
     @Setter
     private List<T> candidates;
     @Setter

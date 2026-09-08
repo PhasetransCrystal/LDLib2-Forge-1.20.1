@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.model;
 import java.util.Objects;
 
 public final class Capabilities {
+
     private final String id;
 
     Capabilities(String id) {

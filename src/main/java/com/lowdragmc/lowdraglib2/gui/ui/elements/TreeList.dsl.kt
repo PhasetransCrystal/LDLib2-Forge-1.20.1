@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider
 import com.lowdragmc.lowdraglib2.gui.util.ITreeNode
+
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Predicate
@@ -20,22 +21,7 @@ fun <NODE : ITreeNode<*, *>> TreeList<NODE>.treeListStyleDsl(init: TreeList<NODE
 /**
  * Specification for TreeList element
  */
-open class TreeListSpec<NODE : ITreeNode<*, *>, T : TreeList<NODE>>(
-    var treeListStyle: (TreeList<NODE>.TreeListStyle.() -> Unit)? = null,
-    var root: NODE? = null,
-    var staticTree: Boolean? = null,
-    var flattenRoot: Boolean? = null,
-    var supportMultipleSelection: Boolean? = null,
-    var clickToExpand: Boolean? = null,
-    var doubleClickToExpand: Boolean? = null,
-    var nodeUISupplier: UIElementProvider<NODE>? = null,
-    var onNodeUICreated: BiConsumer<NODE, UIElement>? = null,
-    var selectedNodes: Collection<NODE>? = null,
-    var onSelectedChanged: Consumer<Set<NODE>>? = null,
-    var onDoubleClickNode: Consumer<NODE>? = null,
-    var selectableNodeFilter: Predicate<NODE>? = null,
-    var expandedNodes: Collection<NODE>? = null,
-) : ElementSpec<T>() {
+open class TreeListSpec<NODE : ITreeNode<*, *>, T : TreeList<NODE>>(var treeListStyle: (TreeList<NODE>.TreeListStyle.() -> Unit)? = null, var root: NODE? = null, var staticTree: Boolean? = null, var flattenRoot: Boolean? = null, var supportMultipleSelection: Boolean? = null, var clickToExpand: Boolean? = null, var doubleClickToExpand: Boolean? = null, var nodeUISupplier: UIElementProvider<NODE>? = null, var onNodeUICreated: BiConsumer<NODE, UIElement>? = null, var selectedNodes: Collection<NODE>? = null, var onSelectedChanged: Consumer<Set<NODE>>? = null, var onDoubleClickNode: Consumer<NODE>? = null, var selectableNodeFilter: Predicate<NODE>? = null, var expandedNodes: Collection<NODE>? = null) : ElementSpec<T>() {
     /**
      * Set root node
      */
@@ -166,13 +152,8 @@ open class TreeListSpec<NODE : ITreeNode<*, *>, T : TreeList<NODE>>(
 /**
  * TreeList element builder
  */
-open class TreeListElement<NODE : ITreeNode<*, *>, T : TreeList<NODE>>(
-    element: T,
-    spec: (TreeListSpec<NODE, T>.() -> Unit)? = null,
-) : UIContainer<T, TreeListSpec<NODE, T>>(element, spec) {
-    override fun makeSpec(): TreeListSpec<NODE, T>? {
-        return spec?.let { TreeListSpec<NODE, T>().apply(it) }
-    }
+open class TreeListElement<NODE : ITreeNode<*, *>, T : TreeList<NODE>>(element: T, spec: (TreeListSpec<NODE, T>.() -> Unit)? = null) : UIContainer<T, TreeListSpec<NODE, T>>(element, spec) {
+    override fun makeSpec(): TreeListSpec<NODE, T>? = spec?.let { TreeListSpec<NODE, T>().apply(it) }
 
     override fun build(spec: TreeListSpec<NODE, T>?): T {
         val e = super.build(spec)
@@ -211,52 +192,32 @@ open class TreeListElement<NODE : ITreeNode<*, *>, T : TreeList<NODE>>(
 /**
  * Top Level - Create a standalone TreeList element
  */
-fun <NODE : ITreeNode<*, *>> treeList(spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null,
-                                       init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}): TreeList<NODE> {
-    return TreeListElement(TreeList<NODE>(), spec).apply(init).build()
-}
+fun <NODE : ITreeNode<*, *>> treeList(spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null, init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}): TreeList<NODE> = TreeListElement(TreeList<NODE>(), spec).apply(init).build()
 
 /**
  * Top Level - Create TreeList with root node
  */
-fun <NODE : ITreeNode<*, *>> treeList(root: NODE,
-                                       spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null,
-                                       init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}): TreeList<NODE> {
-    return TreeListElement(TreeList<NODE>(root), spec).apply(init).build()
-}
+fun <NODE : ITreeNode<*, *>> treeList(root: NODE, spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null, init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}): TreeList<NODE> = TreeListElement(TreeList<NODE>(root), spec).apply(init).build()
 
 /**
  * Top Level - Create TreeList with root node and static mode
  */
-fun <NODE : ITreeNode<*, *>> treeList(root: NODE,
-                                       staticTree: Boolean,
-                                       spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null,
-                                       init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}): TreeList<NODE> {
-    return TreeListElement(TreeList<NODE>(root, staticTree), spec).apply(init).build()
-}
+fun <NODE : ITreeNode<*, *>> treeList(root: NODE, staticTree: Boolean, spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null, init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}): TreeList<NODE> = TreeListElement(TreeList<NODE>(root, staticTree), spec).apply(init).build()
 
 /**
  * Internal Builder - Add TreeList as a child to a container
  */
-fun <NODE : ITreeNode<*, *>> UIContainer<*, *>.treeList(spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null,
-                                                          init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}) =
-    add(TreeListElement(TreeList<NODE>(), spec), init)
+fun <NODE : ITreeNode<*, *>> UIContainer<*, *>.treeList(spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null, init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}) = add(TreeListElement(TreeList<NODE>(), spec), init)
 
 /**
  * Internal Builder - Add TreeList with root as a child to a container
  */
-fun <NODE : ITreeNode<*, *>> UIContainer<*, *>.treeList(root: NODE,
-                                                          spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null,
-                                                          init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}) =
-    add(TreeListElement(TreeList<NODE>(root), spec), init)
+fun <NODE : ITreeNode<*, *>> UIContainer<*, *>.treeList(root: NODE, spec: (TreeListSpec<NODE, TreeList<NODE>>.() -> Unit)? = null, init: TreeListElement<NODE, TreeList<NODE>>.() -> Unit = {}) = add(TreeListElement(TreeList<NODE>(root), spec), init)
 
 /**
  * DSL converter - Convert existing TreeList to DSL builder
  */
-fun <NODE : ITreeNode<*, *>, T : TreeList<NODE>> T.dsl(spec: (TreeListSpec<NODE, T>.() -> Unit)? = null,
-                                                         init: TreeListElement<NODE, T>.() -> Unit = {}): TreeListElement<NODE, T> {
-    return TreeListElement(this, spec).apply(init)
-}
+fun <NODE : ITreeNode<*, *>, T : TreeList<NODE>> T.dsl(spec: (TreeListSpec<NODE, T>.() -> Unit)? = null, init: TreeListElement<NODE, T>.() -> Unit = {}): TreeListElement<NODE, T> = TreeListElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

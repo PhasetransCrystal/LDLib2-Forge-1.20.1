@@ -3,7 +3,9 @@ package com.lowdragmc.lowdraglib2.networking.rpc;
 import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
 
 public interface RPCPacketHandler {
+
     RPCPacketHandler EMPTY = new RPCPacketHandler() {
+
         @Override
         public byte[] args2Bytes(Object... args) {
             return new byte[0];
@@ -15,9 +17,7 @@ public interface RPCPacketHandler {
         }
 
         @Override
-        public void handler(RPCSender sender, Object... args) {
-
-        }
+        public void handler(RPCSender sender, Object... args) {}
     };
 
     byte[] args2Bytes(Object... args);

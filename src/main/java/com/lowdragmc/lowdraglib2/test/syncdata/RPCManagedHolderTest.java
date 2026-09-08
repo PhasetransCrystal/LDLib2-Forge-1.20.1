@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.test.syncdata;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
 import com.lowdragmc.lowdraglib2.syncdata.IManaged;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.RPCMethod;
 import com.lowdragmc.lowdraglib2.syncdata.holder.IRPCManagedHolder;
@@ -8,9 +9,9 @@ import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
 import com.lowdragmc.lowdraglib2.syncdata.storage.FieldManagedStorage;
 import com.lowdragmc.lowdraglib2.syncdata.storage.IManagedStorage;
 import com.lowdragmc.lowdraglib2.syncdata.storage.MultiManagedStorage;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.gametest.GameTestHolder;
@@ -42,6 +43,7 @@ public class RPCManagedHolderTest {
     }
 
     private static final class TestRPCManagedHolder implements IRPCManagedHolder {
+
         private final MultiManagedStorage rootStorage = new MultiManagedStorage();
 
         void attach(IManaged managed) {
@@ -70,6 +72,7 @@ public class RPCManagedHolderTest {
     }
 
     private static final class TestManaged implements IManaged {
+
         private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
         private String value;
 
@@ -84,7 +87,6 @@ public class RPCManagedHolderTest {
         }
 
         @Override
-        public void notifyPersistence() {
-        }
+        public void notifyPersistence() {}
     }
 }

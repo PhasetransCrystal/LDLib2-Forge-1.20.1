@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.WirePortalModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.IGhostWireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireSide;
+
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -14,9 +15,10 @@ import org.joml.Vector2f;
 import java.util.*;
 
 public final class WireCommands {
+
     public static List<WireModel> getDropWireModelsToDelete(PortModel portModel,
                                                             @Nullable Pair<WireSide, List<WireModel>> wiresToMove,
-                                                            @Nullable List<WireModel> exceptWires){
+                                                            @Nullable List<WireModel> exceptWires) {
         if (portModel == null)
             return Collections.emptyList();
 
@@ -81,6 +83,7 @@ public final class WireCommands {
     }
 
     public static class CreateWireCommand extends UndoableGraphCommand {
+
         private final static Component NAME = Component.translatable("graph.commands.create_wire");
 
         public PortModel toPortModel;
@@ -88,7 +91,8 @@ public final class WireCommands {
 
         /**
          * Creates a new wire command.
-         * @param toPortModel Destination port.
+         * 
+         * @param toPortModel   Destination port.
          * @param fromPortModel Origin port.
          */
         public CreateWireCommand(PortModel toPortModel, PortModel fromPortModel) {
@@ -112,12 +116,11 @@ public final class WireCommands {
 
             graphModel.createWire(toPortModel, fromPortModel);
         }
-
     }
 
     public static class ConvertWiresToPortalsCommand extends UndoableGraphCommand {
-        private final static Component NAME = Component.translatable("graph.commands.covert_wires_to_portals");
 
+        private final static Component NAME = Component.translatable("graph.commands.covert_wires_to_portals");
 
         public record PortalData(WireModel wire, Vector2f start, Vector2f end) {}
 
@@ -145,10 +148,8 @@ public final class WireCommands {
                         wireModel.wire,
                         wireModel.start.add(120, 0, new Vector2f()),
                         wireModel.end.add(-100, 0, new Vector2f()),
-                        12, existingPortalEntries, existingPortalExits
-                        );
+                        12, existingPortalEntries, existingPortalExits);
             }
         }
-
     }
 }

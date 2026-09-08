@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.hud;
 
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.math.Size;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,14 +14,14 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-
 @OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @FunctionalInterface
 public interface ModularHudLayer extends IGuiOverlay {
 
-    @Nullable ModularUI getModularUI();
+    @Nullable
+    ModularUI getModularUI();
 
     /**
      * Retrieves the current screen size of the game window as a {@link Size} object.

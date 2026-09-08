@@ -12,5 +12,4 @@ public class BoolValue extends StyleValue<Boolean> {
     protected Boolean doCompute(String rawValue) {
         return Boolean.parseBoolean(rawValue.trim());
     }
-    
 }

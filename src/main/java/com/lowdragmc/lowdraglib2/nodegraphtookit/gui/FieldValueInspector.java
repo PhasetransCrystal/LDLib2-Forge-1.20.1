@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.IHistoryStack;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.IFieldValueConfigurable;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
@@ -17,9 +18,12 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 public class FieldValueInspector extends UIElement {
+
     public final Label fieldName = new Label();
     public final UIElement fieldConfigurator = new UIElement();
-    @Nullable @Setter @Getter
+    @Nullable
+    @Setter
+    @Getter
     private IHistoryStack historyStack;
 
     public FieldValueInspector() {
@@ -55,17 +59,17 @@ public class FieldValueInspector extends UIElement {
             for (Configurator configurator : container.getConfigurators()) {
                 fieldConfigurator.addChild(configurator);
                 // record value changes into history so the editor's save/dirty state stays in sync
-//                if (historyStack != null && valueField instanceof INBTSerializable<?> serializable) {
-//                    configurator.addEventListener(Configurator.CHANGE_EVENT, e -> {
-//                        if (e.target instanceof Configurator c) {
-//                            var notifyName = c.getNotifyName();
-//                            historyStack.recordSerializableObject(
-//                                    notifyName.getString().isEmpty() ?
-//                                            Component.literal(valueField.getConfigurableName()) : notifyName,
-//                                    serializable, c);
-//                        }
-//                    });
-//                }
+                // if (historyStack != null && valueField instanceof INBTSerializable<?> serializable) {
+                // configurator.addEventListener(Configurator.CHANGE_EVENT, e -> {
+                // if (e.target instanceof Configurator c) {
+                // var notifyName = c.getNotifyName();
+                // historyStack.recordSerializableObject(
+                // notifyName.getString().isEmpty() ?
+                // Component.literal(valueField.getConfigurableName()) : notifyName,
+                // serializable, c);
+                // }
+                // });
+                // }
             }
         }
         // Hide the configurator area when no child configurators were produced — data-driven.

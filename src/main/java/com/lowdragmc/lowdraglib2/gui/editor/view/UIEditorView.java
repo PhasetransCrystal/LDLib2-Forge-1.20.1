@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.gui.editor.view;
 
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.ui.ArrayConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.configurator.ui.SearchComponentConfigurator;
@@ -9,11 +8,11 @@ import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.SupplierDataSource;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
+import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.UITemplate;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.*;
-import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.CodeEditor;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.Languages;
 import com.lowdragmc.lowdraglib2.gui.ui.event.CommandEvents;
@@ -24,10 +23,9 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.HistoryStack;
-import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
-import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
-import com.lowdragmc.lowdraglib2.gui.util.TreeNode;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
+import com.google.common.util.concurrent.Runnables;
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyPosition;
@@ -37,14 +35,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 public class UIEditorView extends View {
+
     public final UIElement header = new UIElement();
     public final UICanvas canvas = new UICanvas();
     public final UIElement editor = new UIElement();
@@ -92,8 +91,7 @@ public class UIEditorView extends View {
                     layout.flex(1);
                 }).addChildren(
                         saveButton.setOnClick(e -> notifySaved())
-                                .setText("ldlib.gui.editor.menu.save")
-                ),
+                                .setText("ldlib.gui.editor.menu.save")),
                 // center
                 new UIElement().layout(layout -> layout.heightPercent(100))
                         .addChildren(new Toggle().noText()
@@ -183,9 +181,7 @@ public class UIEditorView extends View {
                                     layout.heightPercent(100);
                                     layout.setAspectRatio(1f);
                                 })
-                                .style(style -> style.tooltips("ui_editor.focus_mode.0", "ui_editor.focus_mode.1"))
-                )
-        );
+                                .style(style -> style.tooltips("ui_editor.focus_mode.0", "ui_editor.focus_mode.1"))));
         header.addClass("__ui-editor-view_header__").moveInlineAsDefault();
         header.setOverflowVisible(false);
 
@@ -240,6 +236,7 @@ public class UIEditorView extends View {
             if (this.template == null) return List.of();
             return this.template.getStylesheets();
         }, (getter, setter) -> new SearchComponentConfigurator<>("", getter, setter, new SearchComponentConfigurator.ISearchConfigurator<ResourceLocation>() {
+
             @Override
             @Nonnull
             public ResourceLocation defaultValue() {
@@ -334,7 +331,6 @@ public class UIEditorView extends View {
         );
         styleView.addClass("__ui-editor-view_style-view__").moveInlineAsDefault();
 
-
         stylesheetEditor.setLanguage(Languages.LSS);
         stylesheetEditor.setActive(false);
         stylesheetEditor.contentView.layout(layout -> layout.paddingAll(2));
@@ -359,7 +355,6 @@ public class UIEditorView extends View {
             layout.paddingAll(5);
         }).style(style -> style.backgroundTexture(Sprites.BORDER)).moveInlineAsDefault();
         inspector.addClass("__ui-editor-view_inspector__").moveInlineAsDefault();
-
 
         editor.addChildren(new SplitView.Horizontal().setPercentage(20)
                 .left(new SplitView.Vertical().setPercentage(20)

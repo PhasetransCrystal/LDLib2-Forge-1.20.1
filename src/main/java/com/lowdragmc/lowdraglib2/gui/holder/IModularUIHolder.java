@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import org.jetbrains.annotations.Nullable;
 
 public interface IModularUIHolder extends IUISyncManagerHolder {
+
     @Nullable
     ModularUI getModularUI();
 

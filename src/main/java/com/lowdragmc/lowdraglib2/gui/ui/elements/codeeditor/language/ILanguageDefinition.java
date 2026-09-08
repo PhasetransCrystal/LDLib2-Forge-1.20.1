@@ -4,10 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public interface ILanguageDefinition {
+
     /**
      * Returns the name of the language
      */
     String getName();
+
     /**
      * Returns the pattern that matches the token
      */

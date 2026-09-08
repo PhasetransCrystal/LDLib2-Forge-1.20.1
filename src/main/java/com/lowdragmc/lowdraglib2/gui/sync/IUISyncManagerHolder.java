@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import org.jetbrains.annotations.Nullable;
 
 public interface IUISyncManagerHolder {
+
     @Nullable
     UISyncManager getSyncManager();
 

@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.TransformRefConfigurator;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.TransformRef;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;

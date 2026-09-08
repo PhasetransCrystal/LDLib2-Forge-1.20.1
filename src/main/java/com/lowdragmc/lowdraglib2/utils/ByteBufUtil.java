@@ -1,15 +1,17 @@
 package com.lowdragmc.lowdraglib2.utils;
 
+import com.lowdragmc.lowdraglib2.compat.network.ConnectionType;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+
 import io.netty.buffer.Unpooled;
 import lombok.experimental.UtilityClass;
 import net.minecraft.core.RegistryAccess;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.ConnectionType;
 
 import java.util.function.Consumer;
 
 @UtilityClass
 public final class ByteBufUtil {
+
     /**
      * Writes custom data to a {@link RegistryFriendlyByteBuf}, then read it for consumer.
      *

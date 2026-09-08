@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Mixin(FontManager.class)
 public interface FontManagerAccessor {
+
     @Accessor("fontSets")
     Map<ResourceLocation, FontSet> ldlib2$getFontSets();
 }

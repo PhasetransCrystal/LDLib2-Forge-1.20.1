@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Pivot;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import org.jetbrains.annotations.Nullable;
@@ -40,13 +41,13 @@ public class PivotAccessor extends TypesAccessor<Pivot> {
                         defaultValue(field).x, forceUpdate),
                 y = new NumberConfigurator("y", () -> supplier.get().y,
                         v -> consumer.accept(Pivot.of(supplier.get().x, v.floatValue())),
-                        defaultValue(field).y, forceUpdate)
-        ).layout(layout -> {
-            layout.gapAll(2);
-            layout.marginLeft(2);
-            layout.flexDirection(FlexDirection.ROW);
-            layout.wrap(FlexWrap.WRAP);
-        });
+                        defaultValue(field).y, forceUpdate))
+                .layout(layout -> {
+                    layout.gapAll(2);
+                    layout.marginLeft(2);
+                    layout.flexDirection(FlexDirection.ROW);
+                    layout.wrap(FlexWrap.WRAP);
+                });
         x.layout(layout -> {
             layout.flex(1);
             layout.minWidth(40);
@@ -70,5 +71,4 @@ public class PivotAccessor extends TypesAccessor<Pivot> {
         configurator.setPastable(Pivot.class, consumer);
         return configurator;
     }
-
 }

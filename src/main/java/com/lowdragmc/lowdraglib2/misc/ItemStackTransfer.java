@@ -1,17 +1,20 @@
 package com.lowdragmc.lowdraglib2.misc;
 
-import com.google.common.util.concurrent.Runnables;
 import com.lowdragmc.lowdraglib2.syncdata.IContentChangeAware;
+
+import com.google.common.util.concurrent.Runnables;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.Nonnull;
 import java.util.function.Function;
 
+import javax.annotation.Nonnull;
+
 public class ItemStackTransfer extends ItemStackHandler implements IContentChangeAware {
+
     @Getter
     @Setter
     private Runnable onContentsChanged = Runnables.doNothing();

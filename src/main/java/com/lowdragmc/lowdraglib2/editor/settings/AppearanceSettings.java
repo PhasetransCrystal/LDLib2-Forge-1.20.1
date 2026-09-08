@@ -29,6 +29,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.utils.PersistedParser;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
 import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import lombok.Getter;
@@ -40,7 +41,6 @@ import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.io.FileReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -48,7 +48,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nonnull;
+
 public class AppearanceSettings implements Settings {
+
     public static final ResourceLocation ID = LDLib2.id("appearance");
     public static final Codec<AppearanceSettings> CODEC = PersistedParser.createCodec(AppearanceSettings::new);
     private static final int LIGHT_RUNTIME_FIX_SPECIFICITY = 120101;
@@ -67,7 +70,8 @@ public class AppearanceSettings implements Settings {
 
     @Configurable
     @ConfigSearch(searchConfiguratorMethod = "searchStyles")
-    @Getter @Setter
+    @Getter
+    @Setter
     private ResourceLocation stylesheet = StylesheetManager.ORE_MERGED;
 
     /**
@@ -113,8 +117,7 @@ public class AppearanceSettings implements Settings {
                     settings.buttonFontSize,
                     settings.inputFontSize,
                     settings.textAreaFontSize,
-                    settings.progressFontSize
-            );
+                    settings.progressFontSize);
         }
         loadActiveStylesheetFromFile();
         return activeFontSettings;
@@ -140,32 +143,40 @@ public class AppearanceSettings implements Settings {
             LDLib2.LOGGER.warn("Failed to read the active appearance stylesheet", e);
         }
     }
+
     @Persisted(key = "windowSize")
-    @Getter @Setter
+    @Getter
+    @Setter
     private int screenScale = -1;
     @Configurable(name = "settings.ldlib2.appearance.font.global")
-    @ConfigNumber(range = {0, 48}, wheel = 1)
-    @Getter @Setter
+    @ConfigNumber(range = { 0, 48 }, wheel = 1)
+    @Getter
+    @Setter
     private float globalFontSize = 0;
     @Configurable(name = "settings.ldlib2.appearance.font.text")
-    @ConfigNumber(range = {0, 48}, wheel = 1)
-    @Getter @Setter
+    @ConfigNumber(range = { 0, 48 }, wheel = 1)
+    @Getter
+    @Setter
     private float textFontSize = 0;
     @Configurable(name = "settings.ldlib2.appearance.font.button")
-    @ConfigNumber(range = {0, 48}, wheel = 1)
-    @Getter @Setter
+    @ConfigNumber(range = { 0, 48 }, wheel = 1)
+    @Getter
+    @Setter
     private float buttonFontSize = 0;
     @Configurable(name = "settings.ldlib2.appearance.font.input")
-    @ConfigNumber(range = {0, 48}, wheel = 1)
-    @Getter @Setter
+    @ConfigNumber(range = { 0, 48 }, wheel = 1)
+    @Getter
+    @Setter
     private float inputFontSize = 0;
     @Configurable(name = "settings.ldlib2.appearance.font.text_area")
-    @ConfigNumber(range = {0, 48}, wheel = 1)
-    @Getter @Setter
+    @ConfigNumber(range = { 0, 48 }, wheel = 1)
+    @Getter
+    @Setter
     private float textAreaFontSize = 0;
     @Configurable(name = "settings.ldlib2.appearance.font.progress")
-    @ConfigNumber(range = {0, 48}, wheel = 1)
-    @Getter @Setter
+    @ConfigNumber(range = { 0, 48 }, wheel = 1)
+    @Getter
+    @Setter
     private float progressFontSize = 0;
 
     // runtime
@@ -197,7 +208,7 @@ public class AppearanceSettings implements Settings {
         // screenScale
         var minecraft = Minecraft.getInstance();
         var guiScale = minecraft.options.guiScale();
-        var maxScale =  minecraft.getWindow().calculateScale(0, minecraft.isEnforceUnicode());
+        var maxScale = minecraft.getWindow().calculateScale(0, minecraft.isEnforceUnicode());
         if (screenScale > maxScale) {
             screenScale = maxScale;
         }
@@ -300,8 +311,7 @@ public class AppearanceSettings implements Settings {
                 StylesheetManager.MODERN,
                 StylesheetManager.MODERN_MERGED,
                 StylesheetManager.ORE,
-                StylesheetManager.ORE_MERGED
-        )) {
+                StylesheetManager.ORE_MERGED)) {
             var sheet = StylesheetManager.INSTANCE.getStylesheet(location);
             if (sheet != null) {
                 styleEngine.removeStylesheet(sheet);
@@ -328,8 +338,7 @@ public class AppearanceSettings implements Settings {
                 StyleOrigin.IMPORTANT,
                 LIGHT_RUNTIME_FIX_SPECIFICITY,
                 LIGHT_RUNTIME_FIX_SOURCE_ORDER,
-                texture
-        ));
+                texture));
     }
 
     private void clearLightElementFixes(UIElement element) {
@@ -399,8 +408,7 @@ public class AppearanceSettings implements Settings {
                 StyleOrigin.IMPORTANT,
                 FONT_RUNTIME_FIX_SPECIFICITY,
                 FONT_RUNTIME_FIX_SOURCE_ORDER,
-                fontSize
-        ));
+                fontSize));
     }
 
     private static boolean isFontRuntimeFix(StyleSlot<?> slot) {
@@ -410,6 +418,7 @@ public class AppearanceSettings implements Settings {
     }
 
     private record FontSettings(float global, float text, float button, float input, float textArea, float progress) {
+
         private static final FontSettings DEFAULT = new FontSettings(0, 0, 0, 0, 0, 0);
 
         private static FontSettings from(com.google.gson.JsonObject json) {
@@ -419,14 +428,11 @@ public class AppearanceSettings implements Settings {
                     number(json, "buttonFontSize"),
                     number(json, "inputFontSize"),
                     number(json, "textAreaFontSize"),
-                    number(json, "progressFontSize")
-            );
+                    number(json, "progressFontSize"));
         }
 
         private static float number(com.google.gson.JsonObject json, String key) {
-            return json.has(key) && json.get(key).isJsonPrimitive() && json.get(key).getAsJsonPrimitive().isNumber()
-                    ? json.get(key).getAsFloat()
-                    : 0;
+            return json.has(key) && json.get(key).isJsonPrimitive() && json.get(key).getAsJsonPrimitive().isNumber() ? json.get(key).getAsFloat() : 0;
         }
 
         private float textOr(float fallback) {
@@ -462,6 +468,7 @@ public class AppearanceSettings implements Settings {
 
     private SearchComponentConfigurator.ISearchConfigurator<ResourceLocation> searchStyles() {
         return new SearchComponentConfigurator.ISearchConfigurator<>() {
+
             @Override
             @Nonnull
             public ResourceLocation defaultValue() {
@@ -479,8 +486,7 @@ public class AppearanceSettings implements Settings {
                         StylesheetManager.MC_MERGED,
                         StylesheetManager.MODERN_MERGED,
                         StylesheetManager.ORE_MERGED,
-                        StylesheetManager.LIGHT_MERGED
-                ));
+                        StylesheetManager.LIGHT_MERGED));
                 for (var key : StylesheetManager.INSTANCE.getAllPackStylesheets()) {
                     if (key.getPath().endsWith(".lss")) {
                         key = key.withPath(key.getPath().substring(0, key.getPath().length() - ".lss".length()));
@@ -514,7 +520,7 @@ public class AppearanceSettings implements Settings {
         // scale
         var minecraft = Minecraft.getInstance();
         var guiScale = minecraft.options.guiScale();
-        var maxScale =  minecraft.getWindow().calculateScale(0, minecraft.isEnforceUnicode());
+        var maxScale = minecraft.getWindow().calculateScale(0, minecraft.isEnforceUnicode());
         var scales = new ArrayList<Integer>(maxScale + 1);
         for (int i = 0; i <= maxScale; i++) {
             scales.add(i);

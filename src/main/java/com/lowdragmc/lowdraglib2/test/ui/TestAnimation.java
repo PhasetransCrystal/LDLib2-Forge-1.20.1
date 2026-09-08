@@ -11,17 +11,18 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.math.interpolate.Eases;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import it.unimi.dsi.fastutil.floats.FloatObjectPair;
 import lombok.NoArgsConstructor;
 import net.minecraft.world.entity.player.Player;
-import org.appliedenergistics.yoga.YogaEdge;
 import org.joml.Vector2f;
 
 import java.util.List;
 
-@LDLRegisterClient(name="animation", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "animation", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestAnimation implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var root = new UIElement();
@@ -44,12 +45,12 @@ public class TestAnimation implements IScreenTest {
                     target.animation()
                             .duration(1)
                             .ease(Eases.QUAD_IN_OUT)
-                            .style(PropertyRegistry.TRANSFORM_2D,new Transform2D().scale(0.5f).translate(100f, 0))
+                            .style(PropertyRegistry.TRANSFORM_2D, new Transform2D().scale(0.5f).translate(100f, 0))
                             .style(PropertyRegistry.OPACITY, 0f)
                             .onFinished(element -> {
                                 target.animation()
                                         .ease(Eases.QUART_IN_OUT)
-                                        .style(PropertyRegistry.TRANSFORM_2D,new Transform2D())
+                                        .style(PropertyRegistry.TRANSFORM_2D, new Transform2D())
                                         .style(PropertyRegistry.OPACITY, 1f)
                                         .start();
                             })
@@ -60,11 +61,9 @@ public class TestAnimation implements IScreenTest {
                             .duration(2)
                             .ease(Eases.QUAD_IN_OUT)
                             .style(PropertyRegistry.TRANSFORM_2D,
-                                    FloatObjectPair.of(0.5f, new Transform2D().scale(0.5f).translate(100f, 0))
-                            )
+                                    FloatObjectPair.of(0.5f, new Transform2D().scale(0.5f).translate(100f, 0)))
                             .style(PropertyRegistry.OPACITY,
-                                    FloatObjectPair.of(0.5f, 0f)
-                            )
+                                    FloatObjectPair.of(0.5f, 0f))
                             .start();
                 }),
                 new Button().setText("anim 2").setOnClick(e -> {
@@ -81,8 +80,7 @@ public class TestAnimation implements IScreenTest {
                                         .start();
                             })
                             .start();
-                })
-        );
+                }));
 
         return new ModularUI(UI.of(root));
     }

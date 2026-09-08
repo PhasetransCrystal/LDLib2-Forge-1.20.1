@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public final class EMIRecipeWidgetHandler {
+
     public final List<Widget> slots = new ArrayList<>();
     public final Supplier<Matrix4f> localToWorld;
 

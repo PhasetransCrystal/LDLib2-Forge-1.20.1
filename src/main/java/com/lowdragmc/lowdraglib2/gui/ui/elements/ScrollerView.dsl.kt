@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode
+
 import java.util.function.Consumer
 
 /**
@@ -19,20 +20,13 @@ fun <T : ScrollerView> T.scrollerViewStyleDsl(init: ScrollerView.ScrollerViewSty
 /**
  * Specification for ScrollerView element
  */
-open class ScrollerViewSpec<T : ScrollerView>(
-    var scrollerViewStyle: (ScrollerView.ScrollerViewStyle.() -> Unit)? = null,
-) : ElementSpec<T>()
+open class ScrollerViewSpec<T : ScrollerView>(var scrollerViewStyle: (ScrollerView.ScrollerViewStyle.() -> Unit)? = null) : ElementSpec<T>()
 
 /**
  * ScrollerView element builder
  */
-open class ScrollerViewElement<T : ScrollerView>(
-    element: T,
-    spec: (ScrollerViewSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, ScrollerViewSpec<T>>(element, spec) {
-    override fun makeSpec(): ScrollerViewSpec<T>? {
-        return spec?.let { ScrollerViewSpec<T>().apply(it) }
-    }
+open class ScrollerViewElement<T : ScrollerView>(element: T, spec: (ScrollerViewSpec<T>.() -> Unit)? = null) : UIContainer<T, ScrollerViewSpec<T>>(element, spec) {
+    override fun makeSpec(): ScrollerViewSpec<T>? = spec?.let { ScrollerViewSpec<T>().apply(it) }
 
     override fun build(spec: ScrollerViewSpec<T>?): T {
         val e = super.build(spec)
@@ -55,25 +49,17 @@ open class ScrollerViewElement<T : ScrollerView>(
 /**
  * Top Level - Create a standalone ScrollerView element
  */
-fun scrollerView(spec: (ScrollerViewSpec<ScrollerView>.() -> Unit)? = null,
-                 init: ScrollerViewElement<ScrollerView>.() -> Unit = {}): ScrollerView {
-    return ScrollerViewElement(ScrollerView(), spec).apply(init).build()
-}
+fun scrollerView(spec: (ScrollerViewSpec<ScrollerView>.() -> Unit)? = null, init: ScrollerViewElement<ScrollerView>.() -> Unit = {}): ScrollerView = ScrollerViewElement(ScrollerView(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add ScrollerView as a child to a container
  */
-fun UIContainer<*, *>.scrollerView(spec: (ScrollerViewSpec<ScrollerView>.() -> Unit)? = null,
-                                    init: ScrollerViewElement<ScrollerView>.() -> Unit = {}) =
-    add(ScrollerViewElement(ScrollerView(), spec), init)
+fun UIContainer<*, *>.scrollerView(spec: (ScrollerViewSpec<ScrollerView>.() -> Unit)? = null, init: ScrollerViewElement<ScrollerView>.() -> Unit = {}) = add(ScrollerViewElement(ScrollerView(), spec), init)
 
 /**
  * DSL converter - Convert existing ScrollerView to DSL builder
  */
-fun <T : ScrollerView> T.dsl(spec: (ScrollerViewSpec<T>.() -> Unit)? = null,
-                             init: ScrollerViewElement<T>.() -> Unit = {}): ScrollerViewElement<T> {
-    return ScrollerViewElement(this, spec).apply(init)
-}
+fun <T : ScrollerView> T.dsl(spec: (ScrollerViewSpec<T>.() -> Unit)? = null, init: ScrollerViewElement<T>.() -> Unit = {}): ScrollerViewElement<T> = ScrollerViewElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

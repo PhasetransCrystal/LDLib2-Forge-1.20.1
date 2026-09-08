@@ -4,8 +4,10 @@ import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection
 import com.lowdragmc.lowdraglib2.integration.xei.IngredientIO
+
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.capability.IFluidHandler
+
 import java.util.function.Consumer
 
 /**
@@ -19,15 +21,7 @@ fun <T : FluidSlot> T.slotStyleDsl(init: FluidSlot.SlotStyle.() -> Unit = {}): T
 /**
  * Specification for FluidSlot element
  */
-open class FluidSlotSpec<T : FluidSlot>(
-    var slotStyle: (FluidSlot.SlotStyle.() -> Unit)? = null,
-    var fluid: FluidStack? = null,
-    var capacity: Int? = null,
-    var allowClickFilled: Boolean? = null,
-    var allowClickDrained: Boolean? = null,
-    var fluidHandler: IFluidHandler? = null,
-    var tankIndex: Int? = null,
-) : ElementSpec<T>() {
+open class FluidSlotSpec<T : FluidSlot>(var slotStyle: (FluidSlot.SlotStyle.() -> Unit)? = null, var fluid: FluidStack? = null, var capacity: Int? = null, var allowClickFilled: Boolean? = null, var allowClickDrained: Boolean? = null, var fluidHandler: IFluidHandler? = null, var tankIndex: Int? = null) : ElementSpec<T>() {
     /**
      * Bind to fluid handler
      */
@@ -40,13 +34,8 @@ open class FluidSlotSpec<T : FluidSlot>(
 /**
  * FluidSlot element builder
  */
-open class FluidSlotElement<T : FluidSlot>(
-    element: T,
-    spec: (FluidSlotSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, FluidSlotSpec<T>>(element, spec) {
-    override fun makeSpec(): FluidSlotSpec<T>? {
-        return spec?.let { FluidSlotSpec<T>().apply(it) }
-    }
+open class FluidSlotElement<T : FluidSlot>(element: T, spec: (FluidSlotSpec<T>.() -> Unit)? = null) : UIContainer<T, FluidSlotSpec<T>>(element, spec) {
+    override fun makeSpec(): FluidSlotSpec<T>? = spec?.let { FluidSlotSpec<T>().apply(it) }
 
     override fun build(spec: FluidSlotSpec<T>?): T {
         val e = super.build(spec)
@@ -73,25 +62,17 @@ open class FluidSlotElement<T : FluidSlot>(
 /**
  * Top Level - Create a standalone FluidSlot element
  */
-fun fluidSlot(spec: (FluidSlotSpec<FluidSlot>.() -> Unit)? = null,
-              init: FluidSlotElement<FluidSlot>.() -> Unit = {}): FluidSlot {
-    return FluidSlotElement(FluidSlot(), spec).apply(init).build()
-}
+fun fluidSlot(spec: (FluidSlotSpec<FluidSlot>.() -> Unit)? = null, init: FluidSlotElement<FluidSlot>.() -> Unit = {}): FluidSlot = FluidSlotElement(FluidSlot(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add FluidSlot as a child to a container
  */
-fun UIContainer<*, *>.fluidSlot(spec: (FluidSlotSpec<FluidSlot>.() -> Unit)? = null,
-                                 init: FluidSlotElement<FluidSlot>.() -> Unit = {}) =
-    add(FluidSlotElement(FluidSlot(), spec), init)
+fun UIContainer<*, *>.fluidSlot(spec: (FluidSlotSpec<FluidSlot>.() -> Unit)? = null, init: FluidSlotElement<FluidSlot>.() -> Unit = {}) = add(FluidSlotElement(FluidSlot(), spec), init)
 
 /**
  * DSL converter - Convert existing FluidSlot to DSL builder
  */
-fun <T : FluidSlot> T.dsl(spec: (FluidSlotSpec<T>.() -> Unit)? = null,
-                          init: FluidSlotElement<T>.() -> Unit = {}): FluidSlotElement<T> {
-    return FluidSlotElement(this, spec).apply(init)
-}
+fun <T : FluidSlot> T.dsl(spec: (FluidSlotSpec<T>.() -> Unit)? = null, init: FluidSlotElement<T>.() -> Unit = {}): FluidSlotElement<T> = FluidSlotElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

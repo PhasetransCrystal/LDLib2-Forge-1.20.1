@@ -11,10 +11,13 @@ import java.lang.annotation.Target;
 /**
  * This annotation is used to mark a read-only field that is managed by the user.
  * <br>
- * Read-only types (such as {@link com.lowdragmc.lowdraglib2.syncdata.IManaged} and {@link net.minecraftforge.common.util.INBTSerializable})
- * requires the field to be non-null and the field instance won't be changed (a final field). Because we don't know how to create a new instance for these types.
+ * Read-only types (such as {@link com.lowdragmc.lowdraglib2.syncdata.IManaged} and
+ * {@link net.minecraftforge.common.util.INBTSerializable})
+ * requires the field to be non-null and the field instance won't be changed (a final field). Because we don't know how
+ * to create a new instance for these types.
  * In this case, you can use this annotation and provide methods to
- * store a unique id from server with {@link #serializeMethod()} and create a new instance at the client with {@link #deserializeMethod()}.
+ * store a unique id from server with {@link #serializeMethod()} and create a new instance at the client with
+ * {@link #deserializeMethod()}.
  * <br>
  * Furthermore, you can provide a method to self-control whether the field has changed with {@link #onDirtyMethod()}.
  */
@@ -24,7 +27,9 @@ public @interface ReadOnlyManaged {
 
     /**
      * specify a method e.g.
+     * 
      * <pre>{@code boolean methodName()}</pre>
+     * 
      * return whether it has changed.
      * if this method is not defined, it will check dirty using default method {@link ReadOnlyRef#readOnlyUpdate()}.
      */
@@ -32,14 +37,18 @@ public @interface ReadOnlyManaged {
 
     /**
      * return a unique id (Tag) of given instance.
+     * 
      * <pre>{@code Tag methodName(@Nonnull T obj)}</pre>
+     * 
      * T - field type
      */
     String serializeMethod();
 
     /**
      * create an instance via given uid from server.
+     * 
      * <pre>{@code T methodName(@Nonnull Tag tag)}</pre>
+     * 
      * T - field type
      */
     String deserializeMethod();

@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.GridAuto;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.TaffyCodecs;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.GridAutoValue;
+
 import lombok.experimental.Accessors;
 
 import java.util.Objects;
@@ -14,6 +15,7 @@ import java.util.function.Supplier;
 
 @Accessors(chain = true)
 public class GridAutoProperty extends Property<GridAuto> {
+
     public GridAutoProperty(String name, GridAuto initialValue) {
         super(name, GridAuto.class, TaffyCodecs.GRID_AUTO_CODEC, initialValue, GridAutoValue::new);
     }
@@ -30,16 +32,15 @@ public class GridAutoProperty extends Property<GridAuto> {
                     }
                 },
                 "",
-                true
-        ).setTextValidator(str -> GridAutoValue.parse(str) != null);
+                true).setTextValidator(str -> GridAutoValue.parse(str) != null);
         configurator.setSupplier(() -> {
             var current = configurator.getValue();
             var latest = GridAutoValue.toString(getter.get());
             if (Objects.equals(current, latest) ||
-                    Objects.equals(GridAutoValue.parse(latest), GridAutoValue.parse(current))) return current;
+                    Objects.equals(GridAutoValue.parse(latest), GridAutoValue.parse(current)))
+                return current;
             return latest;
         });
         return configurator;
     }
-
 }

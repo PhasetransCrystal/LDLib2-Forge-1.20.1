@@ -2,16 +2,18 @@ package com.lowdragmc.lowdraglib2.syncdata;
 
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib2.syncdata.ref.IRef;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 @ToString
 public class SyncValueHolder<T> {
+
     @Getter(lazy = true)
     private final static Field valueField = createCacheValueField();
 

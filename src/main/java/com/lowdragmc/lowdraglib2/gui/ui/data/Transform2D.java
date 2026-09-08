@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
 import com.lowdragmc.lowdraglib2.utils.PersistedParser;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,6 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 
-
 /**
  * Lightweight 2D transform for UIElement: translate + rotate + scale around an origin (pivot).
  * Does not affect Yoga layout; only rendering and hit-testing.
@@ -28,6 +28,7 @@ import org.joml.Vector2f;
 @Accessors(chain = true, fluent = true)
 @EqualsAndHashCode
 public final class Transform2D implements IConfigurable, IPersistedSerializable {
+
     public final static Codec<Transform2D> CODEC = PersistedParser.createCodec(Transform2D::new);
 
     @Getter
@@ -38,14 +39,15 @@ public final class Transform2D implements IConfigurable, IPersistedSerializable 
     private Vector2f scale = new Vector2f(1f);
     @Getter
     @Configurable(name = "Transform2D.rotation")
-    @ConfigNumber(range = {-Float.MAX_VALUE, Float.MAX_VALUE}, wheel = 1f)
+    @ConfigNumber(range = { -Float.MAX_VALUE, Float.MAX_VALUE }, wheel = 1f)
     private float rotation = 0f;   // Z-axis degree
 
     /**
      * Transform origin as ratio of element size:
      * 0=left/top, 0.5=center, 1=right/bottom.
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     @Configurable(name = "Transform2D.pivot")
     private Pivot pivot = Pivot.CENTER;
 
@@ -58,9 +60,7 @@ public final class Transform2D implements IConfigurable, IPersistedSerializable 
     }
 
     public boolean isIdentity() {
-        return translate.isZero()
-                && rotationRad == 0f
-                && scale.x == 1f && scale.y == 1f;
+        return translate.isZero() && rotationRad == 0f && scale.x == 1f && scale.y == 1f;
     }
 
     public Transform2D setIdentity() {
@@ -249,7 +249,8 @@ public final class Transform2D implements IConfigurable, IPersistedSerializable 
             double sin = Math.sin(-rotationRad);
             double x = p[0] * cos - p[1] * sin;
             double y = p[0] * sin + p[1] * cos;
-            p[0] = x; p[1] = y;
+            p[0] = x;
+            p[1] = y;
         }
 
         // Inverse scale
@@ -276,7 +277,7 @@ public final class Transform2D implements IConfigurable, IPersistedSerializable 
         p[0] += tx;
         p[1] += ty;
 
-        float px = e.getPositionX() + e.getSizeWidth()  * pivot.x;
+        float px = e.getPositionX() + e.getSizeWidth() * pivot.x;
         float py = e.getPositionY() + e.getSizeHeight() * pivot.y;
 
         // Translate to pivot
@@ -289,7 +290,8 @@ public final class Transform2D implements IConfigurable, IPersistedSerializable 
             double sin = Math.sin(rotationRad);
             double x = p[0] * cos - p[1] * sin;
             double y = p[0] * sin + p[1] * cos;
-            p[0] = x; p[1] = y;
+            p[0] = x;
+            p[1] = y;
         }
 
         // scale

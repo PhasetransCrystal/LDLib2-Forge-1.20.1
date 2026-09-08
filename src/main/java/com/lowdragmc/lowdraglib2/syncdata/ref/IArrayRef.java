@@ -1,15 +1,18 @@
 package com.lowdragmc.lowdraglib2.syncdata.ref;
 
-import com.lowdragmc.lowdraglib2.syncdata.accessor.arraylike.IArrayLikeAccessor;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.syncdata.accessor.arraylike.IArrayLikeAccessor;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.lang.reflect.Array;
 
 /**
  * ArrayRef is used to manage an array of references.
- * @param <TYPE> the type of the array element
- * @param <TYPE_ARRAY> the type of the array, which is an array of TYPE. e.g. int[] for TYPE=int, or String[] for TYPE=String
+ * 
+ * @param <TYPE>       the type of the array element
+ * @param <TYPE_ARRAY> the type of the array, which is an array of TYPE. e.g. int[] for TYPE=int, or String[] for
+ *                     TYPE=String
  */
 public interface IArrayRef<TYPE, TYPE_ARRAY> extends IRef<TYPE_ARRAY> {
 
@@ -22,6 +25,7 @@ public interface IArrayRef<TYPE, TYPE_ARRAY> extends IRef<TYPE_ARRAY> {
 
     /**
      * Update the references of the array. it will affect the returned value of {@link #getRefs()}.
+     * 
      * @param values the new array values. it will be null if the array is null.
      */
     void updateRefs(@Nullable TYPE_ARRAY values);

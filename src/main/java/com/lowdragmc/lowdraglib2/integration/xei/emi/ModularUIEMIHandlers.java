@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolder;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventDispatcher;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.handler.EMIDragDropHandler;
+
 import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.EmiExclusionArea;
 import dev.emi.emi.api.EmiStackProvider;
@@ -18,6 +19,7 @@ import java.util.function.Consumer;
 
 @UtilityClass
 public final class ModularUIEMIHandlers {
+
     public final static EmiExclusionArea<Screen> EXCLUSION_AREA = (Screen screen, Consumer<Bounds> consumer) -> {
         for (var child : screen.children()) {
             if (child instanceof IModularUIHolder holder && holder.getModularUI() != null) {

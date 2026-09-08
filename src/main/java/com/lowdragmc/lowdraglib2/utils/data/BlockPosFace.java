@@ -2,7 +2,6 @@ package com.lowdragmc.lowdraglib2.utils.data;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-
 import org.jetbrains.annotations.Nullable;
 
 public record BlockPosFace(BlockPos pos, Direction facing) {
@@ -14,5 +13,4 @@ public record BlockPosFace(BlockPos pos, Direction facing) {
         }
         return false;
     }
-
 }

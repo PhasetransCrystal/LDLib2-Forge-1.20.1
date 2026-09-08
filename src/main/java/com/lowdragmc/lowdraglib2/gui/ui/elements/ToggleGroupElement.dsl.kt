@@ -6,9 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 /**
  * Specification for ToggleGroupElement
  */
-open class ToggleGroupElementSpec<T : ToggleGroupElement>(
-    var allowEmpty: Boolean? = null,
-) : ElementSpec<T>() {
+open class ToggleGroupElementSpec<T : ToggleGroupElement>(var allowEmpty: Boolean? = null) : ElementSpec<T>() {
     /**
      * Allow no toggles to be selected
      */
@@ -27,13 +25,8 @@ open class ToggleGroupElementSpec<T : ToggleGroupElement>(
 /**
  * ToggleGroupElement builder
  */
-open class ToggleGroupElementElement<T : ToggleGroupElement>(
-    element: T,
-    spec: (ToggleGroupElementSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, ToggleGroupElementSpec<T>>(element, spec) {
-    override fun makeSpec(): ToggleGroupElementSpec<T>? {
-        return spec?.let { ToggleGroupElementSpec<T>().apply(it) }
-    }
+open class ToggleGroupElementElement<T : ToggleGroupElement>(element: T, spec: (ToggleGroupElementSpec<T>.() -> Unit)? = null) : UIContainer<T, ToggleGroupElementSpec<T>>(element, spec) {
+    override fun makeSpec(): ToggleGroupElementSpec<T>? = spec?.let { ToggleGroupElementSpec<T>().apply(it) }
 
     override fun build(spec: ToggleGroupElementSpec<T>?): T {
         val e = super.build(spec)
@@ -49,25 +42,17 @@ open class ToggleGroupElementElement<T : ToggleGroupElement>(
 /**
  * Top Level - Create a standalone ToggleGroupElement
  */
-fun toggleGroup(spec: (ToggleGroupElementSpec<ToggleGroupElement>.() -> Unit)? = null,
-                init: ToggleGroupElementElement<ToggleGroupElement>.() -> Unit = {}): ToggleGroupElement {
-    return ToggleGroupElementElement(ToggleGroupElement(), spec).apply(init).build()
-}
+fun toggleGroup(spec: (ToggleGroupElementSpec<ToggleGroupElement>.() -> Unit)? = null, init: ToggleGroupElementElement<ToggleGroupElement>.() -> Unit = {}): ToggleGroupElement = ToggleGroupElementElement(ToggleGroupElement(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add ToggleGroupElement as a child to a container
  */
-fun UIContainer<*, *>.toggleGroup(spec: (ToggleGroupElementSpec<ToggleGroupElement>.() -> Unit)? = null,
-                                   init: ToggleGroupElementElement<ToggleGroupElement>.() -> Unit = {}) =
-    add(ToggleGroupElementElement(ToggleGroupElement(), spec), init)
+fun UIContainer<*, *>.toggleGroup(spec: (ToggleGroupElementSpec<ToggleGroupElement>.() -> Unit)? = null, init: ToggleGroupElementElement<ToggleGroupElement>.() -> Unit = {}) = add(ToggleGroupElementElement(ToggleGroupElement(), spec), init)
 
 /**
  * DSL converter - Convert existing ToggleGroupElement to DSL builder
  */
-fun <T : ToggleGroupElement> T.dsl(spec: (ToggleGroupElementSpec<T>.() -> Unit)? = null,
-                                   init: ToggleGroupElementElement<T>.() -> Unit = {}): ToggleGroupElementElement<T> {
-    return ToggleGroupElementElement(this, spec).apply(init)
-}
+fun <T : ToggleGroupElement> T.dsl(spec: (ToggleGroupElementSpec<T>.() -> Unit)? = null, init: ToggleGroupElementElement<T>.() -> Unit = {}): ToggleGroupElementElement<T> = ToggleGroupElementElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -90,13 +75,9 @@ fun <T : ToggleGroupElement> ToggleGroupElementElement<T>.requireSelection(): To
 /**
  * Extension: Get the current selected toggle
  */
-fun <T : ToggleGroupElement> ToggleGroupElementElement<T>.getSelectedToggle(): Toggle? {
-    return element.toggleGroup.currentToggle
-}
+fun <T : ToggleGroupElement> ToggleGroupElementElement<T>.getSelectedToggle(): Toggle? = element.toggleGroup.currentToggle
 
 /**
  * Extension: Get all toggles in the group
  */
-fun <T : ToggleGroupElement> ToggleGroupElementElement<T>.getAllToggles(): List<Toggle> {
-    return element.toggleGroup.toggles
-}
+fun <T : ToggleGroupElement> ToggleGroupElementElement<T>.getAllToggles(): List<Toggle> = element.toggleGroup.toggles

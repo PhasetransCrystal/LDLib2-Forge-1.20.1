@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.SpawnFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.SubgraphNodeModel;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -19,6 +20,7 @@ import java.util.UUID;
  * snapshot mechanism in {@link UndoableGraphCommand}.
  */
 public class CreateForeignLocalSubgraphCommand extends UndoableGraphCommand {
+
     private final static Component NAME = Component.translatable("graph.commands.create_foreign_local_subgraph");
 
     private final Class<? extends Graph> graphType;

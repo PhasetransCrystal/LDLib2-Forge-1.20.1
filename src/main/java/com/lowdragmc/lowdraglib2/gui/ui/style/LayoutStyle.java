@@ -13,6 +13,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.values.GridAutoValue;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.GridTemplateAreasValue;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.GridTemplateValue;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.GridValue;
+
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import dev.vfyjxf.taffy.style.*;
@@ -26,6 +27,7 @@ import java.util.*;
 
 @RemapPrefixForJS("kjs$")
 public final class LayoutStyle extends Style {
+
     private static final Property<?>[] PROPERTIES;
     static {
         var properties = new ArrayList<Property<?>>();
@@ -1644,21 +1646,21 @@ public final class LayoutStyle extends Style {
         return getValueSave(LayoutProperties.ASPECT_RATE).unwrapOrDefault(YogaConstants.UNDEFINED);
     }
 
-//    public YogaValue getMargin(YogaEdge edge) {
-//        return getValueSave(LayoutProperties.MARGINS[edge.ordinal()]).asYogaValue();
-//    }
-//
-//    public YogaValue getPadding(YogaEdge edge) {
-//        return getValueSave(LayoutProperties.PADDINGS[edge.ordinal()]).asYogaValue();
-//    }
-//
-//    public YogaValue getPosition(YogaEdge edge) {
-//        return getValueSave(LayoutProperties.POSITIONS[edge.ordinal()]).asYogaValue();
-//    }
-//
-//    public YogaValue getGap(YogaGutter gutter) {
-//        return getValueSave(LayoutProperties.GAPS[gutter.ordinal()]).asYogaValue();
-//    }
+    // public YogaValue getMargin(YogaEdge edge) {
+    // return getValueSave(LayoutProperties.MARGINS[edge.ordinal()]).asYogaValue();
+    // }
+    //
+    // public YogaValue getPadding(YogaEdge edge) {
+    // return getValueSave(LayoutProperties.PADDINGS[edge.ordinal()]).asYogaValue();
+    // }
+    //
+    // public YogaValue getPosition(YogaEdge edge) {
+    // return getValueSave(LayoutProperties.POSITIONS[edge.ordinal()]).asYogaValue();
+    // }
+    //
+    // public YogaValue getGap(YogaGutter gutter) {
+    // return getValueSave(LayoutProperties.GAPS[gutter.ordinal()]).asYogaValue();
+    // }
 
     public YogaOverflow getOverflow() {
         return getValueSave(LayoutProperties.OVERFLOW);

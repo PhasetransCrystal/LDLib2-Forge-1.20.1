@@ -7,17 +7,20 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
-
 import org.jetbrains.annotations.Nullable;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class UICanvas extends UIElement {
+
     // runtime
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private ModularUI canvasModularUI;
 
     public UICanvas() {
@@ -32,7 +35,6 @@ public class UICanvas extends UIElement {
         this.addEventListener(UIEvents.CHAR_TYPED, this::onCharTyped);
         setFocusable(true);
     }
-
 
     public boolean isSimulating() {
         return this.canvasModularUI != null;

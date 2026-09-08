@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.editor;
 
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph;
+
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,10 +12,13 @@ import org.jetbrains.annotations.Nullable;
  * editor when the user saves a dive-in view of an external subgraph (which must write back to
  * the original resource, not the host graph).
  *
- * <p>The editor wires a resolver into the graph model when loading; outside an editor context it
- * stays null and external subgraph nodes fall back to their cached port shape.</p>
+ * <p>
+ * The editor wires a resolver into the graph model when loading; outside an editor context it
+ * stays null and external subgraph nodes fall back to their cached port shape.
+ * </p>
  */
 public interface IGraphReferenceResolver {
+
     /** Load a fresh {@link Graph} for the given path, or {@code null} if unresolvable. */
     @Nullable
     Graph resolve(IResourcePath path);

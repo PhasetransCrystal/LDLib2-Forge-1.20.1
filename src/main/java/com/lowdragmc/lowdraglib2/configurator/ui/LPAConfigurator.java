@@ -3,21 +3,30 @@ package com.lowdragmc.lowdraglib2.configurator.ui;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Selector;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.LengthPercentageAuto;
 import net.minecraft.network.chat.Component;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
 
 /**
  * Configurator for LengthPercentageAuto values (margin, padding, etc.)
  */
 public class LPAConfigurator extends ValueConfigurator<LengthPercentageAuto> {
+
     public enum Unit {
-        AUTO, LENGTH, PERCENT, MIN_CONTENT, MAX_CONTENT, FIT_CONTENT, STRETCH
+        AUTO,
+        LENGTH,
+        PERCENT,
+        MIN_CONTENT,
+        MAX_CONTENT,
+        FIT_CONTENT,
+        STRETCH
     }
 
     public final TextField textField;
@@ -47,8 +56,7 @@ public class LPAConfigurator extends ValueConfigurator<LengthPercentageAuto> {
                 Unit.MIN_CONTENT,
                 Unit.MAX_CONTENT,
                 Unit.FIT_CONTENT,
-                Unit.STRETCH
-        ));
+                Unit.STRETCH));
         updateSelector();
 
         unitSelector.setOnValueChanged(unit -> {

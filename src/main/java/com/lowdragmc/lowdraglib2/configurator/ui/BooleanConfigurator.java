@@ -2,11 +2,13 @@ package com.lowdragmc.lowdraglib2.configurator.ui;
 
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Toggle;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class BooleanConfigurator extends ValueConfigurator<Boolean> {
+
     public final Toggle toggle;
 
     public BooleanConfigurator(String name, Supplier<Boolean> supplier, Consumer<Boolean> onUpdate, @Nonnull Boolean defaultValue, boolean forceUpdate) {

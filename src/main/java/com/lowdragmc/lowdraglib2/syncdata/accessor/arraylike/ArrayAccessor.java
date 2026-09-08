@@ -1,5 +1,6 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.arraylike;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib2.syncdata.ref.DirectArrayRef;
@@ -9,15 +10,16 @@ import com.lowdragmc.lowdraglib2.syncdata.ref.ReadOnlyArrayRef;
 import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
 import com.lowdragmc.lowdraglib2.syncdata.var.ReadOnlyVar;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.List;
 
 public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE, TYPE_ARRAY> {
+
     @Getter
     private final IAccessor<TYPE> childAccessor;
     @Getter
@@ -37,7 +39,7 @@ public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE,
     @SuppressWarnings("unchecked")
     public IArrayRef<TYPE, TYPE_ARRAY> createRef(ManagedKey managedKey, @NotNull Object holder) {
         if (isReadOnly()) {
-            return (IArrayRef<TYPE, TYPE_ARRAY>) ReadOnlyArrayRef.of(ReadOnlyVar.of(managedKey, holder), managedKey,this);
+            return (IArrayRef<TYPE, TYPE_ARRAY>) ReadOnlyArrayRef.of(ReadOnlyVar.of(managedKey, holder), managedKey, this);
         } else {
             return DirectArrayRef.of(FieldVar.of(managedKey, holder), managedKey, this);
         }
@@ -81,13 +83,13 @@ public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE,
         } else {
             var refs = arrayRef.getRefs();
             if (LDLibExtraCodecs.isEmptyOrStringNull(op, payload)) {
-                ((DirectArrayRef<TYPE, TYPE_ARRAY>)ref).getField().set(null);
+                ((DirectArrayRef<TYPE, TYPE_ARRAY>) ref).getField().set(null);
                 return;
             }
             var payloads = LDLibExtraCodecs.getOrThrow(op.getStream(payload)).toList();
             if (refs == null || refs.length != payloads.size()) {
                 var newValues = (TYPE_ARRAY) Array.newInstance(getChildType(), payloads.size());
-                ((DirectArrayRef<TYPE, TYPE_ARRAY>)ref).getField().set(newValues);
+                ((DirectArrayRef<TYPE, TYPE_ARRAY>) ref).getField().set(newValues);
                 arrayRef.updateRefs(newValues);
                 refs = arrayRef.getRefs();
             }
@@ -147,13 +149,13 @@ public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE,
         } else {
             var refs = arrayRef.getRefs();
             if (buffer.readBoolean()) {
-                ((DirectArrayRef<TYPE, TYPE_ARRAY>)ref).getField().set(null);
+                ((DirectArrayRef<TYPE, TYPE_ARRAY>) ref).getField().set(null);
                 return;
             }
             var length = buffer.readVarInt();
             if (refs == null || length != refs.length) {
                 var newValues = (TYPE_ARRAY) Array.newInstance(getChildType(), length);
-                ((DirectArrayRef<TYPE, TYPE_ARRAY>)ref).getField().set(newValues);
+                ((DirectArrayRef<TYPE, TYPE_ARRAY>) ref).getField().set(newValues);
                 arrayRef.updateRefs(newValues);
                 refs = arrayRef.getRefs();
             }

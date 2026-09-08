@@ -1,11 +1,14 @@
 package com.lowdragmc.lowdraglib2.gui.util;
 
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public interface ITreeNode<KEY, CONTENT> {
+
     /**
      * Determines the spatial dimension of the tree node. The root node is 0.
      */
@@ -16,7 +19,8 @@ public interface ITreeNode<KEY, CONTENT> {
      *
      * @return the key of the tree node, guaranteed to be non-null.
      */
-    @Nonnull KEY getKey();
+    @Nonnull
+    KEY getKey();
 
     /**
      * Retrieves the content associated with the tree node.
@@ -25,7 +29,8 @@ public interface ITreeNode<KEY, CONTENT> {
      *
      * @return the content of the tree node, or null if no content is available.
      */
-    @Nullable CONTENT getContent();
+    @Nullable
+    CONTENT getContent();
 
     /**
      * Checks if the current node is a leaf node in the tree structure.
@@ -56,7 +61,7 @@ public interface ITreeNode<KEY, CONTENT> {
      */
     @Nullable
     ITreeNode<KEY, CONTENT> getParent();
-    
+
     /**
      * Retrieves the list of child nodes of the current tree node.
      *
@@ -99,7 +104,7 @@ public interface ITreeNode<KEY, CONTENT> {
      * parent (i.e., it is a root node), the method will return {@code -1}.
      *
      * @return the zero-based index of the node within its sibling list, or {@code -1} if the node
-     * does not have a parent.
+     *         does not have a parent.
      */
     default int getSiblingIndex() {
         if (getParent() == null) return -1;
@@ -123,5 +128,4 @@ public interface ITreeNode<KEY, CONTENT> {
         }
         return null;
     }
-
 }

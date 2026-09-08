@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.GridAuto
 import com.lowdragmc.lowdraglib2.gui.ui.data.GridTemplate
 import com.lowdragmc.lowdraglib2.gui.ui.data.GridTemplateAreas
 import com.lowdragmc.lowdraglib2.gui.ui.style.LayoutStyle
+
 import dev.vfyjxf.taffy.style.AlignContent
 import dev.vfyjxf.taffy.style.AlignItems
 import dev.vfyjxf.taffy.style.FlexDirection
@@ -133,10 +134,7 @@ class TaffyLayoutStyleDsl(val layout: LayoutStyle) {
     // ----------------------------
 
     @UIDslMarker
-    class BoxScope internal constructor(
-        private val add: ((LayoutStyle) -> Unit) -> Unit,
-        private val kind: Kind
-    ) {
+    class BoxScope internal constructor(private val add: ((LayoutStyle) -> Unit) -> Unit, private val kind: Kind) {
         internal enum class Kind { MARGIN, PADDING }
 
         fun left(v: Number) = left(v.px)
@@ -202,7 +200,6 @@ class TaffyLayoutStyleDsl(val layout: LayoutStyle) {
                 LP.Auto -> if (kind == Kind.MARGIN) it.marginAllAuto() else it.paddingAll(0f)
             }
         }
-
     }
 
     fun margin(block: BoxScope.() -> Unit) {
@@ -242,7 +239,6 @@ class TaffyLayoutStyleDsl(val layout: LayoutStyle) {
                 LP.Auto -> it.gapAll(0f)
             }
         }
-
     }
 
     fun gap(block: GapScope.() -> Unit) {

@@ -1,11 +1,14 @@
 package com.lowdragmc.lowdraglib2.gui.sync.bindings;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public interface IDataSource<T> {
+
     IDataSource<?> EMPTY = new IDataSource<Object>() {
+
         @Override
         public Object getValue() {
             return null;
@@ -23,6 +26,7 @@ public interface IDataSource<T> {
     }
 
     record Simple<T>(Consumer<T> setter, Supplier<T> getter) implements IDataSource<T> {
+
         @Override
         public T getValue() {
             return getter.get();

@@ -6,12 +6,13 @@ import java.util.*;
  * Static lists used to avoid allocations when using simple change hint lists.
  */
 public final class ChangeHintList {
+
     public static final ChangeHintList UNSPECIFIED = new ChangeHintList(ChangeHint.UNSPECIFIED);
-    public static final ChangeHintList LAYOUT      = new ChangeHintList(ChangeHint.LAYOUT);
-    public static final ChangeHintList STYLE       = new ChangeHintList(ChangeHint.STYLE);
-    public static final ChangeHintList DATA        = new ChangeHintList(ChangeHint.DATA);
+    public static final ChangeHintList LAYOUT = new ChangeHintList(ChangeHint.LAYOUT);
+    public static final ChangeHintList STYLE = new ChangeHintList(ChangeHint.STYLE);
+    public static final ChangeHintList DATA = new ChangeHintList(ChangeHint.DATA);
     public static final ChangeHintList GRAPH_TOPOLOGY = new ChangeHintList(ChangeHint.GRAPH_TOPOLOGY);
-    public static final ChangeHintList GROUPING    = new ChangeHintList(ChangeHint.GROUPING);
+    public static final ChangeHintList GROUPING = new ChangeHintList(ChangeHint.GROUPING);
 
     private final ArrayList<ChangeHint> changeHints;
     private final List<ChangeHint> changeHintsView;
@@ -40,12 +41,7 @@ public final class ChangeHintList {
     }
 
     private static boolean isSharedList(ChangeHintList list) {
-        return list == UNSPECIFIED
-            || list == LAYOUT
-            || list == STYLE
-            || list == DATA
-            || list == GRAPH_TOPOLOGY
-            || list == GROUPING;
+        return list == UNSPECIFIED || list == LAYOUT || list == STYLE || list == DATA || list == GRAPH_TOPOLOGY || list == GROUPING;
     }
 
     /**
@@ -127,13 +123,13 @@ public final class ChangeHintList {
         if (changeHint == null) return null;
 
         return switch (changeHint) {
-            case UNSPECIFIED    -> UNSPECIFIED;
-            case LAYOUT         -> LAYOUT;
-            case STYLE          -> STYLE;
-            case DATA           -> DATA;
+            case UNSPECIFIED -> UNSPECIFIED;
+            case LAYOUT -> LAYOUT;
+            case STYLE -> STYLE;
+            case DATA -> DATA;
             case GRAPH_TOPOLOGY -> GRAPH_TOPOLOGY;
-            case GROUPING       -> GROUPING;
-            default             -> new ChangeHintList(changeHint);
+            case GROUPING -> GROUPING;
+            default -> new ChangeHintList(changeHint);
         };
     }
 

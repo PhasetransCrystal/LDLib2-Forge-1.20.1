@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
 import com.lowdragmc.lowdraglib2.gui.ui.data.GridTemplate;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import dev.vfyjxf.taffy.style.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -67,8 +68,7 @@ public class GridTemplateValue extends StyleValue<GridTemplate> {
             return new GridTemplate(
                     Collections.unmodifiableList(simples),
                     Collections.unmodifiableList(repeats),
-                    Collections.unmodifiableList(names)
-            );
+                    Collections.unmodifiableList(names));
         } catch (Exception e) {
             return null;
         }

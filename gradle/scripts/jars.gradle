@@ -1,0 +1,49 @@
+base {
+    archivesName = "${project.name}-${minecraft_version}"
+}
+
+tasks.register('extractYogaSources', Copy) {
+    from {
+        zipTree(configurations.yogaSources.singleFile)
+    }
+    include '**/*.java'
+    into layout.buildDirectory.dir("generated/sources/yoga")
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.named('extractYogaSources')
+}
+
+tasks.named('compileKotlin') {
+    dependsOn tasks.named('extractYogaSources')
+}
+
+tasks.register('vendorTaffyClasses', Copy) {
+    from {
+        zipTree(configurations.taffyLibrary.singleFile)
+    }
+    include '**/*.class'
+    exclude 'module-info.class'
+    into layout.buildDirectory.dir("generated/resources/taffy")
+}
+
+tasks.named('processResources') {
+    dependsOn tasks.named('vendorTaffyClasses')
+}
+
+tasks.register('syncMixinRefmapForRuns', Copy) {
+    dependsOn tasks.named('processResources')
+    dependsOn tasks.named('compileJava')
+    from layout.buildDirectory.file("tmp/compileJava/${mod_id}.refmap.json")
+    into layout.buildDirectory.dir('resources/main')
+}
+
+tasks.configureEach {
+    if (name in ['prepareRunClient', 'prepareRunServer', 'prepareRunGameTestServer', 'prepareRunData']) {
+        dependsOn tasks.named('syncMixinRefmapForRuns')
+    }
+}
+
+tasks.named('sourcesJar') {
+    dependsOn tasks.named('vendorTaffyClasses')
+}

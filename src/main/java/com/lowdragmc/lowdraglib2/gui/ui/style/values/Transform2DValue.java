@@ -4,14 +4,15 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.LengthPercent;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Transform2D;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Translate2D;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Transform2DValue extends StyleValue<Transform2D> {
-    private static final Pattern TRANSFORM_PATTERN =
-            Pattern.compile("(\\w+)\\s*\\(([^)]*)\\)");
+
+    private static final Pattern TRANSFORM_PATTERN = Pattern.compile("(\\w+)\\s*\\(([^)]*)\\)");
 
     public Transform2DValue(String rawValue) {
         super(rawValue);

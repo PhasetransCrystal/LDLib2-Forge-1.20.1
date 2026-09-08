@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
  * When the annotated fields updated (synced from server) will schedule chunk rendering update.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
-public @interface RequireRerender {
-}
+@Target({ ElementType.FIELD })
+public @interface RequireRerender {}

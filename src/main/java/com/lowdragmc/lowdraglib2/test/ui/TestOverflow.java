@@ -9,15 +9,17 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.Languages;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Stylesheet;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.NoArgsConstructor;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-@LDLRegisterClient(name="overflow", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "overflow", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestOverflow implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var root = new UIElement().addClass("panel_bg");
@@ -52,8 +54,7 @@ public class TestOverflow implements IScreenTest {
                     }
                 })
                 .setValue(initialLSS.split("\n"), false)
-                .layout(layout -> layout.widthPercent(100).heightPercent(100))
-        );
+                .layout(layout -> layout.widthPercent(100).heightPercent(100)));
 
         center.addChildren(clipImage);
 
@@ -66,10 +67,8 @@ public class TestOverflow implements IScreenTest {
         root.addChildren(
                 left,
                 center,
-                right
-        );
+                right);
         var ui = UI.of(root, StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC), stylesheetRef.get());
         return new ModularUI(ui);
     }
-
 }

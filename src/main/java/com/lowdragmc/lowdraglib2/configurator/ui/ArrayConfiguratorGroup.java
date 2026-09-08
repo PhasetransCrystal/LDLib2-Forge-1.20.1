@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.configurator.ui;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -9,20 +8,22 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+
+import com.google.common.base.Predicates;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import org.appliedenergistics.yoga.YogaEdge;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.function.*;
 import java.util.stream.Collectors;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * @author KilaBash
@@ -32,8 +33,10 @@ import java.util.stream.Collectors;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
+
     @FunctionalInterface
     public interface IConfiguratorProvider<T> extends BiFunction<Supplier<T>, Consumer<T>, Configurator> {
+
         Configurator getConfigurator(Supplier<T> getter, Consumer<T> setter);
 
         @Override
@@ -44,7 +47,7 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
     }
 
     @FunctionalInterface
-    public interface IAddDefault<T> extends Supplier<T> { }
+    public interface IAddDefault<T> extends Supplier<T> {}
 
     public final UIElement buttonGroup;
     public final Button addButton;
@@ -52,7 +55,8 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
     public final Supplier<List<T>> source;
     public final IConfiguratorProvider<T> configuratorProvider;
     protected IAddDefault<T> addDefault;
-    @Setter @Accessors(chain = true)
+    @Setter
+    @Accessors(chain = true)
     protected Consumer<List<T>> onUpdate;
     protected Consumer<T> onAdd, onRemove;
     @Setter
@@ -64,7 +68,8 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
     @Getter
     @Nullable
     protected ItemConfigurator selected;
-    @Setter @Accessors(chain = true)
+    @Setter
+    @Accessors(chain = true)
     @Nullable
     protected Consumer<T> onSelectedChanged;
 
@@ -96,8 +101,7 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
             layout.width(12);
             layout.height(12);
         }).setDisplay(false);
-        removeButton.setOnClick(this::onRemove).setText("-").textStyle(textStyle -> textStyle.textColor(ColorPattern.WHITE.color).textShadow(false)
-        ).layout(layout -> {
+        removeButton.setOnClick(this::onRemove).setText("-").textStyle(textStyle -> textStyle.textColor(ColorPattern.WHITE.color).textShadow(false)).layout(layout -> {
             layout.width(12);
             layout.height(12);
         }).setActive(false);
@@ -240,6 +244,7 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
     }
 
     public class ItemConfigurator extends Configurator {
+
         public T object;
         public Configurator inner;
 
@@ -276,7 +281,7 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
             var selfIndex = configurators.indexOf(this);
             if (after != null) {
                 var index = configurators.indexOf(after);
-                if (index + 1 == selfIndex){
+                if (index + 1 == selfIndex) {
                     // do nothing
                 } else {
                     removeConfigurator(this);
@@ -342,5 +347,4 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
             }
         }
     }
-
 }

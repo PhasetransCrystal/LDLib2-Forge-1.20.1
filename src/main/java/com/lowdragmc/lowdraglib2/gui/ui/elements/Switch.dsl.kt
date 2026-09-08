@@ -14,11 +14,7 @@ fun <T : Switch> T.switchStyleDsl(init: Switch.SwitchStyle.() -> Unit = {}): T {
 /**
  * Specification for Switch element
  */
-open class SwitchSpec<T : Switch>(
-    var switchStyle: (Switch.SwitchStyle.() -> Unit)? = null,
-    var isOn: Boolean? = null,
-    var onSwitchChanged: ((Boolean) -> Unit)? = null,
-) : ElementSpec<T>() {
+open class SwitchSpec<T : Switch>(var switchStyle: (Switch.SwitchStyle.() -> Unit)? = null, var isOn: Boolean? = null, var onSwitchChanged: ((Boolean) -> Unit)? = null) : ElementSpec<T>() {
     /**
      * Convenience alias for onSwitchChanged
      */
@@ -30,13 +26,8 @@ open class SwitchSpec<T : Switch>(
 /**
  * Switch element builder
  */
-open class SwitchElement<T : Switch>(
-    element: T,
-    spec: (SwitchSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, SwitchSpec<T>>(element, spec) {
-    override fun makeSpec(): SwitchSpec<T>? {
-        return spec?.let { SwitchSpec<T>().apply(it) }
-    }
+open class SwitchElement<T : Switch>(element: T, spec: (SwitchSpec<T>.() -> Unit)? = null) : UIContainer<T, SwitchSpec<T>>(element, spec) {
+    override fun makeSpec(): SwitchSpec<T>? = spec?.let { SwitchSpec<T>().apply(it) }
 
     override fun build(spec: SwitchSpec<T>?): T {
         val e = super.build(spec)
@@ -54,22 +45,14 @@ open class SwitchElement<T : Switch>(
 /**
  * Top Level - Create a standalone Switch element
  */
-fun switch(spec: (SwitchSpec<Switch>.() -> Unit)? = null,
-           init: SwitchElement<Switch>.() -> Unit = {}): Switch {
-    return SwitchElement(Switch(), spec).apply(init).build()
-}
+fun switch(spec: (SwitchSpec<Switch>.() -> Unit)? = null, init: SwitchElement<Switch>.() -> Unit = {}): Switch = SwitchElement(Switch(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Switch as a child to a container
  */
-fun UIContainer<*, *>.switch(spec: (SwitchSpec<Switch>.() -> Unit)? = null,
-                              init: SwitchElement<Switch>.() -> Unit = {}) =
-    add(SwitchElement(Switch(), spec), init)
+fun UIContainer<*, *>.switch(spec: (SwitchSpec<Switch>.() -> Unit)? = null, init: SwitchElement<Switch>.() -> Unit = {}) = add(SwitchElement(Switch(), spec), init)
 
 /**
  * DSL converter - Convert existing Switch to DSL builder
  */
-fun <T : Switch> T.dsl(spec: (SwitchSpec<T>.() -> Unit)? = null,
-                       init: SwitchElement<T>.() -> Unit = {}): SwitchElement<T> {
-    return SwitchElement(this, spec).apply(init)
-}
+fun <T : Switch> T.dsl(spec: (SwitchSpec<T>.() -> Unit)? = null, init: SwitchElement<T>.() -> Unit = {}): SwitchElement<T> = SwitchElement(this, spec).apply(init)

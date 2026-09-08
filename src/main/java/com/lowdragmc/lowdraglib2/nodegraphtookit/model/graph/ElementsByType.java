@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ElementsByType {
+
     public final Set<StickyNoteModel> stickyNoteModels = new HashSet<>();
     public final Set<PlacematModel> placematModels = new HashSet<>();
     public final Set<VariableDeclarationModelBase> variableDeclarationsModels = new HashSet<>();

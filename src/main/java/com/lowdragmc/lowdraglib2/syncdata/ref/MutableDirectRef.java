@@ -1,10 +1,11 @@
 package com.lowdragmc.lowdraglib2.syncdata.ref;
 
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.syncdata.accessor.IMarkFunction;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.IDirectAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
-import com.lowdragmc.lowdraglib2.syncdata.accessor.IMarkFunction;
 import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
+
 import lombok.Getter;
 import net.minecraft.nbt.NbtOps;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @SuppressWarnings("unchecked")
 public final class MutableDirectRef<TYPE> extends DirectRef<TYPE> {
+
     private @Nullable Object oldValueMark;
 
     public MutableDirectRef(IVar<TYPE> field, ManagedKey key, IDirectAccessor<TYPE> accessor) {
@@ -27,13 +29,13 @@ public final class MutableDirectRef<TYPE> extends DirectRef<TYPE> {
         var value = field.value();
         oldValueMark = value == null ? null :
                 accessor instanceof IMarkFunction markFunction ?
-                markFunction.obtainManagedMark(getField().value()) :
+                        markFunction.obtainManagedMark(getField().value()) :
                         accessor.readDirectVar(Platform.registryOps(NbtOps.INSTANCE, Platform.getFrozenRegistry()), field);
     }
 
     @Override
     public IDirectAccessor<TYPE> getAccessor() {
-        return (IDirectAccessor<TYPE>)super.getAccessor();
+        return (IDirectAccessor<TYPE>) super.getAccessor();
     }
 
     @Override

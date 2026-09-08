@@ -11,6 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public final class JEIRecipeWidgetHandler {
+
     public final List<RecipeSlotProvider> slots = new ArrayList<>();
     public final Supplier<Matrix4f> localToWorld;
 
@@ -33,6 +34,7 @@ public final class JEIRecipeWidgetHandler {
 
     @FunctionalInterface
     public interface RecipeSlotProvider extends BiFunction<Double, Double, RecipeSlotUnderMouse> {
+
         @Nullable
         RecipeSlotUnderMouse getRecipeSlots(double mouseX, double mouseY);
 

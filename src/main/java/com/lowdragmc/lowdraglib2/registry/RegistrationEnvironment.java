@@ -8,6 +8,7 @@ import java.util.Map;
  * Controls when an annotated element should be registered based on the runtime environment.
  */
 public enum RegistrationEnvironment {
+
     /**
      * Always register, regardless of environment.
      */
@@ -63,14 +64,13 @@ public enum RegistrationEnvironment {
         if (enumHolder instanceof String string) {
             return string;
         }
-        for (var methodName : new String[] {"value", "getValue"}) {
+        for (var methodName : new String[] { "value", "getValue" }) {
             try {
                 var method = enumHolder.getClass().getMethod(methodName);
                 var value = method.invoke(enumHolder);
                 if (value instanceof String string) return string;
                 if (value instanceof Enum<?> enumValue) return enumValue.name();
-            } catch (ReflectiveOperationException ignored) {
-            }
+            } catch (ReflectiveOperationException ignored) {}
         }
         return null;
     }

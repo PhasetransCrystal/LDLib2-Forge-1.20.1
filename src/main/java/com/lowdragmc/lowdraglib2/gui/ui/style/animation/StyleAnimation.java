@@ -7,19 +7,21 @@ import com.lowdragmc.lowdraglib2.math.interpolate.Eases;
 import com.lowdragmc.lowdraglib2.math.interpolate.IEase;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib2.utils.animation.*;
+import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+
 import it.unimi.dsi.fastutil.floats.FloatObjectPair;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @Accessors(fluent = true, chain = true)
 public class StyleAnimation {
+
     @Nullable
     private final ModularUI mui;
 
@@ -103,6 +105,7 @@ public class StyleAnimation {
                 }
                 var keyFrame = KeyFrames.of(p.getInterpolator(), slots.toArray(new FloatObjectPair[0]));
                 var executor = new KFExecutor<>(keyFrame, new IFrameValueHandler<>() {
+
                     @Override
                     public void accept(AnimationRuntime runtime, Object o) {
                         target.getStyleBag().onAnimationUpdate(animationOrigin, p, o);
@@ -112,9 +115,7 @@ public class StyleAnimation {
                     @Override
                     public void onFinished(AnimationRuntime runtime) {
                         target.getStyleBag().replaceAnimationFinal(p,
-                                slot -> slot.origin() == animationOrigin
-                                        && slot.specificity() == 999
-                                        && slot.sourceOrder() == 0,
+                                slot -> slot.origin() == animationOrigin && slot.specificity() == 999 && slot.sourceOrder() == 0,
                                 StyleSlot.of(p, origin, specificity, sourceOrder, slots.get(slots.size() - 1).right()));
                         onFinished.accept(target);
                     }

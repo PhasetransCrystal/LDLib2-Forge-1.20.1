@@ -4,20 +4,22 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
-import com.lowdragmc.lowdraglib2.utils.ColorUtils;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @KJSBindings
 @LDLRegisterClient(name = "item_stack_texture", registry = "ldlib2:gui_texture")
 public class ItemStackTexture extends TransformTexture {
+
     @Configurable(name = "ldlib.gui.editor.name.items")
     public ItemStack[] items;
     private int index = 0;
@@ -31,14 +33,13 @@ public class ItemStackTexture extends TransformTexture {
         this(Items.APPLE.asItem());
     }
 
-
     public ItemStackTexture(ItemStack... itemStacks) {
         this.items = itemStacks;
     }
 
     public ItemStackTexture(Item... items) {
         this.items = new ItemStack[items.length];
-        for(int i = 0; i < items.length; i++) {
+        for (int i = 0; i < items.length; i++) {
             this.items[i] = new ItemStack(items[i]);
         }
     }
@@ -69,8 +70,8 @@ public class ItemStackTexture extends TransformTexture {
             long tick = Minecraft.getInstance().level.getGameTime();
             if (tick == lastTick) return;
             lastTick = tick;
-            if(items.length > 1 && ++ticks % 20 == 0)
-                if(++index == items.length)
+            if (items.length > 1 && ++ticks % 20 == 0)
+                if (++index == items.length)
                     index = 0;
         }
     }
