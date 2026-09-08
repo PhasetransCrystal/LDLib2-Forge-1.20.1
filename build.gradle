@@ -10,10 +10,10 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = mod_version
+version = providers.gradleProperty('buildVersion').getOrElse(mod_version)
 group = maven_group
 
-def isRelease = true
+def isRelease = providers.gradleProperty('releaseBuild').map { it.toBoolean() }.getOrElse(true)
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -57,7 +57,9 @@ jar{
 }
 
 tasks.register("printVersion") {
-    println(mod_version)
+    doLast {
+        println(project.version)
+    }
 }
 
 publishing {

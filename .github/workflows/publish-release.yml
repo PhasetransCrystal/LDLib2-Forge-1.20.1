@@ -1,0 +1,117 @@
+name: Publish Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  JAVA_VERSION: '17'
+  JAVA_DISTRIBUTION: temurin
+
+jobs:
+  validate:
+    name: Validate release branch and version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.value }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Require the main branch
+        shell: bash
+        run: |
+          test "$GITHUB_REF_NAME" = main || { echo 'Release publishing must run from main.'; exit 1; }
+
+      - name: Read release version
+        id: version
+        shell: bash
+        run: |
+          version=$(sed -n 's/^mod_version=//p' gradle.properties | head -n 1)
+          test -n "$version" || { echo 'mod_version is missing from gradle.properties'; exit 1; }
+          [[ "$version" != *-SNAPSHOT ]] || { echo 'mod_version must be a release version.'; exit 1; }
+          echo "value=$version" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build release
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build release
+        run: ./gradlew build --no-daemon --build-cache -PbuildVersion="${{ needs.validate.outputs.version }}" -PreleaseBuild=true
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-libs
+          path: build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 7
+  publish-maven:
+    name: Publish release to Ptcrys
+    needs: [validate, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: true
+
+      - name: Verify Ptcrys credentials
+        env:
+          PTCRYS_USERNAME: ${{ secrets.PTCRYS_USERNAME }}
+          PTCRYS_PASSWORD: ${{ secrets.PTCRYS_PASSWORD }}
+        run: |
+          test -n "$PTCRYS_USERNAME" || { echo 'PTCRYS_USERNAME is not configured.'; exit 1; }
+          test -n "$PTCRYS_PASSWORD" || { echo 'PTCRYS_PASSWORD is not configured.'; exit 1; }
+
+      - name: Publish release to Ptcrys
+        run: ./gradlew publish --no-daemon -PbuildVersion="${{ needs.validate.outputs.version }}" -PreleaseBuild=true
+        env:
+          ORG_GRADLE_PROJECT_ptcrysUsername: ${{ secrets.PTCRYS_USERNAME }}
+          ORG_GRADLE_PROJECT_ptcrysPassword: ${{ secrets.PTCRYS_PASSWORD }}
+  release-github:
+    name: Create published GitHub release
+    needs: [validate, build, publish-maven]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-libs
+          path: build/libs
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.validate.outputs.version }}
+          name: v${{ needs.validate.outputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            build/libs/*-all.jar
+            build/libs/*-sources.jar

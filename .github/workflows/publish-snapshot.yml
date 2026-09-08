@@ -1,0 +1,79 @@
+name: Publish Snapshot
+
+on:
+  push:
+    branches: [main,master]
+
+permissions:
+  contents: write
+
+env:
+  JAVA_VERSION: '17'
+  JAVA_DISTRIBUTION: temurin
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Read Snapshot version
+        id: version
+        shell: bash
+        run: |
+          base_version=$(sed -n 's/^mod_version=//p' gradle.properties | head -n 1)
+          test -n "$base_version" || { echo 'mod_version is missing from gradle.properties'; exit 1; }
+          snapshot_version="${base_version%-SNAPSHOT}-SNAPSHOT"
+          echo "value=$snapshot_version" >> "$GITHUB_OUTPUT"
+
+      - name: Build Snapshot
+        run: ./gradlew build --no-daemon --build-cache -PbuildVersion="${{ steps.version.outputs.value }}" -PreleaseBuild=false
+
+      - name: Verify Ptcrys credentials
+        env:
+          PTCRYS_USERNAME: ${{ secrets.PTCRYS_USERNAME }}
+          PTCRYS_PASSWORD: ${{ secrets.PTCRYS_PASSWORD }}
+        run: |
+          test -n "$PTCRYS_USERNAME" || { echo 'PTCRYS_USERNAME is not configured.'; exit 1; }
+          test -n "$PTCRYS_PASSWORD" || { echo 'PTCRYS_PASSWORD is not configured.'; exit 1; }
+
+      - name: Publish Snapshot to Ptcrys
+        run: ./gradlew publish --no-daemon -PbuildVersion="${{ steps.version.outputs.value }}" -PreleaseBuild=false
+        env:
+          ORG_GRADLE_PROJECT_ptcrysUsername: ${{ secrets.PTCRYS_USERNAME }}
+          ORG_GRADLE_PROJECT_ptcrysPassword: ${{ secrets.PTCRYS_PASSWORD }}
+
+      - name: Create draft GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.value }}
+          name: v${{ steps.version.outputs.value }}
+          draft: true
+          prerelease: true
+          generate_release_notes: true
+          files: |
+            build/libs/*-all.jar
+            build/libs/*-sources.jar
+
+      - name: Upload Snapshot artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-${{ steps.version.outputs.value }}
+          path: build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 7
