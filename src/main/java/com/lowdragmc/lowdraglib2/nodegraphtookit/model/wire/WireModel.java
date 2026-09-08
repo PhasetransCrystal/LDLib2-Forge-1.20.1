@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.IGraphElementUIModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
+
 import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,15 +24,22 @@ import java.util.UUID;
 /**
  * Model representing a wire connection between two ports.
  *
- * <p>A wire connects an output port to an input port, allowing data or execution flow to pass between nodes.
- * Each wire has exactly two endpoints: a "from" port (typically output) and a "to" port (typically input).</p>
+ * <p>
+ * A wire connects an output port to an input port, allowing data or execution flow to pass between nodes.
+ * Each wire has exactly two endpoints: a "from" port (typically output) and a "to" port (typically input).
+ * </p>
  */
 public class WireModel extends GraphElementModel implements IPortWireIndexModel, IGraphElementUIModel {
-    @Getter @Nullable
+
+    @Getter
+    @Nullable
     private PortModel fromPort;
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private PortModel toPort;
-    @Getter @Setter @Nullable
+    @Getter
+    @Setter
+    @Nullable
     private Component bubbleText;
 
     public WireModel() {
@@ -39,8 +47,7 @@ public class WireModel extends GraphElementModel implements IPortWireIndexModel,
                 Capabilities.DELETABLE,
                 Capabilities.COPIABLE,
                 Capabilities.SELECTABLE,
-                Capabilities.ASCENDABLE
-        ));
+                Capabilities.ASCENDABLE));
     }
 
     public UUID getFromPortUid() {
@@ -85,8 +92,7 @@ public class WireModel extends GraphElementModel implements IPortWireIndexModel,
      * Sets the endpoints of the wire.
      */
     public void setPorts(PortModel toPortModel, PortModel fromPortModel) {
-        if (toPortModel == null || fromPortModel == null
-                || toPortModel.getNodeModel() == null ||  fromPortModel.getNodeModel() == null) return;
+        if (toPortModel == null || fromPortModel == null || toPortModel.getNodeModel() == null || fromPortModel.getNodeModel() == null) return;
 
         var oldFromPort = this.fromPort;
         var oldToPort = this.toPort;
@@ -166,6 +172,7 @@ public class WireModel extends GraphElementModel implements IPortWireIndexModel,
 
     /**
      * Creates missing ports in the case where the original ports are missing.
+     * 
      * @return A migration result pair for the input and output port migration.
      */
     public Pair<AddMissingPortResult, AddMissingPortResult> addMissingPorts() {
@@ -174,23 +181,24 @@ public class WireModel extends GraphElementModel implements IPortWireIndexModel,
         AbstractNodeModel inputNode = null;
         AbstractNodeModel outputNode = null;
         // todo missing
-//        if (getToPort() == null) {
-//            inputResult = m_ToPortReference.AddMissingPort(PortDirection.Input, m_ToPortReference.PortOrientation) ?
-//                    PortMigrationResult.MISSING_PORT_ADDED : PortMigrationResult.MISSING_PORT_FAILURE;
-//
-//            inputNode = m_ToPortReference.NodeModel;
-//        } else {
-//            inputResult = PortMigrationResult.MISSING_PORT_NOT_NEEDED;
-//        }
-//
-//        if (getFromPort() == null) {
-//            outputResult = m_FromPortReference.AddMissingPort(PortDirection.Output, m_FromPortReference.PortOrientation) ?
-//                    PortMigrationResult.MISSING_PORT_ADDED : PortMigrationResult.MISSING_PORT_FAILURE;
-//
-//            outputNode = m_FromPortReference.NodeModel;
-//        } else {
-//            outputResult = PortMigrationResult.MISSING_PORT_NOT_NEEDED;
-//        }
+        // if (getToPort() == null) {
+        // inputResult = m_ToPortReference.AddMissingPort(PortDirection.Input, m_ToPortReference.PortOrientation) ?
+        // PortMigrationResult.MISSING_PORT_ADDED : PortMigrationResult.MISSING_PORT_FAILURE;
+        //
+        // inputNode = m_ToPortReference.NodeModel;
+        // } else {
+        // inputResult = PortMigrationResult.MISSING_PORT_NOT_NEEDED;
+        // }
+        //
+        // if (getFromPort() == null) {
+        // outputResult = m_FromPortReference.AddMissingPort(PortDirection.Output, m_FromPortReference.PortOrientation)
+        // ?
+        // PortMigrationResult.MISSING_PORT_ADDED : PortMigrationResult.MISSING_PORT_FAILURE;
+        //
+        // outputNode = m_FromPortReference.NodeModel;
+        // } else {
+        // outputResult = PortMigrationResult.MISSING_PORT_NOT_NEEDED;
+        // }
 
         return Pair.of(new AddMissingPortResult(inputResult, inputNode), new AddMissingPortResult(outputResult, outputNode));
     }

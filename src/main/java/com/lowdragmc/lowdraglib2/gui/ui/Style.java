@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.gui.ui;
 
-import com.google.common.collect.ImmutableList;
 import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.gui.ui.style.*;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
+
+import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
@@ -21,10 +22,12 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class Style implements IConfigurable, IPersistedSerializable {
+
     public final UIElement holder;
     protected final StyleBag styleBag;
     // runtime
-    @Getter @Setter
+    @Getter
+    @Setter
     private StyleOrigin pipelineState = StyleOrigin.INLINE;
 
     public Style(UIElement holder) {
@@ -46,16 +49,18 @@ public abstract class Style implements IConfigurable, IPersistedSerializable {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T cast(Object o) { return (T) o; }
+    private static <T> T cast(Object o) {
+        return (T) o;
+    }
 
     /**
      * Sets the specified property to the provided value within the style system.
      * Replaces or adds the candidate property value into the style bag using
      * the current pipeline state.
      *
-     * @param <T> the type of the property value
+     * @param <T>      the type of the property value
      * @param property the property to be updated
-     * @param value the new value to set for the specified property
+     * @param value    the new value to set for the specified property
      */
     public <T> void set(Property<T> property, T value) {
         set(pipelineState, property, value);
@@ -72,8 +77,7 @@ public abstract class Style implements IConfigurable, IPersistedSerializable {
                 property,
                 origin,
                 0, 0,
-                value
-        ));
+                value));
     }
 
     public <T> void setDefault(Property<T> property, T value) {
@@ -86,9 +90,9 @@ public abstract class Style implements IConfigurable, IPersistedSerializable {
      * During the pipeline, all inline style setters will be redirected to the specified pipeline state.
      *
      * @param pipelineState the {@link StyleOrigin} to temporarily assign as the pipeline state
-     * @param style the style instance whose pipeline state will be modified
+     * @param style         the style instance whose pipeline state will be modified
      * @param styleConsumer a consumer that performs operations on the style instance
-     * @param <T> the type of the style, extending {@link Style}
+     * @param <T>           the type of the style, extending {@link Style}
      * @return the modified style instance with its original pipeline state restored
      */
     public static <T extends Style> T pipeline(StyleOrigin pipelineState, T style, Consumer<T> styleConsumer) {
@@ -157,8 +161,7 @@ public abstract class Style implements IConfigurable, IPersistedSerializable {
 
     public void copyFrom(Style other) {
         var properties = new HashSet<>(Arrays.asList(getProperties()));
-        styleBag.removeCandidates(slot ->
-                properties.contains(slot.property()) &&
+        styleBag.removeCandidates(slot -> properties.contains(slot.property()) &&
                 slot.origin() == StyleOrigin.INLINE);
         for (var property : other.getProperties()) {
             if (properties.contains(property)) {
@@ -179,7 +182,8 @@ public abstract class Style implements IConfigurable, IPersistedSerializable {
      * Retrieves a supplier that can provide the inline value of the specified property.
      *
      * @param property the property whose inline value getter is to be created
-     * @return a {@link Supplier} that provides the inline value of the given property, or null if the property has no inline value.
+     * @return a {@link Supplier} that provides the inline value of the given property, or null if the property has no
+     *         inline value.
      */
     public <T> Supplier<T> valueGetter(Property<T> property) {
         return () -> cast(getInline(property));
@@ -223,12 +227,10 @@ public abstract class Style implements IConfigurable, IPersistedSerializable {
             var configurator = property.createConfigurator(
                     cast(valueGetter(property)),
                     cast(valueSetter(property)),
-                    cast(Optional.ofNullable(getDefault(property)).orElse(cast(property.initialValue)))
-            );
+                    cast(Optional.ofNullable(getDefault(property)).orElse(cast(property.initialValue))));
             father.addConfigurator(configurator);
         }
     }
-
 
     @Override
     public void beforeDeserialize() {

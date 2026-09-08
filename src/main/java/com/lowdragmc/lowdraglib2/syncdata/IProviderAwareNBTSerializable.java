@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.syncdata;
 
 import com.lowdragmc.lowdraglib2.Platform;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.INBTSerializable;

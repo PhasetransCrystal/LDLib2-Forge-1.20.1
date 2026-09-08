@@ -30,14 +30,15 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortNodeModel;
 import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,9 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class ItemLibrary extends UIElement {
+
     public record DragMove(Vector2f originalPos) {}
+
     public record DragResize(Vector2f originalSize) {}
 
     public final GraphView graphView;
@@ -158,8 +161,7 @@ public class ItemLibrary extends UIElement {
                 headBar.addChildren(title),
                 searchField,
                 resultContainer,
-                tailBar.addChildren(tailLabel, resizeButton)
-        );
+                tailBar.addChildren(tailLabel, resizeButton));
         setFocusable(true);
         setEnforceFocus(e -> this.hide());
         addEventListener(UIEvents.LAYOUT_CHANGED, e -> adaptPositionToScreen());
@@ -173,7 +175,7 @@ public class ItemLibrary extends UIElement {
             var width = 12;
             var height = 12;
             resizeButton.startDrag(new DragResize(new Vector2f(this.getSizeWidth(), this.getSizeHeight())), Icons.MOVE)
-                    .setDragTexture(- width / 2f, -height / 2f, width, height);
+                    .setDragTexture(-width / 2f, -height / 2f, width, height);
         });
         resizeButton.addEventListener(UIEvents.DRAG_SOURCE_UPDATE, e -> {
             if (e.dragHandler.draggingObject instanceof DragResize dragResize) {
@@ -190,8 +192,7 @@ public class ItemLibrary extends UIElement {
     protected void initTreeList(TreeList<TreeNode<ItemLibraryItem, Void>> treeList, @Nullable UIElement container) {
         treeList.setNodeUISupplier(TreeList.iconTextTemplate(
                 node -> node.getKey().getIcon(),
-                node -> node.getKey().getDisplayName())
-        );
+                node -> node.getKey().getDisplayName()));
         treeList.setOnDoubleClickNode(node -> {
             if (node.isBranch()) return;
             onNodeDecided(node.getKey());
@@ -298,8 +299,7 @@ public class ItemLibrary extends UIElement {
                 .map(node -> node.flatten().stream()
                         .filter(ITreeNode::isLeaf)
                         .filter(n -> n.getParent() != null) // not root
-                        .map(ITreeNode::getKey)
-                )
+                        .map(ITreeNode::getKey))
                 .orElseGet(Stream::empty);
     }
 
@@ -348,9 +348,7 @@ public class ItemLibrary extends UIElement {
             }
         }
 
-        var nextIndex = currentIndex < 0
-                ? (direction > 0 ? 0 : entries.size() - 1)
-                : Math.max(0, Math.min(entries.size() - 1, currentIndex + direction));
+        var nextIndex = currentIndex < 0 ? (direction > 0 ? 0 : entries.size() - 1) : Math.max(0, Math.min(entries.size() - 1, currentIndex + direction));
         selectKeyboardEntry(entries.get(nextIndex));
     }
 
@@ -414,14 +412,14 @@ public class ItemLibrary extends UIElement {
         var lowerWorld = word.toLowerCase();
         var builder = TreeBuilder.<ItemLibraryItem, Void>start(new ItemLibraryItem());
         getAllItems().filter(item -> {
-                    if (item.getSearchableName().toLowerCase().contains(lowerWorld)) {
-                        return true;
-                    }
-                    if (item.getDisplayName().getString().toLowerCase().contains(lowerWorld)) {
-                        return true;
-                    }
-                    return LocalizationUtils.format(item.getDisplayName().getString()).toLowerCase().contains(lowerWorld);
-                })
+            if (item.getSearchableName().toLowerCase().contains(lowerWorld)) {
+                return true;
+            }
+            if (item.getDisplayName().getString().toLowerCase().contains(lowerWorld)) {
+                return true;
+            }
+            return LocalizationUtils.format(item.getDisplayName().getString()).toLowerCase().contains(lowerWorld);
+        })
                 .forEach(item -> {
                     builder.leaf(item, null);
                 });
@@ -446,7 +444,7 @@ public class ItemLibrary extends UIElement {
         if (item instanceof NodeModelLibraryItem nodeItem) {
             if (nodeItem.createNode(testData) instanceof NodeModel nodeModel) {
                 var ports = sourcePort.getDirection() == PortDirection.INPUT ?
-                    nodeModel.getOutputsByDisplayOrder() : nodeModel.getInputsByDisplayOrder();
+                        nodeModel.getOutputsByDisplayOrder() : nodeModel.getInputsByDisplayOrder();
                 var compatiblePorts = graphModel.getCompatiblePorts(ports, sourcePort);
                 if (compatiblePorts.isEmpty()) return;
                 nodeItem.setData(new NodeItemLibraryData(nodeModel.getClass(), compatiblePorts.get(0)));
@@ -474,9 +472,11 @@ public class ItemLibrary extends UIElement {
      * Opens the library in block-only mode for the given context. The block tree is rebuilt
      * from {@code context.getSupportBlockClasses()}; all other trees are hidden.
      *
-     * <p>The {@code onFinished} consumer receives a {@link BlockLibraryItem} on selection (or
+     * <p>
+     * The {@code onFinished} consumer receives a {@link BlockLibraryItem} on selection (or
      * {@code null} on dismiss). Callers should dispatch
-     * {@code BlockCommands.InsertBlockCommand} using {@code item.getBlockClass()}.</p>
+     * {@code BlockCommands.InsertBlockCommand} using {@code item.getBlockClass()}.
+     * </p>
      */
     public void showBlocksForContext(float mouseX, float mouseY, ContextNodeModel context,
                                      Consumer<@Nullable ItemLibraryItem> onFinished) {

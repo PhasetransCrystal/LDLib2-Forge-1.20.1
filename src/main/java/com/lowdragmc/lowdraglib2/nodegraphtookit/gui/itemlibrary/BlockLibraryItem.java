@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.gui.itemlibrary;
 
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.BlockNode;
+
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 
@@ -11,11 +12,14 @@ import net.minecraft.network.chat.Component;
  * {@link #getBlockClass()} and dispatches an
  * {@code InsertBlockCommand} against the originating context.
  *
- * <p>Blocks are not created through the standard {@code NodeModelLibraryItem.createNode} lambda
+ * <p>
+ * Blocks are not created through the standard {@code NodeModelLibraryItem.createNode} lambda
  * because they cannot exist as top-level graph nodes — insertion is mediated by the parent
- * context.</p>
+ * context.
+ * </p>
  */
 public class BlockLibraryItem extends ItemLibraryItem {
+
     @Getter
     private final Class<? extends BlockNode> blockClass;
 

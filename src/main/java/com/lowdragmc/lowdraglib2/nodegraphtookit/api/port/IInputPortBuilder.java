@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.api.port;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.ITypeConfigurable;
+
 import com.mojang.serialization.Codec;
 
 import java.lang.reflect.Field;
@@ -8,7 +9,8 @@ import java.lang.reflect.Field;
 /**
  * Interface for defining an input port.
  *
- * <p>Use this interface to create an input port before you assign its data type.
+ * <p>
+ * Use this interface to create an input port before you assign its data type.
  */
 public interface IInputPortBuilder<T extends IInputPortBuilder<T>> extends IPortBuilder<T> {
 
@@ -39,7 +41,9 @@ public interface IInputPortBuilder<T extends IInputPortBuilder<T>> extends IPort
      * over the default {@code AccessorRegistries} lookup — useful when the value type has no
      * registered accessor, or when you want a different on-disk shape.
      *
-     * <p>Ignored if {@link #withoutSerialization()} is also set.</p>
+     * <p>
+     * Ignored if {@link #withoutSerialization()} is also set.
+     * </p>
      *
      * @param codec the codec used to encode/decode the port's value and default value
      * @return the current builder instance for method chaining

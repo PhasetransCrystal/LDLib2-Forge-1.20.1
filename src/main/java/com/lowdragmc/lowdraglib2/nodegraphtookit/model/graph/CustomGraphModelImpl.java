@@ -15,6 +15,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModelBase;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableScope;
 import com.lowdragmc.lowdraglib2.utils.TypeUtils;
+
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +26,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class CustomGraphModelImpl extends GraphModel {
+
     @Getter
     private final Graph graph;
     // runtime
@@ -33,7 +35,6 @@ public class CustomGraphModelImpl extends GraphModel {
     @Nullable
     private List<TypeHandle> supportedTypes;
     private List<INode> nodes;
-
 
     public CustomGraphModelImpl(Graph graph) {
         this.graph = graph;
@@ -115,14 +116,14 @@ public class CustomGraphModelImpl extends GraphModel {
 
     public static AbstractNodeModel createNodeFromData(GraphNodeCreationData nodeCreationData, Class<? extends Node> customNodeType) {
         return nodeCreationData.createNode(getNodeImplType(customNodeType), "", n -> {
-           if (n instanceof ICustomNodeModel customNodeModel) {
-               try {
-                   customNodeModel.initCustomNode(customNodeType.getConstructor().newInstance());
-               } catch (Exception e) {
-                   LDLib2.LOGGER.error("Failed to instantiate custom node {}", customNodeType.getName(), e);
-                   throw new RuntimeException(e);
-               }
-           }
+            if (n instanceof ICustomNodeModel customNodeModel) {
+                try {
+                    customNodeModel.initCustomNode(customNodeType.getConstructor().newInstance());
+                } catch (Exception e) {
+                    LDLib2.LOGGER.error("Failed to instantiate custom node {}", customNodeType.getName(), e);
+                    throw new RuntimeException(e);
+                }
+            }
         });
     }
 
@@ -134,7 +135,7 @@ public class CustomGraphModelImpl extends GraphModel {
             if (dataTypeHandle != null) {
                 portTypes.add(dataTypeHandle);
             } else {
-                var dataType =port.getDataType();
+                var dataType = port.getDataType();
                 if (dataType != null) {
                     portTypes.add(TypeHandleHelpers.fromType(dataType));
                 }
@@ -175,9 +176,9 @@ public class CustomGraphModelImpl extends GraphModel {
     }
 
     protected void addNodeFromNodeModel(AbstractNodeModel nodeModel) {
-        if(nodeModel instanceof ICustomNodeModel customNodeModel) {
+        if (nodeModel instanceof ICustomNodeModel customNodeModel) {
             nodes.add(customNodeModel.getNode());
-        } else if(nodeModel instanceof INode node){
+        } else if (nodeModel instanceof INode node) {
             nodes.add(node);
         }
     }
@@ -247,8 +248,7 @@ public class CustomGraphModelImpl extends GraphModel {
                 null,
                 Integer.MAX_VALUE,
                 constant,
-                null, null
-        );
+                null, null);
     }
 
     @Override

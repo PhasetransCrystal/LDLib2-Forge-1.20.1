@@ -6,8 +6,8 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 final class LocalizedNumberText {
-    private LocalizedNumberText() {
-    }
+
+    private LocalizedNumberText() {}
 
     static float parseFloat(String text) {
         try {

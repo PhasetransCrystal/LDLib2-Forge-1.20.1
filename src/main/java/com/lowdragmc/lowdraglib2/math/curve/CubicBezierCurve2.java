@@ -1,7 +1,8 @@
 package com.lowdragmc.lowdraglib2.math.curve;
 
-import com.lowdragmc.lowdraglib2.syncdata.IProviderAwareNBTSerializable;
 import com.lowdragmc.lowdraglib2.math.Interpolations;
+import com.lowdragmc.lowdraglib2.syncdata.IProviderAwareNBTSerializable;
+
 import lombok.EqualsAndHashCode;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.FloatTag;
@@ -13,6 +14,7 @@ import javax.annotation.Nonnull;
 
 @EqualsAndHashCode(callSuper = false)
 public class CubicBezierCurve2 extends Curve<Vector2f> implements IProviderAwareNBTSerializable<ListTag> {
+
     public Vector2f p0, c0, c1, p1;
 
     public CubicBezierCurve2(Vector2f start, Vector2f control1, Vector2f control2, Vector2f end) {
@@ -26,8 +28,7 @@ public class CubicBezierCurve2 extends Curve<Vector2f> implements IProviderAware
     public Vector2f getPoint(float t) {
         return new Vector2f(
                 (float) Interpolations.CubicBezier(t, p0.x, c0.x, c1.x, p1.x),
-                (float) Interpolations.CubicBezier(t, p0.y, c0.y, c1.y, p1.y)
-        );
+                (float) Interpolations.CubicBezier(t, p0.y, c0.y, c1.y, p1.y));
     }
 
     @Override

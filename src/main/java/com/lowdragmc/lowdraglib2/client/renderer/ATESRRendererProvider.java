@@ -1,9 +1,6 @@
 package com.lowdragmc.lowdraglib2.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -11,27 +8,28 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Author: KilaBash
  * Date: 2022/04/21
- * Description: 
+ * Description:
  */
 @OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ATESRRendererProvider<T extends BlockEntity> implements BlockEntityRenderer<T> {
 
-    public ATESRRendererProvider() {
-    }
+    public ATESRRendererProvider() {}
 
-    public ATESRRendererProvider(BlockEntityRendererProvider.Context ctx) {
-    }
+    public ATESRRendererProvider(BlockEntityRendererProvider.Context ctx) {}
 
     @Override
     public int getViewDistance() {

@@ -17,6 +17,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisit
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.util.RenameColorConfigurableHelper;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.StickyNoteModel;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
@@ -24,6 +25,7 @@ import dev.vfyjxf.taffy.style.TaffyPosition;
 import org.jetbrains.annotations.NotNull;
 
 public class StickyNoteElement extends GraphElement<StickyNoteModel> {
+
     public static final String STICKY_NOTE_LAYER = "StickyNote";
     private static final float HEADER_HEIGHT = 14f;
 
@@ -100,9 +102,7 @@ public class StickyNoteElement extends GraphElement<StickyNoteModel> {
     private void applyCollapsedState(boolean collapsed) {
         var model = getModel();
         // Arrow icon, text-area visibility, and height all flip with collapse state — pin via IMPORTANT.
-        Style.importantPipeline(folderIcon.getStyle(), s -> s.backgroundTexture(collapsed
-                ? Icons.RIGHT_ARROW_NO_BAR_S_LIGHT
-                : Icons.DOWN_ARROW_NO_BAR_S_LIGHT));
+        Style.importantPipeline(folderIcon.getStyle(), s -> s.backgroundTexture(collapsed ? Icons.RIGHT_ARROW_NO_BAR_S_LIGHT : Icons.DOWN_ARROW_NO_BAR_S_LIGHT));
         Style.importantPipeline(textArea.getLayout(), l -> l.display(collapsed ? TaffyDisplay.NONE : TaffyDisplay.FLEX));
         Style.importantPipeline(getLayout(), l -> l.height(collapsed ? HEADER_HEIGHT : model.getSize().y));
     }

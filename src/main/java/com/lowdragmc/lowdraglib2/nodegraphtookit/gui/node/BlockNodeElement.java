@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.BlockCommands;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ContextNodeModel;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 
 /**
@@ -17,12 +18,15 @@ import dev.vfyjxf.taffy.style.TaffyPosition;
  * <em>inside</em> its parent context's {@link BlockListContainerElement} — so it flows in the
  * parent's column rather than being absolutely positioned on the canvas.
  *
- * <p>Supports drag-reorder within the parent context: holding the mouse down on a block and
+ * <p>
+ * Supports drag-reorder within the parent context: holding the mouse down on a block and
  * dragging onto a sibling fires a {@link BlockCommands.MoveBlockCommand}. The pattern mirrors
  * {@code Blackboard.onItemNodeCreated} — top/bottom-half hover decides the insertion side, the
- * overlay shown comes from {@link TreeList#createDraggingOverlay}.</p>
+ * overlay shown comes from {@link TreeList#createDraggingOverlay}.
+ * </p>
  */
 public class BlockNodeElement extends CollapsibleInOutNodeElement {
+
     /** Drag payload — identifies the block being reordered. */
     public record DraggingBlock(BlockNodeModel block) {}
 
@@ -69,23 +73,19 @@ public class BlockNodeElement extends CollapsibleInOutNodeElement {
         // Highlight insertion point — top half of target = insert before, bottom half = insert after.
         // Drag-overlay feedback must outrank stylesheet to remain visible during drag, hence IMPORTANT.
         addEventListener(UIEvents.DRAG_ENTER, e -> {
-            if (e.dragHandler.getDraggingObject() instanceof DraggingBlock draggingBlock
-                    && isSameContextSibling(draggingBlock.block())) {
+            if (e.dragHandler.getDraggingObject() instanceof DraggingBlock draggingBlock && isSameContextSibling(draggingBlock.block())) {
                 Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(TreeList.createDraggingOverlay(insertMode(e))));
             }
         }, true);
         addEventListener(UIEvents.DRAG_UPDATE, e -> {
-            if (e.dragHandler.getDraggingObject() instanceof DraggingBlock draggingBlock
-                    && isSameContextSibling(draggingBlock.block())) {
+            if (e.dragHandler.getDraggingObject() instanceof DraggingBlock draggingBlock && isSameContextSibling(draggingBlock.block())) {
                 Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(TreeList.createDraggingOverlay(insertMode(e))));
             } else {
                 Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(IGuiTexture.EMPTY));
             }
         });
-        addEventListener(UIEvents.DRAG_LEAVE, e ->
-                Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(IGuiTexture.EMPTY)), true);
-        addEventListener(UIEvents.DRAG_END, e ->
-                Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(IGuiTexture.EMPTY)));
+        addEventListener(UIEvents.DRAG_LEAVE, e -> Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(IGuiTexture.EMPTY)), true);
+        addEventListener(UIEvents.DRAG_END, e -> Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(IGuiTexture.EMPTY)));
 
         addEventListener(UIEvents.DRAG_PERFORM, e -> {
             Style.importantPipeline(e.currentElement.getStyle(), s -> s.overlayTexture(IGuiTexture.EMPTY));

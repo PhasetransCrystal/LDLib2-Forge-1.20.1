@@ -1,13 +1,14 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.direct;
 
-import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
-import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
-import com.lowdragmc.lowdraglib2.syncdata.ref.DirectRef;
-import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
-import com.lowdragmc.lowdraglib2.syncdata.ref.UniqueDirectRef;
-import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
-import com.mojang.serialization.DynamicOps;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
+import com.lowdragmc.lowdraglib2.syncdata.ref.DirectRef;
+import com.lowdragmc.lowdraglib2.syncdata.ref.UniqueDirectRef;
+import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
+import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
+import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
+import com.mojang.serialization.DynamicOps;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class EnumAccessor implements IDirectAccessor<Enum<?>> {
+
     private static final WeakHashMap<Class<? extends Enum<?>>, Enum<?>[]> enumCache = new WeakHashMap<>();
     private static final WeakHashMap<Class<? extends Enum<?>>, Map<String, Enum<?>>> enumNameCache = new WeakHashMap<>();
 
@@ -85,5 +87,4 @@ public class EnumAccessor implements IDirectAccessor<Enum<?>> {
     public IVar<Enum<?>> createDirectVar(ManagedKey managedKey, @NotNull Object holder) {
         return FieldVar.of(managedKey, holder);
     }
-
 }

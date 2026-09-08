@@ -1,7 +1,8 @@
 package com.lowdragmc.lowdraglib2.core.mixins;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.ObjModelAccessor;
+
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.math.Transformation;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -30,12 +31,17 @@ import java.util.function.Function;
 @Mixin(targets = "net.minecraftforge.client.model.obj.ObjModel$ModelMesh", remap = false)
 public abstract class ObjModelMixin {
 
-    @Shadow @Final ObjModel this$0;
+    @Shadow
+    @Final
+    ObjModel this$0;
 
-    @Shadow @Nullable public ObjMaterialLibrary.@Nullable Material mat;
+    @Shadow
+    @Nullable
+    public ObjMaterialLibrary.@Nullable Material mat;
 
-    @Inject(method = "bake", at = @At(value = "INVOKE",
-            target = "Lnet/minecraftforge/client/model/obj/ObjModel;makeQuad([[IILorg/joml/Vector4f;Lorg/joml/Vector4f;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Lcom/mojang/math/Transformation;)Lorg/apache/commons/lang3/tuple/Pair;"),
+    @Inject(method = "bake",
+            at = @At(value = "INVOKE",
+                     target = "Lnet/minecraftforge/client/model/obj/ObjModel;makeQuad([[IILorg/joml/Vector4f;Lorg/joml/Vector4f;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Lcom/mojang/math/Transformation;)Lorg/apache/commons/lang3/tuple/Pair;"),
             remap = false)
     private void ldlib2$bake(CompositeRenderable.PartBuilder<?> builder,
                              IGeometryBakingContext configuration,
@@ -57,8 +63,9 @@ public abstract class ObjModelMixin {
         }
     }
 
-    @Inject(method = "addQuads", at = @At(value = "INVOKE",
-            target = "Lnet/minecraftforge/client/model/obj/ObjModel;makeQuad([[IILorg/joml/Vector4f;Lorg/joml/Vector4f;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Lcom/mojang/math/Transformation;)Lorg/apache/commons/lang3/tuple/Pair;"),
+    @Inject(method = "addQuads",
+            at = @At(value = "INVOKE",
+                     target = "Lnet/minecraftforge/client/model/obj/ObjModel;makeQuad([[IILorg/joml/Vector4f;Lorg/joml/Vector4f;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;Lcom/mojang/math/Transformation;)Lorg/apache/commons/lang3/tuple/Pair;"),
             remap = false)
     private void ldlib2$addQuads(IGeometryBakingContext owner,
                                  IModelBuilder<?> modelBuilder,
@@ -116,18 +123,15 @@ public abstract class ObjModelMixin {
 
         // process left points
         switch (remainder) {
-            case 3 ->
-                    parts.add(Arrays.copyOfRange(faces, limit, n));
+            case 3 -> parts.add(Arrays.copyOfRange(faces, limit, n));
 
-            case 2 ->
-                    parts.add(new int[][] {
-                            faces[limit - 1], faces[limit], faces[limit + 1], faces[0]
-                    });
+            case 2 -> parts.add(new int[][] {
+                    faces[limit - 1], faces[limit], faces[limit + 1], faces[0]
+            });
 
-            case 1 ->
-                    parts.add(new int[][] {
-                            faces[limit - 1], faces[limit], faces[0]
-                    });
+            case 1 -> parts.add(new int[][] {
+                    faces[limit - 1], faces[limit], faces[0]
+            });
 
             default -> { /* remainder == 0，do nothing */ }
         }

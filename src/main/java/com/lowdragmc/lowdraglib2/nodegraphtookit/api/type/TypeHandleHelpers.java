@@ -1,14 +1,13 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.api.type;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +15,7 @@ import java.util.function.Supplier;
 
 @UtilityClass
 public final class TypeHandleHelpers {
+
     // customId -> Type binding
     private static final Map<String, Type> ID_TO_TYPE = new ConcurrentHashMap<>();
     // customId -> (TypeHandle + FriendlyName)
@@ -60,8 +60,7 @@ public final class TypeHandleHelpers {
             if (!typeEquals(existing, t)) {
                 throw new IllegalArgumentException(
                         "TypeHandle " + uniqueId + " already refers to a different type. " +
-                                "existing=" + safeTypeName(existing) + ", new=" + safeTypeName(t)
-                );
+                                "existing=" + safeTypeName(existing) + ", new=" + safeTypeName(t));
             }
             LDLib2.LOGGER.error("{} is already registered in TypeSerializer", uniqueId);
         }
@@ -128,12 +127,10 @@ public final class TypeHandleHelpers {
 
         if (friendlyName != null && !friendlyName.isEmpty()) {
             TypeHandleDescriptor existing = CUSTOM_ID_TO_DESCRIPTOR.get(identification);
-            if (existing != null && existing.friendlyName() != null
-                    && !Objects.equals(existing.friendlyName(), friendlyName)) {
+            if (existing != null && existing.friendlyName() != null && !Objects.equals(existing.friendlyName(), friendlyName)) {
                 throw new IllegalStateException(
                         "A type with same identification but a different friendly name exists " +
-                                existing.friendlyName() + " != " + friendlyName
-                );
+                                existing.friendlyName() + " != " + friendlyName);
             }
         }
 
@@ -177,7 +174,7 @@ public final class TypeHandleHelpers {
         if (id == null) return -1;
         // hash color
         var t = (fnv1a32(id) & 0xffffffffL) / (double) 0x1_0000_0000L;
-        var rgb = ColorUtils.hslToRGB(new double[]{t, 0.75, 0.68});
+        var rgb = ColorUtils.hslToRGB(new double[] { t, 0.75, 0.68 });
         return ColorUtils.color(1, rgb[0], rgb[1], rgb[2]);
     }
 
@@ -216,8 +213,7 @@ public final class TypeHandleHelpers {
     }
 
     /* --------- private plumbing --------- */
-    private record HandleResult(TypeHandle handle, boolean isNew) {
-    }
+    private record HandleResult(TypeHandle handle, boolean isNew) {}
 
     private static HandleResult getOrCreateCustomTypeHandle(String uniqueId, @Nullable String friendlyName) {
         Objects.requireNonNull(uniqueId, "uniqueId");
@@ -232,8 +228,7 @@ public final class TypeHandleHelpers {
         // Unity logic: if friendlyName differs, throw
         if (!Objects.equals(existing.friendlyName(), friendlyName)) {
             throw new IllegalStateException(
-                    "A custom TypeHandle with same friendly name '" + friendlyName + "' already exists"
-            );
+                    "A custom TypeHandle with same friendly name '" + friendlyName + "' already exists");
         }
 
         return new HandleResult(existing.typeHandle(), false);
@@ -265,7 +260,7 @@ public final class TypeHandleHelpers {
         // For ParameterizedType, show like List<String>
         return t.getTypeName();
     }
-    
+
     public static Type convertType(Type t) {
         if (t instanceof Class<?> clazz && clazz.isPrimitive()) {
             if (clazz == int.class) return Integer.class;

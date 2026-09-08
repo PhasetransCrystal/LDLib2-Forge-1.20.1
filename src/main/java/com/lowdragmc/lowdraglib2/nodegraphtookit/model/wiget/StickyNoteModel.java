@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.wiget.StickyNoteElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -13,19 +14,27 @@ import java.util.List;
 import java.util.Objects;
 
 public class StickyNoteModel extends GraphElementModel implements IMovable, IHasElementColor, IGraphElementUIModel {
-    @Persisted @Getter
+
+    @Persisted
+    @Getter
     private Vector2f position = new Vector2f(0);
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private Vector2f size = new Vector2f(150, 100);
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private String content = "";
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private int elementColor = 0xFFFFEB3B;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private boolean userColor = false;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private int fontSize = 11;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private boolean collapsed = false;
 
     public StickyNoteModel() {
@@ -35,8 +44,7 @@ public class StickyNoteModel extends GraphElementModel implements IMovable, IHas
                 Capabilities.RESIZABLE,
                 Capabilities.DELETABLE,
                 Capabilities.COLORABLE,
-                Capabilities.COPIABLE
-        ));
+                Capabilities.COPIABLE));
     }
 
     @Override

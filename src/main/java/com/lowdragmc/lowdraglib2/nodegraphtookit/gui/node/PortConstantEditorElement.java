@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.ModelElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.WirePortalModel;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class PortConstantEditorElement extends ModelElement {
+
     public final PortModel portModel;
     // runtime
     @Getter
@@ -78,7 +80,6 @@ public class PortConstantEditorElement extends ModelElement {
         }
     }
 
-
     @Override
     public void updateUIFromModel(ModelUpdateVisitor visitor) {
         buildConstantEditor();
@@ -99,23 +100,25 @@ public class PortConstantEditorElement extends ModelElement {
                 boolean subPortHandled = false;
                 if (!portModel.getSubPorts().isEmpty()) {
                     // todo sub ports
-//                if (m_Editor is ConstantField constantField)
-//                subPortHandled = constantField.HandleEnabledStateWithWiredSubPorts();
+                    // if (m_Editor is ConstantField constantField)
+                    // subPortHandled = constantField.HandleEnabledStateWithWiredSubPorts();
 
-                    // If it was not possible to specifically disable sub-field editors, check if all sub ports are connected and enable/disable the entire field if all sub ports are connected.
-                    // It is better to leave the field enabled if at least one sub port is not connected because the user might want to change the value for that sub-field.
-//                if (!subPortHandled)
-//                {
-//                    allSubPortsConnected = true;
-//                    foreach (var subPort in portModel.SubPorts)
-//                    {
-//                        if (!subPort.IsConnected())
-//                        {
-//                            allSubPortsConnected = false;
-//                            break;
-//                        }
-//                    }
-//                }
+                    // If it was not possible to specifically disable sub-field editors, check if all sub ports are
+                    // connected and enable/disable the entire field if all sub ports are connected.
+                    // It is better to leave the field enabled if at least one sub port is not connected because the
+                    // user might want to change the value for that sub-field.
+                    // if (!subPortHandled)
+                    // {
+                    // allSubPortsConnected = true;
+                    // foreach (var subPort in portModel.SubPorts)
+                    // {
+                    // if (!subPort.IsConnected())
+                    // {
+                    // allSubPortsConnected = false;
+                    // break;
+                    // }
+                    // }
+                    // }
                 }
                 editor.setActive(!ancestorIsConnected && !allSubPortsConnected);
             }

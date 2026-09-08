@@ -2,16 +2,18 @@ package com.lowdragmc.lowdraglib2.syncdata.holder;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
 import com.lowdragmc.lowdraglib2.networking.LDLNetworking;
 import com.lowdragmc.lowdraglib2.syncdata.IManaged;
 import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCMethodMeta;
 import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
-import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 
 public interface IRPCManagedHolder extends IManagedHolder {
@@ -75,6 +77,5 @@ public interface IRPCManagedHolder extends IManagedHolder {
                 }
             }
         }, Platform.getFrozenRegistry());
-
     }
 }

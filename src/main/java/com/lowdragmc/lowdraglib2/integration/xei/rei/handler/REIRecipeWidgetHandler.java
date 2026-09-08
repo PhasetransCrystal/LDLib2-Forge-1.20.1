@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public final class REIRecipeWidgetHandler {
+
     public final Rectangle containerBounds;
     public final Supplier<Matrix4f> localToWorld;
     public final List<Widget> slots = new ArrayList<>();

@@ -6,15 +6,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * An annotation that marks a field as being managed lazily. This means that the field will only be marked as dirty manually.
+ * An annotation that marks a field as being managed lazily. This means that the field will only be marked as dirty
+ * manually.
  * This annotation is useful for fields that are not updated frequently, or for fields that are updated in a batch.
- * <pre>{@code
- * @DescSynced
- * @Persisted
+ * 
+ * <pre>
+ * {@code
+ * 
+ * &#64;DescSynced
+ * &#64;Persisted
  * int a;
  *
- * @DescSynced
- * @Persisted
+ * &#64;DescSynced
+ * &#64;Persisted
  * @LayzManaged
  * int b;
  *
@@ -26,9 +30,9 @@ import java.lang.annotation.Target;
  *     this.b = value;
  *     markDirty("b"); // mannually notify chagned
  * }
- * }</pre>
+ * }
+ * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface LazyManaged {
-}
+public @interface LazyManaged {}

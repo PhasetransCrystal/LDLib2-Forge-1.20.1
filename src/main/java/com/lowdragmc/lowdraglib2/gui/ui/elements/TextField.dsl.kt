@@ -2,7 +2,9 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements
 
 import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
+
 import net.minecraft.network.chat.Component
+
 import java.util.function.Consumer
 import java.util.function.Function
 import java.util.function.Predicate
@@ -18,15 +20,7 @@ fun <T : TextField> T.textFieldStyleDsl(init: TextField.TextFieldStyle.() -> Uni
 /**
  * Specification for TextField element
  */
-open class TextFieldSpec<T : TextField>(
-    var textFieldStyle: (TextField.TextFieldStyle.() -> Unit)? = null,
-    var text: Any? = null,
-    var placeholder: Component? = null,
-    var textValidator: Predicate<String>? = null,
-    var charValidator: Predicate<Char>? = null,
-    var textResponder: Consumer<String>? = null,
-    var formatter: Function<String, Component>? = null,
-) : ElementSpec<T>() {
+open class TextFieldSpec<T : TextField>(var textFieldStyle: (TextField.TextFieldStyle.() -> Unit)? = null, var text: Any? = null, var placeholder: Component? = null, var textValidator: Predicate<String>? = null, var charValidator: Predicate<Char>? = null, var textResponder: Consumer<String>? = null, var formatter: Function<String, Component>? = null) : ElementSpec<T>() {
     /**
      * Set placeholder text
      */
@@ -59,13 +53,8 @@ open class TextFieldSpec<T : TextField>(
 /**
  * TextField element builder
  */
-open class TextFieldElement<T : TextField>(
-    element: T,
-    spec: (TextFieldSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, TextFieldSpec<T>>(element, spec) {
-    override fun makeSpec(): TextFieldSpec<T>? {
-        return spec?.let { TextFieldSpec<T>().apply(it) }
-    }
+open class TextFieldElement<T : TextField>(element: T, spec: (TextFieldSpec<T>.() -> Unit)? = null) : UIContainer<T, TextFieldSpec<T>>(element, spec) {
+    override fun makeSpec(): TextFieldSpec<T>? = spec?.let { TextFieldSpec<T>().apply(it) }
 
     override fun build(spec: TextFieldSpec<T>?): T {
         val e = super.build(spec)
@@ -87,26 +76,17 @@ open class TextFieldElement<T : TextField>(
 /**
  * Top Level - Create a standalone TextField element
  */
-fun textField(spec: (TextFieldSpec<TextField>.() -> Unit)? = null,
-              init: TextFieldElement<TextField>.() -> Unit = {}): TextField {
-    return TextFieldElement(TextField(), spec).apply(init).build()
-}
+fun textField(spec: (TextFieldSpec<TextField>.() -> Unit)? = null, init: TextFieldElement<TextField>.() -> Unit = {}): TextField = TextFieldElement(TextField(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add TextField as a child to a container
  */
-fun UIContainer<*, *>.textField(spec: (TextFieldSpec<TextField>.() -> Unit)? = null,
-                                 init: TextFieldElement<TextField>.() -> Unit = {}) =
-    add(TextFieldElement(TextField(), spec), init)
+fun UIContainer<*, *>.textField(spec: (TextFieldSpec<TextField>.() -> Unit)? = null, init: TextFieldElement<TextField>.() -> Unit = {}) = add(TextFieldElement(TextField(), spec), init)
 
 /**
  * DSL converter - Convert existing TextField to DSL builder
  */
-fun <T : TextField> T.dsl(spec: (TextFieldSpec<T>.() -> Unit)? = null,
-                          init: TextFieldElement<T>.() -> Unit = {}): TextFieldElement<T> {
-    return TextFieldElement(this, spec).apply(init)
-}
-
+fun <T : TextField> T.dsl(spec: (TextFieldSpec<T>.() -> Unit)? = null, init: TextFieldElement<T>.() -> Unit = {}): TextFieldElement<T> = TextFieldElement(this, spec).apply(init)
 
 /**
  * Extension: Configure as numeric integer field

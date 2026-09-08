@@ -6,8 +6,8 @@ import java.lang.reflect.Type;
 
 /**
  * Data for a {@link ItemLibraryItem} linked to a node.
- * @param type The type of the node represented by the item.
+ * 
+ * @param type          The type of the node represented by the item.
  * @param portToConnect The port to which the node will be connected.
  */
-public record NodeItemLibraryData(Type type, PortModel portToConnect) implements IItemLibraryData {
-}
+public record NodeItemLibraryData(Type type, PortModel portToConnect) implements IItemLibraryData {}

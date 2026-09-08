@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.configurator.ui;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
 import com.lowdragmc.lowdraglib2.client.renderer.block.RendererBlock;
 import com.lowdragmc.lowdraglib2.client.renderer.block.RendererBlockEntity;
@@ -15,27 +14,32 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.utils.data.BlockInfo;
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.TrackedDummyWorld;
+
+import com.google.common.base.Predicates;
 import dev.vfyjxf.taffy.style.AlignItems;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 public class IRendererConfigurator extends ValueConfigurator<IRenderer> {
+
     public final Scene preview = new Scene();
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private RendererBlockEntity rendererBlock;
     @Setter
     protected Predicate<IRenderer> filter = Predicates.alwaysTrue();

@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.test.ui;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.LDLib2Registries;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
@@ -22,5 +23,4 @@ public class UIElementRegistryTest {
         LDLib2.LOGGER.info("End UI Registry Test");
         helper.succeed();
     }
-
 }

@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigList;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.ui.ArrayConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
+
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +23,7 @@ import java.util.function.Supplier;
  */
 @AllArgsConstructor
 public class ArrayConfiguratorAccessor implements IConfiguratorAccessor<Object> {
+
     private final Class<?> childType;
     private final IConfiguratorAccessor childAccessor;
 
@@ -36,7 +38,7 @@ public class ArrayConfiguratorAccessor implements IConfiguratorAccessor<Object> 
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Configurator create(String name, Supplier supplier, Consumer consumer, boolean forceUpdate, @Nullable Field field, @Nullable Object owner) {
         boolean isCollapse = true;
         boolean canCollapse = true;

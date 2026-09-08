@@ -2,10 +2,12 @@ package com.lowdragmc.lowdraglib2.gui.sync.bindings;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+
 public interface IBindable<T> extends IDataSource<T> {
+
     /**
      * Binds the given {@code binding} to the current {@link UIElement} instance.
      * This method associates a binding object to enable synchronization of data

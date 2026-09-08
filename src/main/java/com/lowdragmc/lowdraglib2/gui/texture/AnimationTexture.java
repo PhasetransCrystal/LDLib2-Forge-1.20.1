@@ -2,19 +2,20 @@ package com.lowdragmc.lowdraglib2.gui.texture;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibRenderTypes;
-import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
-import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
-import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
+import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
+import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.gui.ui.Style;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.vfyjxf.taffy.style.AlignItems;
@@ -38,22 +39,22 @@ public class AnimationTexture extends TransformTexture {
     public ResourceLocation imageLocation;
 
     @Configurable(tips = "ldlib.gui.editor.tips.cell_size")
-    @ConfigNumber(range = {1, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 1, Integer.MAX_VALUE })
     @Getter
     protected int cellSize;
 
     @Configurable(tips = "ldlib.gui.editor.tips.cell_from")
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Getter
     protected int from;
 
     @Configurable(tips = "ldlib.gui.editor.tips.cell_to")
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Getter
     protected int to;
 
     @Configurable(tips = "ldlib.gui.editor.tips.cell_animation")
-    @ConfigNumber(range = {0, Integer.MAX_VALUE})
+    @ConfigNumber(range = { 0, Integer.MAX_VALUE })
     @Getter
     protected int animation;
 
@@ -69,7 +70,7 @@ public class AnimationTexture extends TransformTexture {
 
     public AnimationTexture() {
         this("ldlib2:textures/gui/particles.png");
-        setCellSize(8).setAnimation(32,  44).setAnimation(1);
+        setCellSize(8).setAnimation(32, 44).setAnimation(1);
     }
 
     public AnimationTexture(String imageLocation) {
@@ -164,13 +165,13 @@ public class AnimationTexture extends TransformTexture {
                 .addChildren(
                         // raw image preview
                         new UIElement().layout(layout -> {
-                                    layout.setPipelineState(StyleOrigin.DEFAULT);
-                                    layout.setAspectRatio(1.0f);
-                                    layout.widthPercent(80);
-                                    layout.paddingAll(3);
-                                    layout.alignSelf(AlignItems.CENTER);
-                                    layout.setPipelineState(StyleOrigin.INLINE);
-                                }).style(style -> Style.defaultPipeline(style, s -> s.backgroundTexture(Sprites.BORDER1_RT1)))
+                            layout.setPipelineState(StyleOrigin.DEFAULT);
+                            layout.setAspectRatio(1.0f);
+                            layout.widthPercent(80);
+                            layout.paddingAll(3);
+                            layout.alignSelf(AlignItems.CENTER);
+                            layout.setPipelineState(StyleOrigin.INLINE);
+                        }).style(style -> Style.defaultPipeline(style, s -> s.backgroundTexture(Sprites.BORDER1_RT1)))
                                 .addClass("preview_bg")
                                 .addChild(new UIElement().layout(layout -> {
                                     layout.widthPercent(100);
@@ -186,8 +187,7 @@ public class AnimationTexture extends TransformTexture {
                                     configurator.notifyChanges();
                                 }
                             }).show(e.currentElement.getModularUI());
-                        }).layout(layout -> layout.alignSelf(AlignItems.CENTER))
-                ));
+                        }).layout(layout -> layout.alignSelf(AlignItems.CENTER))));
     }
 
     @OnlyIn(Dist.CLIENT)

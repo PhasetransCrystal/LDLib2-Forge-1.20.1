@@ -10,6 +10,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import java.io.IOException;
 
 public class LDPostChain extends PostChain {
+
     public LDPostChain(TextureManager textureManager, ResourceManager resourceManager, RenderTarget screenTarget, ResourceLocation resourceLocation) throws IOException, JsonSyntaxException {
         super(textureManager, resourceManager, screenTarget, resourceLocation);
     }

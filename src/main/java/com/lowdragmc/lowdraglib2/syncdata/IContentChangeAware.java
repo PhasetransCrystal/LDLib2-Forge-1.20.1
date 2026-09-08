@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.syncdata;
 
 public interface IContentChangeAware {
+
     /**
      * Set the runnable to be called when the content changes.
      */

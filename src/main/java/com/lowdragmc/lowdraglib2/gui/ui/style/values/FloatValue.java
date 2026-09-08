@@ -12,5 +12,4 @@ public class FloatValue extends StyleValue<Float> {
     protected Float doCompute(String rawValue) {
         return Float.parseFloat(rawValue.trim());
     }
-    
 }

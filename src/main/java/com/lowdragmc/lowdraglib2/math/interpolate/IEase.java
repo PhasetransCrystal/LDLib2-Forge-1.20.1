@@ -1,10 +1,12 @@
 package com.lowdragmc.lowdraglib2.math.interpolate;
 
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.Codec;
 
 @FunctionalInterface
 public interface IEase {
+
     Codec<IEase> CODEC = LDLibExtraCodecs.enumCodec(Eases.class, Eases.LINEAR)
             .xmap(eases -> eases, ease -> {
                 if (ease instanceof Eases eases) return eases;

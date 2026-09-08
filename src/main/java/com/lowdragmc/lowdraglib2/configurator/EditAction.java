@@ -1,8 +1,10 @@
 package com.lowdragmc.lowdraglib2.configurator;
 
 public interface EditAction {
+
     static EditAction of(Runnable execute, Runnable undo) {
         return new EditAction() {
+
             @Override
             public void execute() {
                 execute.run();
@@ -21,6 +23,7 @@ public interface EditAction {
 
     default EditAction mergeExecuteAfter(EditAction other) {
         return new EditAction() {
+
             @Override
             public void execute() {
                 other.execute();
@@ -37,6 +40,7 @@ public interface EditAction {
 
     default EditAction mergeExecuteBefore(EditAction other) {
         return new EditAction() {
+
             @Override
             public void execute() {
                 EditAction.this.execute();

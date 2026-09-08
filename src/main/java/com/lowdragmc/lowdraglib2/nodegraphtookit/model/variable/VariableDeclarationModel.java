@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.TypeConstant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.VariableNodeModel;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -17,22 +18,27 @@ import java.awt.*;
 import java.util.Objects;
 
 public class VariableDeclarationModel extends VariableDeclarationModelBase {
+
     @Getter
     protected TypeHandle dataTypeHandle;
     @Getter
     protected Constant initializationModel;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     protected VariableScope scope = VariableScope.UNKNOWN;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     protected boolean isShowOnInspectorOnly = false;
     protected Tooltips tooltips = Tooltips.empty();
-    @Persisted @Getter
+    @Persisted
+    @Getter
     protected ModifierFlags modifiers = ModifierFlags.NONE;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     protected VariableFlags variableFlags = VariableFlags.NONE;
 
     public void createInitializationValue() {
-        if (graphModel != null && graphModel.getConstantType(getDataTypeHandle()) != null){
+        if (graphModel != null && graphModel.getConstantType(getDataTypeHandle()) != null) {
             setInitializationModel(graphModel.createConstantValue(getDataTypeHandle()));
             graphModel.getCurrentGraphChangeDescription().addChangedModel(this, ChangeHint.DATA);
         }
@@ -129,7 +135,6 @@ public class VariableDeclarationModel extends VariableDeclarationModelBase {
         }
     }
 
-
     @Override
     public Tag serializeAdditionalNBT(HolderLookup.Provider provider) {
         var tag = new CompoundTag();
@@ -177,5 +182,4 @@ public class VariableDeclarationModel extends VariableDeclarationModelBase {
             }
         }
     }
-
 }

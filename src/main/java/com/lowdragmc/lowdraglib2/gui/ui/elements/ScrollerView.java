@@ -1,17 +1,18 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import lombok.Getter;
@@ -21,8 +22,9 @@ import net.minecraft.util.Mth;
 import org.appliedenergistics.yoga.*;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -30,8 +32,10 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "scroller-view", group = "container", registry = "ldlib2:ui_element")
 public class ScrollerView extends UIElement {
+
     @Configurable(name = "ScrollerViewStyle")
     public class ScrollerViewStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.SCROLLER_VIEW_MARGIN,
                 PropertyRegistry.SCROLLER_VIEW_MODE,
@@ -173,8 +177,8 @@ public class ScrollerView extends UIElement {
         }).setOverflowVisible(false).style(style -> style.backgroundTexture(Sprites.BORDER));
         viewPort.addEventListener(UIEvents.MOUSE_WHEEL, this::onScrollWheel);
         viewPort.addChild(new UIElement() // we wrap the view container in a new element
-                        .layout(layout -> layout.flex(1))
-                        .addChild(viewContainer));
+                .layout(layout -> layout.flex(1))
+                .addChild(viewContainer));
         viewPort.addEventListener(UIEvents.LAYOUT_CHANGED, this::onViewPortLayoutChanged);
 
         viewContainer.addEventListener(UIEvents.LAYOUT_CHANGED, this::onContainerLayoutChanged);
@@ -215,16 +219,14 @@ public class ScrollerView extends UIElement {
         var containerWidth = getContainerWidth() - viewPort.getContentWidth();
         return Mth.clamp(Mth.abs(normalizedValue),
                 scrollerViewStyle.minScrollPixel() / containerWidth,
-                scrollerViewStyle.maxScrollPixel() / containerWidth)
-                * (normalizedValue > 0 ? 1 : -1);
+                scrollerViewStyle.maxScrollPixel() / containerWidth) * (normalizedValue > 0 ? 1 : -1);
     }
 
     protected float verticalClamp(float normalizedValue) {
         var containerHeight = getContainerHeight() - viewPort.getContentHeight();
         return Mth.clamp(Mth.abs(normalizedValue),
                 scrollerViewStyle.minScrollPixel() / containerHeight,
-                scrollerViewStyle.maxScrollPixel() / containerHeight)
-                * (normalizedValue > 0 ? 1 : -1);
+                scrollerViewStyle.maxScrollPixel() / containerHeight) * (normalizedValue > 0 ? 1 : -1);
     }
 
     protected void onViewPortLayoutChanged(UIEvent event) {
@@ -267,7 +269,8 @@ public class ScrollerView extends UIElement {
         var lastContainerHeight = getContainerHeight();
         var mode = scrollerViewStyle.mode();
         if (mode == ScrollerMode.HORIZONTAL || mode == ScrollerMode.BOTH) {
-            // cause we are using a flexbox, the width of the view container is not the same as the width of the view port
+            // cause we are using a flexbox, the width of the view container is not the same as the width of the view
+            // port
             // so we need to calculate the width ourselves
             var vp = Math.min(1, viewPort.getContentWidth() / lastContainerWidth);
             horizontalScroller.setScrollBarSize(vp * 100);
@@ -285,8 +288,7 @@ public class ScrollerView extends UIElement {
         }
 
         if (horizontalScroller.getTaffyStyle().style.display == TaffyDisplay.FLEX) {
-            horizontalScroller.layout(layout -> Style.importantPipeline(layout, l ->
-                    l.marginRight(verticalScroller.isDisplayed() ? scrollerViewStyle.scrollerViewMargin() : 0)));
+            horizontalScroller.layout(layout -> Style.importantPipeline(layout, l -> l.marginRight(verticalScroller.isDisplayed() ? scrollerViewStyle.scrollerViewMargin() : 0)));
         }
 
         var reloadValue = false;

@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.PlaceholderModelHelper;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.NodeDefinitionScope;
 
 public class NodePlaceholder extends NodeModel implements IPlaceHolder {
+
     @Override
     protected void onDefineNode(NodeDefinitionScope<? extends NodeModel> scope) {
         PlaceholderModelHelper.setPlaceholderCapabilities(this);

@@ -1,22 +1,23 @@
 package com.lowdragmc.lowdraglib2;
 
 import com.lowdragmc.lowdraglib2.utils.ResourceHelper;
+
+import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.ResourceManager;
-import com.mojang.serialization.DynamicOps;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -103,6 +104,7 @@ public class Platform {
             return RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
         } catch (Throwable e) {
             return new RegistryAccess.Frozen() {
+
                 @Override
                 public <T> @NotNull Optional<Registry<T>> registry(ResourceKey<? extends Registry<? extends T>> p_206220_) {
                     return Optional.empty();
@@ -152,6 +154,7 @@ public class Platform {
 
     private static RegistryAccess getRegistryFromMultipleSources(RegistryAccess... accesses) {
         return new RegistryAccess() {
+
             @Override
             public <E> Optional<Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> registryKey) {
                 for (RegistryAccess access : accesses) {

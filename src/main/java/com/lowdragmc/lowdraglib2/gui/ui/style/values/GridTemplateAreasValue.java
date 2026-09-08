@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
 import com.lowdragmc.lowdraglib2.gui.ui.data.GridTemplateAreas;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import dev.vfyjxf.taffy.style.GridTemplateArea;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
  * Parses CSS grid-template-areas syntax.
  *
  * Supported syntax:
+ * 
  * <pre>
  * grid-template-areas:
  *   "header header header"
@@ -106,11 +108,11 @@ public class GridTemplateAreasValue extends StyleValue<GridTemplateAreas> {
                         // bounds: [minRow, maxRow, minCol, maxCol] (0-based, inclusive)
                         // Convert to 1-based line indices (start line, end line)
                         GridTemplateArea area = new GridTemplateArea(
-                            name,
-                            bounds[0] + 1,  // rowStart (1-based line before first row)
-                            bounds[1] + 2,  // rowEnd (1-based line after last row)
-                            bounds[2] + 1,  // columnStart (1-based line before first col)
-                            bounds[3] + 2   // columnEnd (1-based line after last col)
+                                name,
+                                bounds[0] + 1,  // rowStart (1-based line before first row)
+                                bounds[1] + 2,  // rowEnd (1-based line after last row)
+                                bounds[2] + 1,  // columnStart (1-based line before first col)
+                                bounds[3] + 2   // columnEnd (1-based line after last col)
                         );
                         areaMap.put(name, area);
                     }
@@ -166,7 +168,7 @@ public class GridTemplateAreasValue extends StyleValue<GridTemplateAreas> {
             }
         }
 
-        return new int[]{minRow, maxRow, minCol, maxCol};
+        return new int[] { minRow, maxRow, minCol, maxCol };
     }
 
     // ==================== Serialization to CSS String ====================

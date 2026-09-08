@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
+
 import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,16 +9,20 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
 public class GhostWireModel extends WireModel implements IGhostWireModel {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private Vector2f fromWorldPoint = new Vector2f();
-    @Getter @Setter
+    @Getter
+    @Setter
     private Vector2f toWorldPoint = new Vector2f();
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private PortModel fromPort;
-    @Getter @Setter
+    @Getter
+    @Setter
     private PortModel toPort;
-
 
     @Override
     public void setPorts(PortModel toPortModel, PortModel fromPortModel) {

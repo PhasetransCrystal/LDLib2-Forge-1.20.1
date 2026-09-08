@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.maplike;
 
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IMarkFunction;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.IDirectAccessor;
@@ -8,10 +9,10 @@ import com.lowdragmc.lowdraglib2.syncdata.accessor.readonly.IReadOnlyAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.utils.TypeFabricator;
 import com.lowdragmc.lowdraglib2.syncdata.var.ManagedHolderVar;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
 import net.minecraft.nbt.NbtOps;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -21,16 +22,20 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class MapAccessor<K, V> implements
-        IReadOnlyAccessor<Map<K, V>>,
-        IMapLikeAccessor<K, V, Map<K, V>>,
-        IMarkFunction<Map<K, V>, Object[]> {
+                        IReadOnlyAccessor<Map<K, V>>,
+                        IMapLikeAccessor<K, V, Map<K, V>>,
+                        IMarkFunction<Map<K, V>, Object[]> {
 
-    @Getter private final IAccessor<K> keyAccessor;
-    @Getter private final Class<K> keyType;
-    @Getter private final IAccessor<V> valueAccessor;
-    @Getter private final Class<V> valueType;
+    @Getter
+    private final IAccessor<K> keyAccessor;
+    @Getter
+    private final Class<K> keyType;
+    @Getter
+    private final IAccessor<V> valueAccessor;
+    @Getter
+    private final Class<V> valueType;
 
     public MapAccessor(IAccessor<K> keyAccessor, Class<K> keyType,
                        IAccessor<V> valueAccessor, Class<V> valueType) {
@@ -57,8 +62,7 @@ public class MapAccessor<K, V> implements
     public <T> T readReadOnlyValue(DynamicOps<T> op, @NotNull Map<K, V> value) {
         Stream<T> entries = value.entrySet().stream().flatMap(entry -> Stream.of(
                 serializeChild(op, keyAccessor, entry.getKey(), "key"),
-                serializeChild(op, valueAccessor, entry.getValue(), "value")
-        ));
+                serializeChild(op, valueAccessor, entry.getValue(), "value")));
         return op.createList(entries);
     }
 
@@ -115,10 +119,7 @@ public class MapAccessor<K, V> implements
                 V existing = value.get(k);
                 if (existing == null) {
                     if (vFabricator == null) {
-                        throw new IllegalArgumentException("No existing entry for key " + k
-                                + " in read-only-V map and value type " + valueType.getName()
-                                + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)."
-                                + " Add a no-arg ctor or use @ReadOnlyManaged.");
+                        throw new IllegalArgumentException("No existing entry for key " + k + " in read-only-V map and value type " + valueType.getName() + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)." + " Add a no-arg ctor or use @ReadOnlyManaged.");
                     }
                     existing = vFabricator.get();
                     value.put(k, existing);
@@ -132,9 +133,7 @@ public class MapAccessor<K, V> implements
         // on the field to rebuild structure when keys change). Match entries by serialized K.
         if (pairs != value.size()) {
             throw new IllegalArgumentException(
-                    "Stream entry count " + pairs + " != map size " + value.size()
-                            + " for read-only-K map; use @ReadOnlyManaged on the field"
-                            + " to rebuild structure when keys change");
+                    "Stream entry count " + pairs + " != map size " + value.size() + " for read-only-K map; use @ReadOnlyManaged on the field" + " to rebuild structure when keys change");
         }
         for (int i = 0; i < pairs; i++) {
             T kPayload = list.get(i * 2);
@@ -209,10 +208,7 @@ public class MapAccessor<K, V> implements
                 V existing = value.get(k);
                 if (existing == null) {
                     if (vFabricator == null) {
-                        throw new IllegalArgumentException("No existing entry for stream key " + k
-                                + " in read-only-V map and value type " + valueType.getName()
-                                + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)."
-                                + " Add a no-arg ctor or use @ReadOnlyManaged.");
+                        throw new IllegalArgumentException("No existing entry for stream key " + k + " in read-only-V map and value type " + valueType.getName() + " has no accessible no-arg constructor and is not a known interface (List/Set/Map/Queue/Deque)." + " Add a no-arg ctor or use @ReadOnlyManaged.");
                     }
                     existing = vFabricator.get();
                     value.put(k, existing);
@@ -225,9 +221,7 @@ public class MapAccessor<K, V> implements
 
         if (size != value.size()) {
             throw new IllegalArgumentException(
-                    "Stream entry count " + size + " != map size " + value.size()
-                            + " for read-only-K map; use @ReadOnlyManaged on the field"
-                            + " to rebuild structure when keys change");
+                    "Stream entry count " + size + " != map size " + value.size() + " for read-only-K map; use @ReadOnlyManaged on the field" + " to rebuild structure when keys change");
         }
 
         // K read-only: byte-level lookup is impractical, so use order-based pairing.

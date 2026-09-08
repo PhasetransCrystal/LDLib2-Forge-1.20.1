@@ -1,15 +1,16 @@
 package com.lowdragmc.lowdraglib2.networking.both;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.gui.sync.IUISyncManagerHolder;
-import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
-import lombok.NoArgsConstructor;
+import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
+import com.lowdragmc.lowdraglib2.gui.sync.IUISyncManagerHolder;
+import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
+
+import lombok.NoArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 
 import javax.annotation.Nonnull;
 
@@ -18,6 +19,7 @@ import javax.annotation.Nonnull;
  */
 @NoArgsConstructor
 public class PacketModularUISync implements CustomPacketPayload {
+
     public static final ResourceLocation ID = LDLib2.id("modular_ui_sync");
     public static final Type<PacketModularUISync> TYPE = new Type<>(ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketModularUISync> CODEC = StreamCodec.ofMember(PacketModularUISync::write, PacketModularUISync::decode);

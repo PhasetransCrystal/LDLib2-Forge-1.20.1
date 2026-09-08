@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib2.utils.ColorUtils;
  */
 @KJSBindings
 public enum ColorPattern {
+
     WHITE(0xffffffff, "white"),
     T_WHITE(0x88ffffff, "transparent white"),
     BLACK(0xff222222, "black"),
@@ -52,8 +53,8 @@ public enum ColorPattern {
     T_MAGENTA(0x88aa44aa, "transparent magenta"),
     LIGHT_BLUE(0xff44aaff, "light blue"),
     T_LIGHT_BLUE(0x8844aaff, "transparent light blue"),
-    SLATE_PLUM(0xff47434f, "slate plum"),;
-    ;
+    SLATE_PLUM(0xff47434f, "slate plum"),;;
+
     public final int color;
     public final String colorName;
 
@@ -89,5 +90,4 @@ public enum ColorPattern {
     public static ColorBorderTexture rainbowRectTexture(int border) {
         return new ColorBorderTexture(border, generateRainbowColor());
     }
-
 }

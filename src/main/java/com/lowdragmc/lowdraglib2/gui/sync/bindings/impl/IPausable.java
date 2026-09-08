@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.sync.bindings.impl;
 
 public interface IPausable {
+
     /**
      * Pauses the data source.
      */
@@ -13,6 +14,7 @@ public interface IPausable {
 
     /**
      * Checks if the data source is paused.
+     * 
      * @return true if the data source is paused, false otherwise.
      */
     boolean isPaused();

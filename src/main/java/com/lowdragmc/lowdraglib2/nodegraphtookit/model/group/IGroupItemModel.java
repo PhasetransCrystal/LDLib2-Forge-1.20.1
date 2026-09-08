@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public interface IGroupItemModel {
+
     /**
      * Get the parent group of this item.
      */
@@ -25,7 +26,8 @@ public interface IGroupItemModel {
 
     /**
      * Gets a IGroupItemModel representing this IGroupItemModel for the given targetModel.
-     * @param targetModel The model the clone belongs to.
+     * 
+     * @param targetModel         The model the clone belongs to.
      * @param variableTranslation The map between the source variables and the target variables.
      * @return The cloned model.
      */

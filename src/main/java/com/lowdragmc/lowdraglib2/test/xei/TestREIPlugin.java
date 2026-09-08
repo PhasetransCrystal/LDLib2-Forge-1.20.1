@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.ModularUIDisplay;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.ModularUIDisplayCategory;
 import com.lowdragmc.lowdraglib2.test.TestItem;
+
 import lombok.Getter;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
@@ -17,6 +18,7 @@ import javax.swing.*;
 import static com.lowdragmc.lowdraglib2.test.xei.TestREIPlugin.TestREIRecipeCategory.IDENTIFIER;
 
 public class TestREIPlugin {
+
     public static void registerCategories(CategoryRegistry registry) {
         registry.add(new TestREIRecipeCategory());
         registry.addWorkstations(IDENTIFIER, EntryStacks.of(TestItem.ITEM));
@@ -27,6 +29,7 @@ public class TestREIPlugin {
     }
 
     public static class TestREIRecipeCategory extends ModularUIDisplayCategory<TestREIRecipeDisplay> {
+
         public static final CategoryIdentifier<TestREIRecipeDisplay> IDENTIFIER = CategoryIdentifier.of(LDLib2.MOD_ID, "test_category");
 
         @Getter
@@ -59,6 +62,7 @@ public class TestREIPlugin {
     }
 
     public static class TestREIRecipeDisplay implements ModularUIDisplay {
+
         @Override
         public CategoryIdentifier<?> getCategoryIdentifier() {
             return IDENTIFIER;

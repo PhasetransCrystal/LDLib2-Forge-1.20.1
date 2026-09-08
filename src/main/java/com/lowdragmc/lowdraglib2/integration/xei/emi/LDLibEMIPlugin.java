@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.integration.xei.emi.handler.EMIDragDropHandler;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.handler.EMIRecipeIngredientHandler;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.handler.EMIRecipeWidgetHandler;
 import com.lowdragmc.lowdraglib2.test.xei.TestEMIPlugin;
+
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
@@ -53,24 +54,23 @@ public class LDLibEMIPlugin implements EmiPlugin {
         }
     }
 
-
     /// Utilities for xei compat
     /**
      * Adds a clickable ingredient functionality to a specified UI element for use with EMI integration.
      * <br>
      * For example, if you want to lookup the emi recipe while clicking the element of your ui.
      *
-     * @param <T>        the type of the UI element, constrained to {@link UIElement}.
-     * @param element    the UI element to which the stack provider callback is attached.
+     * @param <T>         the type of the UI element, constrained to {@link UIElement}.
+     * @param element     the UI element to which the stack provider callback is attached.
      * @param interaction a supplier returning {@link EmiStackInteraction}, providing the
      *                    custom interaction logic for the event.
      */
     public static <T extends UIElement> void stackProvider(T element, Supplier<EmiStackInteraction> interaction) {
         element.addEventListener(EMIUIEvents.STACK_PROVIDER, event -> {
-           if (element.isMouseOverElement(event.x, event.y)) {
-               event.customData = interaction.get();
-               event.stopPropagation();
-           }
+            if (element.isMouseOverElement(event.x, event.y)) {
+                event.customData = interaction.get();
+                event.stopPropagation();
+            }
         });
     }
 
@@ -79,10 +79,10 @@ public class LDLibEMIPlugin implements EmiPlugin {
      * in the EMI integration. The handler checks whether the dragged ingredient can be placed in the
      * bounds of the specified UI element.
      *
-     * @param <T>        the type of the UI element, constrained to {@link UIElement}.
-     * @param element    the UI element to which the drag handler will be attached.
-     * @param canPlace   a predicate that tests if a dragged {@link EmiIngredient} can be placed
-     *                   within the designated UI element.
+     * @param <T>      the type of the UI element, constrained to {@link UIElement}.
+     * @param element  the UI element to which the drag handler will be attached.
+     * @param canPlace a predicate that tests if a dragged {@link EmiIngredient} can be placed
+     *                 within the designated UI element.
      */
     public static <T extends UIElement> void renderDragHandler(T element, Predicate<EmiIngredient> canPlace) {
         element.addEventListener(EMIUIEvents.RENDER_DRAG_HANDLER, event -> {
@@ -98,12 +98,12 @@ public class LDLibEMIPlugin implements EmiPlugin {
      * Attaches a drop stack handler to a specified {@link UIElement}. This handler enables interaction
      * for dropping {@link EmiIngredient} objects into the designated UI element.
      *
-     * @param <T>       the type of the UI element, constrained to {@link UIElement}.
-     * @param element   the UI element to which the drop handler will be attached.
-     * @param canPlace  a predicate to test whether the dropped {@link EmiIngredient} can be placed
-     *                  into the specified UI element.
-     * @param onPlace   a consumer that specifies the action to be performed when an {@link EmiIngredient}
-     *                  is successfully placed in the UI element.
+     * @param <T>      the type of the UI element, constrained to {@link UIElement}.
+     * @param element  the UI element to which the drop handler will be attached.
+     * @param canPlace a predicate to test whether the dropped {@link EmiIngredient} can be placed
+     *                 into the specified UI element.
+     * @param onPlace  a consumer that specifies the action to be performed when an {@link EmiIngredient}
+     *                 is successfully placed in the UI element.
      */
     public static <T extends UIElement> void dropStackHandler(T element, Predicate<EmiIngredient> canPlace, Consumer<EmiIngredient> onPlace) {
         element.addEventListener(EMIUIEvents.DROP_STACK_HANDLER, event -> {
@@ -122,9 +122,9 @@ public class LDLibEMIPlugin implements EmiPlugin {
      * <br>
      * For example, if you want to add input/output/catalyst ingredients to the recipe based on the UI element.
      *
-     * @param <T>                the type of the UI element, constrained to {@link UIElement}.
-     * @param element            the UI element to which the event listener will be attached.
-     * @param role               the {@link IngredientIO} role to be associated with the ingredients.
+     * @param <T>                 the type of the UI element, constrained to {@link UIElement}.
+     * @param element             the UI element to which the event listener will be attached.
+     * @param role                the {@link IngredientIO} role to be associated with the ingredients.
      * @param ingredientsProvider a supplier providing a list of {@link EmiIngredient} objects to be added.
      */
     public static <T extends UIElement> void recipeIngredient(T element, IngredientIO role, Supplier<List<EmiIngredient>> ingredientsProvider) {
@@ -139,8 +139,8 @@ public class LDLibEMIPlugin implements EmiPlugin {
      * Adds recipe slot(widget) functionality to the EMI recipe.
      * This allows associating an invisible slot in the UI element for EMI lookups and tooltips.
      *
-     * @param <T> The type of the {@link UIElement} to which the slot functionality is added.
-     * @param element The {@link UIElement} where the recipe slot functionality is applied.
+     * @param <T>               The type of the {@link UIElement} to which the slot functionality is added.
+     * @param element           The {@link UIElement} where the recipe slot functionality is applied.
      * @param displayIngredient A {@link Supplier} that provides the primary {@link EmiIngredient}
      *                          to be displayed in the slot.
      */

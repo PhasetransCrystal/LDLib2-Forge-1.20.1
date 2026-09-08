@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model;
 
 public interface IHasName {
+
     /**
      * Get the name of the object.
      */

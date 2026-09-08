@@ -6,12 +6,14 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.ModelElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ConstantNodeModel;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 public class ConstantNodeEditorElement extends ModelElement {
+
     public final ConstantNodeModel constantNodeModel;
 
     // runtime

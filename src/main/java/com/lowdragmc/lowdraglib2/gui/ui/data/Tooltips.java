@@ -1,15 +1,16 @@
 package com.lowdragmc.lowdraglib2.gui.ui.data;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.Util;
-import net.minecraft.network.chat.Component;
 import com.lowdragmc.lowdraglib2.compat.network.chat.ComponentSerialization;
+
+import com.mojang.serialization.Codec;
+import net.minecraft.network.chat.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 public record Tooltips(Component[] tooltips) {
+
     public static final Codec<Tooltips> CODEC = ComponentSerialization.CODEC.listOf().xmap(Tooltips::of, Tooltips::asList);
 
     static Tooltips EMPTY = new Tooltips(new Component[0]);

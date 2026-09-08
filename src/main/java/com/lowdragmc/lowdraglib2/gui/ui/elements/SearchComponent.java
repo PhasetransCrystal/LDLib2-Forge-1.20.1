@@ -3,14 +3,13 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEmitter;
-import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEvent;
 import com.lowdragmc.lowdraglib2.gui.sync.rpc.RPCEventBuilder;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
@@ -20,6 +19,7 @@ import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
 import com.lowdragmc.lowdraglib2.utils.search.ISearch;
 import com.lowdragmc.lowdraglib2.utils.search.SearchEngine;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
@@ -27,11 +27,9 @@ import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import org.appliedenergistics.yoga.*;
-
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,14 +41,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 @KJSBindings
 @LDLRegister(name = "search-component", group = "basic", registry = "ldlib2:ui_element")
 public class SearchComponent<T> extends BindableUIElement<T> {
+
     @Configurable(name = "SearchStyle")
     public class SearchStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.FOCUS_OVERLAY,
                 PropertyRegistry.MAX_ITEM,
@@ -324,8 +326,8 @@ public class SearchComponent<T> extends BindableUIElement<T> {
         var candidateUI = new UIElement().layout(layout -> layout.widthPercent(100));
         var overlayButton = new Button();
         overlayButton.buttonStyle(style -> style.baseTexture(Objects.equals(candidate, value) && searchStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY)
-                        .hoverTexture(searchStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY)
-                        .pressedTexture(searchStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY))
+                .hoverTexture(searchStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY)
+                .pressedTexture(searchStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY))
                 .setOnClick(e -> {
                     setSelected(candidate);
                     if (searchStyle.closeAfterSelect()) {
@@ -391,9 +393,7 @@ public class SearchComponent<T> extends BindableUIElement<T> {
         return this;
     }
 
-    protected void onScrollViewLayoutChanged(UIEvent event) {
-
-    }
+    protected void onScrollViewLayoutChanged(UIEvent event) {}
 
     private boolean shouldKeepDialogOpenOnTextFieldBlur(UIEvent event) {
         if (event.relatedTarget != null && dialog.isAncestorOf(event.relatedTarget)) {
@@ -489,7 +489,9 @@ public class SearchComponent<T> extends BindableUIElement<T> {
     }
 
     public interface ISearchUI<T> extends ISearch<T> {
+
         class Empty<T> implements ISearchUI<T> {
+
             @Override
             public String resultText(T value) {
                 return value.toString();
@@ -521,20 +523,21 @@ public class SearchComponent<T> extends BindableUIElement<T> {
         /**
          * Invoked when a result is selected from the search or selection process.
          *
-         * @param value the selected result of type {@code T}, or {@code null} if no result is selected*/
+         * @param value the selected result of type {@code T}, or {@code null} if no result is selected
+         */
         void onResultSelected(@Nullable T value);
     }
 
     /// Editor Support
     // TODO add supports for editor quick actions
-//    public enum EditorMode {
-//        BLOCK,
-//        ITEM,
-//        FLUID,
-//        ITEM_STACK,
-//        FLUID_STACK,
-//        BIOME,
-//        ENTITY_TYPE,
-//        POTION,
-//    }
+    // public enum EditorMode {
+    // BLOCK,
+    // ITEM,
+    // FLUID,
+    // ITEM_STACK,
+    // FLUID_STACK,
+    // BIOME,
+    // ENTITY_TYPE,
+    // POTION,
+    // }
 }

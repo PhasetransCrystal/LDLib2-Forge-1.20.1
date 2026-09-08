@@ -14,6 +14,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.layout.px
 import com.lowdragmc.lowdraglib2.gui.ui.row
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister
+
 import lombok.NoArgsConstructor
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
@@ -23,7 +24,6 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.capability.templates.FluidTank
 import net.minecraftforge.items.ItemStackHandler
 
-
 @LDLRegister(name = "dsl_sync", registry = "ldlib2:menu_test")
 @NoArgsConstructor
 class TestMenuDSL : IMenuTest {
@@ -31,13 +31,11 @@ class TestMenuDSL : IMenuTest {
     private var string = "hello"
     private var number = 0.5f
 
-    override fun createUI(player: Player): ModularUI {
-        return try {
-            createSyncUI(player)
-        } catch (throwable: Throwable) {
-            LDLib2.LOGGER.error("Failed to create LDLib2 dsl_sync test UI on {}", if (player.level().isClientSide) "client" else "server", throwable)
-            createFallbackUI(player, throwable)
-        }
+    override fun createUI(player: Player): ModularUI = try {
+        createSyncUI(player)
+    } catch (throwable: Throwable) {
+        LDLib2.LOGGER.error("Failed to create LDLib2 dsl_sync test UI on {}", if (player.level().isClientSide) "client" else "server", throwable)
+        createFallbackUI(player, throwable)
     }
 
     private fun createSyncUI(player: Player): ModularUI {
@@ -63,9 +61,9 @@ class TestMenuDSL : IMenuTest {
                 label {
                     bindS2C({
                         Component.literal("s->c only: ")
-                        .append(Component.literal(bool.toString()).withStyle(ChatFormatting.AQUA)).append(" ")
-                        .append(Component.literal(string).withStyle(ChatFormatting.RED)).append(" ")
-                        .append(Component.literal("%.2f".format(number)).withStyle(ChatFormatting.YELLOW))
+                            .append(Component.literal(bool.toString()).withStyle(ChatFormatting.AQUA)).append(" ")
+                            .append(Component.literal(string).withStyle(ChatFormatting.RED)).append(" ")
+                            .append(Component.literal("%.2f".format(number)).withStyle(ChatFormatting.YELLOW))
                     })
                 }
                 button {
@@ -96,9 +94,8 @@ class TestMenuDSL : IMenuTest {
         root.addChildren(
             Label().setText("dsl_sync failed to create UI"),
             Label().setText(throwable.javaClass.name),
-            Label().setText(throwable.message ?: "no message")
+            Label().setText(throwable.message ?: "no message"),
         ).addClass("panel_bg")
         return ModularUI(UI.of(root, StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MODERN)), player)
     }
-
 }

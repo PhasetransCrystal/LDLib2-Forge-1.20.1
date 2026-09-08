@@ -23,6 +23,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.HistoryStack;
 import com.lowdragmc.lowdraglib2.gui.util.WindowDragHelper;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
@@ -33,13 +34,15 @@ import net.minecraft.network.chat.Component;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class UIDebugger extends UIElement {
+
     public final UIElement titleBar;
     public final Label title;
     public final UIElement container;
@@ -58,9 +61,11 @@ public class UIDebugger extends UIElement {
     // runtime
     @Nullable
     private ISubscription codeEditorSubscription;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean focusMode;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean renderUIShaping = true;
     protected boolean isResizing = false;
 
@@ -129,9 +134,7 @@ public class UIDebugger extends UIElement {
                                             layout.heightPercent(100);
                                             layout.setAspectRatio(1f);
                                         })
-                                        .style(style -> style.tooltips("debugger.ui_shaping.0"))
-                        )
-                );
+                                        .style(style -> style.tooltips("debugger.ui_shaping.0"))));
         this.titleBar.addClass("__editor_top__");
         this.titleBar.getStyle().background(Sprites.BORDER);
 
@@ -166,9 +169,7 @@ public class UIDebugger extends UIElement {
                 .left(new UIElement().layout(layout -> layout.widthPercent(100).heightPercent(100).flexDirection(FlexDirection.ROW))
                         .addChildren(hierarchy.layout(layout -> layout.widthAuto().flex(1)), new UIElement()
                                 .layout(layout -> layout.width(2).heightPercent(100))
-                                .style(style -> style.background(SDFRectTexture.of(ColorPattern.T_WHITE.color).setRadius(1f)))
-                        )
-                )
+                                .style(style -> style.background(SDFRectTexture.of(ColorPattern.T_WHITE.color).setRadius(1f)))))
                 .right(tabView));
 
         // inline settings
@@ -176,21 +177,21 @@ public class UIDebugger extends UIElement {
                 .layout(layout -> layout.widthPercent(100).heightPercent(100).paddingAll(4))
                 .addClass("panel_bg")
                 .addChild(new SplitView.Vertical().setPercentage(30).top(new UIElement()
-                                .layout(layout -> layout.widthPercent(100).heightPercent(100).paddingAll(2))
-                                .addChild(margin.addCenter(border.addCenter(padding.addCenter(new UIElement()
-                                        .layout(l -> l.widthPercent(100).heightPercent(100)
-                                                .alignItems(AlignItems.CENTER).justifyItems(AlignItems.CENTER))
-                                        .style(s -> s.tooltips("size")
-                                                .background(new ColorRectTexture(ColorPattern.T_GRAY.color)))
-                                        .addChild(content)))))).bottom(inspector)
-                        .selfCall(e -> ((SplitView.Vertical)e).first
+                        .layout(layout -> layout.widthPercent(100).heightPercent(100).paddingAll(2))
+                        .addChild(margin.addCenter(border.addCenter(padding.addCenter(new UIElement()
+                                .layout(l -> l.widthPercent(100).heightPercent(100)
+                                        .alignItems(AlignItems.CENTER).justifyItems(AlignItems.CENTER))
+                                .style(s -> s.tooltips("size")
+                                        .background(new ColorRectTexture(ColorPattern.T_GRAY.color)))
+                                .addChild(content))))))
+                        .bottom(inspector)
+                        .selfCall(e -> ((SplitView.Vertical) e).first
                                 .addClass("panel_bg")
-                                .layout(l -> l.minHeight(68)))
-                ));
+                                .layout(l -> l.minHeight(68)))));
         tabView.addTab(new Tab().setText("computed"), computedView = (ScrollerView) new ScrollerView()
                 .layout(layout -> layout.widthPercent(100).heightPercent(100)));
         tabView.addTab(new Tab().setText("local lss"), codeEditor = (CodeEditor) new CodeEditor()
-                        .layout(layout -> layout.widthPercent(100).heightPercent(100)));
+                .layout(layout -> layout.widthPercent(100).heightPercent(100)));
         codeEditor.setLanguage(Languages.LSS);
 
         WindowDragHelper.setDragMove(this.title, this, null, null);
@@ -220,11 +221,8 @@ public class UIDebugger extends UIElement {
         for (Style style : element.getStyles()) {
             for (Property<?> property : style.getPropertiesList()) {
                 computedView.addScrollViewChild(new Label()
-                        .bindDataSource(SupplierDataSource.of(() ->
-                                Component.literal(property.name).append(": ").append(style.getValueSave(property).toString()))
-                        )
-                        .textStyle(textStyle -> textStyle.adaptiveWidth(true))
-                );
+                        .bindDataSource(SupplierDataSource.of(() -> Component.literal(property.name).append(": ").append(style.getValueSave(property).toString())))
+                        .textStyle(textStyle -> textStyle.adaptiveWidth(true)));
             }
         }
     }

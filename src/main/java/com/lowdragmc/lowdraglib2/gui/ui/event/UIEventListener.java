@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 @FunctionalInterface
 @KJSBindings
 public interface UIEventListener extends Consumer<UIEvent> {
+
     @Override
     @Deprecated
     default void accept(UIEvent event) {

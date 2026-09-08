@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.gui.factory;
 
-import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
-import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.network.FriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
+import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -20,13 +21,14 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class HeldItemUIMenuType {
+
     /**
      * Opens a user interface (UI) for the specified player using the item held in the specified interaction hand.
      * This method checks if the held item can provide a {@link HeldItemUI} instance, creates a corresponding
      * UI holder, and attempts to open the menu for the player.
      *
      * @param player the {@link Player} attempting to open the UI
-     * @param hand the {@link InteractionHand} used to interact, specifying which hand holds the item
+     * @param hand   the {@link InteractionHand} used to interact, specifying which hand holds the item
      * @return {@code true} if the UI was opened successfully, {@code false} if the held item does not support
      *         a UI or the menu could not be opened
      */
@@ -54,19 +56,21 @@ public class HeldItemUIMenuType {
 
     @FunctionalInterface
     public interface HeldItemUI {
+
         /**
          * Creates a {@code ModularUI} instance based on the provided {@link HeldItemUIHolder}.
          *
          * @param holder the {@link HeldItemUIHolder} containing contextual data
          *               required for generating the {@code ModularUI}
-         * @return a {@code ModularUI} instance constructed using the*/
+         * @return a {@code ModularUI} instance constructed using the
+         */
         ModularUI createUI(HeldItemUIHolder holder);
 
         /**
          * Creates a new instance of {@link HeldItemUIHolder} with the provided player, hand, and item stack.
          *
-         * @param player The {@link Player} interacting with the UI.
-         * @param hand The {@link InteractionHand} used by the player, specifying which hand is holding the item.
+         * @param player    The {@link Player} interacting with the UI.
+         * @param hand      The {@link InteractionHand} used by the player, specifying which hand is holding the item.
          * @param itemStack The {@link ItemStack} representing the item the player is interacting with.
          * @return A new {@link HeldItemUIHolder} instance initialized with the given context.
          */
@@ -97,6 +101,7 @@ public class HeldItemUIMenuType {
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
     public static class HeldItemUIHolder implements MenuProvider, IContainerUIHolder {
+
         public final HeldItemUI heldItemUI;
         public final Player player;
         public final InteractionHand hand;

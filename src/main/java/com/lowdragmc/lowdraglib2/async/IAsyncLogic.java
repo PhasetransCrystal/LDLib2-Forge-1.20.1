@@ -6,8 +6,10 @@ package com.lowdragmc.lowdraglib2.async;
  * @implNote IAsyncLogic
  */
 public interface IAsyncLogic {
+
     /**
      * runnable logic in a async thread.
+     * 
      * @param periodID id of current period. added per tick.
      */
     void asyncTick(long periodID);

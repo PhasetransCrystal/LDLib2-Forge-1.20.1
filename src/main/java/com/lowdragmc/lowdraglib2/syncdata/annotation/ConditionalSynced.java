@@ -8,19 +8,24 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface ConditionalSynced {
+
     /**
      * Specifies the method name that will be used to determine the conditional sync behavior
      * for the annotated field.
      * This value is used to map the annotated field to control whether it syncs if changes.
      *
-     * <pre>{@code
-     * @Configurable
+     * <pre>
+     * {@code
+     * 
+     * &#64;Configurable
      * @ConditionalSynced(methodName = "shouldSync")
      * int intField = 10;
      *
      * public boolean shouldSync(int value) {
      *     return value > 0;
-     * }}</pre>
+     * }
+     * }
+     * </pre>
      *
      * @return the name of the method used to evaluate the conditional sync operation.
      */

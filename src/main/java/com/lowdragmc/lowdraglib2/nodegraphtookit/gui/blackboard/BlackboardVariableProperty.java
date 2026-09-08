@@ -18,6 +18,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.api.variable.VariableKind;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.FieldValueInspector;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphInspector;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.VariableDeclarationCommands;
@@ -25,9 +26,9 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisit
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModelBase;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.api.variable.VariableKind;
 import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
@@ -37,15 +38,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class BlackboardVariableProperty extends BlackboardElement implements SearchComponent.ISearchUI<TypeHandle> {
+
     public final UIElement titleBar = new UIElement();
     public final UIElement icon = new UIElement();
     public final Label label = new Label();
@@ -56,7 +59,7 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
     public final SearchComponent<TypeHandle> typeSearchComponent = new SearchComponent<>();
     public final FieldValueInspector valueFieldInspector = new FieldValueInspector();
 
-    //runtime
+    // runtime
     @Getter
     private boolean isCollapsed = true;
     @Nullable
@@ -182,8 +185,7 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
         var lowerWord = word.toLowerCase();
         for (var type : types) {
             if (Thread.interrupted()) return;
-            if (type.getIdentification().toLowerCase().contains(lowerWord)
-                    || LocalizationUtils.format(type.getFriendlyName()).toLowerCase().contains(lowerWord)) {
+            if (type.getIdentification().toLowerCase().contains(lowerWord) || LocalizationUtils.format(type.getFriendlyName()).toLowerCase().contains(lowerWord)) {
                 searchHandler.accept(type);
             }
         }
@@ -192,7 +194,7 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
     protected IConfigurable createVariableConfigurable() {
         return IConfigurable.create(group -> {
             var rename = new StringConfigurator("graph.variable_name", () -> getModel().getName(),
-                    name -> getModel().setName(name),  getModel().getName(), true);
+                    name -> getModel().setName(name), getModel().getName(), true);
             var defaultValue = new ConfiguratorGroup("graph.default_value").setCollapse(false);
             getModel().buildConfigurator(defaultValue);
             var subGraphConfigurator = new ConfiguratorSelectorConfigurator<>(
@@ -202,8 +204,7 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
                         if (graphView == null) return;
                         graphView.dispatchCommand(new VariableDeclarationCommands.ChangeVariableModifiersCommand(
                                 List.of(getModel()),
-                                type == VariableType.INTERNAL ? ModifierFlags.NONE : getDefaultSubgraphPortModifier()
-                        ));
+                                type == VariableType.INTERNAL ? ModifierFlags.NONE : getDefaultSubgraphPortModifier()));
                     },
                     VariableType.INTERNAL,
                     true,
@@ -220,16 +221,13 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
                                         if (graphView == null) return;
                                         graphView.dispatchCommand(new VariableDeclarationCommands.ChangeVariableModifiersCommand(
                                                 List.of(getModel()),
-                                                toModifier(io)
-                                        ));
+                                                toModifier(io)));
                                     },
                                     portCandidates.isEmpty() ? SubGraphPort.INPUT : portCandidates.get(0),
                                     true,
-                                    SubGraphPort::getIcon
-                            ));
+                                    SubGraphPort::getIcon));
                         }
-                    }
-            );
+                    });
             group.addConfigurators(rename, defaultValue, subGraphConfigurator);
         });
     }
@@ -259,8 +257,7 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
 
     private SubGraphPort getSelectedSubGraphPort(List<SubGraphPort> candidates) {
         var modifiers = getModel().getModifiers();
-        var selected = modifiers.hasFlag(ModifierFlags.WRITE) && !modifiers.hasFlag(ModifierFlags.READ)
-                ? SubGraphPort.OUTPUT : SubGraphPort.INPUT;
+        var selected = modifiers.hasFlag(ModifierFlags.WRITE) && !modifiers.hasFlag(ModifierFlags.READ) ? SubGraphPort.OUTPUT : SubGraphPort.INPUT;
         if (candidates.contains(selected)) return selected;
         return candidates.isEmpty() ? SubGraphPort.INPUT : candidates.get(0);
     }
@@ -281,6 +278,7 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
     }
 
     private enum VariableType implements StringRepresentable {
+
         INTERNAL,
         EXTERNAL;
 
@@ -291,6 +289,7 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
     }
 
     private enum SubGraphPort implements StringRepresentable {
+
         INPUT(new TextTexture("I")),
         OUTPUT(new TextTexture("O"));
 
@@ -305,6 +304,5 @@ public class BlackboardVariableProperty extends BlackboardElement implements Sea
         public String getSerializedName() {
             return this == INPUT ? "input" : "output";
         }
-
     }
 }

@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -15,17 +16,24 @@ import java.util.List;
 import java.util.Objects;
 
 public class PlacematModel extends GraphElementModel implements IMovable, IHasName, IHasElementColor, IGraphElementUIModel {
-    @Persisted @Getter
+
+    @Persisted
+    @Getter
     private Vector2f position = new Vector2f(0);
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private Vector2f size = new Vector2f(200, 150);
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private String name = "Placemat";
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private int elementColor = 0x90606aee;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private boolean userColor = false;
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private int zOrder = 0;
 
     public PlacematModel() {
@@ -37,8 +45,7 @@ public class PlacematModel extends GraphElementModel implements IMovable, IHasNa
                 Capabilities.COLORABLE,
                 Capabilities.RENAMABLE,
                 Capabilities.COPIABLE,
-                Capabilities.ASCENDABLE
-        ));
+                Capabilities.ASCENDABLE));
     }
 
     @Override
@@ -109,6 +116,7 @@ public class PlacematModel extends GraphElementModel implements IMovable, IHasNa
     /**
      * Returns all nodes that are fully contained within this placemat's bounds.
      * Uses the provided size lookup to determine each node's rendered size.
+     * 
      * @param nodeSizeLookup provides (width, height) for a given node, or null if unknown
      */
     public List<AbstractNodeModel> getContainedNodes(@Nullable java.util.function.Function<AbstractNodeModel, Vector2f> nodeSizeLookup) {

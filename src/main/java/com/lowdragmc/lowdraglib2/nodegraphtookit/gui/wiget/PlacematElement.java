@@ -16,6 +16,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisit
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.util.RenameColorConfigurableHelper;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wiget.PlacematModel;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import net.minecraft.network.chat.Component;
@@ -24,6 +25,7 @@ import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 public class PlacematElement extends GraphElement<PlacematModel> {
+
     public static final String PLACEMAT_LAYER = "Placemat";
     private static final float RESIZE_BORDER = 5f;
     private static final Vector2f MIN_SIZE = new Vector2f(80, 50);
@@ -123,7 +125,7 @@ public class PlacematElement extends GraphElement<PlacematModel> {
         inlineRenameField.setText(initial == null ? "" : initial);
         Style.defaultPipeline(inlineRenameField.getLayout(), l -> l.widthPercent(100).height(14).marginAll(2));
 
-        final boolean[] done = {false};
+        final boolean[] done = { false };
         Runnable commit = () -> {
             if (done[0]) return;
             done[0] = true;

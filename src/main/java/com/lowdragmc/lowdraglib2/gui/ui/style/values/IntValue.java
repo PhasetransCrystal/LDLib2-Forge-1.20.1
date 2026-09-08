@@ -12,5 +12,4 @@ public class IntValue extends StyleValue<Integer> {
     protected Integer doCompute(String rawValue) {
         return Integer.parseInt(rawValue.trim());
     }
-    
 }

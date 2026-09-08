@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.utils;
 
-
 import lombok.experimental.UtilityClass;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;

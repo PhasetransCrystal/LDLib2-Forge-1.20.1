@@ -11,7 +11,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.itemlibrary.BlockLibraryIte
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ContextNodeModel;
-import dev.vfyjxf.taffy.style.FlexDirection;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 
 import java.util.ArrayList;
@@ -23,16 +23,21 @@ import java.util.List;
  * child {@link BlockNodeElement}s when the parent context emits a topology change (block added,
  * removed, or reordered).
  *
- * <p>Existing {@link BlockNodeElement} instances are reused across rebuilds whenever their
+ * <p>
+ * Existing {@link BlockNodeElement} instances are reused across rebuilds whenever their
  * backing model is still present — including reorders. Only elements whose model has been
  * removed are torn down (setGraphView(null) so they unregister from the graph view); only new
- * models get fresh elements.</p>
+ * models get fresh elements.
+ * </p>
  *
- * <p>Top-level {@code GraphView.createAndAddModelElement} never sees blocks (see
+ * <p>
+ * Top-level {@code GraphView.createAndAddModelElement} never sees blocks (see
  * {@link BlockNodeModel#createElementUI()} which returns null), so this container is the sole
- * owner of every block element's lifecycle.</p>
+ * owner of every block element's lifecycle.
+ * </p>
  */
 public class BlockListContainerElement extends ModelElement {
+
     public final ContextNodeModel contextNodeModel;
     /** Block UI elements currently in the tree, ordered to match {@code contextNodeModel.getBlocks()}. */
     protected final List<BlockNodeElement> blockElements = new ArrayList<>();

@@ -5,6 +5,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class RegistryFriendlyByteBuf extends FriendlyByteBuf {
+
     private final HolderLookup.Provider registryAccess;
     private final ConnectionType connectionType;
 

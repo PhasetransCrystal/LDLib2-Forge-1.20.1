@@ -13,6 +13,7 @@ import org.joml.Vector3f;
  * @implNote A ray that represents a line from start position to end position.
  */
 public record Ray(Vector3f startPos, Vector3f endPos) {
+
     /**
      * Create a ray from start position to end position.
      */

@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.editor.project;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.editor.resource.Resources;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,6 +15,7 @@ import javax.annotation.Nonnull;
  * Interface for a project in the editor.
  */
 public interface IProject extends INBTSerializable<CompoundTag> {
+
     /**
      * Get Resources of this project
      */
@@ -57,22 +59,20 @@ public interface IProject extends INBTSerializable<CompoundTag> {
     }
 
     /**
-     * Initialize a new empty project. This method will be called when creating a new project and before {@link #onLoad(Editor)}.
+     * Initialize a new empty project. This method will be called when creating a new project and before
+     * {@link #onLoad(Editor)}.
      */
-    default void initNewProject() {
-    }
+    default void initNewProject() {}
 
     /**
      * Fired when the project is closed
      */
-    default void onClosed(Editor editor) {
-    }
+    default void onClosed(Editor editor) {}
 
     /**
      * Fired when the project is opened
      */
-    default void onLoad(Editor editor) {
-    }
+    default void onLoad(Editor editor) {}
 
     /**
      * Get the version of this project.

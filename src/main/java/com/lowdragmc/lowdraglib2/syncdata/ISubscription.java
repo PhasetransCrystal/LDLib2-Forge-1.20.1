@@ -7,6 +7,7 @@ package com.lowdragmc.lowdraglib2.syncdata;
  */
 @FunctionalInterface
 public interface ISubscription {
+
     void unsubscribe();
 
     default ISubscription andThen(ISubscription other) {

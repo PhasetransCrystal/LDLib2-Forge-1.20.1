@@ -1,16 +1,17 @@
 package com.lowdragmc.lowdraglib2.editor.ui;
 
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.SplitView;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.SplitView;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
+
 import com.mojang.datafixers.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,19 +20,22 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
 import org.appliedenergistics.yoga.YogaEdge;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.*;
 import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @Accessors(chain = true)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SplittableWindow extends UIElement {
+
     @Configurable(name = "SplitStyle")
     public class SplitStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.PERCENTAGE,
                 PropertyRegistry.MIN_PERCENTAGE,
@@ -91,18 +95,23 @@ public class SplittableWindow extends UIElement {
             return this;
         }
     }
+
     @Getter
     private final SplitStyle splitStyle = new SplitStyle();
     @Nullable
-    @Getter @Setter
+    @Getter
+    @Setter
     protected SplittableWindow parentWindow;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean immortal = false;
     /**
      * Optional stable identifier so this window can be located after a layout reload.
      * Used by {@link com.lowdragmc.lowdraglib2.editor.ui.Editor} to rebind named anchor windows.
      */
-    @Nullable @Getter @Setter
+    @Nullable
+    @Getter
+    @Setter
     protected String anchorId;
 
     // runtime
@@ -340,8 +349,9 @@ public class SplittableWindow extends UIElement {
      * Splits the current window horizontally or vertically based on the specified edge and
      * creates two new windows in the process.
      *
-     * @param edge the edge of the window to split, which can be one of {@code YogaEdge.TOP}, {@code YogaEdge.BOTTOM},
-     *             {@code YogaEdge.LEFT}, or {@code YogaEdge.RIGHT}
+     * @param edge      the edge of the window to split, which can be one of {@code YogaEdge.TOP},
+     *                  {@code YogaEdge.BOTTOM},
+     *                  {@code YogaEdge.LEFT}, or {@code YogaEdge.RIGHT}
      * @param newWindow the new window to be placed on the specified edge after splitting
      * @return a pair of SplittableWindows: the split window on the specified edge and the remaining portion
      *         of the original window
@@ -377,7 +387,8 @@ public class SplittableWindow extends UIElement {
     }
 
     /**
-     * Splits the current window into two new windows based on the specified edge and returns the resulting pair of windows.
+     * Splits the current window into two new windows based on the specified edge and returns the resulting pair of
+     * windows.
      *
      * @param edge the edge of the window to split, which can be one of {@code YogaEdge.TOP}, {@code YogaEdge.BOTTOM},
      *             {@code YogaEdge.LEFT}, or {@code YogaEdge.RIGHT}
@@ -645,12 +656,11 @@ public class SplittableWindow extends UIElement {
                 DrawerHelper.drawSolidRect(graphics, x, y, width, height, ColorPattern.T_BLUE.color);
             }
         }
-
     }
-
 
     public record LayoutConfig(@Nullable String anchorId, boolean vertical, float percentage,
                                @Nullable LayoutConfig first, @Nullable LayoutConfig second) {
+
         public CompoundTag serialize() {
             var tag = new CompoundTag();
             if (anchorId != null) tag.putString("anchorId", anchorId);
@@ -670,5 +680,4 @@ public class SplittableWindow extends UIElement {
             return new LayoutConfig(anchorId, vertical, percentage, first, second);
         }
     }
-
 }

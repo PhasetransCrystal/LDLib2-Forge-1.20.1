@@ -3,12 +3,13 @@ package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.utils;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibRenderTypes;
 import com.lowdragmc.lowdraglib2.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.SceneEditor;
-import com.lowdragmc.lowdraglib2.math.Ray;
-import com.lowdragmc.lowdraglib2.math.Transform;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneInteractable;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneRendering;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.SceneObject;
+import com.lowdragmc.lowdraglib2.math.Ray;
+import com.lowdragmc.lowdraglib2.math.Transform;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
@@ -19,19 +20,21 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 
 public class TransformGizmo extends SceneObject implements ISceneRendering, ISceneInteractable {
+
     public enum Mode {
         TRANSLATE,
         ROTATE,
         SCALE
     }
+
     private static final VoxelShape xAxisCollider = Shapes.box(0, -0.1, -0.1, 1.2, 0.1, 0.1);
     private static final VoxelShape xPlaneCollider = Shapes.box(0, 0.1, 0.1, 0.01, 0.3, 0.3);
     private static final VoxelShape yAxisCollider = Shapes.box(-0.1, 0, -0.1, 0.1, 1.2, 0.1);
@@ -39,15 +42,11 @@ public class TransformGizmo extends SceneObject implements ISceneRendering, ISce
     private static final VoxelShape zAxisCollider = Shapes.box(-0.1, -0.1, 0, 0.1, 0.1, 1.2);
     private static final VoxelShape zPlaneCollider = Shapes.box(0.1, 0.1, 0, 0.3, 0.3, 0.01);
     private static final VoxelShape xRingCollider = createRingCollisionBox(
-            new Vector3f(0, 0, 0), new Vector3f(1, 0, 0), 1.0, 16, 0.1
-    );
+            new Vector3f(0, 0, 0), new Vector3f(1, 0, 0), 1.0, 16, 0.1);
     private static final VoxelShape yRingCollider = createRingCollisionBox(
-            new Vector3f(0, 0, 0), new Vector3f(0, 1, 0), 1.0, 16, 0.1
-    );
+            new Vector3f(0, 0, 0), new Vector3f(0, 1, 0), 1.0, 16, 0.1);
     private static final VoxelShape zRingCollider = createRingCollisionBox(
-            new Vector3f(0, 0, 0), new Vector3f(0, 0, 1), 1.0, 16, 0.1
-    );
-
+            new Vector3f(0, 0, 0), new Vector3f(0, 0, 1), 1.0, 16, 0.1);
 
     @Nullable
     @Getter
@@ -56,7 +55,7 @@ public class TransformGizmo extends SceneObject implements ISceneRendering, ISce
     @Setter
     private Runnable onTransformChanged;
 
-    //runtime
+    // runtime
     @Getter
     @Setter
     @Nonnull
@@ -152,10 +151,10 @@ public class TransformGizmo extends SceneObject implements ISceneRendering, ISce
             var distance = renderer.getEyePos().distance(transform().position());
             float baseScale = 0.23F;
             float gizmoScale = distance * (float) Math.tan(renderer.getFov() * 0.5f * Math.PI / 180) * baseScale;
-//            if (lastScale != gizmoScale) {
-//                transform().scale(new Vector3f(gizmoScale));
-//                lastScale = gizmoScale;
-//            }
+            // if (lastScale != gizmoScale) {
+            // transform().scale(new Vector3f(gizmoScale));
+            // lastScale = gizmoScale;
+            // }
             if (targetTransform == null) return;
             var hasChanged = false;
             if (!transform().position().equals(targetTransform.position())) {

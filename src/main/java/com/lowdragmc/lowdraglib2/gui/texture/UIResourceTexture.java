@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -14,8 +15,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @KJSBindings
 @LDLRegisterClient(name = "ui_resource_texture", registry = "ldlib2:gui_texture")
@@ -23,6 +25,7 @@ import java.util.Optional;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class UIResourceTexture extends TransformTexture {
+
     @Persisted
     @Getter
     private IResourcePath resourcePath = new BuiltinPath("");

@@ -1,16 +1,16 @@
 package com.lowdragmc.lowdraglib2.gui.sync.rpc;
 
-import com.lowdragmc.lowdraglib2.syncdata.SyncValueHolder;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.syncdata.SyncValueHolder;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Function;
 
 public record RPCEvent(
-        SyncValueHolder[] argHolders,
-        @Nullable SyncValueHolder returnHolder,
-        Function<Object[], Object> executor
-) {
+                       SyncValueHolder[] argHolders,
+                       @Nullable SyncValueHolder returnHolder,
+                       Function<Object[], Object> executor) {
 
     private void checkArgs(Object[] args) {
         if (args.length != argHolders.length) {

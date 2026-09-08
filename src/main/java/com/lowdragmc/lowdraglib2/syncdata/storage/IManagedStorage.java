@@ -14,6 +14,7 @@ import java.util.stream.Stream;
  * @implNote IManagedStorage
  */
 public interface IManagedStorage {
+
     /**
      * Get all managed objects
      */
@@ -93,5 +94,4 @@ public interface IManagedStorage {
      * it should be called when class initialization finished but field haven't been changed yet.
      */
     void requireInit();
-
 }

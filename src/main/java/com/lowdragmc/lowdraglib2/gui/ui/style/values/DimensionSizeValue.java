@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
 import com.lowdragmc.lowdraglib2.gui.ui.data.DimensionSize;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import dev.vfyjxf.taffy.geometry.TaffySize;
 import dev.vfyjxf.taffy.style.TaffyDimension;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * Parses CSS size/min-size/max-size shorthand syntax using TaffyDimension.
  *
  * Supported syntax (following CSS):
+ * 
  * <pre>
  * width: 10px;            // Both dimensions (when used as shorthand)
  * size: 10px 20px;        // Width Height

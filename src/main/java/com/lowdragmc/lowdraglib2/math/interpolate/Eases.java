@@ -5,10 +5,11 @@ package com.lowdragmc.lowdraglib2.math.interpolate;
  * Date: 2022/08/26
  */
 public enum Eases implements IEase {
+
     LINEAR(input -> input),
     QUAD_IN(input -> input * input),
     QUAD_IN_OUT(input -> {
-        if((input /= 0.5f) < 1) {
+        if ((input /= 0.5f) < 1) {
             return 0.5f * input * input;
         }
         return -0.5f * ((--input) * (input - 2) - 1);
@@ -67,10 +68,9 @@ public enum Eases implements IEase {
         return ((float) Math.pow(2, -10 * (input -= 1)) * (float) Math.sin((input - s) * (2 * Math.PI) / p) * 0.5f + 1);
     });
 
-
     final IEase ease;
 
-    Eases(IEase ease){
+    Eases(IEase ease) {
         this.ease = ease;
     }
 

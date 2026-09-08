@@ -3,9 +3,11 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.api;
 /**
  * Interface for logging errors, warnings, and informational messages in the graph system.
  *
- * <p>Implement this interface to provide logging functionality for the graph editor.
+ * <p>
+ * Implement this interface to provide logging functionality for the graph editor.
  * Messages logged through this interface can be displayed in the console and/or as visual markers
- * on graph elements.</p>
+ * on graph elements.
+ * </p>
  */
 public interface IErrorsAndWarnings {
 

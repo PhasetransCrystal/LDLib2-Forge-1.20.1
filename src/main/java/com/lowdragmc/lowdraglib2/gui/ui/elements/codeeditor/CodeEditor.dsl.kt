@@ -1,19 +1,16 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor
 
-import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.ILanguageDefinition
-import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.Languages
-import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.StyleManager
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextAreaElement
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextAreaSpec
+import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.ILanguageDefinition
+import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.Languages
+import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.StyleManager
 
 /**
  * Specification for CodeEditor element (extends TextAreaSpec)
  */
-open class CodeEditorSpec<T : CodeEditor>(
-    var language: ILanguageDefinition? = null,
-    var styleManager: StyleManager? = null,
-) : TextAreaSpec<T>() {
+open class CodeEditorSpec<T : CodeEditor>(var language: ILanguageDefinition? = null, var styleManager: StyleManager? = null) : TextAreaSpec<T>() {
     /**
      * Set syntax highlighting language
      */
@@ -53,10 +50,7 @@ open class CodeEditorSpec<T : CodeEditor>(
 /**
  * CodeEditor element builder (extends TextAreaElement)
  */
-open class CodeEditorElement<T : CodeEditor>(
-    element: T,
-    spec: (CodeEditorSpec<T>.() -> Unit)? = null,
-) : TextAreaElement<T>(element, null) {
+open class CodeEditorElement<T : CodeEditor>(element: T, spec: (CodeEditorSpec<T>.() -> Unit)? = null) : TextAreaElement<T>(element, null) {
 
     private val codeEditorSpec: CodeEditorSpec<T>?
 
@@ -64,9 +58,7 @@ open class CodeEditorElement<T : CodeEditor>(
         codeEditorSpec = spec?.let { CodeEditorSpec<T>().apply(it) }
     }
 
-    override fun makeSpec(): TextAreaSpec<T>? {
-        return codeEditorSpec
-    }
+    override fun makeSpec(): TextAreaSpec<T>? = codeEditorSpec
 
     override fun build(spec: TextAreaSpec<T>?): T {
         val e = super.build(spec)
@@ -85,25 +77,17 @@ open class CodeEditorElement<T : CodeEditor>(
 /**
  * Top Level - Create a standalone CodeEditor element
  */
-fun codeEditor(spec: (CodeEditorSpec<CodeEditor>.() -> Unit)? = null,
-               init: CodeEditorElement<CodeEditor>.() -> Unit = {}): CodeEditor {
-    return CodeEditorElement(CodeEditor(), spec).apply(init).build()
-}
+fun codeEditor(spec: (CodeEditorSpec<CodeEditor>.() -> Unit)? = null, init: CodeEditorElement<CodeEditor>.() -> Unit = {}): CodeEditor = CodeEditorElement(CodeEditor(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add CodeEditor as a child to a container
  */
-fun UIContainer<*, *>.codeEditor(spec: (CodeEditorSpec<CodeEditor>.() -> Unit)? = null,
-                                  init: CodeEditorElement<CodeEditor>.() -> Unit = {}) =
-    add(CodeEditorElement(CodeEditor(), spec), init)
+fun UIContainer<*, *>.codeEditor(spec: (CodeEditorSpec<CodeEditor>.() -> Unit)? = null, init: CodeEditorElement<CodeEditor>.() -> Unit = {}) = add(CodeEditorElement(CodeEditor(), spec), init)
 
 /**
  * DSL converter - Convert existing CodeEditor to DSL builder
  */
-fun <T : CodeEditor> T.dsl(spec: (CodeEditorSpec<T>.() -> Unit)? = null,
-                           init: CodeEditorElement<T>.() -> Unit = {}): CodeEditorElement<T> {
-    return CodeEditorElement(this, spec).apply(init)
-}
+fun <T : CodeEditor> T.dsl(spec: (CodeEditorSpec<T>.() -> Unit)? = null, init: CodeEditorElement<T>.() -> Unit = {}): CodeEditorElement<T> = CodeEditorElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -147,9 +131,7 @@ fun <T : CodeEditor> CodeEditorElement<T>.withStyleManager(manager: StyleManager
 /**
  * Extension: Get current language
  */
-fun <T : CodeEditor> CodeEditorElement<T>.getLanguage(): ILanguageDefinition {
-    return element.language
-}
+fun <T : CodeEditor> CodeEditorElement<T>.getLanguage(): ILanguageDefinition = element.language
 
 /**
  * Extension: Get styled lines for custom rendering
@@ -160,4 +142,3 @@ fun <T : CodeEditor> CodeEditorElement<T>.getStyledLines() = element.styledLines
  * Extension: Access syntax parser
  */
 fun <T : CodeEditor> CodeEditorElement<T>.syntaxParser() = element.syntaxParser
-

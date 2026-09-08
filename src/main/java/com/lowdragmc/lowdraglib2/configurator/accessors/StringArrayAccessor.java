@@ -1,10 +1,10 @@
 package com.lowdragmc.lowdraglib2.configurator.accessors;
 
-
 import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.TextAreaConfigurator;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;

@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.CustomGraphModelImpl;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,8 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TestGraph extends Graph {
-    public static final GraphNodeRegistry NODE_REGISTRY =
-            GraphNodeRegistry.create(LDLib2.id("test_graph"), TestGraph.class);
+
+    public static final GraphNodeRegistry NODE_REGISTRY = GraphNodeRegistry.create(LDLib2.id("test_graph"), TestGraph.class);
 
     @Override
     public List<Class<? extends Node>> getSupportNodes() {

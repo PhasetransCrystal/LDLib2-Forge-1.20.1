@@ -1,8 +1,5 @@
 package com.lowdragmc.lowdraglib2.editor.settings;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
@@ -15,6 +12,10 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.SplitView;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TreeList;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import lombok.Getter;
@@ -22,7 +23,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLLoader;
-import org.appliedenergistics.yoga.YogaEdge;
 
 import java.io.File;
 import java.io.FileReader;
@@ -30,10 +30,13 @@ import java.io.FileWriter;
 import java.util.*;
 
 public class EditorSettings implements IPersistedSerializable {
+
     public final Editor editor;
     private final Map<ResourceLocation, Settings> settings = new LinkedHashMap<>();
     private final Map<ResourceLocation, Codec<? extends Settings>> codecs = new HashMap<>();
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     private File settingsFile = FMLLoader.getGamePath().resolve("config").resolve(LDLib2.MOD_ID).resolve("editor.json").toFile();
     // runtime
     private boolean isDirty = false;
@@ -73,6 +76,7 @@ public class EditorSettings implements IPersistedSerializable {
                 var settings = node.getContent();
                 if (settings == null) return;
                 inspector.inspect(new IConfigurable() {
+
                     @Override
                     public void buildConfigurator(ConfiguratorGroup father) {
                         for (Settings setting : settings) {
@@ -113,7 +117,7 @@ public class EditorSettings implements IPersistedSerializable {
         if (settingsFile.getParentFile() != null) {
             settingsFile.getParentFile().mkdirs();
         }
-        try (var writer = new FileWriter(settingsFile)){
+        try (var writer = new FileWriter(settingsFile)) {
             var json = serializeSettings();
             writer.write(json.toString());
         } catch (Exception e) {
@@ -126,7 +130,7 @@ public class EditorSettings implements IPersistedSerializable {
      */
     public void loadAllSettingsFromFile() {
         if (!settingsFile.exists()) return;
-        try (var reader = new FileReader(settingsFile)){
+        try (var reader = new FileReader(settingsFile)) {
             var json = JsonParser.parseReader(reader).getAsJsonObject();
             deserializeSettings(json);
         } catch (Exception e) {
@@ -134,7 +138,7 @@ public class EditorSettings implements IPersistedSerializable {
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private JsonObject serializeSettings() {
         var json = new JsonObject();
         for (var entry : settings.entrySet()) {

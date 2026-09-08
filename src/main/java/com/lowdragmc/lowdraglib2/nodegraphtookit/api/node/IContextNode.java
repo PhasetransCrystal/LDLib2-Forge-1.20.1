@@ -5,12 +5,16 @@ import java.util.List;
 /**
  * Public, read-only view of a context node: an ordered container of {@link IBlockNode}s.
  *
- * <p>A context node groups blocks together in a fixed vertical stack. Each context declares
+ * <p>
+ * A context node groups blocks together in a fixed vertical stack. Each context declares
  * which block types it accepts via {@code ContextNode#getSupportBlocks()} and/or the
- * {@link UseWithContext} annotation on block classes.</p>
+ * {@link UseWithContext} annotation on block classes.
+ * </p>
  *
- * <p>Blocks are <em>not</em> top-level graph nodes: they are reachable only through their
- * parent context.</p>
+ * <p>
+ * Blocks are <em>not</em> top-level graph nodes: they are reachable only through their
+ * parent context.
+ * </p>
  */
 public interface IContextNode extends INode {
 

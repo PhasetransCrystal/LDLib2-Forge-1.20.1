@@ -10,6 +10,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.inventory.InventorySlots;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.NoArgsConstructor;
 import net.minecraft.ChatFormatting;
@@ -23,11 +24,12 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@LDLRegister(name="doc", registry = "ldlib2:menu_test")
+@LDLRegister(name = "doc", registry = "ldlib2:menu_test")
 @NoArgsConstructor
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TestMenuDoc implements IMenuTest {
+
     private boolean bool = true;
     private String string = "hello";
     private float number = 0.5f;
@@ -43,8 +45,7 @@ public class TestMenuDoc implements IMenuTest {
         root.addChildren(
                 new Label().setText("Menu UI"),
 
-                new InventorySlots()
-        ).addClass("panel_bg");
+                new InventorySlots()).addClass("panel_bg");
 
         var ui = UI.of(root, StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC));
         return new ModularUI(ui, player);
@@ -62,8 +63,7 @@ public class TestMenuDoc implements IMenuTest {
                 new UIElement().addChildren(
                         new ItemSlot().bind(itemHandler, 0),
                         new ItemSlot().bind(new ItemHandlerSlot(itemHandler, 1).setCanTake(p -> false)),
-                        new FluidSlot().bind(fluidTank, 0)
-                ).layout(l -> l.gapAll(2).flexDirection(FlexDirection.ROW)),
+                        new FluidSlot().bind(fluidTank, 0)).layout(l -> l.gapAll(2).flexDirection(FlexDirection.ROW)),
                 // bind value to the components
                 new UIElement().addChildren(
                         new Switch().bind(DataBindingBuilder.bool(() -> bool, value -> bool = value).build()),
@@ -75,8 +75,8 @@ public class TestMenuDoc implements IMenuTest {
                                 .append(Component.literal(String.valueOf(bool)).withStyle(ChatFormatting.AQUA)).append(" ")
                                 .append(Component.literal(string).withStyle(ChatFormatting.RED)).append(" ")
                                 .append(Component.literal("%.2f".formatted(number)).withStyle(ChatFormatting.YELLOW)))
-                                .build())
-                ).layout(l -> l.gapAll(2)),
+                                .build()))
+                        .layout(l -> l.gapAll(2)),
                 // trigger ui events on the server side
                 new Button().addServerEventListener(UIEvents.MOUSE_DOWN, e -> {
                     if (fluidTank.getFluid().getFluid() == Fluids.WATER) {
@@ -86,12 +86,10 @@ public class TestMenuDoc implements IMenuTest {
                     }
                 }),
                 // you could also use button.setOnServerClick(e -> { ... })
-                new InventorySlots()
-        );
+                new InventorySlots());
         root.addClass("panel_bg");
 
         // pass the player to the Modular UI
         return new ModularUI(UI.of(root, StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MODERN)), player);
     }
-
 }

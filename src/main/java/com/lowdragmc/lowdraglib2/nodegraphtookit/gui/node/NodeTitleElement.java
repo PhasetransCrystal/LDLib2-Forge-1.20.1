@@ -13,9 +13,9 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.ModelElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.ElementRenameColorCommands;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.model.IHasName;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
@@ -23,6 +23,7 @@ import lombok.Getter;
 import org.lwjgl.glfw.GLFW;
 
 public class NodeTitleElement extends ModelElement {
+
     public final AbstractNodeModel nodeModel;
     @Getter
     protected UIElement titleContainer;
@@ -93,7 +94,7 @@ public class NodeTitleElement extends ModelElement {
 
         // Use an array-wrapped boolean to ensure commit-or-cancel runs exactly once. Both ENTER
         // and BLUR will fire; whichever comes first wins.
-        final boolean[] done = {false};
+        final boolean[] done = { false };
         Runnable commit = () -> {
             if (done[0]) return;
             done[0] = true;

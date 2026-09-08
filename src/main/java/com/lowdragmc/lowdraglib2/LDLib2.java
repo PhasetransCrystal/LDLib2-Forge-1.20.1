@@ -1,25 +1,27 @@
 package com.lowdragmc.lowdraglib2;
 
+import com.lowdragmc.lowdraglib2.CommonListeners.ModCreativeModeTab;
+import com.lowdragmc.lowdraglib2.client.ClientProxy;
+import com.lowdragmc.lowdraglib2.core.mixins.MixinPluginShared;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.RandomSource;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import com.lowdragmc.lowdraglib2.CommonListeners.ModCreativeModeTab;
-import com.lowdragmc.lowdraglib2.core.mixins.MixinPluginShared;
-import com.lowdragmc.lowdraglib2.client.ClientProxy;
-import com.google.gson.GsonBuilder;
-import com.google.gson.Gson;
-import org.slf4j.LoggerFactory;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 @Mod(LDLib2.MOD_ID)
 public class LDLib2 {
+
     public static final String MOD_ID = "ldlib2";
     public static final String NAME = "LowDragLib2";
     public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
@@ -79,7 +81,6 @@ public class LDLib2 {
             return ResourceLocation.isValidNamespace(namespace) && ResourceLocation.isValidPath(path);
         }
         return true;
-
     }
 
     public static ResourceLocation id(String path) {
@@ -137,5 +138,4 @@ public class LDLib2 {
     public static boolean isOptifineLoaded() {
         return MixinPluginShared.IS_OPT_LOAD;
     }
-
 }

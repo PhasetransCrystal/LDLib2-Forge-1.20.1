@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib2.math.interpolate.Interpolator;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.data.BlockPosFace;
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.TrackedDummyWorld;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.emi.emi.api.stack.EmiStack;
@@ -44,17 +45,17 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.appliedenergistics.yoga.YogaOverflow;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @Accessors(chain = true)
 @ParametersAreNonnullByDefault
@@ -62,6 +63,7 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "scene", group = "misc", registry = "ldlib2:ui_element")
 public class Scene extends UIElement {
+
     private static final Object ROTATION_DRAGGING = new Object();
     private static final Object PAN_DRAGGING = new Object();
     @Nullable
@@ -75,17 +77,23 @@ public class Scene extends UIElement {
     protected Level level;
     @Getter
     protected boolean dragging;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean renderFacing = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean renderSelect = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean draggable = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean scalable = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean intractable = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean showHoverBlockTips;
     @Getter
     protected Vector3f center = new Vector3f(0.5f);
@@ -98,7 +106,8 @@ public class Scene extends UIElement {
     @Getter
     protected float range = 1;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     protected BiConsumer<BlockPos, Direction> onSelected;
     private final Set<BlockPos> core = new HashSet<>();
     @Getter
@@ -111,17 +120,19 @@ public class Scene extends UIElement {
     protected ClipContext.Block clipBlock = ClipContext.Block.OUTLINE;
     @Getter
     protected ClipContext.Fluid clipFluid = ClipContext.Fluid.NONE;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean allowXEILookup = true;
     @Getter
     protected boolean autoReleased = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean tickWorld = true;
     protected Consumer<Scene> beforeWorldRender;
     protected Consumer<Scene> afterWorldRender;
     // editor support
-//    @Nullable
-//    private ResourceLocation editorStructureName = null;
+    // @Nullable
+    // private ResourceLocation editorStructureName = null;
     // runtime
     @Getter
     protected ItemStack lastHoverItem;
@@ -258,7 +269,7 @@ public class Scene extends UIElement {
         core.clear();
         level = world;
         dummyWorld = world instanceof TrackedDummyWorld trackedLevel ? trackedLevel : new TrackedDummyWorld(world);
-        //compute window size from scaled width & height
+        // compute window size from scaled width & height
         this.renderer = ClientWrapper.createWorldSceneRenderer(dummyWorld, useFBOSceneRenderer, fboSize);
         dummyWorld.setBlockFilter(core::contains);
         center = new Vector3f(0, 0, 0);
@@ -285,13 +296,13 @@ public class Scene extends UIElement {
     }
 
     private static class ClientWrapper {
+
         private static WorldSceneRenderer createWorldSceneRenderer(Level world, boolean useFBOSceneRenderer, @Nullable Size fboSize) {
             return useFBOSceneRenderer ?
                     new FBOWorldSceneRenderer(world, fboSize == null ? 1080 : fboSize.width, fboSize == null ? 1080 : fboSize.height) :
                     new ImmediateWorldSceneRenderer(world);
         }
     }
-
 
     @OnlyIn(Dist.CLIENT)
     public final Scene createScene(Level world) {
@@ -300,7 +311,8 @@ public class Scene extends UIElement {
 
     /**
      * Sets the core blocks to be rendered in the scene.
-     * @param blocks the collection of block positions to be rendered as the core of the scene.
+     * 
+     * @param blocks     the collection of block positions to be rendered as the core of the scene.
      * @param renderHook an optional render hook that can be used to customize the rendering of the blocks.
      * @return
      */
@@ -374,8 +386,7 @@ public class Scene extends UIElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void renderBeforeBatchEnd(MultiBufferSource bufferSource, float partialTicks) {
-    }
+    protected void renderBeforeBatchEnd(MultiBufferSource bufferSource, float partialTicks) {}
 
     @OnlyIn(Dist.CLIENT)
     public void renderBlockOverLay(WorldSceneRenderer renderer) {
@@ -458,10 +469,10 @@ public class Scene extends UIElement {
 
     @OnlyIn(Dist.CLIENT)
     private static void drawBorder(PoseStack poseStack, int x, int y, int width, int height, int color, int border) {
-        drawSolidRect(poseStack,x - border, y - border, width + 2 * border, border, color);
-        drawSolidRect(poseStack,x - border, y + height, width + 2 * border, border, color);
-        drawSolidRect(poseStack,x - border, y, border, height, color);
-        drawSolidRect(poseStack,x + width, y, border, height, color);
+        drawSolidRect(poseStack, x - border, y - border, width + 2 * border, border, color);
+        drawSolidRect(poseStack, x - border, y + height, width + 2 * border, border, color);
+        drawSolidRect(poseStack, x - border, y, border, height, color);
+        drawSolidRect(poseStack, x + width, y, border, height, color);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -495,16 +506,15 @@ public class Scene extends UIElement {
         bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         RenderSystem.enableBlend();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        bufferBuilder.vertex(matrix4f, (float)x1, (float)y1, (float)z).color(g, h, j, f).endVertex();
-        bufferBuilder.vertex(matrix4f, (float)x1, (float)y2, (float)z).color(g, h, j, f).endVertex();
-        bufferBuilder.vertex(matrix4f, (float)x2, (float)y2, (float)z).color(g, h, j, f).endVertex();
-        bufferBuilder.vertex(matrix4f, (float)x2, (float)y1, (float)z).color(g, h, j, f).endVertex();
+        bufferBuilder.vertex(matrix4f, (float) x1, (float) y1, (float) z).color(g, h, j, f).endVertex();
+        bufferBuilder.vertex(matrix4f, (float) x1, (float) y2, (float) z).color(g, h, j, f).endVertex();
+        bufferBuilder.vertex(matrix4f, (float) x2, (float) y2, (float) z).color(g, h, j, f).endVertex();
+        bufferBuilder.vertex(matrix4f, (float) x2, (float) y1, (float) z).color(g, h, j, f).endVertex();
         BufferUploader.drawWithShader(bufferBuilder.end());
         RenderSystem.disableBlend();
     }
 
     // TODO XEI ingredient support
-
 
     /// Event handlers
     protected void onMouseDown(UIEvent event) {
@@ -539,8 +549,7 @@ public class Scene extends UIElement {
             var forward = new Vector3f(
                     (float) (Math.cos(Math.toRadians(rotationPitch)) * Math.cos(Math.toRadians(rotationYaw))),
                     (float) Math.sin(Math.toRadians(rotationPitch)),
-                    (float) (Math.cos(Math.toRadians(rotationPitch)) * Math.sin(Math.toRadians(rotationYaw)))
-            );
+                    (float) (Math.cos(Math.toRadians(rotationPitch)) * Math.sin(Math.toRadians(rotationYaw))));
             var worldUp = new Vector3f(0, 1, 0);
             var right = new Vector3f();
             forward.cross(worldUp, right);
@@ -555,13 +564,11 @@ public class Scene extends UIElement {
             center.add(
                     right.x * realDelta.x * moveSpeed + up.x * realDelta.y * moveSpeed,
                     right.y * realDelta.x * moveSpeed + up.y * realDelta.y * moveSpeed,
-                    right.z * realDelta.x * moveSpeed + up.z * realDelta.y * moveSpeed
-            );
+                    right.z * realDelta.x * moveSpeed + up.z * realDelta.y * moveSpeed);
             if (renderer != null) {
                 renderer.setCameraLookAt(center, camZoom(), Math.toRadians(rotationYaw), Math.toRadians(rotationPitch));
             }
         }
-
     }
 
     protected void onMouseUp(UIEvent event) {
@@ -650,7 +657,7 @@ public class Scene extends UIElement {
     protected long startTick;
 
     public void setCameraYawAndPitchAnima(float rotationYaw, float rotationPitch, int dur) {
-        if (interpolator != null || getModularUI() == null) return ;
+        if (interpolator != null || getModularUI() == null) return;
         final float oRotationYaw = this.rotationPitch;
         final float oRotationPitch = this.rotationYaw;
         startTick = getModularUI().getTickCounter();
@@ -668,24 +675,25 @@ public class Scene extends UIElement {
     public void afterDeserialize() {
         super.afterDeserialize();
         // TODO structure template support
-//        if (LDLib2.isRemote()) {
-//            if (editorStructureName != null) {
-//                var res = Minecraft.getInstance().getResourceManager().getResource(editorStructureName);
-//                if (res.isPresent()) {
-//                    try (var inputstream = res.get().open()){
-//                        try (var datainputstream = new DataInputStream(inputstream)) {
-//                            var structureTag = NbtIo.read(datainputstream);
-//                            var template = new StructureTemplate();
-//                            template.load(BuiltInRegistries.BLOCK.asLookup(), structureTag);
-//                        }
-//                    } catch (IOException ignored) {}
-//                }
-//            }
-//        }
+        // if (LDLib2.isRemote()) {
+        // if (editorStructureName != null) {
+        // var res = Minecraft.getInstance().getResourceManager().getResource(editorStructureName);
+        // if (res.isPresent()) {
+        // try (var inputstream = res.get().open()){
+        // try (var datainputstream = new DataInputStream(inputstream)) {
+        // var structureTag = NbtIo.read(datainputstream);
+        // var template = new StructureTemplate();
+        // template.load(BuiltInRegistries.BLOCK.asLookup(), structureTag);
+        // }
+        // } catch (IOException ignored) {}
+        // }
+        // }
+        // }
     }
 
     // region XEI Supports
     public static class JEISupport {
+
         public static void clickableIngredient(Scene scene) {
             LDLibJEIPlugin.clickableIngredient(scene, () -> {
                 if (!scene.allowXEILookup) return null;
@@ -697,6 +705,7 @@ public class Scene extends UIElement {
     }
 
     public static class REISupport {
+
         public static void focusedStack(Scene scene) {
             LDLibREIPlugin.focusedStack(scene, () -> {
                 if (!scene.allowXEILookup) return null;
@@ -708,6 +717,7 @@ public class Scene extends UIElement {
     }
 
     public static class EMISupport {
+
         public static void stackProvider(Scene scene) {
             LDLibEMIPlugin.stackProvider(scene, () -> {
                 if (!scene.allowXEILookup) return null;

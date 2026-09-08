@@ -11,5 +11,6 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
  */
 @FunctionalInterface
 public interface GraphCommandListener {
+
     void onCommandExecuted(IGraphCommand command, GraphView view, GraphModel graphModel);
 }

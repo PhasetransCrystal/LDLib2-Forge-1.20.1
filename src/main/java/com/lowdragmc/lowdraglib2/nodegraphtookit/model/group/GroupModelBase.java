@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.group;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class GroupModelBase extends GraphElementModel implements IGroupItemModel, IGraphElementContainer, IHasName {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     protected GroupModelBase parentGroup;
 
     public GroupModelBase() {
@@ -19,8 +22,7 @@ public abstract class GroupModelBase extends GraphElementModel implements IGroup
                 Capabilities.SELECTABLE,
                 Capabilities.COLLAPSIBLE,
                 Capabilities.COPIABLE,
-                Capabilities.RENAMABLE
-        ));
+                Capabilities.RENAMABLE));
     }
 
     /**
@@ -43,11 +45,8 @@ public abstract class GroupModelBase extends GraphElementModel implements IGroup
     public Stream<GraphElementModel> getContainedModels() {
         return getItems().stream()
                 .flatMap(t -> Stream.concat(
-                        t instanceof GraphElementModel model
-                                ? Stream.of(model)
-                                : Stream.empty(),
-                        t.getContainedModels()
-                ));
+                        t instanceof GraphElementModel model ? Stream.of(model) : Stream.empty(),
+                        t.getContainedModels()));
     }
 
     @Override
@@ -62,5 +61,4 @@ public abstract class GroupModelBase extends GraphElementModel implements IGroup
     public boolean repair() {
         return false;
     }
-
 }

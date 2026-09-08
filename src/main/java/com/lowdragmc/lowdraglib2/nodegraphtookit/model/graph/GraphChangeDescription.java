@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHintList;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.GraphElementModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -11,10 +12,13 @@ import java.util.*;
 /**
  * Tracks changes made to a graph during a single operation.
  *
- * <p>This class collects information about models that were added, deleted, or modified,
- * allowing the UI to efficiently update only the affected elements.</p>
+ * <p>
+ * This class collects information about models that were added, deleted, or modified,
+ * allowing the UI to efficiently update only the affected elements.
+ * </p>
  */
 public class GraphChangeDescription {
+
     private @Nullable Set<UUID> newModels;
     private @Nullable Set<UUID> deletedModels;
     private @Nullable Map<UUID, ChangeHintList> changedModels;
@@ -64,7 +68,7 @@ public class GraphChangeDescription {
     /**
      * Adds a changed model with the specified change hint.
      *
-     * @param uid the changed model uid
+     * @param uid  the changed model uid
      * @param hint the type of change
      */
     protected void addChangedModel(UUID uid, ChangeHint hint) {
@@ -139,7 +143,8 @@ public class GraphChangeDescription {
     }
 
     /**
-     * Adds deleted models to the changes and sets the graph object dirty. This assumes all models are from the same graph.
+     * Adds deleted models to the changes and sets the graph object dirty. This assumes all models are from the same
+     * graph.
      */
     public GraphChangeDescription addDeletedModels(List<? extends GraphElementModel> models) {
         if (models == null || models.isEmpty()) return this;
@@ -177,7 +182,8 @@ public class GraphChangeDescription {
     }
 
     /**
-     * Adds changed models to the changes and sets the graph object dirty. This assumes all models are from the same graph.
+     * Adds changed models to the changes and sets the graph object dirty. This assumes all models are from the same
+     * graph.
      */
     public GraphChangeDescription addChangedModels(List<? extends GraphElementModel> models, ChangeHint changeHint) {
         if (models == null || models.isEmpty()) return this;
@@ -223,5 +229,4 @@ public class GraphChangeDescription {
     public Map<UUID, ChangeHintList> getChangedModels() {
         return changedModels == null ? Collections.emptyMap() : changedModels;
     }
-
 }

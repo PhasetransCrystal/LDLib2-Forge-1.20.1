@@ -3,18 +3,21 @@ package com.lowdragmc.lowdraglib2.configurator.ui;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Selector;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import org.appliedenergistics.yoga.numeric.FloatOptional;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class FloatOptionalConfigurator extends ValueConfigurator<FloatOptional> {
+
     public final TextField textField;
     public final Selector<Boolean> definedSelector;
     @Getter

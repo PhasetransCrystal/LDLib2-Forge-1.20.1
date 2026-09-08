@@ -1,19 +1,21 @@
 package com.lowdragmc.lowdraglib2.networking.both;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.gui.sync.IUISyncManagerHolder;
-import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
-import lombok.NoArgsConstructor;
+import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
+import com.lowdragmc.lowdraglib2.gui.sync.IUISyncManagerHolder;
+import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
+
+import lombok.NoArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
-import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 
 import javax.annotation.Nonnull;
 
 @NoArgsConstructor
 public class PacketUIRPCEventReturn implements CustomPacketPayload {
+
     public static final ResourceLocation ID = LDLib2.id("ui_rpc_event_return");
     public static final Type<PacketUIRPCEventReturn> TYPE = new Type<>(ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketUIRPCEventReturn> CODEC = StreamCodec.ofMember(PacketUIRPCEventReturn::write, PacketUIRPCEventReturn::decode);

@@ -1,47 +1,45 @@
 package com.lowdragmc.lowdraglib2.utils.virtuallevel;
 
-import com.google.common.base.Suppliers;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.client.ClientProxy;
 import com.lowdragmc.lowdraglib2.client.scene.ParticleManager;
+
+import com.google.common.base.Suppliers;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.profiling.InactiveProfiler;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.alchemy.PotionBrewing;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.chunk.DataLayer;
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
-import net.minecraft.world.level.entity.*;
-import net.minecraft.world.ticks.BlackholeTickAccess;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.profiling.InactiveProfiler;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkSource;
+import net.minecraft.world.level.chunk.DataLayer;
+import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
+import net.minecraft.world.level.entity.*;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Fluid;
@@ -50,19 +48,22 @@ import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Scoreboard;
+import net.minecraft.world.ticks.BlackholeTickAccess;
 import net.minecraft.world.ticks.LevelTickAccess;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-
-import javax.annotation.Nonnull;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Author: KilaBash
@@ -72,6 +73,7 @@ import java.util.function.Supplier;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class DummyWorld extends Level {
+
     private static final ResourceKey<Level> LEVEL_ID;
     static {
         LEVEL_ID = ResourceKey.create(Registries.DIMENSION, LDLib2.id("dummy_world"));
@@ -88,12 +90,15 @@ public class DummyWorld extends Level {
     protected final Holder<Biome> biome;
     @Getter
     protected Supplier<ClientLevel> asClientWorld = Suppliers.memoize(() -> WrappedClientWorld.of(this));
-    @Getter @Setter
+    @Getter
+    @Setter
     protected float dayTimeFraction = 0.0f;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected float dayTimePerTick = -1.0f;
     @OnlyIn(Dist.CLIENT)
-    @Getter @Setter
+    @Getter
+    @Setter
     private ParticleManager particleManager;
 
     public DummyWorld() {
@@ -111,7 +116,7 @@ public class DummyWorld extends Level {
         this.litSections = new LongOpenHashSet();
         this.filledBlocks = new LongOpenHashSet();
         byte[] nibbles = new byte[2048];
-        Arrays.fill(nibbles, (byte)-1);
+        Arrays.fill(nibbles, (byte) -1);
         this.defaultDataLayer = new DataLayer(nibbles);
         this.biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
         if (LDLib2.isClient()) {
@@ -132,16 +137,12 @@ public class DummyWorld extends Level {
     @Override
     public void playSound(@Nullable Player pPlayer,
                           double pX, double pY, double pZ, SoundEvent pSound,
-                          SoundSource pCategory, float pVolume, float pPitch) {
-
-    }
+                          SoundSource pCategory, float pVolume, float pPitch) {}
 
     @Override
     public void playSound(@Nullable Player pPlayer,
                           Entity pEntity, SoundEvent pEvent,
-                          SoundSource pCategory, float pVolume, float pPitch) {
-
-    }
+                          SoundSource pCategory, float pVolume, float pPitch) {}
 
     @Override
     public String gatherChunkSourceStats() {
@@ -165,7 +166,7 @@ public class DummyWorld extends Level {
         return super.getBiome(pPos.offset(Vec3i.ZERO));
     }
 
-    ///  light
+    /// light
     @Override
     public int getBrightness(LightLayer pLightType, BlockPos pBlockPos) {
         return 15;
@@ -188,7 +189,7 @@ public class DummyWorld extends Level {
             if (this.litSections.add(chunkPos.toLong())) {
                 LevelLightEngine lightEngine = this.getLightEngine();
 
-                for(int i = 0; i < this.getSectionsCount(); ++i) {
+                for (int i = 0; i < this.getSectionsCount(); ++i) {
                     int y = this.getSectionYFromSectionIndex(i);
                     SectionPos sectionPos = SectionPos.of(chunkPos, y);
                     lightEngine.updateSectionStatus(sectionPos, false);
@@ -220,7 +221,7 @@ public class DummyWorld extends Level {
                 max.setZ(Math.max(max.getZ(), cur.getZ() + 1));
             });
             return new AABB(min.getX(), min.getY(), min.getZ(),
-                            max.getX(), max.getY(), max.getZ());
+                    max.getX(), max.getY(), max.getZ());
         }
     }
 
@@ -237,9 +238,7 @@ public class DummyWorld extends Level {
     }
 
     @Override
-    public void sendBlockUpdated(BlockPos pos, BlockState oldState, BlockState newState, int flags) {
-
-    }
+    public void sendBlockUpdated(BlockPos pos, BlockState oldState, BlockState newState, int flags) {}
 
     @Override
     public Holder<Biome> getUncachedNoiseBiome(int pX, int pY, int pZ) {
@@ -363,14 +362,10 @@ public class DummyWorld extends Level {
     }
 
     @Override
-    public void setMapData(String mapName, MapItemSavedData data) {
-
-    }
+    public void setMapData(String mapName, MapItemSavedData data) {}
 
     @Override
-    public void destroyBlockProgress(int breakerId, BlockPos pos, int progress) {
-
-    }
+    public void destroyBlockProgress(int breakerId, BlockPos pos, int progress) {}
 
     @Override
     public boolean isLoaded(BlockPos p_195588_1_) {
@@ -383,14 +378,10 @@ public class DummyWorld extends Level {
     }
 
     @Override
-    public void levelEvent(@Nullable Player pPlayer, int pType, BlockPos pPos, int pData) {
-
-    }
+    public void levelEvent(@Nullable Player pPlayer, int pType, BlockPos pPos, int pData) {}
 
     @Override
-    public void gameEvent(GameEvent gameEvent, Vec3 position, GameEvent.Context context) {
-
-    }
+    public void gameEvent(GameEvent gameEvent, Vec3 position, GameEvent.Context context) {}
 
     @Override
     public List<? extends Player> players() {
@@ -403,19 +394,13 @@ public class DummyWorld extends Level {
     }
 
     @Override
-    public void playSeededSound(@Nullable Player player, double x, double y, double z, Holder<SoundEvent> sound, SoundSource source, float volume, float pitch, long seed) {
-
-    }
+    public void playSeededSound(@Nullable Player player, double x, double y, double z, Holder<SoundEvent> sound, SoundSource source, float volume, float pitch, long seed) {}
 
     @Override
-    public void playSeededSound(@Nullable Player player, double x, double y, double z, SoundEvent soundEvent, SoundSource soundSource, float volume, float pitch, long seed) {
-
-    }
+    public void playSeededSound(@Nullable Player player, double x, double y, double z, SoundEvent soundEvent, SoundSource soundSource, float volume, float pitch, long seed) {}
 
     @Override
-    public void playSeededSound(@Nullable Player player, Entity entity, Holder<SoundEvent> sound, SoundSource category, float volume, float pitch, long seed) {
-
-    }
+    public void playSeededSound(@Nullable Player player, Entity entity, Holder<SoundEvent> sound, SoundSource category, float volume, float pitch, long seed) {}
 
     @Override
     public void addParticle(ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
@@ -453,28 +438,21 @@ public class DummyWorld extends Level {
     }
 
     private class EntityCallbacks implements LevelCallback<Entity> {
-        private EntityCallbacks() {
-        }
 
-        public void onCreated(Entity entity) {
-        }
+        private EntityCallbacks() {}
 
-        public void onDestroyed(Entity entity) {
-        }
+        public void onCreated(Entity entity) {}
 
-        public void onTickingStart(Entity entity) {
-        }
+        public void onDestroyed(Entity entity) {}
 
-        public void onTickingEnd(Entity entity) {
-        }
+        public void onTickingStart(Entity entity) {}
 
-        public void onTrackingStart(Entity entity) {
-        }
+        public void onTickingEnd(Entity entity) {}
 
-        public void onTrackingEnd(Entity entity) {
-        }
+        public void onTrackingStart(Entity entity) {}
 
-        public void onSectionChange(Entity object) {
-        }
+        public void onTrackingEnd(Entity entity) {}
+
+        public void onSectionChange(Entity object) {}
     }
 }

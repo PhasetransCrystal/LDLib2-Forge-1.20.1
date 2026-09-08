@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class EMIDragDropHandler {
+
     public final EmiIngredient dragged;
     public final List<Bounds> bounds;
 
@@ -14,5 +15,4 @@ public final class EMIDragDropHandler {
         this.dragged = dragged;
         this.bounds = new ArrayList<>();
     }
-
 }

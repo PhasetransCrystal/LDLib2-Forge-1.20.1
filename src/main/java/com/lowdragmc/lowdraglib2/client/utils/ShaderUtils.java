@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.client.utils;
 
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibShaders;
+
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -21,8 +22,9 @@ public class ShaderUtils {
 
     /**
      * fast blit - fast copy a fbo to another one (color component)
+     * 
      * @param from fbo
-     * @param to fbo
+     * @param to   fbo
      */
     public static void fastBlit(RenderTarget from, RenderTarget to) {
         RenderSystem.assertOnRenderThread();

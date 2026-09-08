@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 @Getter
 public class SyntaxParser {
+
     @Setter
     private ILanguageDefinition languageDefinition;
 
@@ -31,4 +32,3 @@ public class SyntaxParser {
         return tokens;
     }
 }
-

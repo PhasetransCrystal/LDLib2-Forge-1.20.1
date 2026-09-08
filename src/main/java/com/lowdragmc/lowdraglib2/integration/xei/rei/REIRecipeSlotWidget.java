@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class REIRecipeSlotWidget extends EntryWidget {
+
     public final Supplier<Matrix4f> localToWorldSupplier;
     public final BiPredicate<Float, Float> isMouseOver;
     public Supplier<Rectangle> boundsProvider;

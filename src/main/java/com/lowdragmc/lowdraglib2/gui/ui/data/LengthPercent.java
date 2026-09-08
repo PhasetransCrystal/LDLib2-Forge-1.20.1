@@ -1,10 +1,11 @@
 package com.lowdragmc.lowdraglib2.gui.ui.data;
 
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Data;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 
 /**
  * A length value that can be either an absolute pixel value or a percentage.
@@ -12,20 +13,19 @@ import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
  */
 @Data
 public final class LengthPercent {
+
     public static final LengthPercent ZERO = new LengthPercent(0f, false);
 
     public static final Codec<LengthPercent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.fieldOf("value").forGetter(LengthPercent::getValue),
-            Codec.BOOL.fieldOf("percent").forGetter(LengthPercent::isPercent)
-    ).apply(instance, LengthPercent::new));
+            Codec.BOOL.fieldOf("percent").forGetter(LengthPercent::isPercent)).apply(instance, LengthPercent::new));
 
     public static final StreamCodec<FriendlyByteBuf, LengthPercent> STREAM_CODEC = StreamCodec.of(
             (buf, lp) -> {
                 buf.writeFloat(lp.value);
                 buf.writeBoolean(lp.percent);
             },
-            buf -> new LengthPercent(buf.readFloat(), buf.readBoolean())
-    );
+            buf -> new LengthPercent(buf.readFloat(), buf.readBoolean()));
 
     private final float value;
     private final boolean percent;

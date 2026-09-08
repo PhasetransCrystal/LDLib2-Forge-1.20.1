@@ -7,13 +7,16 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.FieldValueInspector;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.ModelElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodeModel;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NodeOptionsInspector extends ModelElement {
+
     public record OptionFieldInfo(String name, TypeHandle type, boolean inspectorOnly) {}
+
     public final NodeModel nodeModel;
 
     // runtime
@@ -65,8 +68,7 @@ public class NodeOptionsInspector extends ModelElement {
             mutableFieldInfos.add(new OptionFieldInfo(
                     nodeOption.getPortModel().getUniqueName(),
                     nodeOption.getPortModel().getDataTypeHandle(),
-                    nodeOption.isShowInInspectorOnly())
-            );
+                    nodeOption.isShowInInspectorOnly()));
             IFieldValueConfigurable configurable = nodeOption.getPortModel();
             if (configurable != null) {
                 var inspector = new FieldValueInspector();

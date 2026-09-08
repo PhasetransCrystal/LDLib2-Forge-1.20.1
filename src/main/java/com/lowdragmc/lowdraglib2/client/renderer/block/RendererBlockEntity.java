@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.client.renderer.block;
 
 import com.lowdragmc.lowdraglib2.CommonProxy;
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -10,7 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class RendererBlockEntity extends BlockEntity {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     IRenderer renderer = IRenderer.EMPTY;
 
     public RendererBlockEntity(BlockPos pos, BlockState blockState) {

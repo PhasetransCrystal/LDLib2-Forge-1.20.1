@@ -2,15 +2,17 @@ package com.lowdragmc.lowdraglib2.utils.search;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nonnull;
+
 public class SearchEngine<T> {
+
     private final ISearch<T> search;
     private final IResultHandler<T> result;
     private final AtomicReference<Thread> currentThread = new AtomicReference<>();
 
-    public SearchEngine(@Nonnull ISearch<T> search, @Nonnull IResultHandler<T> result){
+    public SearchEngine(@Nonnull ISearch<T> search, @Nonnull IResultHandler<T> result) {
         this.search = search;
         this.result = result;
     }
@@ -18,21 +20,21 @@ public class SearchEngine<T> {
     // TODO shall we add a method to schedule searching on the main thread?
     public void searchWord(String word) {
         Thread searchThread = new Thread(() -> {
-                    try {
-                        search.search(word, value -> {
-                            Thread current = Thread.currentThread();
-                            if (current == currentThread.get() && !current.isInterrupted()) {
-                                result.accept(value);
-                            }
-                        });
-                    } catch (Exception e) {
-                        if (!Thread.currentThread().isInterrupted()) {
-                            LDLib2.LOGGER.error("Search failed for word '{}'", word, e);
-                        }
-                    } finally {
-                        currentThread.compareAndSet(Thread.currentThread(), null);
+            try {
+                search.search(word, value -> {
+                    Thread current = Thread.currentThread();
+                    if (current == currentThread.get() && !current.isInterrupted()) {
+                        result.accept(value);
                     }
-                }, "search-" + word.hashCode());
+                });
+            } catch (Exception e) {
+                if (!Thread.currentThread().isInterrupted()) {
+                    LDLib2.LOGGER.error("Search failed for word '{}'", word, e);
+                }
+            } finally {
+                currentThread.compareAndSet(Thread.currentThread(), null);
+            }
+        }, "search-" + word.hashCode());
         Thread previousThread = currentThread.getAndSet(searchThread);
         if (previousThread != null && previousThread.isAlive()) {
             previousThread.interrupt();

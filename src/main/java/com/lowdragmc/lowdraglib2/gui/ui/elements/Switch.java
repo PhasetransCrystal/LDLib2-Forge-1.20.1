@@ -17,21 +17,21 @@ import com.lowdragmc.lowdraglib2.math.interpolate.Eases;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
 import com.lowdragmc.lowdraglib2.utils.animation.Animation;
+
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
-import dev.vfyjxf.taffy.style.TaffyDirection;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import org.appliedenergistics.yoga.YogaEdge;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -40,8 +40,10 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "switch", group = "basic", registry = "ldlib2:ui_element")
 public class Switch extends BindableUIElement<Boolean> {
+
     @Configurable(name = "SwitchStyle")
     public class SwitchStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.BASE_BACKGROUND,
                 PropertyRegistry.PRESSED_BACKGROUND,
@@ -83,7 +85,6 @@ public class Switch extends BindableUIElement<Boolean> {
         public IGuiTexture baseTexture() {
             return getValueSave(PropertyRegistry.BASE_BACKGROUND);
         }
-
 
         public SwitchStyle pressedTexture(IGuiTexture texture) {
             set(PropertyRegistry.PRESSED_BACKGROUND, texture);
@@ -136,9 +137,9 @@ public class Switch extends BindableUIElement<Boolean> {
 
         this.markIcon = new UIElement();
         this.markIcon.layout(layout -> {
-                    layout.heightPercent(100);
-                    layout.setAspectRatio(1);
-                })
+            layout.heightPercent(100);
+            layout.setAspectRatio(1);
+        })
                 .addClass("__switch_mark-icon__");
         Style.importantPipeline(markIcon.getStyle(), style -> style.backgroundTexture(Sprites.RECT_RD));
         addChildren(placeholder, markIcon);

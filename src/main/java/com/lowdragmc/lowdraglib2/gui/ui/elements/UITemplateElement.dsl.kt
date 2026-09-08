@@ -7,9 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 /**
  * Specification for UITemplateElement
  */
-open class UITemplateElementSpec<T : UITemplateElement>(
-    var templatePath: IResourcePath? = null,
-) : ElementSpec<T>() {
+open class UITemplateElementSpec<T : UITemplateElement>(var templatePath: IResourcePath? = null) : ElementSpec<T>() {
     /**
      * Set template path from string
      */
@@ -28,13 +26,8 @@ open class UITemplateElementSpec<T : UITemplateElement>(
 /**
  * UITemplateElement builder
  */
-open class UITemplateElementElement<T : UITemplateElement>(
-    element: T,
-    spec: (UITemplateElementSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, UITemplateElementSpec<T>>(element, spec) {
-    override fun makeSpec(): UITemplateElementSpec<T>? {
-        return spec?.let { UITemplateElementSpec<T>().apply(it) }
-    }
+open class UITemplateElementElement<T : UITemplateElement>(element: T, spec: (UITemplateElementSpec<T>.() -> Unit)? = null) : UIContainer<T, UITemplateElementSpec<T>>(element, spec) {
+    override fun makeSpec(): UITemplateElementSpec<T>? = spec?.let { UITemplateElementSpec<T>().apply(it) }
 
     override fun build(spec: UITemplateElementSpec<T>?): T {
         val e = super.build(spec)
@@ -50,9 +43,7 @@ open class UITemplateElementElement<T : UITemplateElement>(
 /**
  * Top Level - Create a standalone UITemplateElement
  */
-fun uiTemplate(templatePath: String? = null,
-               spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null,
-               init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElement {
+fun uiTemplate(templatePath: String? = null, spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null, init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElement {
     val path = templatePath?.let { IResourcePath.parse(it) }
     return UITemplateElementElement(UITemplateElement(path), spec).apply(init).build()
 }
@@ -60,18 +51,12 @@ fun uiTemplate(templatePath: String? = null,
 /**
  * Top Level - Create a standalone UITemplateElement with IResourcePath
  */
-fun uiTemplate(templatePath: IResourcePath? = null,
-               spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null,
-               init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElement {
-    return UITemplateElementElement(UITemplateElement(templatePath), spec).apply(init).build()
-}
+fun uiTemplate(templatePath: IResourcePath? = null, spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null, init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElement = UITemplateElementElement(UITemplateElement(templatePath), spec).apply(init).build()
 
 /**
  * Internal Builder - Add UITemplateElement as a child to a container
  */
-fun UIContainer<*, *>.uiTemplate(templatePath: String? = null,
-                                  spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null,
-                                  init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElementElement<UITemplateElement> {
+fun UIContainer<*, *>.uiTemplate(templatePath: String? = null, spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null, init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElementElement<UITemplateElement> {
     val path = templatePath?.let { IResourcePath.parse(it) }
     return add(UITemplateElementElement(UITemplateElement(path), spec), init)
 }
@@ -79,19 +64,12 @@ fun UIContainer<*, *>.uiTemplate(templatePath: String? = null,
 /**
  * Internal Builder - Add UITemplateElement as a child to a container with IResourcePath
  */
-fun UIContainer<*, *>.uiTemplate(templatePath: IResourcePath? = null,
-                                  spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null,
-                                  init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElementElement<UITemplateElement> {
-    return add(UITemplateElementElement(UITemplateElement(templatePath), spec), init)
-}
+fun UIContainer<*, *>.uiTemplate(templatePath: IResourcePath? = null, spec: (UITemplateElementSpec<UITemplateElement>.() -> Unit)? = null, init: UITemplateElementElement<UITemplateElement>.() -> Unit = {}): UITemplateElementElement<UITemplateElement> = add(UITemplateElementElement(UITemplateElement(templatePath), spec), init)
 
 /**
  * DSL converter - Convert existing UITemplateElement to DSL builder
  */
-fun <T : UITemplateElement> T.dsl(spec: (UITemplateElementSpec<T>.() -> Unit)? = null,
-                                  init: UITemplateElementElement<T>.() -> Unit = {}): UITemplateElementElement<T> {
-    return UITemplateElementElement(this, spec).apply(init)
-}
+fun <T : UITemplateElement> T.dsl(spec: (UITemplateElementSpec<T>.() -> Unit)? = null, init: UITemplateElementElement<T>.() -> Unit = {}): UITemplateElementElement<T> = UITemplateElementElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -114,9 +92,7 @@ fun <T : UITemplateElement> UITemplateElementElement<T>.withTemplate(path: IReso
 /**
  * Extension: Get template path
  */
-fun <T : UITemplateElement> UITemplateElementElement<T>.getTemplatePath(): IResourcePath? {
-    return element.path
-}
+fun <T : UITemplateElement> UITemplateElementElement<T>.getTemplatePath(): IResourcePath? = element.path
 
 /**
  * Extension: Reload template

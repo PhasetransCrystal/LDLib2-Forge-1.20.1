@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.IHistoryStack;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -26,8 +27,11 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "inspector", group = "misc", registry = "ldlib2:ui_element")
 public class Inspector extends UIElement {
+
     public final ScrollerView scrollerView;
-    @Nullable @Setter @Getter
+    @Nullable
+    @Setter
+    @Getter
     private IHistoryStack historyStack;
 
     // runtime
@@ -82,10 +86,12 @@ public class Inspector extends UIElement {
      * This method allows observing changes in the configurators, managing history actions,
      * and handling closure of the inspection.
      *
-     * <p>History recording is delegated to {@link IConfigurable#createHistoryRecorder()}; if it
+     * <p>
+     * History recording is delegated to {@link IConfigurable#createHistoryRecorder()}; if it
      * returns {@code null} no history entries are pushed for this configurable.
      *
-     * <p>When switching from a previously inspected configurable, group expansion/collapse state
+     * <p>
+     * When switching from a previously inspected configurable, group expansion/collapse state
      * is preserved across matching paths (groups with identical name path and {@code canCollapse}).
      *
      * @param <T>           the type of the configurable instance, which must extend {@link IConfigurable}
@@ -126,8 +132,8 @@ public class Inspector extends UIElement {
 
         if (historyStack != null && recorder != null) {
             recorder.record(historyStack,
-                            Component.translatable("editor.inspector.history", configurable.getConfigurableName()),
-                            configurable)
+                    Component.translatable("editor.inspector.history", configurable.getConfigurableName()),
+                    configurable)
                     .setOnExecute(() -> {
                         clear();
                         scrollerView.addScrollViewChild(group);

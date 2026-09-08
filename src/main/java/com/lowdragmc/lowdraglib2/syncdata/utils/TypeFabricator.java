@@ -22,7 +22,8 @@ import java.util.function.Supplier;
  * {@code @ReadOnlyManaged} on fields whose value types either have a no-arg constructor or are
  * one of the well-known collection interfaces.
  *
- * <p>Returns {@code null} when the type cannot be fabricated; callers fall back to their
+ * <p>
+ * Returns {@code null} when the type cannot be fabricated; callers fall back to their
  * existing strict behavior in that case.
  */
 public final class TypeFabricator {
@@ -33,10 +34,10 @@ public final class TypeFabricator {
             Queue.class, ArrayDeque::new,
             Deque.class, ArrayDeque::new,
             Map.class, HashMap::new,
-            Collection.class, ArrayList::new
-    );
+            Collection.class, ArrayList::new);
 
     private static final ClassValue<Supplier<?>> CACHE = new ClassValue<>() {
+
         @Override
         protected Supplier<?> computeValue(Class<?> type) {
             var iface = INTERFACE_DEFAULTS.get(type);

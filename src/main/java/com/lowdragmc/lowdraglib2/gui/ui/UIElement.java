@@ -1,7 +1,5 @@
 package com.lowdragmc.lowdraglib2.gui.ui;
 
-import com.google.common.base.Suppliers;
-import com.google.common.collect.ImmutableList;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.LDLib2Registries;
 import com.lowdragmc.lowdraglib2.Platform;
@@ -33,6 +31,9 @@ import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
 import com.lowdragmc.lowdraglib2.utils.PersistedParser;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
+import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -43,7 +44,6 @@ import dev.vfyjxf.taffy.tree.Layout;
 import dev.vfyjxf.taffy.tree.NodeId;
 import dev.vfyjxf.taffy.tree.TaffyTree;
 import it.unimi.dsi.fastutil.ints.IntArrays;
-import it.unimi.dsi.fastutil.ints.IntComparator;
 import it.unimi.dsi.fastutil.objects.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,6 +62,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.appliedenergistics.yoga.*;
 import org.appliedenergistics.yoga.numeric.FloatOptional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -72,14 +73,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import oshi.util.tuples.Pair;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The base class for all UI elements.
@@ -94,12 +95,11 @@ import java.util.stream.Stream;
 @KJSBindings
 @LDLRegister(name = "element", registry = "ldlib2:ui_element", priority = -1)
 public class UIElement implements IConfigurable, IPersistedSerializable, ILDLRegister<UIElement, Supplier<UIElement>> {
+
     public static Codec<UIElement> CODEC = LDLib2Registries.UI_ELEMENTS.optionalCodec().dispatch(ILDLRegister::getRegistryHolderOptional,
-            optional -> optional.map(holder ->
-                            PersistedParser.createCodec(holder.value()).optionalFieldOf("data").xmap(
-                                    opt -> opt.orElseGet(holder.value()),
-                                    Optional::ofNullable
-                            ))
+            optional -> optional.map(holder -> PersistedParser.createCodec(holder.value()).optionalFieldOf("data").xmap(
+                    opt -> opt.orElseGet(holder.value()),
+                    Optional::ofNullable))
                     .orElseGet(() -> MapCodec.unit(UIElement::new)).codec());
 
     public static final Layout EMPTY_LAYOUT = new Layout();
@@ -134,14 +134,19 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     @Getter
     private final BasicStyle style = new BasicStyle(this);
     // internal properties
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @Configurable(name = "UIElement.isVisible", tips = "UIElement.isVisible.tips")
     private boolean isVisible = true;
-    @Getter @Accessors(chain = true)
+    @Getter
+    @Accessors(chain = true)
     @Configurable(name = "UIElement.isActive", tips = "UIElement.isActive.tips")
     private boolean isActive = true;
-    @Getter @Setter @Accessors(chain = true)
-    @Configurable(name = "UIElement.focusable", tips = {"UIElement.focusable.tips.0", "UIElement.focusable.tips.1"})
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @Configurable(name = "UIElement.focusable", tips = { "UIElement.focusable.tips.0", "UIElement.focusable.tips.1" })
     private boolean focusable = false;
     // event
     private final Map<String, List<UIEventListener>> captureListeners = new HashMap<>();
@@ -172,7 +177,9 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     private boolean isCulled;
     @Getter
     private boolean isInternalUI = false;
-    @Getter @Setter @Accessors(chain = true)
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     private boolean allowHitTest = true;
     @Nullable
     private UIVisualLayer visualLayer;
@@ -255,7 +262,8 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
 
     /**
      * This method is called when the element is removed from the ui structure.
-     * You can override this method to do something when the element is removed. e.g. clean up resources, stop animations, etc.
+     * You can override this method to do something when the element is removed. e.g. clean up resources, stop
+     * animations, etc.
      */
     protected void onRemoved() {
         for (var child : getSafeChildren()) {
@@ -387,7 +395,8 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     }
 
     /**
-     * Retrieves the current pose matrix. The pose can transfer points from the local coordinate system to the world coordinate system.
+     * Retrieves the current pose matrix. The pose can transfer points from the local coordinate system to the world
+     * coordinate system.
      *
      * @return The current pose matrix as a {@link Matrix4f}.
      */
@@ -415,7 +424,8 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     }
 
     /**
-     * Retrieves the current pose matrix. The pose can transfer points from the world coordinate system to the local coordinate system.
+     * Retrieves the current pose matrix. The pose can transfer points from the world coordinate system to the local
+     * coordinate system.
      *
      * @return The current pose matrix as a {@link Matrix4f}.
      */
@@ -430,14 +440,16 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     }
 
     /**
-     * The X offset relative to the border box of the node's parent, along with dimensions, and the resolved values for margin, border, and padding for each physical edge.
+     * The X offset relative to the border box of the node's parent, along with dimensions, and the resolved values for
+     * margin, border, and padding for each physical edge.
      */
     public final float getLayoutX() {
         return (parent == null ? modularUI == null ? 0 : modularUI.getLeftPos() : getTaffyLayout().location().x);
     }
 
     /**
-     * The Y offset relative to the border box of the node's parent, along with dimensions, and the resolved values for margin, border, and padding for each physical edge.
+     * The Y offset relative to the border box of the node's parent, along with dimensions, and the resolved values for
+     * margin, border, and padding for each physical edge.
      */
     public final float getLayoutY() {
         return (parent == null ? modularUI == null ? 0 : modularUI.getTopPos() : getTaffyLayout().location().y);
@@ -585,6 +597,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
      * Set the focus enforcement for the element.
      * This will ensure that the element will own the focus when it's children lose focus.
      * It will lose focus when the element itself loses focus or when the focus is moved to another non child element.
+     * 
      * @param lostFocusHandler the handler to call when the element loses focus.
      */
     public UIElement setEnforceFocus(Consumer<UIEvent> lostFocusHandler) {
@@ -660,11 +673,11 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
         if (parent == null) return null;
         return parent.getFirstAncestorOfType(type);
     }
-    
+
     public List<UIElement> getChildren() {
         return Collections.unmodifiableList(children);
     }
-    
+
     public List<UIElement> getSafeChildren() {
         return List.copyOf(children);
     }
@@ -672,8 +685,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     public Stream<UIElement> selfAndAllChildren() {
         return Stream.concat(
                 Stream.of(this),
-                children.stream().flatMap(UIElement::selfAndAllChildren)
-        );
+                children.stream().flatMap(UIElement::selfAndAllChildren));
     }
 
     public Stream<UIElement> allChildrenStream() {
@@ -933,15 +945,13 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
                     rule.properties,
                     StyleOrigin.STYLESHEET,
                     rule.getSpecificity(),
-                    rule.sourceOrder
-            );
+                    rule.sourceOrder);
         }
     }
 
     public void removeStyleRules(List<StyleRule> rules) {
         for (StyleRule rule : rules) {
-            styleBag.removeCandidates(slot ->
-                    slot.origin() == StyleOrigin.STYLESHEET && slot.sourceOrder() == rule.sourceOrder);
+            styleBag.removeCandidates(slot -> slot.origin() == StyleOrigin.STYLESHEET && slot.sourceOrder() == rule.sourceOrder);
         }
     }
 
@@ -1070,8 +1080,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
             return this;
         }
         if (rawValue == null) {
-            styleBag.removeCandidates(p, slot ->
-                    slot.property() == p &&
+            styleBag.removeCandidates(p, slot -> slot.property() == p &&
                     slot.origin() == origin &&
                     slot.specificity() == 999 &&
                     slot.sourceOrder() == 999);
@@ -1174,7 +1183,8 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     }
 
     /**
-     * Start dragging the element. This will call the {@link com.lowdragmc.lowdraglib2.gui.ui.event.DragHandler#startDrag} method.
+     * Start dragging the element. This will call the
+     * {@link com.lowdragmc.lowdraglib2.gui.ui.event.DragHandler#startDrag} method.
      */
     public DragHandler startDrag(@Nullable Object draggingObject, @Nullable IGuiTexture dragTexture) {
         var ui = getModularUI();
@@ -1186,7 +1196,8 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     }
 
     /**
-     * Get the sorted children of this element. The children are sorted by their zIndex and their order in the structure.
+     * Get the sorted children of this element. The children are sorted by their zIndex and their order in the
+     * structure.
      */
     public List<UIElement> getSortedChildren() {
         // to keep compatibility
@@ -1265,7 +1276,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
         if (!isDisplayed() || !isVisible() || getStyle().opacity() <= 0) return null;
 
         var transform2D = style.transform2D();
-        double[] pt = new double[]{mouseX, mouseY};
+        double[] pt = new double[] { mouseX, mouseY };
         if (!transform2D.isIdentity()) {
             transform2D.inversePoint(this, pt);
         }
@@ -1418,9 +1429,11 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     /// Event
     /**
      * Adds an event listener to the element.
-     * @param eventType the type of the event to listen for
-     * @param listener the listener to add
-     * @param useCapture if true, the listener will be called during the capture phase, otherwise it will be called during the bubble phase
+     * 
+     * @param eventType  the type of the event to listen for
+     * @param listener   the listener to add
+     * @param useCapture if true, the listener will be called during the capture phase, otherwise it will be called
+     *                   during the bubble phase
      */
     public UIElement addEventListener(String eventType, UIEventListener listener, boolean useCapture) {
         if (useCapture) {
@@ -1462,9 +1475,11 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
 
     /**
      * Removes an event listener from the element.
-     * @param eventType the type of the event to stop listening for
-     * @param listener the listener to remove
-     * @param useCapture if true, the listener was added during the capture phase, otherwise it was added during the bubble phase
+     * 
+     * @param eventType  the type of the event to stop listening for
+     * @param listener   the listener to remove
+     * @param useCapture if true, the listener was added during the capture phase, otherwise it was added during the
+     *                   bubble phase
      */
     public void removeEventListener(String eventType, UIEventListener listener, boolean useCapture) {
         List<UIEventListener> listeners;
@@ -1560,7 +1575,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
      * Registers a message handler for the specified message name. The handler will be invoked
      * whenever a message with the given name is received.
      *
-     * @param name the name of the message to listen for
+     * @param name    the name of the message to listen for
      * @param handler the function to handle the message, which receives a CompoundTag as its input
      * @return the current instance of UIElement
      */
@@ -1576,7 +1591,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
      * name is received. The handler processes the message payload and performs operations
      * on the current {@code UIElement}.
      *
-     * @param name the unique name of the message to register the handler for
+     * @param name    the unique name of the message to register the handler for
      * @param handler a {@code BiConsumer} accepting the current {@code UIElement}
      *                and the {@code CompoundTag} payload that represents the message data
      * @return the current {@code UIElement}, allowing for method chaining
@@ -1596,7 +1611,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
      * removed and no handlers remain associated with the message name, the message name is also removed from
      * the internal registry.
      *
-     * @param name the name of the message whose handler is to be removed
+     * @param name    the name of the message whose handler is to be removed
      * @param handler the handler to be removed for the specified message name
      * @return this UIElement instance for method chaining
      */
@@ -1738,10 +1753,10 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     /**
      * Renders the graphical user interface (GUI) element in Background.
      * Render phases are:
-     * <li> 1. Background
-     * <li> 2. Background Additional
-     * <li> 3. Overlay
-     * <li> 4. Children
+     * <li>1. Background
+     * <li>2. Background Additional
+     * <li>3. Overlay
+     * <li>4. Children
      */
     public final void drawInBackground(GUIContext guiContext) {
         var display = taffyStyle.style.display;
@@ -1817,7 +1832,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
             var width = getSizeWidth();
             var height = getSizeHeight();
 
-            var corners = new Vector4f[]{
+            var corners = new Vector4f[] {
                     new Vector4f(x, y, 0, 1),
                     new Vector4f(x + width, y, 0, 1),
                     new Vector4f(x, y + height, 0, 1),
@@ -1855,13 +1870,13 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
      */
     public void drawContents(GUIContext guiContext) {
         // not need to use scissoring if overflow cip defined
-        var hidden = !style.overflowVisible() && getStyle().overflowClip() == IGuiTexture.EMPTY ;
+        var hidden = !style.overflowVisible() && getStyle().overflowClip() == IGuiTexture.EMPTY;
         if (hidden) {
             if (isCulled) return;
             guiContext.graphics.flush();
             guiContext.enableScissor(getContentX(), getContentY(), getContentWidth(), getContentHeight());
         }
-        if(!isCulled) {
+        if (!isCulled) {
             drawBackgroundAdditional(guiContext);
         }
         if (!children.isEmpty()) {
@@ -1892,9 +1907,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     /**
      * Renders the additional background of the GUI element.
      */
-    public void drawBackgroundAdditional(GUIContext guiContext) {
-
-    }
+    public void drawBackgroundAdditional(GUIContext guiContext) {}
 
     /**
      * Renders the overlay texture of the GUI element.
@@ -1918,23 +1931,23 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
         info.add(Component.literal("[type: %s, pos: (%.1f %.1f), size: (%.1f, %.1f), children: %d]".formatted(
                 getElementName(), getPositionX(), getPositionY(), getSizeWidth(), getSizeHeight(), children.size())).withStyle(style -> style.withColor(0xFFFF00FF)));
         info.add(Component.literal("[id: %s, class: \"%s\"]".formatted(getId().isEmpty() ? "empty" : getId(), String.join(" ", classes))).withStyle(style -> style.withColor(0xFF00FFFF)));
-//        var path = getStructurePath();
-//        for (int i = 0; i < path.size(); i++) {
-//            var element = path.get(i);
-//            var data =Component.empty();
-//            for (int i1 = 0; i1 < i; i1++) {
-//                data = data.append(Component.literal("  "));
-//            }
-//            var style =  element.getTaffyStyle().style;
-//            data = data.append("└").append(element.toString()).append(
-//                    Component.literal("[flex: %s, inset: (%s, %s, %s, %s), size: (%s, %s)]".formatted(
-//                            style.flex,
-//                            style.inset.left, style.inset.right,
-//                            style.inset.top, style.inset.bottom,
-//                            style.size.width, style.size.height
-//                            )).withColor(0xFFFF00FF));
-//            info.add(data.withColor(0xFF00FF00));
-//        }
+        // var path = getStructurePath();
+        // for (int i = 0; i < path.size(); i++) {
+        // var element = path.get(i);
+        // var data =Component.empty();
+        // for (int i1 = 0; i1 < i; i1++) {
+        // data = data.append(Component.literal(" "));
+        // }
+        // var style = element.getTaffyStyle().style;
+        // data = data.append("└").append(element.toString()).append(
+        // Component.literal("[flex: %s, inset: (%s, %s, %s, %s), size: (%s, %s)]".formatted(
+        // style.flex,
+        // style.inset.left, style.inset.right,
+        // style.inset.top, style.inset.bottom,
+        // style.size.width, style.size.height
+        // )).withColor(0xFFFF00FF));
+        // info.add(data.withColor(0xFF00FF00));
+        // }
         return info;
     }
 
@@ -1987,8 +2000,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
      * This method is typically called during the initialization phase
      * of the editor setup process.
      */
-    public void initEditorTemplate() {
-    }
+    public void initEditorTemplate() {}
 
     public boolean canAddEditorChild(AutoRegistry.Holder<LDLRegister, UIElement, Supplier<UIElement>> holder) {
         return true;
@@ -2010,7 +2022,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
         // class selector
         final var classList = new ArrayList<>(classes);
         var classConfigurator = new ArrayConfiguratorGroup<>("UIElement.class", true, () -> {
-            if (modularUI != null && (modularUI.getTickCounter() & 20) ==0) return classList;
+            if (modularUI != null && (modularUI.getTickCounter() & 20) == 0) return classList;
             var set = new HashSet<>(classList);
             if (!set.equals(classes)) {
                 classList.removeIf(s -> !classes.contains(s));
@@ -2119,8 +2131,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
         // serialize internal children
         var internalTag = TagBuilder.list().add(getChildren().stream()
                 .filter(UIElement::isInternalUI)
-                .map(element -> element.serializeNBT(provider)).toList()
-        ).build();
+                .map(element -> element.serializeNBT(provider)).toList()).build();
         if (!internalTag.isEmpty()) {
             tagBuilder.add("internal", internalTag);
         }
@@ -2131,8 +2142,8 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
                         .add("index", child.getSiblingIndex())
                         .add("data", child.serializeNBT(provider))
                         .add("type", child.name())
-                        .build()).toList()
-        ).build();
+                        .build())
+                .toList()).build();
         if (!childrenTag.isEmpty()) {
             tagBuilder.add("children", childrenTag);
         }
@@ -2183,7 +2194,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
     // endregion
 
     // region XML Support
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void loadXml(Element element) {
         // id
         if (element.hasAttribute("id")) {
@@ -2210,8 +2221,7 @@ public class UIElement implements IConfigurable, IPersistedSerializable, ILDLReg
                     StyleValue v = entry.getValue();
                     getStyleBag().replaceOrPutCandidate(p, StyleSlot.of(p,
                             StyleOrigin.INLINE,
-                            0, 0, v.compute()
-                    ));
+                            0, 0, v.compute()));
                 }
             }
         }

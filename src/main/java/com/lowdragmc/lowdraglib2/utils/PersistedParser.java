@@ -1,15 +1,19 @@
 package com.lowdragmc.lowdraglib2.utils;
 
-import com.google.common.base.Strings;
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.compat.network.ConnectionType;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.DelegatingOpsAccessor;
-import com.lowdragmc.lowdraglib2.syncdata.IProviderAwareNBTSerializable;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
+import com.lowdragmc.lowdraglib2.syncdata.IProviderAwareNBTSerializable;
 import com.lowdragmc.lowdraglib2.syncdata.ManagedFieldUtils;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
+import com.lowdragmc.lowdraglib2.utils.codec.StreamCodec;
+
+import com.google.common.base.Strings;
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
@@ -17,11 +21,7 @@ import io.netty.buffer.ByteBuf;
 import lombok.experimental.UtilityClass;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.*;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.utils.codec.StreamCodec;
-import net.minecraft.resources.RegistryOps;
 import net.minecraftforge.common.util.INBTSerializable;
-import com.lowdragmc.lowdraglib2.compat.network.ConnectionType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -33,16 +33,18 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * This is a tool class to serialize and deserialize the object fields with {@link Persisted} or {@link Configurable} annotation.
+ * This is a tool class to serialize and deserialize the object fields with {@link Persisted} or {@link Configurable}
+ * annotation.
  */
 @UtilityClass
 public final class PersistedParser {
+
     /**
      * Creates a {@link MapCodec} for a specific type utilizing the provided {@link Supplier}.
      * This method internally constructs a codec through {@link PersistedParser#createCodec(Supplier)}
      * and wraps it to assume map-based data serialization.
      *
-     * @param <T> The type of the object for which the {@link MapCodec} is created.
+     * @param <T>     The type of the object for which the {@link MapCodec} is created.
      * @param creator The supplier used to instantiate objects of type {@code T}.
      * @return A {@link MapCodec} for the specified type.
      */
@@ -52,6 +54,7 @@ public final class PersistedParser {
 
     private static <T> MapCodec<T> mapCodec(Codec<T> codec) {
         return MapCodec.of(new MapEncoder.Implementation<>() {
+
             @Override
             public <O> RecordBuilder<O> encode(T input, DynamicOps<O> ops, RecordBuilder<O> prefix) {
                 var encoded = codec.encodeStart(ops, input);
@@ -73,6 +76,7 @@ public final class PersistedParser {
                 return Stream.empty();
             }
         }, new MapDecoder.Implementation<>() {
+
             @Override
             public <O> DataResult<T> decode(DynamicOps<O> ops, MapLike<O> input) {
                 return codec.parse(ops, ops.createMap(input.entries()));
@@ -86,11 +90,14 @@ public final class PersistedParser {
     }
 
     /**
-     * This method is used to create a codec for the type serialized with {@link Persisted} or {@link Configurable} annotation.
+     * This method is used to create a codec for the type serialized with {@link Persisted} or {@link Configurable}
+     * annotation.
+     * 
      * @param creator The supplier to create the instance of the type.
      */
     public static <T> Codec<T> createCodec(Supplier<T> creator) {
         return new Codec<>() {
+
             @Override
             public <T1> DataResult<Pair<T, T1>> decode(DynamicOps<T1> ops, T1 input) {
                 T instance = creator.get();
@@ -138,8 +145,9 @@ public final class PersistedParser {
      * The provided {@link Supplier} is used to create new instances of the type during deserialization.
      * Serialization and deserialization employ internal stream operations.
      *
-     * @param <T> The type of objects to be serialized and deserialized by the {@link StreamCodec}.
-     * @param creator The {@link Supplier} responsible for creating new instances of the type {@code T} during deserialization.
+     * @param <T>     The type of objects to be serialized and deserialized by the {@link StreamCodec}.
+     * @param creator The {@link Supplier} responsible for creating new instances of the type {@code T} during
+     *                deserialization.
      * @return A {@link StreamCodec} capable of handling serialization and deserialization of {@code T}-typed objects.
      */
     public static <T> StreamCodec<ByteBuf, T> createStreamCodec(Supplier<T> creator) {
@@ -161,21 +169,24 @@ public final class PersistedParser {
     }
 
     /**
-     * This method is used to serial the specific type data to the object fields with {@link Persisted} or {@link Configurable} annotation.
+     * This method is used to serial the specific type data to the object fields with {@link Persisted} or
+     * {@link Configurable} annotation.
      */
     public static CompoundTag serializeNBT(Object object, HolderLookup.Provider provider) {
         return (CompoundTag) serialize(com.lowdragmc.lowdraglib2.Platform.registryOps(NbtOps.INSTANCE, provider), object, provider).result().orElse(new CompoundTag());
     }
 
     /**
-     * This method is used to deserialize the NBT data to the object fields with {@link Persisted} or {@link Configurable} annotation.
+     * This method is used to deserialize the NBT data to the object fields with {@link Persisted} or
+     * {@link Configurable} annotation.
      */
     public static void deserializeNBT(CompoundTag tag, Object object, HolderLookup.Provider provider) {
         deserialize(com.lowdragmc.lowdraglib2.Platform.registryOps(NbtOps.INSTANCE, provider), tag, object, provider);
     }
 
     /**
-     * This method is used to serialize the object fields with {@link Persisted} or {@link Configurable} annotation to specific type data.
+     * This method is used to serialize the object fields with {@link Persisted} or {@link Configurable} annotation to
+     * specific type data.
      */
     public static <T> DataResult<T> serialize(DynamicOps<T> op, Object object, HolderLookup.Provider provider) {
         var builder = op.mapBuilder();
@@ -197,7 +208,8 @@ public final class PersistedParser {
     }
 
     /**
-     * This method is used to deserialize the specific type data to the object fields with {@link Persisted} or {@link Configurable} annotation.
+     * This method is used to deserialize the specific type data to the object fields with {@link Persisted} or
+     * {@link Configurable} annotation.
      */
     public static <T> void deserialize(DynamicOps<T> op, T data, Object object, HolderLookup.Provider provider) {
         op.getMap(data).result().ifPresent(map -> deserializeInternal(true, map, op, new HashMap<>(), object.getClass(), object, provider));
@@ -210,7 +222,7 @@ public final class PersistedParser {
         return serializable.serializeNBT();
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private static void deserializeNBT(INBTSerializable serializable, HolderLookup.Provider provider, Tag tag) {
         if (serializable instanceof IProviderAwareNBTSerializable providerAware) {
             providerAware.deserializeNBT(provider, tag);
@@ -246,7 +258,8 @@ public final class PersistedParser {
     }
 
     /**
-     * This method is used to serialize the object fields with {@link Persisted} or {@link Configurable} annotation to the op data.
+     * This method is used to serialize the object fields with {@link Persisted} or {@link Configurable} annotation to
+     * the op data.
      */
     private static <T> void serializeInternal(boolean root, RecordBuilder<T> recordBuilder, DynamicOps<T> op, Map<String, Method> skipValues, Class<?> clazz, Object object, HolderLookup.Provider provider) {
         if (clazz == Object.class || clazz == null) return;
@@ -322,9 +335,7 @@ public final class PersistedParser {
                                 var mapResult = op.getMap(subData);
                                 var map = mapResult.result();
                                 if (map.isPresent()) {
-                                    map.get().entries().forEachOrdered(entry ->
-                                            recordBuilder.add(entry.getFirst(), entry.getSecond())
-                                    );
+                                    map.get().entries().forEachOrdered(entry -> recordBuilder.add(entry.getFirst(), entry.getSecond()));
                                 } else {
                                     data = subData;
                                 }
@@ -360,7 +371,8 @@ public final class PersistedParser {
     }
 
     /**
-     * This method is used to deserialize the op data to the object fields with {@link Persisted} or {@link Configurable} annotation.
+     * This method is used to deserialize the op data to the object fields with {@link Persisted} or
+     * {@link Configurable} annotation.
      */
     private static <T> void deserializeInternal(boolean root, MapLike<T> map, DynamicOps<T> op, Map<String, Method> setters, Class<?> clazz, Object object, HolderLookup.Provider provider) {
         if (clazz == Object.class || clazz == null) return;
@@ -605,5 +617,4 @@ public final class PersistedParser {
             serializable.afterDeserialize();
         }
     }
-
 }

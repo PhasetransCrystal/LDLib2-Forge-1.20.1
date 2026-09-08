@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.integration.kjs.ui;
 
-import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.gui.factory.LDMenuTypes;
+import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+
 import dev.latvian.mods.kubejs.script.ScriptType;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -15,6 +16,7 @@ import net.minecraftforge.network.NetworkHooks;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class KJSPlayerUIMenuType {
+
     public static boolean openUI(ServerPlayer player, String id) {
         var event = new PlayerUIEventJS(player, id);
         UIEvents.PLAYER.post(ScriptType.SERVER, id, event);
@@ -34,6 +36,7 @@ public class KJSPlayerUIMenuType {
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
     public static class PlayerUIEventJS extends UIEventJS {
+
         public PlayerUIEventJS(Player player, String id) {
             super(player, id);
         }

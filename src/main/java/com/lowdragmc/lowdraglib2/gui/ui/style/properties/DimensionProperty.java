@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.DimensionConfigurator;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.TaffyCodecs;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.DimensionValue;
+
 import dev.vfyjxf.taffy.style.TaffyDimension;
 import lombok.experimental.Accessors;
 
@@ -16,6 +17,7 @@ import java.util.function.Supplier;
  */
 @Accessors(chain = true)
 public class DimensionProperty extends Property<TaffyDimension> {
+
     public DimensionProperty(String name, TaffyDimension initialValue) {
         super(name, TaffyDimension.class, TaffyCodecs.DIMENSION_STYLE_SIZE_LENGTH_COMPAT_CODEC, initialValue, DimensionValue::new);
         setAllowTransition(true);
@@ -29,8 +31,7 @@ public class DimensionProperty extends Property<TaffyDimension> {
                 getter,
                 setter,
                 initialValue,
-                true
-        );
+                true);
     }
 
     private TaffyDimension interpolate(TaffyDimension from, TaffyDimension to, float interpolation) {

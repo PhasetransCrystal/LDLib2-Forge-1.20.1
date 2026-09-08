@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +12,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import javax.annotation.Nonnull;
+
 public class FileNode implements ITreeNode<File, Void> {
+
     @Nullable
     @Getter
     public final FileNode parent;
@@ -26,7 +28,7 @@ public class FileNode implements ITreeNode<File, Void> {
     @Accessors(chain = true)
     protected Predicate<FileNode> valid;
 
-    public FileNode(File dir){
+    public FileNode(File dir) {
         this(null, 0, dir);
     }
 
@@ -52,12 +54,12 @@ public class FileNode implements ITreeNode<File, Void> {
         var children = new ArrayList<FileNode>();
         var files = key.listFiles();
         if (files != null) {
-            Arrays.stream(files).sorted((a, b)->{
+            Arrays.stream(files).sorted((a, b) -> {
                 if (a.isFile() && b.isFile()) {
                     return a.compareTo(b);
                 } else if (a.isDirectory() && b.isDirectory()) {
                     return a.compareTo(b);
-                } else if(a.isDirectory()) {
+                } else if (a.isDirectory()) {
                     return -1;
                 }
                 return 1;

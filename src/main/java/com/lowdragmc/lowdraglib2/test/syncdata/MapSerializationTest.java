@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.ReadOnlyManaged;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
@@ -25,10 +26,14 @@ import java.util.*;
 public class MapSerializationTest {
 
     public static class NestedReadOnly implements IPersistedSerializable {
-        @Persisted public int counter = 0;
-        @Persisted public String label = "";
+
+        @Persisted
+        public int counter = 0;
+        @Persisted
+        public String label = "";
 
         public NestedReadOnly() {}
+
         public NestedReadOnly(int counter, String label) {
             this.counter = counter;
             this.label = label;
@@ -36,10 +41,15 @@ public class MapSerializationTest {
     }
 
     public static class MapHolder implements IPersistedSerializable {
-        @Persisted public Map<String, Integer> stringInt = new HashMap<>();
-        @Persisted public Map<String, ItemStack> stringStack = new HashMap<>();
-        @Persisted public Map<Direction, Vector3f> dirVec = new HashMap<>();
-        @Persisted public final Map<String, NestedReadOnly> readOnlyValues = new HashMap<>();
+
+        @Persisted
+        public Map<String, Integer> stringInt = new HashMap<>();
+        @Persisted
+        public Map<String, ItemStack> stringStack = new HashMap<>();
+        @Persisted
+        public Map<Direction, Vector3f> dirVec = new HashMap<>();
+        @Persisted
+        public final Map<String, NestedReadOnly> readOnlyValues = new HashMap<>();
 
         @Persisted
         @ReadOnlyManaged(serializeMethod = "roListMapSerialize", deserializeMethod = "roListMapDeserialize")
@@ -100,8 +110,7 @@ public class MapSerializationTest {
             for (String k : keys) readOnlyValues.put(k, new NestedReadOnly());
         }
 
-        private static final Comparator<NestedReadOnly> NRO_BY_LABEL_COUNTER =
-                Comparator.<NestedReadOnly>comparingInt(n -> n.counter).thenComparing(n -> n.label);
+        private static final Comparator<NestedReadOnly> NRO_BY_LABEL_COUNTER = Comparator.<NestedReadOnly>comparingInt(n -> n.counter).thenComparing(n -> n.label);
 
         public CompoundTag roKDirectVSerialize(Map<NestedReadOnly, Integer> m) {
             var keys = new ListTag();
@@ -144,7 +153,7 @@ public class MapSerializationTest {
             var keys = tag.getList("keys", Tag.TAG_COMPOUND);
             for (Tag t : keys) {
                 m.put(new NestedReadOnly(((CompoundTag) t).getInt("counter"), ((CompoundTag) t).getString("label")),
-                      new NestedReadOnly());
+                        new NestedReadOnly());
             }
             return m;
         }
@@ -213,8 +222,7 @@ public class MapSerializationTest {
             var v = dst.dirVec.get(d);
             assertNotNull(helper, "dirVec[" + d + "]", v);
             if (!new Vector3f(d.getStepX(), d.getStepY(), d.getStepZ()).equals(v)) {
-                helper.fail("dirVec[" + d + "] expected " + d.getStepX() + "," + d.getStepY() + "," + d.getStepZ()
-                        + " got " + v);
+                helper.fail("dirVec[" + d + "] expected " + d.getStepX() + "," + d.getStepY() + "," + d.getStepZ() + " got " + v);
                 return;
             }
         }
@@ -321,8 +329,7 @@ public class MapSerializationTest {
         assertEq(helper, "alpha.size", 2, dst.roListManaged.get("alpha").size());
         assertEq(helper, "beta.size", 1, dst.roListManaged.get("beta").size());
         assertEq(helper, "gamma.size", 0, dst.roListManaged.get("gamma").size());
-        if (!new BlockPos(1, 2, 3).equals(dst.roListManaged.get("alpha").get(0))
-                || !new BlockPos(4, 5, 6).equals(dst.roListManaged.get("alpha").get(1))) {
+        if (!new BlockPos(1, 2, 3).equals(dst.roListManaged.get("alpha").get(0)) || !new BlockPos(4, 5, 6).equals(dst.roListManaged.get("alpha").get(1))) {
             helper.fail("alpha contents mismatch: " + dst.roListManaged.get("alpha"));
             return;
         }
@@ -354,8 +361,7 @@ public class MapSerializationTest {
         assertNotNull(helper, "beta", dst.roListManaged.get("beta"));
         assertEq(helper, "alpha.size", 2, dst.roListManaged.get("alpha").size());
         assertEq(helper, "beta.size", 1, dst.roListManaged.get("beta").size());
-        if (!new BlockPos(10, 20, 30).equals(dst.roListManaged.get("alpha").get(0))
-                || !new BlockPos(40, 50, 60).equals(dst.roListManaged.get("alpha").get(1))) {
+        if (!new BlockPos(10, 20, 30).equals(dst.roListManaged.get("alpha").get(0)) || !new BlockPos(40, 50, 60).equals(dst.roListManaged.get("alpha").get(1))) {
             helper.fail("alpha contents mismatch over buffer: " + dst.roListManaged.get("alpha"));
             return;
         }
@@ -584,20 +590,30 @@ public class MapSerializationTest {
     // --- Auto-fabricate (no @ReadOnlyManaged needed) ---
 
     public static class NoCtorNested implements IPersistedSerializable {
-        @Persisted public int x;
-        public NoCtorNested(int x) { this.x = x; }
+
+        @Persisted
+        public int x;
+
+        public NoCtorNested(int x) {
+            this.x = x;
+        }
         // intentionally no no-arg constructor
     }
 
     public static class AutoFabHolder implements IPersistedSerializable {
+
         // V is read-only POJO with no-arg ctor → fabricable
-        @Persisted public final Map<String, NestedReadOnly> autoStringRo = new HashMap<>();
+        @Persisted
+        public final Map<String, NestedReadOnly> autoStringRo = new HashMap<>();
         // V is read-only List (collection interface) → fabricable via default impl
-        @Persisted public final Map<String, List<BlockPos>> autoStringListPos = new HashMap<>();
+        @Persisted
+        public final Map<String, List<BlockPos>> autoStringListPos = new HashMap<>();
         // Collection child is read-only POJO with no-arg ctor → fabricable
-        @Persisted public final List<NestedReadOnly> autoList = new ArrayList<>();
+        @Persisted
+        public final List<NestedReadOnly> autoList = new ArrayList<>();
         // V has no no-arg ctor → fabrication should fail with helpful message
-        @Persisted public final Map<String, NoCtorNested> autoNoCtor = new HashMap<>();
+        @Persisted
+        public final Map<String, NoCtorNested> autoNoCtor = new HashMap<>();
     }
 
     @GameTest(template = "empty")
@@ -677,8 +693,7 @@ public class MapSerializationTest {
         assertEq(helper, "a.size", 2, dst.autoStringListPos.get("a").size());
         assertEq(helper, "b.size", 1, dst.autoStringListPos.get("b").size());
         assertEq(helper, "c.size", 0, dst.autoStringListPos.get("c").size());
-        if (!new BlockPos(1, 2, 3).equals(dst.autoStringListPos.get("a").get(0))
-                || !new BlockPos(4, 5, 6).equals(dst.autoStringListPos.get("a").get(1))) {
+        if (!new BlockPos(1, 2, 3).equals(dst.autoStringListPos.get("a").get(0)) || !new BlockPos(4, 5, 6).equals(dst.autoStringListPos.get("a").get(1))) {
             helper.fail("a contents mismatch: " + dst.autoStringListPos.get("a"));
             return;
         }
@@ -709,8 +724,7 @@ public class MapSerializationTest {
             helper.fail("a contents mismatch over buffer: " + dst.autoStringListPos.get("a"));
             return;
         }
-        if (!new BlockPos(-1, -2, -3).equals(dst.autoStringListPos.get("b").get(0))
-                || !new BlockPos(7, 8, 9).equals(dst.autoStringListPos.get("b").get(1))) {
+        if (!new BlockPos(-1, -2, -3).equals(dst.autoStringListPos.get("b").get(0)) || !new BlockPos(7, 8, 9).equals(dst.autoStringListPos.get("b").get(1))) {
             helper.fail("b contents mismatch over buffer: " + dst.autoStringListPos.get("b"));
             return;
         }

@@ -12,8 +12,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodeOption;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.VariableNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandleHelpers;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModel;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
@@ -283,7 +282,8 @@ public class GraphSerializationTest {
         var ghost = TypeHandle.create("com.example.NoSuchClass_xyz");
         var ghostResolved = ghost.resolve();
         if (ghostResolved == TypeFallbackMarker.class) {
-            helper.fail("Ghost id wrongly resolved to marker"); return;
+            helper.fail("Ghost id wrongly resolved to marker");
+            return;
         }
 
         helper.succeed();
@@ -313,16 +313,24 @@ public class GraphSerializationTest {
                 break;
             }
         }
-        if (restored == null) { helper.fail("variable not found"); return; }
+        if (restored == null) {
+            helper.fail("variable not found");
+            return;
+        }
 
         var init = restored.getInitializationModel();
-        if (init == null) { helper.fail("initializationModel is null after deserialize"); return; }
+        if (init == null) {
+            helper.fail("initializationModel is null after deserialize");
+            return;
+        }
         if (!(init.getValue() instanceof Float f) || Math.abs(f - 7.5f) > 0.001f) {
-            helper.fail("initializationModel value not preserved: " + init.getValue()); return;
+            helper.fail("initializationModel value not preserved: " + init.getValue());
+            return;
         }
         // owner should point back to the declaration
         if (init.getOwner() != restored) {
-            helper.fail("initializationModel owner not wired back to the declaration"); return;
+            helper.fail("initializationModel owner not wired back to the declaration");
+            return;
         }
 
         helper.succeed();
@@ -352,13 +360,21 @@ public class GraphSerializationTest {
                 break;
             }
         }
-        if (restored == null) { helper.fail("constant node not found"); return; }
-        if (restored.getConstant() == null) { helper.fail("constant null after deserialize"); return; }
+        if (restored == null) {
+            helper.fail("constant node not found");
+            return;
+        }
+        if (restored.getConstant() == null) {
+            helper.fail("constant null after deserialize");
+            return;
+        }
         if (restored.getConstant().getOwner() != restored) {
-            helper.fail("constant owner not wired back"); return;
+            helper.fail("constant owner not wired back");
+            return;
         }
         if (!(restored.getConstant().getValue() instanceof Float f) || Math.abs(f - 21.0f) > 0.001f) {
-            helper.fail("constant value not preserved: " + restored.getConstant().getValue()); return;
+            helper.fail("constant value not preserved: " + restored.getConstant().getValue());
+            return;
         }
 
         helper.succeed();
@@ -381,14 +397,20 @@ public class GraphSerializationTest {
         // Bump inputs option from default 2 to 9, then defineNode again to expand port set.
         // NodeOption ports use the "option_" prefix in inputConstantsById.
         var inputsConstant = addNode.getInputConstantsById().get(NodeOption.PORT_ID_PREFIX + "inputs");
-        if (inputsConstant == null) { helper.fail("inputs option constant missing"); return; }
+        if (inputsConstant == null) {
+            helper.fail("inputs option constant missing");
+            return;
+        }
         inputsConstant.setValue(9);
         addNode.defineNode();
 
         // Set distinct values on each input port constant.
         for (int i = 1; i <= 9; i++) {
             var c = addNode.getInputConstantsById().get("in" + i);
-            if (c == null) { helper.fail("in" + i + " missing pre-serialize"); return; }
+            if (c == null) {
+                helper.fail("in" + i + " missing pre-serialize");
+                return;
+            }
             c.setValue((float) (i * 10));
         }
 
@@ -404,22 +426,31 @@ public class GraphSerializationTest {
                 break;
             }
         }
-        if (restored == null) { helper.fail("node not found"); return; }
+        if (restored == null) {
+            helper.fail("node not found");
+            return;
+        }
 
         var restoredInputsConstant = restored.getInputConstantsById().get(NodeOption.PORT_ID_PREFIX + "inputs");
-        if (restoredInputsConstant == null) { helper.fail("inputs option constant missing after deserialize"); return; }
+        if (restoredInputsConstant == null) {
+            helper.fail("inputs option constant missing after deserialize");
+            return;
+        }
         var optValue = restoredInputsConstant.getValue();
         if (!(optValue instanceof Integer iv) || iv != 9) {
-            helper.fail("inputs option value not preserved: " + optValue); return;
+            helper.fail("inputs option value not preserved: " + optValue);
+            return;
         }
 
         for (int i = 1; i <= 9; i++) {
             var c = restored.getInputConstantsById().get("in" + i);
             if (c == null) {
-                helper.fail("in" + i + " missing after deserialize (port topology not rebuilt with restored option)"); return;
+                helper.fail("in" + i + " missing after deserialize (port topology not rebuilt with restored option)");
+                return;
             }
             if (!(c.getValue() instanceof Float f) || Math.abs(f - (i * 10f)) > 0.001f) {
-                helper.fail("in" + i + " value mismatch: expected " + (i * 10f) + " got " + c.getValue()); return;
+                helper.fail("in" + i + " value mismatch: expected " + (i * 10f) + " got " + c.getValue());
+                return;
             }
         }
 
@@ -439,7 +470,10 @@ public class GraphSerializationTest {
         var node = graph.graphModel.createNodeModel(new CustomCodecTestNode(), new Vector2f(0, 0));
 
         var codecConstant = node.getInputConstantsById().get("codec_port");
-        if (codecConstant == null) { helper.fail("codec_port constant missing pre-serialize"); return; }
+        if (codecConstant == null) {
+            helper.fail("codec_port constant missing pre-serialize");
+            return;
+        }
         codecConstant.setValue(new CustomCodecTestNode.CodecValue(42, "hello"));
 
         CompoundTag serialized = graph.graphModel.serializeNBT(provider);
@@ -454,15 +488,23 @@ public class GraphSerializationTest {
                 break;
             }
         }
-        if (restored == null) { helper.fail("CustomCodecTestNode not found after deserialize"); return; }
+        if (restored == null) {
+            helper.fail("CustomCodecTestNode not found after deserialize");
+            return;
+        }
 
         var restoredConstant = restored.getInputConstantsById().get("codec_port");
-        if (restoredConstant == null) { helper.fail("codec_port constant missing after deserialize"); return; }
+        if (restoredConstant == null) {
+            helper.fail("codec_port constant missing after deserialize");
+            return;
+        }
         if (!(restoredConstant.getValue() instanceof CustomCodecTestNode.CodecValue cv)) {
-            helper.fail("codec_port value type mismatch: " + restoredConstant.getValue()); return;
+            helper.fail("codec_port value type mismatch: " + restoredConstant.getValue());
+            return;
         }
         if (cv.a() != 42 || !"hello".equals(cv.b())) {
-            helper.fail("codec_port value not preserved: " + cv); return;
+            helper.fail("codec_port value not preserved: " + cv);
+            return;
         }
 
         helper.succeed();
@@ -482,7 +524,10 @@ public class GraphSerializationTest {
         var node = graph.graphModel.createNodeModel(new CustomCodecTestNode(), new Vector2f(0, 0));
 
         var noSerConstant = node.getInputConstantsById().get("no_serialize_port");
-        if (noSerConstant == null) { helper.fail("no_serialize_port constant missing pre-serialize"); return; }
+        if (noSerConstant == null) {
+            helper.fail("no_serialize_port constant missing pre-serialize");
+            return;
+        }
         // Builder default is 1.0f; mutate to 99 to detect persistence.
         noSerConstant.setValue(99.0f);
 
@@ -498,15 +543,23 @@ public class GraphSerializationTest {
                 break;
             }
         }
-        if (restored == null) { helper.fail("CustomCodecTestNode not found after deserialize"); return; }
+        if (restored == null) {
+            helper.fail("CustomCodecTestNode not found after deserialize");
+            return;
+        }
 
         var restoredConstant = restored.getInputConstantsById().get("no_serialize_port");
-        if (restoredConstant == null) { helper.fail("no_serialize_port constant missing after deserialize"); return; }
+        if (restoredConstant == null) {
+            helper.fail("no_serialize_port constant missing after deserialize");
+            return;
+        }
         if (!(restoredConstant.getValue() instanceof Float f)) {
-            helper.fail("no_serialize_port value type mismatch: " + restoredConstant.getValue()); return;
+            helper.fail("no_serialize_port value type mismatch: " + restoredConstant.getValue());
+            return;
         }
         if (Math.abs(f - 1.0f) > 0.001f) {
-            helper.fail("no_serialize_port should have reset to default 1.0 but is " + f); return;
+            helper.fail("no_serialize_port should have reset to default 1.0 but is " + f);
+            return;
         }
 
         helper.succeed();
@@ -526,7 +579,10 @@ public class GraphSerializationTest {
         var node = graph.graphModel.createNodeModel(new CustomCodecTestNode(), new Vector2f(0, 0));
 
         var missingConstant = node.getInputConstantsById().get("missing_port");
-        if (missingConstant == null) { helper.fail("missing_port constant missing pre-serialize"); return; }
+        if (missingConstant == null) {
+            helper.fail("missing_port constant missing pre-serialize");
+            return;
+        }
         // Even though there is no codec/accessor, setting a value at runtime must not break
         // the eventual serialization — the value just won't survive.
         missingConstant.setValue(new CustomCodecTestNode.CodecValue(7, "sentinel"));
@@ -551,13 +607,18 @@ public class GraphSerializationTest {
                 break;
             }
         }
-        if (restored == null) { helper.fail("CustomCodecTestNode not found after deserialize"); return; }
+        if (restored == null) {
+            helper.fail("CustomCodecTestNode not found after deserialize");
+            return;
+        }
 
         // The other ports on the same node should still work.
         var codecConstant = restored.getInputConstantsById().get("codec_port");
-        if (codecConstant == null) { helper.fail("codec_port lost on graceful-skip round-trip"); return; }
-        if (!(codecConstant.getValue() instanceof CustomCodecTestNode.CodecValue cv)
-                || cv.a() != 0 || !"default".equals(cv.b())) {
+        if (codecConstant == null) {
+            helper.fail("codec_port lost on graceful-skip round-trip");
+            return;
+        }
+        if (!(codecConstant.getValue() instanceof CustomCodecTestNode.CodecValue cv) || cv.a() != 0 || !"default".equals(cv.b())) {
             helper.fail("codec_port default not restored on graceful-skip round-trip: " + codecConstant.getValue());
             return;
         }
@@ -576,16 +637,24 @@ public class GraphSerializationTest {
         var node = graph.graphModel.createNodeModel(new CustomCodecTestNode(), new Vector2f(0, 0));
 
         var noConfigPort = node.getInputsById().get("no_config_port");
-        if (noConfigPort == null) { helper.fail("no_config_port not found on node"); return; }
+        if (noConfigPort == null) {
+            helper.fail("no_config_port not found on node");
+            return;
+        }
         if (noConfigPort.isConfiguratorEnabled()) {
-            helper.fail("no_config_port should have configuratorEnabled=false"); return;
+            helper.fail("no_config_port should have configuratorEnabled=false");
+            return;
         }
 
         // Sibling ports without the opt-out should still default to true (regression check).
         var codecPort = node.getInputsById().get("codec_port");
-        if (codecPort == null) { helper.fail("codec_port not found on node"); return; }
+        if (codecPort == null) {
+            helper.fail("codec_port not found on node");
+            return;
+        }
         if (!codecPort.isConfiguratorEnabled()) {
-            helper.fail("codec_port should default to configuratorEnabled=true"); return;
+            helper.fail("codec_port should default to configuratorEnabled=true");
+            return;
         }
 
         helper.succeed();
@@ -614,7 +683,10 @@ public class GraphSerializationTest {
         var producer = saveGraph.graphModel.createNodeModel(new EvCodecValueANode(), new Vector2f(0, 0));
 
         var codecConst = producer.getInputConstantsById().get("port");
-        if (codecConst == null) { helper.fail("port constant missing pre-serialize"); return; }
+        if (codecConst == null) {
+            helper.fail("port constant missing pre-serialize");
+            return;
+        }
         codecConst.setValue(new SchemaEvolutionTestNodes.EvCodecValueA(7, "saved"));
 
         CompoundTag serialized = saveGraph.graphModel.serializeNBT(provider);
@@ -630,18 +702,23 @@ public class GraphSerializationTest {
         }
 
         var restored = findRestoredNode(loadGraph, producer.getUid());
-        if (restored == null) { helper.fail("evolved node not found after deserialize"); return; }
+        if (restored == null) {
+            helper.fail("evolved node not found after deserialize");
+            return;
+        }
 
         var restoredConst = restored.getInputConstantsById().get("port");
-        if (restoredConst == null) { helper.fail("port constant missing post-deserialize"); return; }
+        if (restoredConst == null) {
+            helper.fail("port constant missing post-deserialize");
+            return;
+        }
         if (!restoredConst.isDeserializeFailed()) {
             helper.fail("port constant should be marked deserializeFailed (saved had codec, load has no codec)");
             return;
         }
         // Value should fall back to the load-side default (since codec-decode failed and
         // initializationCallback ran).
-        if (!(restoredConst.getValue() instanceof SchemaEvolutionTestNodes.EvCodecValueA cv)
-                || cv.a() != 55 || !"no-codec-default".equals(cv.b())) {
+        if (!(restoredConst.getValue() instanceof SchemaEvolutionTestNodes.EvCodecValueA cv) || cv.a() != 55 || !"no-codec-default".equals(cv.b())) {
             helper.fail("port constant should hold load-side default after failed decode, got: " + restoredConst.getValue());
             return;
         }
@@ -663,7 +740,10 @@ public class GraphSerializationTest {
         var saveGraph = new TestGraph();
         var node = saveGraph.graphModel.createNodeModel(new EvCodecFloatNode(), new Vector2f(0, 0));
         var codecConst = node.getInputConstantsById().get("port");
-        if (codecConst == null) { helper.fail("port constant missing pre-serialize"); return; }
+        if (codecConst == null) {
+            helper.fail("port constant missing pre-serialize");
+            return;
+        }
         codecConst.setValue(123.0f);
 
         CompoundTag serialized = saveGraph.graphModel.serializeNBT(provider);
@@ -678,9 +758,15 @@ public class GraphSerializationTest {
         }
 
         var restored = findRestoredNode(loadGraph, node.getUid());
-        if (restored == null) { helper.fail("evolved node not found"); return; }
+        if (restored == null) {
+            helper.fail("evolved node not found");
+            return;
+        }
         var restoredConst = restored.getInputConstantsById().get("port");
-        if (restoredConst == null) { helper.fail("port constant missing"); return; }
+        if (restoredConst == null) {
+            helper.fail("port constant missing");
+            return;
+        }
         if (restoredConst.isDeserializeFailed()) {
             helper.fail("withoutSerialization load is INTENDED to ignore saved value — should NOT mark failed");
             return;
@@ -705,7 +791,10 @@ public class GraphSerializationTest {
         var saveGraph = new TestGraph();
         var node = saveGraph.graphModel.createNodeModel(new EvWithoutSerializationNode(), new Vector2f(0, 0));
         var c = node.getInputConstantsById().get("port");
-        if (c == null) { helper.fail("port constant missing pre-serialize"); return; }
+        if (c == null) {
+            helper.fail("port constant missing pre-serialize");
+            return;
+        }
         c.setValue(99.0f); // ignored by save side because withoutSerialization
 
         CompoundTag serialized = saveGraph.graphModel.serializeNBT(provider);
@@ -720,9 +809,15 @@ public class GraphSerializationTest {
         }
 
         var restored = findRestoredNode(loadGraph, node.getUid());
-        if (restored == null) { helper.fail("evolved node not found"); return; }
+        if (restored == null) {
+            helper.fail("evolved node not found");
+            return;
+        }
         var rc = restored.getInputConstantsById().get("port");
-        if (rc == null) { helper.fail("port constant missing post-deserialize"); return; }
+        if (rc == null) {
+            helper.fail("port constant missing post-deserialize");
+            return;
+        }
         if (rc.isDeserializeFailed()) {
             helper.fail("tag had no value entry — not a failure case, but flag was set");
             return;
@@ -761,9 +856,15 @@ public class GraphSerializationTest {
         }
 
         var restored = findRestoredNode(loadGraph, node.getUid());
-        if (restored == null) { helper.fail("evolved node not found"); return; }
+        if (restored == null) {
+            helper.fail("evolved node not found");
+            return;
+        }
         var rc = restored.getInputConstantsById().get("port");
-        if (rc == null) { helper.fail("port constant missing"); return; }
+        if (rc == null) {
+            helper.fail("port constant missing");
+            return;
+        }
         // Codec.FLOAT.parse on a raw Float NBT (NbtOps writes it as FloatTag) actually SUCCEEDS,
         // because Codec.FLOAT accepts the same primitive shape Mojang's accessor produces. So this
         // case is a "lossy but compatible" evolution: NOT a failure. Asserting:
@@ -804,15 +905,20 @@ public class GraphSerializationTest {
         }
 
         var restored = findRestoredNode(loadGraph, node.getUid());
-        if (restored == null) { helper.fail("evolved node not found"); return; }
+        if (restored == null) {
+            helper.fail("evolved node not found");
+            return;
+        }
         var rc = restored.getInputConstantsById().get("port");
-        if (rc == null) { helper.fail("port constant missing"); return; }
+        if (rc == null) {
+            helper.fail("port constant missing");
+            return;
+        }
         if (!rc.isDeserializeFailed()) {
             helper.fail("codec B should reject codec A's record NBT — expected deserializeFailed=true");
             return;
         }
-        if (!(rc.getValue() instanceof SchemaEvolutionTestNodes.EvCodecValueA cv)
-                || cv.a() != 123 || !"default-B".equals(cv.b())) {
+        if (!(rc.getValue() instanceof SchemaEvolutionTestNodes.EvCodecValueA cv) || cv.a() != 123 || !"default-B".equals(cv.b())) {
             helper.fail("expected load-side default after failed decode, got: " + rc.getValue());
             return;
         }
@@ -847,9 +953,15 @@ public class GraphSerializationTest {
         }
 
         var restored = findRestoredNode(loadGraph, node.getUid());
-        if (restored == null) { helper.fail("evolved node not found"); return; }
+        if (restored == null) {
+            helper.fail("evolved node not found");
+            return;
+        }
         var rc = restored.getInputConstantsById().get("port");
-        if (rc == null) { helper.fail("port constant missing"); return; }
+        if (rc == null) {
+            helper.fail("port constant missing");
+            return;
+        }
         if (!rc.isDeserializeFailed()) {
             helper.fail("corrupt value tag should mark deserializeFailed=true");
             return;
@@ -874,7 +986,10 @@ public class GraphSerializationTest {
         var graph = new TestGraph();
         var node = graph.graphModel.createNodeModel(new CustomCodecTestNode(), new Vector2f(0, 0));
         var c = node.getInputConstantsById().get("codec_port");
-        if (c == null) { helper.fail("codec_port constant missing pre-serialize"); return; }
+        if (c == null) {
+            helper.fail("codec_port constant missing pre-serialize");
+            return;
+        }
         c.setValue(new CustomCodecTestNode.CodecValue(77, "round1"));
 
         CompoundTag serialized = graph.graphModel.serializeNBT(provider);
@@ -889,17 +1004,22 @@ public class GraphSerializationTest {
                 break;
             }
         }
-        if (restored == null) { helper.fail("CustomCodecTestNode not found"); return; }
+        if (restored == null) {
+            helper.fail("CustomCodecTestNode not found");
+            return;
+        }
         var rc = restored.getInputConstantsById().get("codec_port");
         if (!(rc.getValue() instanceof CustomCodecTestNode.CodecValue cv1) || cv1.a() != 77 || !"round1".equals(cv1.b())) {
-            helper.fail("codec_port value lost after initial deserialize: " + rc.getValue()); return;
+            helper.fail("codec_port value lost after initial deserialize: " + rc.getValue());
+            return;
         }
 
         // Now call defineNode again — simulates an option-change rebuild. Value must survive.
         restored.defineNode();
         var rc2 = restored.getInputConstantsById().get("codec_port");
         if (!(rc2.getValue() instanceof CustomCodecTestNode.CodecValue cv2) || cv2.a() != 77 || !"round1".equals(cv2.b())) {
-            helper.fail("codec_port value lost after second defineNode: " + rc2.getValue()); return;
+            helper.fail("codec_port value lost after second defineNode: " + rc2.getValue());
+            return;
         }
 
         helper.succeed();
@@ -963,14 +1083,19 @@ public class GraphSerializationTest {
         graph2.graphModel.deserializeNBT(provider, serialized);
 
         var restored = findRestoredNode(graph2, add.getUid());
-        if (restored == null) { helper.fail("legacy TestAddNode not found after round-trip"); return; }
+        if (restored == null) {
+            helper.fail("legacy TestAddNode not found after round-trip");
+            return;
+        }
         var v1 = restored.getInputConstantsById().get("in1");
         var v2 = restored.getInputConstantsById().get("in2");
         if (!(v1.getValue() instanceof Float f1) || Math.abs(f1 - 11.5f) > 0.001f) {
-            helper.fail("in1 not preserved: " + v1.getValue()); return;
+            helper.fail("in1 not preserved: " + v1.getValue());
+            return;
         }
         if (!(v2.getValue() instanceof Float f2) || Math.abs(f2 - 22.5f) > 0.001f) {
-            helper.fail("in2 not preserved: " + v2.getValue()); return;
+            helper.fail("in2 not preserved: " + v2.getValue());
+            return;
         }
         if (v1.isDeserializeFailed() || v2.isDeserializeFailed()) {
             helper.fail("accessor-backed legacy ports should never be marked deserializeFailed");
@@ -1011,9 +1136,11 @@ public class GraphSerializationTest {
      * decode-error path. {@code nodeClassName} narrows the mutation to a single node type so
      * other nodes in the graph aren't affected.
      *
-     * <p>NBT layout: nodeTag → {@code _additional} (sub-compound where serializeAdditionalNBT's
+     * <p>
+     * NBT layout: nodeTag → {@code _additional} (sub-compound where serializeAdditionalNBT's
      * output lives, see {@code PersistedParser.serializeNBT}) → {@code inputConstants} →
-     * portId → {@code value}.</p>
+     * portId → {@code value}.
+     * </p>
      */
     private static void corruptPortValue(CompoundTag graphTag, String nodeClassName, String portId, String garbageValue) {
         var inner = unwrapAdditional(graphTag);
@@ -1033,10 +1160,9 @@ public class GraphSerializationTest {
     }
 
     private static com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomNodeModelImpl findRestoredNode(
-            TestGraph graph, java.util.UUID nodeUid) {
+                                                                                                             TestGraph graph, java.util.UUID nodeUid) {
         for (var n : graph.graphModel.getNodeModels()) {
-            if (n instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomNodeModelImpl cn
-                    && cn.getUid().equals(nodeUid)) {
+            if (n instanceof com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomNodeModelImpl cn && cn.getUid().equals(nodeUid)) {
                 return cn;
             }
         }

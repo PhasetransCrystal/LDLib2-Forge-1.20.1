@@ -3,8 +3,9 @@ package com.lowdragmc.lowdraglib2.syncdata;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.*;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
-import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCMethodMeta;
 import com.lowdragmc.lowdraglib2.syncdata.ref.IRef;
+import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCMethodMeta;
+
 import net.minecraft.nbt.Tag;
 
 import java.lang.reflect.Field;
@@ -32,7 +33,6 @@ public class ManagedFieldUtils {
         }
         return managedFields.toArray(ManagedKey[]::new);
     }
-
 
     public static Map<String, RPCMethodMeta> getRPCMethods(Class<?> clazz) {
         Map<String, RPCMethodMeta> result = new HashMap<>();
@@ -115,9 +115,9 @@ public class ManagedFieldUtils {
     }
 
     public interface FieldChangedCallback {
+
         void onFieldChanged(IRef<?> ref, int index, boolean changed);
     }
-
 
     public static FieldRefs getFieldRefs(ManagedKey[] keys, Object obj, FieldChangedCallback syncFieldChangedCallback, FieldChangedCallback persistedFieldChangedCallback) {
         List<IRef<?>> syncedFields = new ArrayList<>();
@@ -150,8 +150,6 @@ public class ManagedFieldUtils {
                 syncedFields.toArray(IRef<?>[]::new),
                 persistedFields.toArray(IRef<?>[]::new),
                 nonLazyFields.toArray(IRef<?>[]::new),
-                fieldRefMap
-        );
+                fieldRefMap);
     }
-
 }

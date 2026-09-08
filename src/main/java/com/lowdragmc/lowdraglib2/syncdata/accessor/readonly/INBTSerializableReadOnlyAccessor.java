@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.readonly;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.DelegatingOpsAccessor;
+
 import com.mojang.serialization.DynamicOps;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,7 @@ public class INBTSerializableReadOnlyAccessor implements IReadOnlyAccessor<INBTS
     public <T> void writeReadOnlyValue(DynamicOps<T> op, INBTSerializable<?> value, T payload) {
         Tag tag = (op == NbtOps.INSTANCE || op instanceof DelegatingOpsAccessor<?> accessor && accessor.getDelegate() == NbtOps.INSTANCE) ?
                 (Tag) payload : op.convertTo(NbtOps.INSTANCE, payload);
-        ((INBTSerializable)value).deserializeNBT(tag);
+        ((INBTSerializable) value).deserializeNBT(tag);
     }
 
     @Override
@@ -39,8 +40,7 @@ public class INBTSerializableReadOnlyAccessor implements IReadOnlyAccessor<INBTS
     public void writeReadOnlyValueFromStream(RegistryFriendlyByteBuf buffer, @NotNull INBTSerializable<?> value) {
         var nbt = ByteBufCodecs.TRUSTED_TAG.decode(buffer);
         if (nbt != null) {
-            ((INBTSerializable)value).deserializeNBT(nbt);
+            ((INBTSerializable) value).deserializeNBT(nbt);
         }
     }
-
 }

@@ -1,7 +1,5 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.configurator.ui.SelectorConfigurator;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
@@ -15,6 +13,10 @@ import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.AutoRegistry;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
+import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,17 +25,16 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
-import org.appliedenergistics.yoga.YogaEdge;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -41,6 +42,7 @@ import java.util.function.Supplier;
 @KJSBindings
 @LDLRegister(name = "tab-view", group = "container", registry = "ldlib2:ui_element")
 public class TabView extends UIElement {
+
     public final UIElement tabHeaderContainer;
     public final ScrollerView tabScroller;
     public final UIElement tabContentContainer;
@@ -207,8 +209,7 @@ public class TabView extends UIElement {
                 // if valid, store their index for rebuild
                 listBuilder.addCompound(compound -> compound
                         .add("tab", tab.getSiblingIndex())
-                        .add("content", content.getSiblingIndex())
-                );
+                        .add("content", content.getSiblingIndex()));
             }
         });
         tagBuilder.add("selected", (selectedTab == null) ? -1 : selectedTab.getSiblingIndex());
@@ -275,12 +276,12 @@ public class TabView extends UIElement {
                         .sorted(Integer::compareTo).toList(),
                 index -> index < 0 ? "auto" : Integer.toString(index));
         selectedSelector.addEventListener(UIEvents.TICK, event -> {
-           var tabs = tabContents.keySet().stream().filter(Objects::nonNull)
-                   .map(UIElement::getSiblingIndex)
-                   .sorted(Integer::compareTo).toList();
-           if (!tabs.equals(selectedSelector.selector.getCandidates())) {
-               selectedSelector.selector.setCandidates(tabs);
-           }
+            var tabs = tabContents.keySet().stream().filter(Objects::nonNull)
+                    .map(UIElement::getSiblingIndex)
+                    .sorted(Integer::compareTo).toList();
+            if (!tabs.equals(selectedSelector.selector.getCandidates())) {
+                selectedSelector.selector.setCandidates(tabs);
+            }
         });
         father.addConfigurator(selectedSelector);
     }

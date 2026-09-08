@@ -6,13 +6,16 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.VariableNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 public class VariableNodeElement extends CapsuleNodeElement {
+
     // runtime
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private UIElement scopeImage;
 
     public VariableNodeElement(VariableNodeModel variableNodeModel) {

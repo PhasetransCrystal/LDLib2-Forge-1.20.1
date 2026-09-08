@@ -3,11 +3,9 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.model.node;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortDirection;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.PortType;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandles;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphElement;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.CollapsibleInOutNodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.SubgraphNodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Capabilities;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.CustomGraphModelImpl;
@@ -15,6 +13,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.NodeDefinitionScope;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -34,12 +33,13 @@ import java.util.UUID;
  * is read as an output port; on the outer subgraph node a READ variable becomes an <em>input</em>
  * (the outer graph passes a value in).
  *
- * <p>Two flavors via {@link Kind}:
+ * <p>
+ * Two flavors via {@link Kind}:
  * <ul>
- *     <li>{@link Kind#LOCAL} — the inner graph is owned inline by the parent graph's
- *         {@link GraphModel#getLocalSubGraphs() localSubGraphs}; identified by uid.</li>
- *     <li>{@link Kind#EXTERNAL} — the inner graph is an external resource referenced by
- *         {@link IResourcePath}; resolved lazily via {@link GraphModel#getReferenceResolver()}.</li>
+ * <li>{@link Kind#LOCAL} — the inner graph is owned inline by the parent graph's
+ * {@link GraphModel#getLocalSubGraphs() localSubGraphs}; identified by uid.</li>
+ * <li>{@link Kind#EXTERNAL} — the inner graph is an external resource referenced by
+ * {@link IResourcePath}; resolved lazily via {@link GraphModel#getReferenceResolver()}.</li>
  * </ul>
  * When the inner graph isn't resolvable (e.g. running without an editor context), the node falls
  * back to a {@link #portCache cached port shape} captured the last time the inner graph was visible
@@ -47,15 +47,22 @@ import java.util.UUID;
  */
 public class SubgraphNodeModel extends NodeModel {
 
-    public enum Kind { LOCAL, EXTERNAL }
+    public enum Kind {
+        LOCAL,
+        EXTERNAL
+    }
 
-    @Persisted @Getter
+    @Persisted
+    @Getter
     private Kind kind = Kind.LOCAL;
     /** Uid of the local subgraph in {@code parent.localSubGraphs}. Used when {@link #kind} == LOCAL. */
-    @Persisted @Getter @Nullable
+    @Persisted
+    @Getter
+    @Nullable
     private UUID localGraphId;
     /** Serialized form of {@link IResourcePath} (via {@link IResourcePath#getPathWithType()}). EXTERNAL only. */
-    @Persisted @Nullable
+    @Persisted
+    @Nullable
     private String externalPathString;
 
     /** Frozen snapshot of the last-known port shape; used when the inner graph isn't resolvable. */

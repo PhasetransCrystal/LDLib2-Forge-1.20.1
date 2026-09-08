@@ -6,19 +6,20 @@ import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.UITemplate;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 
 @KJSBindings
 public class UIResource extends Resource<UITemplate> {
+
     public static final UIResource INSTANCE = new UIResource();
 
-    public UIResource() {
-    }
+    public UIResource() {}
 
     @Override
     public IGuiTexture getIcon() {

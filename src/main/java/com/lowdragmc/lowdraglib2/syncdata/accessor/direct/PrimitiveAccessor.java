@@ -1,16 +1,17 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.direct;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
-import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
 import com.lowdragmc.lowdraglib2.syncdata.ref.DirectRef;
-import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
 import com.lowdragmc.lowdraglib2.syncdata.ref.UniqueDirectRef;
+import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
+import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
+
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.PrimitiveCodec;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
@@ -20,13 +21,13 @@ public final class PrimitiveAccessor<TYPE> implements IDirectAccessor<TYPE> {
     private final PrimitiveCodec<TYPE> codec;
     private final StreamCodec<ByteBuf, TYPE> streamCodec;
 
-    private PrimitiveAccessor(PrimitiveCodec<TYPE> codec, StreamCodec<ByteBuf, TYPE> streamCodec, Class<?> ...operandTypes) {
+    private PrimitiveAccessor(PrimitiveCodec<TYPE> codec, StreamCodec<ByteBuf, TYPE> streamCodec, Class<?>... operandTypes) {
         this.operandTypes = operandTypes;
         this.codec = codec;
         this.streamCodec = streamCodec;
     }
 
-    public static <T> PrimitiveAccessor<T> of(PrimitiveCodec<T> codec, StreamCodec<ByteBuf, T> streamCodec, Class<?> ...operandTypes) {
+    public static <T> PrimitiveAccessor<T> of(PrimitiveCodec<T> codec, StreamCodec<ByteBuf, T> streamCodec, Class<?>... operandTypes) {
         return new PrimitiveAccessor<>(codec, streamCodec, operandTypes);
     }
 
@@ -74,5 +75,4 @@ public final class PrimitiveAccessor<TYPE> implements IDirectAccessor<TYPE> {
     public IVar<TYPE> createDirectVar(ManagedKey managedKey, @NotNull Object holder) {
         return FieldVar.of(managedKey, holder);
     }
-
 }

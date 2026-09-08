@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
 import com.lowdragmc.lowdraglib2.gui.ui.data.Grid;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import dev.vfyjxf.taffy.geometry.TaffyLine;
 import dev.vfyjxf.taffy.style.GridPlacement;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * Parses CSS grid-row and grid-column syntax.
  *
  * Supported syntax:
+ * 
  * <pre>
  * grid-row: auto;
  * grid-row: 1;                     // Line 1 (start), auto (end)

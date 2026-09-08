@@ -20,5 +20,4 @@ public interface ModelBakeryAccessor {
 
     @Accessor
     Map<ResourceLocation, UnbakedModel> getTopLevelModels();
-
 }

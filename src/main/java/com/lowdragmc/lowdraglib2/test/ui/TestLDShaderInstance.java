@@ -6,21 +6,23 @@ import com.lowdragmc.lowdraglib2.gui.texture.ShaderTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.NoArgsConstructor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.entity.player.Player;
 
-@LDLRegisterClient(name="ld_shader_instance", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "ld_shader_instance", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestLDShaderInstance implements IScreenTest {
+
     CompoundTag serialized = new CompoundTag();
 
     @Override
@@ -34,7 +36,7 @@ public class TestLDShaderInstance implements IScreenTest {
 
         var group = new ConfiguratorGroup("root");
         group.setCollapse(false);
-        var shaderTexture= new ShaderTexture();
+        var shaderTexture = new ShaderTexture();
         shaderTexture.buildConfigurator(group);
         var text = new TextElement();
         root.addChildren(

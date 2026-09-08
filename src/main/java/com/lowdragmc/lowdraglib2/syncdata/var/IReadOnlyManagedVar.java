@@ -1,21 +1,23 @@
 package com.lowdragmc.lowdraglib2.syncdata.var;
 
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
-import net.minecraft.nbt.Tag;
 
+import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.Nullable;
-import java.lang.reflect.InvocationTargetException;
+
 import java.lang.reflect.Method;
 
 public interface IReadOnlyManagedVar<TYPE> {
+
     record MethodInstance<TYPE>(Object instance, @Nullable Method onDirtyMethod, Method serializeMethod, Method deserializeMethod) implements IReadOnlyManagedVar<TYPE> {
+
         @Override
         public Tag serializeUid(TYPE obj) {
             if (serializeMethod == null) {
                 throw new UnsupportedOperationException("Cannot serialize uid for a read-only field");
             }
             try {
-                return (Tag)serializeMethod.invoke(instance, obj);
+                return (Tag) serializeMethod.invoke(instance, obj);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -84,5 +86,4 @@ public interface IReadOnlyManagedVar<TYPE> {
      * @return the deserialized object of the target type
      */
     TYPE deserializeUid(Tag uid);
-
 }

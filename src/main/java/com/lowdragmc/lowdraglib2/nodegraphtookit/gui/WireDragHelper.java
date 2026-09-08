@@ -15,6 +15,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.GhostWireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.IGhostWireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireSide;
+
 import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class WireDragHelper {
+
     public final static float DISTANCE_THRESHOLD = 10;
     public final GraphView graphView;
     private List<PortModel> allPorts;
@@ -35,12 +37,13 @@ public class WireDragHelper {
     private WireElement wireCandidate;
     @Getter
     private GhostWireModel wireCandidateModel;
-    @Getter @Setter
+    @Getter
+    @Setter
     private PortModel draggedPort;
-    @Getter @Setter
+    @Getter
+    @Setter
     private WireElement originalWire;
     private PortModel previousEndPortModel;
-
 
     public WireDragHelper(GraphView graphView) {
         this.graphView = graphView;
@@ -95,7 +98,6 @@ public class WireDragHelper {
     protected void clearWillConnect(@Nullable WireModel wireModel) {
         clearWillConnect(wireModel, WireSide.FROM);
         clearWillConnect(wireModel, WireSide.TO);
-
     }
 
     protected void clearWillConnect(@Nullable WireModel wireModel, WireSide side) {
@@ -135,8 +137,7 @@ public class WireDragHelper {
 
     public boolean handleMouseDown(UIEvent event, @Nullable Predicate<PortModel> compatiblePortsFilter) {
         var mousePosition = new Vector2f(event.x, event.y);
-        if (draggedPort == null || wireCandidateModel == null || wireCandidate == null
-                || draggedPort.getPortType() == PortType.MISSING_PORT || draggedPort.getDataTypeHandle().equals(TypeHandles.MISSING_PORT)) {
+        if (draggedPort == null || wireCandidateModel == null || wireCandidate == null || draggedPort.getPortType() == PortType.MISSING_PORT || draggedPort.getDataTypeHandle().equals(TypeHandles.MISSING_PORT)) {
             return false;
         }
 
@@ -191,7 +192,7 @@ public class WireDragHelper {
                 var gw = createGhostWire(endPort.getModel().getGraphModel());
                 ghostWire = gw.first();
                 ghostWireModel = gw.second();
-//                ghostWire.pickingMode = PickingMode.Ignore;
+                // ghostWire.pickingMode = PickingMode.Ignore;
                 graphView.addElement(ghostWire);
             }
 
@@ -206,7 +207,7 @@ public class WireDragHelper {
             endPort.setWillConnect(true);
 
             // When the port will connect, show the node hover border.
-//            ToggleNodeHoverBorder(endPort, true);
+            // ToggleNodeHoverBorder(endPort, true);
 
             var otherSide = sideForEndPort.getOpposite();
             if (ghostWireModel != null) {
@@ -244,8 +245,7 @@ public class WireDragHelper {
 
         clearWillConnect(wireCandidateModel);
 
-        var removeWireCandidate =
-                (wireCandidateModel == null ? null : wireCandidateModel.getToPort()) == null ||
+        var removeWireCandidate = (wireCandidateModel == null ? null : wireCandidateModel.getToPort()) == null ||
                 wireCandidateModel.getFromPort() == null;
 
         var endPort = getEndPort(mousePosition);
@@ -364,8 +364,7 @@ public class WireDragHelper {
         graphView.dispatchCommand(new WireCommands.CreateWireCommand(toPort, fromPort));
     }
 
-    protected void moveWires(List<WireElement> wires, PortElement endPort) {
-    }
+    protected void moveWires(List<WireElement> wires, PortElement endPort) {}
 
     /**
      * Handler for when wires are dropped outside of any port.
@@ -375,9 +374,7 @@ public class WireDragHelper {
         for (int i = 0; i < wires.size(); i++) {
             var wire = wires.get(i);
             var port = ports.get(i);
-            WireSide side = port.getDirection() == PortDirection.INPUT
-                    ? WireSide.FROM
-                    : WireSide.TO;
+            WireSide side = port.getDirection() == PortDirection.INPUT ? WireSide.FROM : WireSide.TO;
             wiresToConnect.add(Pair.of(wire.getModel(), side));
         }
         var wiresToDelete = wires.stream().map(GraphElement::getModel).filter(m -> m instanceof IGhostWireModel).toList();
@@ -397,12 +394,13 @@ public class WireDragHelper {
                     graphView.dispatchCommand(new NodeCommands.CreateNodeCommand().withNodeOnWires(nodeItem, wires, localPosition, null));
                 }
 
-//                if (item is VariableLibraryItem variableItem){
-//                    var blackboardSection = view.GraphModel.GetSectionModel(GraphModel.DefaultSectionName);
-//                    var index = blackboardSection.Items.Count;
-//
-//                    view.Dispatch(CreateNodeCommand.OnWireSide(variableItem, wires, localPosition, blackboardSection, index));
-//                }
+                // if (item is VariableLibraryItem variableItem){
+                // var blackboardSection = view.GraphModel.GetSectionModel(GraphModel.DefaultSectionName);
+                // var index = blackboardSection.Items.Count;
+                //
+                // view.Dispatch(CreateNodeCommand.OnWireSide(variableItem, wires, localPosition, blackboardSection,
+                // index));
+                // }
 
                 var allWiresToDelete = wires.stream().map(Pair::left).filter(IGhostWireModel.class::isInstance).collect(Collectors.toList());
                 if (wiresToDelete != null) {

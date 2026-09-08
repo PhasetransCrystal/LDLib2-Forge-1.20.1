@@ -9,14 +9,17 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import net.minecraft.client.gui.GuiGraphics;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class ColorConfigurator extends ValueConfigurator<Integer> {
+
     public final ColorSelector colorSelector;
     public final UIElement colorPreview;
 

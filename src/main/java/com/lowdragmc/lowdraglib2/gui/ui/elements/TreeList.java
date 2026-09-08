@@ -1,17 +1,14 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.base.Predicates;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.DynamicTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
@@ -19,6 +16,11 @@ import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.gui.util.ITreeNode;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+
+import com.google.common.base.Predicates;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
@@ -28,19 +30,20 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
 import org.appliedenergistics.yoga.*;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
- * TreeList represents a hierarchical UI element structure, where each node in the hierarchy can contain UI elements and may have a parent node.
+ * TreeList represents a hierarchical UI element structure, where each node in the hierarchy can contain UI elements and
+ * may have a parent node.
  * This class is designed to display and interact with tree-structured data.
  */
 @Accessors(chain = true)
@@ -49,9 +52,12 @@ import java.util.function.Predicate;
 @KJSBindings
 @LDLRegister(name = "tree-list", group = "misc", registry = "ldlib2:ui_element")
 public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     @Configurable(name = "TreeListStyle")
     public class TreeListStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.NODE_BACKGROUND,
                 PropertyRegistry.NODE_HOVER_BACKGROUND,
@@ -131,7 +137,8 @@ public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
      * When true, the TreeList and each row size to their content's max width instead of stretching
      * to the parent. Useful when embedded in a {@link ScrollerView} with horizontal scrolling so
      * that deeply-indented rows or long node labels can push the scroll container wider.
-     * <p>Default {@code false} preserves the previous full-width behavior.
+     * <p>
+     * Default {@code false} preserves the previous full-width behavior.
      */
     @Getter
     protected boolean widthFitsContent = false;
@@ -143,7 +150,8 @@ public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
     @Getter
     protected final BiMap<NODE, UIElement> nodeUIs = HashBiMap.create();
     protected final Set<NODE> selectedNodes = new LinkedHashSet<>();
-    @Getter @Nullable
+    @Getter
+    @Nullable
     protected NODE hoveredNode = null;
     @Getter
     protected final Set<NODE> expandedNodes = new HashSet<>();
@@ -198,7 +206,8 @@ public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
     /**
      * Toggle whether the TreeList sizes to its content (and each row sizes to its own content)
      * instead of stretching to the parent's width. See {@link #widthFitsContent} for details.
-     * <p>Callers' node UIs should also let their text label use {@code adaptiveWidth(true)} on
+     * <p>
+     * Callers' node UIs should also let their text label use {@code adaptiveWidth(true)} on
      * its text style so the label reports its natural width to the layout engine.
      */
     public TreeList<NODE> setWidthFitsContent(boolean v) {
@@ -268,6 +277,7 @@ public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
     /**
      * Determines if a given node in the tree is expanded.
      * A node is considered expanded if it is not present in the set of collapsed nodes.
+     * 
      * @param node the {@code TreeNode} to check
      * @return {@code true} if the node is expanded, {@code false} otherwise
      */
@@ -319,9 +329,9 @@ public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
      * It utilizes {@link #expandNode(NODE)} to expand nodes and {@link #collapseNode(NODE)}
      * to collapse nodes.
      *
-     * @param root the starting node of the tree or subtree to process
+     * @param root      the starting node of the tree or subtree to process
      * @param predicate a {@code Predicate} applied to each node to determine if it
-     *        should be expanded ({@code true}) or collapsed ({@code false})
+     *                  should be expanded ({@code true}) or collapsed ({@code false})
      */
     public void expandAllNodesIf(NODE root, Predicate<NODE> predicate) {
         if (predicate.test(root)) {
@@ -469,18 +479,17 @@ public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
             layout.height(7);
         }).style(style -> style.backgroundTexture(DynamicTexture.of(() -> node.isBranch() ?
                 (isNodeExpanded(node) ? treeListStyle.expandIcon() : treeListStyle.collapseIcon()) :
-                IGuiTexture.EMPTY
-        ))).addEventListener(UIEvents.MOUSE_DOWN, e -> {
-            if (e.button == 0) {
-                if (node.isBranch() && !clickToExpand) {
-                    if (isNodeExpanded(node)) {
-                        collapseNode(node);
-                    } else {
-                        expandNode(node);
+                IGuiTexture.EMPTY))).addEventListener(UIEvents.MOUSE_DOWN, e -> {
+                    if (e.button == 0) {
+                        if (node.isBranch() && !clickToExpand) {
+                            if (isNodeExpanded(node)) {
+                                collapseNode(node);
+                            } else {
+                                expandNode(node);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
         var ui = nodeUISupplier.apply(node);
         container.addChildren(arrow, ui);
         container.addEventListener(UIEvents.CLICK, e -> onNodeClicked(e, node));
@@ -548,21 +557,21 @@ public class TreeList<NODE extends ITreeNode<?, ?>> extends UIElement {
 
     /// Template
     public static <NODE extends ITreeNode<?, ?>> UIElementProvider<NODE> iconTextTemplate(
-            Function<NODE, IGuiTexture> iconMapper,
-            Function<NODE, Component> textMapper) {
+                                                                                          Function<NODE, IGuiTexture> iconMapper,
+                                                                                          Function<NODE, Component> textMapper) {
         var provider = UIElementProvider.iconText(iconMapper, textMapper);
         return node -> provider.apply(node).layout(layout -> layout.flex(1));
     }
 
     public static <NODE extends ITreeNode<?, ?>> UIElementProvider<NODE> optionalIconTextTemplate(
-            Function<NODE, IGuiTexture> iconMapper,
-            Function<NODE, Component> textMapper) {
+                                                                                                  Function<NODE, IGuiTexture> iconMapper,
+                                                                                                  Function<NODE, Component> textMapper) {
         var provider = UIElementProvider.optionalIconText(iconMapper, textMapper);
         return node -> provider.apply(node).layout(layout -> layout.flex(1));
     }
 
     public static <NODE extends ITreeNode<?, ?>> UIElementProvider<NODE> textTemplate(
-            Function<NODE, Component> textMapper) {
+                                                                                      Function<NODE, Component> textMapper) {
         var provider = UIElementProvider.text(textMapper);
         return node -> provider.apply(node).layout(layout -> layout.flex(1));
     }

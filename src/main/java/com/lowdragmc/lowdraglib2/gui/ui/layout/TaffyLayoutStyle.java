@@ -2,19 +2,19 @@ package com.lowdragmc.lowdraglib2.gui.ui.layout;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.*;
-import dev.vfyjxf.taffy.geometry.TaffyPoint;
+
 import dev.vfyjxf.taffy.geometry.TaffyRect;
 import dev.vfyjxf.taffy.geometry.TaffySize;
 import dev.vfyjxf.taffy.style.*;
 import org.appliedenergistics.yoga.*;
 import org.appliedenergistics.yoga.numeric.FloatOptional;
-import org.appliedenergistics.yoga.style.StyleSizeLength;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class TaffyLayoutStyle {
+
     public static final TaffyStyle DEFAULT_TAFFY_STYLE = new TaffyStyle();
     static {
         DEFAULT_TAFFY_STYLE.flexDirection = FlexDirection.COLUMN;
@@ -29,7 +29,6 @@ public class TaffyLayoutStyle {
     public final LPARectData margin;
     public final LPRectData padding;
     public final LPSizeData gap;
-
 
     public TaffyLayoutStyle(UIElement element) {
         this.element = element;
@@ -116,15 +115,15 @@ public class TaffyLayoutStyle {
     }
 
     public void setOverFlow(YogaOverflow value) {
-//        TaffyPoint<Overflow> overflow = switch (value) {
-//            case VISIBLE -> new TaffyPoint<>(Overflow.VISIBLE, Overflow.VISIBLE);
-//            case HIDDEN -> new TaffyPoint<>(Overflow.HIDDEN, Overflow.HIDDEN);
-//            case SCROLL -> new TaffyPoint<>(Overflow.CLIP, Overflow.CLIP);
-//        };
-//        if (!style.overflow.equals(overflow)) {
-//            style.overflow = overflow;
-//            element.markTaffyStyleDirty();
-//        }
+        // TaffyPoint<Overflow> overflow = switch (value) {
+        // case VISIBLE -> new TaffyPoint<>(Overflow.VISIBLE, Overflow.VISIBLE);
+        // case HIDDEN -> new TaffyPoint<>(Overflow.HIDDEN, Overflow.HIDDEN);
+        // case SCROLL -> new TaffyPoint<>(Overflow.CLIP, Overflow.CLIP);
+        // };
+        // if (!style.overflow.equals(overflow)) {
+        // style.overflow = overflow;
+        // element.markTaffyStyleDirty();
+        // }
     }
 
     public void setAlignItems(AlignItems alignItems) {
@@ -331,6 +330,7 @@ public class TaffyLayoutStyle {
     }
 
     public static class LPARectData {
+
         private LengthPercentageAuto left = LengthPercentageAuto.AUTO;
         private LengthPercentageAuto top = LengthPercentageAuto.AUTO;
         private LengthPercentageAuto right = LengthPercentageAuto.AUTO;
@@ -440,6 +440,7 @@ public class TaffyLayoutStyle {
     }
 
     public static class LPRectData {
+
         private LengthPercentageAuto left = LengthPercentageAuto.AUTO;
         private LengthPercentageAuto top = LengthPercentageAuto.AUTO;
         private LengthPercentageAuto right = LengthPercentageAuto.AUTO;
@@ -561,6 +562,7 @@ public class TaffyLayoutStyle {
     }
 
     public static class LPSizeData {
+
         private LengthPercentageAuto vertical = LengthPercentageAuto.AUTO;
         private LengthPercentageAuto horizontal = LengthPercentageAuto.AUTO;
         private LengthPercentageAuto all = LengthPercentageAuto.AUTO;

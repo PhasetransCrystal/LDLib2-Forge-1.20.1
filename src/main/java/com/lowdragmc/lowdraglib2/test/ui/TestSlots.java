@@ -8,15 +8,17 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.*;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.inventory.InventorySlots;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-@LDLRegister(name="slots", registry = "ldlib2:menu_test")
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@LDLRegister(name = "slots", registry = "ldlib2:menu_test")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TestSlots implements IMenuTest {
@@ -42,8 +44,7 @@ public class TestSlots implements IMenuTest {
 
         root.addChildren(
                 scrollerView.layout(layout -> layout.height(140)),
-                new InventorySlots()
-        ).addClass("panel_bg");
+                new InventorySlots()).addClass("panel_bg");
         return new ModularUI(UI.of(root, List.of(StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC))), player);
     }
 }

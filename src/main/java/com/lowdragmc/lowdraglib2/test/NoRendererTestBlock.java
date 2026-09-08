@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 public class NoRendererTestBlock extends Block {
 
     public static final NoRendererTestBlock BLOCK = new NoRendererTestBlock();
+
     private NoRendererTestBlock() {
         super(Properties.of().noOcclusion().destroyTime(5));
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.NORTH));

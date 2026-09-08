@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib2.integration.xei.jei.handler.JEIRecipeIngredient
 import com.lowdragmc.lowdraglib2.integration.xei.jei.handler.JEIRecipeWidgetHandler;
 import com.lowdragmc.lowdraglib2.integration.xei.jei.handler.JEITargetsTypedHandler;
 import com.lowdragmc.lowdraglib2.test.xei.TestJEIPlugin;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.ingredients.IIngredientType;
@@ -24,21 +25,22 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.ResourceLocation;
-
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @JeiPlugin
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class LDLibJEIPlugin implements IModPlugin {
+
     @Nullable
     public static IJeiRuntime jeiRuntime;
     @Nullable
@@ -125,7 +127,7 @@ public class LDLibJEIPlugin implements IModPlugin {
     }
 
     @Override
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({ "unchecked" })
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addGhostIngredientHandler(ModularUIScreen.class, ModularUIJEIHandlers.GHOST_INGREDIENT_HANDLER);
         registration.addGhostIngredientHandler(AbstractContainerScreen.class, ModularUIJEIHandlers.GHOST_INGREDIENT_HANDLER);
@@ -158,9 +160,9 @@ public class LDLibJEIPlugin implements IModPlugin {
      * <br>
      * For example, if you want to lookup the jei recipe while clicking the element of your ui.
      *
-     * @param <T> The type of the {@code UIElement} to which the clickable ingredient will be added.
-     * @param <I> The type of the ingredient handled by {@code ITypedIngredient}.
-     * @param element The UI element to which the clickable ingredient behavior will be bound.
+     * @param <T>              The type of the {@code UIElement} to which the clickable ingredient will be added.
+     * @param <I>              The type of the ingredient handled by {@code ITypedIngredient}.
+     * @param element          The UI element to which the clickable ingredient behavior will be bound.
      * @param clickableBuilder A function that provides an {@code ITypedIngredient} of current mouse.
      */
     public static <T extends UIElement, I> void clickableIngredient(T element, Supplier<ITypedIngredient<I>> clickableBuilder) {
@@ -181,12 +183,12 @@ public class LDLibJEIPlugin implements IModPlugin {
      * <br>
      * For example, if you want your element to accept dragging ingredients from JEI.
      *
-     * @param <T> The type of the {@link UIElement} to which the functionality is being added.
-     * @param <I> The type of the ingredient handled by {@link ITypedIngredient}.
-     * @param element The {@link UIElement} where the ghost ingredient functionality is applied.
-     * @param type The {@link IIngredientType} of the ingredient being handled.
+     * @param <T>      The type of the {@link UIElement} to which the functionality is being added.
+     * @param <I>      The type of the ingredient handled by {@link ITypedIngredient}.
+     * @param element  The {@link UIElement} where the ghost ingredient functionality is applied.
+     * @param type     The {@link IIngredientType} of the ingredient being handled.
      * @param mayPlace A {@link Predicate} that determines whether the ghost ingredient can be placed.
-     * @param onPlace A {@link Consumer} to handle the action of placing the ghost ingredient.
+     * @param onPlace  A {@link Consumer} to handle the action of placing the ghost ingredient.
      */
     public static <T extends UIElement, I> void ghostIngredient(T element, IIngredientType<I> type,
                                                                 Predicate<ITypedIngredient<I>> mayPlace,
@@ -194,6 +196,7 @@ public class LDLibJEIPlugin implements IModPlugin {
         element.addEventListener(JEIUIEvents.GHOST_INGREDIENT, event -> {
             if (event.customData instanceof JEITargetsTypedHandler<?> targets) {
                 targets.ingredient.getIngredient(type).map(ingredient -> new ITypedIngredient<I>() {
+
                     @Override
                     public IIngredientType<I> getType() {
                         return type;
@@ -218,10 +221,11 @@ public class LDLibJEIPlugin implements IModPlugin {
      * <br>
      * For example, if you want to add input/output/catalyst ingredients to the recipe based on the UI element.
      *
-     * @param <T> The type of the {@code UIElement} to which the functionality is being added.
-     * @param element The {@link UIElement} to which the recipe ingredient behavior will be bound.
-     * @param ingredientIO The {@link IngredientIO} specifying the type of ingredient input/output.
-     * @param ingredientsProvider A {@link Supplier} that provides a list of {@link ITypedIngredient} values to associate with the element.
+     * @param <T>                 The type of the {@code UIElement} to which the functionality is being added.
+     * @param element             The {@link UIElement} to which the recipe ingredient behavior will be bound.
+     * @param ingredientIO        The {@link IngredientIO} specifying the type of ingredient input/output.
+     * @param ingredientsProvider A {@link Supplier} that provides a list of {@link ITypedIngredient} values to
+     *                            associate with the element.
      */
     public static <T extends UIElement> void recipeIngredient(T element, IngredientIO ingredientIO,
                                                               Supplier<List<ITypedIngredient<?>>> ingredientsProvider) {
@@ -230,8 +234,7 @@ public class LDLibJEIPlugin implements IModPlugin {
                 focuses.add(new JEIRecipeIngredientHandler.Entry(
                         getRole(ingredientIO),
                         ingredientsProvider.get(),
-                        getAreaLocal(element, true)
-                ));
+                        getAreaLocal(element, true)));
             }
         });
     }
@@ -240,12 +243,12 @@ public class LDLibJEIPlugin implements IModPlugin {
      * Adds recipe (slots)widgets to the JEI recipe.
      * This allows associating an invisible slot in the UI element for JEI lookups and tooltips.
      *
-     * @param <T> The type of the {@link UIElement} to which the slot functionality is added.
-     * @param element The {@link UIElement} where the recipe slot functionality is applied.
+     * @param <T>               The type of the {@link UIElement} to which the slot functionality is added.
+     * @param element           The {@link UIElement} where the recipe slot functionality is applied.
      * @param displayIngredient A {@link Supplier} that provides the primary {@link ITypedIngredient}
      *                          to be displayed in the slot.
-     * @param allIngredients An optional {@link Supplier} that provides a list of additional
-     *                       {@link ITypedIngredient} instances to associate with the slot.
+     * @param allIngredients    An optional {@link Supplier} that provides a list of additional
+     *                          {@link ITypedIngredient} instances to associate with the slot.
      */
     public static <T extends UIElement> void recipeSlot(T element,
                                                         Supplier<ITypedIngredient<?>> displayIngredient,
@@ -261,5 +264,4 @@ public class LDLibJEIPlugin implements IModPlugin {
             }
         });
     }
-
 }

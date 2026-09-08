@@ -4,19 +4,23 @@ package com.lowdragmc.lowdraglib2.gui.ui.style;
  * Represents the origin (cascade layer) of a style value applied to a UI element.
  * Higher priority values win when multiple origins compete for the same property.
  *
- * <p>Priority ordering (ascending):
+ * <p>
+ * Priority ordering (ascending):
  * <ol>
- *   <li>{@link #DEFAULT}    (0) – component's internal default; the lowest precedence.</li>
- *   <li>{@link #STYLESHEET} (2) – rules loaded from {@code .lss} files via the style engine.</li>
- *   <li>{@link #INLINE}     (3) – programmatic {@code setStyle()} / {@code lss()} calls on the element.</li>
- *   <li>{@link #ANIMATION}  (4) – values driven by a {@link com.lowdragmc.lowdraglib2.gui.ui.style.animation.StyleAnimation}.</li>
- *   <li>{@link #IMPORTANT}  (5) – highest precedence; use to force a value above all other origins.</li>
+ * <li>{@link #DEFAULT} (0) – component's internal default; the lowest precedence.</li>
+ * <li>{@link #STYLESHEET} (2) – rules loaded from {@code .lss} files via the style engine.</li>
+ * <li>{@link #INLINE} (3) – programmatic {@code setStyle()} / {@code lss()} calls on the element.</li>
+ * <li>{@link #ANIMATION} (4) – values driven by a
+ * {@link com.lowdragmc.lowdraglib2.gui.ui.style.animation.StyleAnimation}.</li>
+ * <li>{@link #IMPORTANT} (5) – highest precedence; use to force a value above all other origins.</li>
  * </ol>
  *
- * <p>Note: priority 1 is intentionally unused to leave room for future origins
+ * <p>
+ * Note: priority 1 is intentionally unused to leave room for future origins
  * between DEFAULT and STYLESHEET (e.g. inherited values).
  */
 public enum StyleOrigin {
+
     /**
      * Default style set by the UI component itself (internal defaults).
      * Priority 0 – lowest precedence.
@@ -44,6 +48,7 @@ public enum StyleOrigin {
      */
     IMPORTANT(5),
     ;
+
     public final int priority;
 
     StyleOrigin(int priority) {

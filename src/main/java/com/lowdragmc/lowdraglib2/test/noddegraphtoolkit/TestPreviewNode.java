@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.NodeAttribute;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.NodePreviewContext;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodeModel;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import net.minecraft.network.chat.Component;
@@ -20,8 +21,9 @@ import net.minecraft.util.Mth;
  * value into the {@code in} port's field and the preview updates (driven by
  * {@link #onUpdateNodePreview}).
  */
-@NodeAttribute(name = "test_preview", group = "test", graphTypes = {TestGraph.class})
+@NodeAttribute(name = "test_preview", group = "test", graphTypes = { TestGraph.class })
 public class TestPreviewNode extends Node {
+
     static final float PREVIEW_SIZE = 100f;
 
     // Live UI refs, rebuilt whenever the panel is (re)built.

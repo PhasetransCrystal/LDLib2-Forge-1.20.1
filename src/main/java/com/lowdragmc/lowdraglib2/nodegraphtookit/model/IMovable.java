@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.model;
 import org.joml.Vector2f;
 
 public interface IMovable {
+
     /**
      * Get the model position
      */

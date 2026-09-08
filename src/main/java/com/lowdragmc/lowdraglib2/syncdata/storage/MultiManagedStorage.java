@@ -18,9 +18,7 @@ public class MultiManagedStorage implements IManagedStorage {
 
     private final List<IManagedStorage> storages = new ArrayList<>();
 
-    public MultiManagedStorage() {
-
-    }
+    public MultiManagedStorage() {}
 
     public void attach(IManagedStorage storage) {
         clearCache();
@@ -41,6 +39,7 @@ public class MultiManagedStorage implements IManagedStorage {
     }
 
     private final Map<ManagedKey, IRef> cacheFields = new HashMap<>();
+
     @Override
     public IRef getFieldByKey(ManagedKey key) {
         if (!cacheFields.containsKey(key)) {
@@ -57,6 +56,7 @@ public class MultiManagedStorage implements IManagedStorage {
     }
 
     private IManaged[] cacheManaged = null;
+
     @Override
     public IManaged[] getManaged() {
         if (cacheManaged == null) {
@@ -66,6 +66,7 @@ public class MultiManagedStorage implements IManagedStorage {
     }
 
     private IRef[] cacheNonLazyFields = null;
+
     @Override
     public IRef[] getNonLazyFields() {
         if (cacheNonLazyFields == null) {
@@ -75,6 +76,7 @@ public class MultiManagedStorage implements IManagedStorage {
     }
 
     private IRef[] cachePersistedFields = null;
+
     @Override
     public IRef[] getPersistedFields() {
         if (cachePersistedFields == null) {
@@ -84,6 +86,7 @@ public class MultiManagedStorage implements IManagedStorage {
     }
 
     private IRef[] cacheSyncFields = null;
+
     @Override
     public IRef[] getSyncFields() {
         if (cacheSyncFields == null) {
@@ -138,5 +141,4 @@ public class MultiManagedStorage implements IManagedStorage {
     public void requireInit() {
         storages.forEach(IManagedStorage::requireInit);
     }
-
 }

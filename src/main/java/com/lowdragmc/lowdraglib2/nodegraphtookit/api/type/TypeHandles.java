@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.api.type;
 import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
 import com.lowdragmc.lowdraglib2.configurator.ui.ColorConfigurator;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
+
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -15,10 +16,26 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
 public class TypeHandles {
-    public static final class Unknown { private Unknown() {} }
-    public static final class ExecutionFlow { private ExecutionFlow() {} }
-    public static final class Subgraph { private Subgraph() {} }
-    public static final class MissingPort { private MissingPort() {} }
+
+    public static final class Unknown {
+
+        private Unknown() {}
+    }
+
+    public static final class ExecutionFlow {
+
+        private ExecutionFlow() {}
+    }
+
+    public static final class Subgraph {
+
+        private Subgraph() {}
+    }
+
+    public static final class MissingPort {
+
+        private MissingPort() {}
+    }
 
     public static final TypeHandle AUTOMATIC;
     public static final TypeHandle MISSING;
@@ -48,7 +65,6 @@ public class TypeHandles {
     public static final TypeHandle ENTITY_TYPE;
     public static final TypeHandle ITEM_STACK;
     public static final TypeHandle FLUID_STACK;
-
 
     static {
         // Normal type handles
@@ -86,10 +102,9 @@ public class TypeHandles {
         COLOR = TypeHandleHelpers.customType(Integer.class, "COLOR", "Color");
         TypeHandleHelpers.setCustomDefaultValue(COLOR, () -> -1);
         TypeHandleHelpers.setCustomIcon(COLOR, Icons.COLOR);
-        TypeHandleHelpers.setCustomConfigurable(COLOR, (valueConfigurable, typeHandle) ->
-                IConfigurable.create(group -> group.addConfigurator(new ColorConfigurator("",
-                        valueConfigurable::getValue, valueConfigurable::setValue, -1,
-                        valueConfigurable.forceUpdate()))));
+        TypeHandleHelpers.setCustomConfigurable(COLOR, (valueConfigurable, typeHandle) -> IConfigurable.create(group -> group.addConfigurator(new ColorConfigurator("",
+                valueConfigurable::getValue, valueConfigurable::setValue, -1,
+                valueConfigurable.forceUpdate()))));
 
         DIRECTION = TypeHandleHelpers.fromType(Direction.class);
         TypeHandleHelpers.setCustomColorAndIcon(DIRECTION, 0xFF5BFF94, Icons.MOVE.copy().setColor(0xFF5BFF94));

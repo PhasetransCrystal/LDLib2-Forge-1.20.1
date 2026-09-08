@@ -1,15 +1,16 @@
 package com.lowdragmc.lowdraglib2.networking.both;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.networking.rpc.RPCPacketDistributor;
-import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
-import lombok.NoArgsConstructor;
+import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.compat.network.custom.CustomPacketPayload;
+import com.lowdragmc.lowdraglib2.networking.rpc.RPCPacketDistributor;
+import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCSender;
+
+import lombok.NoArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import com.lowdragmc.lowdraglib2.compat.network.IPayloadContext;
 
 import javax.annotation.Nonnull;
 
@@ -18,6 +19,7 @@ import javax.annotation.Nonnull;
  */
 @NoArgsConstructor
 public class PacketRPCPacket implements CustomPacketPayload {
+
     public static final ResourceLocation ID = LDLib2.id("rpc_packet");
     public static final Type<PacketRPCPacket> TYPE = new Type<>(ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketRPCPacket> CODEC = StreamCodec.ofMember(PacketRPCPacket::write, PacketRPCPacket::decode);

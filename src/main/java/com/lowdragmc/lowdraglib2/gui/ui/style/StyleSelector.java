@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import com.mojang.datafixers.util.Either;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +27,7 @@ public record StyleSelector(SelectorType type, Either<String, HierarchicalStyleM
             return new StyleSelector(SelectorType.CLASS, Either.left(raw.substring(1)), scope);
         } else if (raw.startsWith("#")) {
             return new StyleSelector(SelectorType.ID, Either.left(raw.substring(1)), scope);
-        } else if (raw.equals("*"))  {
+        } else if (raw.equals("*")) {
             return new StyleSelector(SelectorType.UNIVERSAL, Either.left("*"), scope);
         } else {
             return new StyleSelector(SelectorType.ELEMENT, Either.left(raw), scope);

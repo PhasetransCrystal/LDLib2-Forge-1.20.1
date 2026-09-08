@@ -5,16 +5,16 @@ import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
 import com.lowdragmc.lowdraglib2.client.renderer.block.RendererBlock;
 import com.lowdragmc.lowdraglib2.client.renderer.block.RendererBlockEntity;
 import com.lowdragmc.lowdraglib2.client.renderer.impl.UIResourceRenderer;
-import com.lowdragmc.lowdraglib2.client.scene.FBOWorldSceneRenderer;
 import com.lowdragmc.lowdraglib2.client.scene.ImmediateWorldSceneRenderer;
 import com.lowdragmc.lowdraglib2.editor.ui.resource.ResourceProviderContainer;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.utils.data.BlockInfo;
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.TrackedDummyWorld;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -34,6 +34,7 @@ import java.util.function.Consumer;
 
 @KJSBindings
 public class IRendererResource extends Resource<IRenderer> {
+
     public static final IRendererResource INSTANCE = new IRendererResource();
     private final Set<ResourceProviderContainer<IRenderer>> openedContainers = Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap<>()));
 
@@ -96,8 +97,7 @@ public class IRendererResource extends Resource<IRenderer> {
 
     public void reloadResourcesAndRefreshOpenedContainers() {
         var minecraft = Minecraft.getInstance();
-        minecraft.reloadResourcePacks().thenRun(() ->
-                minecraft.execute(this::refreshOpenedContainers));
+        minecraft.reloadResourcePacks().thenRun(() -> minecraft.execute(this::refreshOpenedContainers));
     }
 
     public void refreshOpenedContainers() {
@@ -146,6 +146,7 @@ public class IRendererResource extends Resource<IRenderer> {
     }
 
     private static class ClientWrapper {
+
         private static UIElement uiProvider(IResourceProvider<IRenderer> provider, IResourcePath path) {
             var level = new TrackedDummyWorld();
             level.addBlock(BlockPos.ZERO, BlockInfo.fromBlock(RendererBlock.BLOCK));

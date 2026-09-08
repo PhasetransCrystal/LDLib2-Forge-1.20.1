@@ -1,14 +1,17 @@
 package com.lowdragmc.lowdraglib2.gui.sync.bindings;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import org.jetbrains.annotations.ApiStatus;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 public interface IObservable<T> {
+
     /**
      * bind an observer to it.
      */

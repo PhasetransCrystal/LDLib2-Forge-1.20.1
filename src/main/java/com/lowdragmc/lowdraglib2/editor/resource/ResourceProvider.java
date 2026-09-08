@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Accessors(chain = true)
 public abstract class ResourceProvider<T> implements IResourceProvider<T> {
+
     @Getter
     public final ResourceInstance<T> resourceInstance;
     @Getter
@@ -32,7 +33,7 @@ public abstract class ResourceProvider<T> implements IResourceProvider<T> {
             return contents.get(path);
         }
         return null;
-    } 
+    }
 
     public boolean addResource(IResourcePath path, T resource) {
         if (!supportResourcePath(path)) return false;

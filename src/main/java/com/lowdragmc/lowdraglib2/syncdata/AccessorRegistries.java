@@ -3,6 +3,10 @@ package com.lowdragmc.lowdraglib2.syncdata;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.chat.ComponentSerialization;
+import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UITemplate;
@@ -16,25 +20,22 @@ import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.arraylike.ArrayAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.arraylike.CollectionAccessor;
-import com.lowdragmc.lowdraglib2.syncdata.accessor.maplike.MapAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.CustomDirectAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.EnumAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.PrimitiveAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.direct.RegistryAccessor;
+import com.lowdragmc.lowdraglib2.syncdata.accessor.maplike.MapAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.readonly.IManagedObjectAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.readonly.INBTSerializableReadOnlyAccessor;
 import com.lowdragmc.lowdraglib2.utils.*;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.Tag;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import com.lowdragmc.lowdraglib2.compat.network.chat.ComponentSerialization;
-import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EntityType;
@@ -61,26 +62,33 @@ import java.util.function.BiFunction;
 
 @SuppressWarnings("unchecked")
 public class AccessorRegistries {
-    public record AccessorHolder(IAccessor<?> accessor, int priority) { }
+
+    public record AccessorHolder(IAccessor<?> accessor, int priority) {}
+
     private final static List<AccessorHolder> ACCESSOR_HOLDERS = Collections.synchronizedList(new ArrayList<>());
     private final static Map<Class<?>, IAccessor<?>> ACCESSOR_LOOKUP = new ConcurrentHashMap<>();
     private final static BiFunction<IAccessor, Class<?>, IAccessor<?>> ARRAY_ACCESSOR_LOOKUP = Util.memoize(ArrayAccessor::new);
     private final static BiFunction<IAccessor, Class<?>, IAccessor<?>> COLLECTION_ACCESSOR_LOOKUP = Util.memoize(CollectionAccessor::new);
     private final static Map<MapAccessorKey, IAccessor<?>> MAP_ACCESSOR_LOOKUP = new ConcurrentHashMap<>();
+
     private record MapAccessorKey(IAccessor<?> keyAccessor, Class<?> keyType, IAccessor<?> valueAccessor, Class<?> valueType) {}
+
     /**
      * Register an accessor with a given priority.
      * Lower priority accessors will be checked first.
      *
      * @param accessor The accessor to register
      * @param priority The priority of the accessor. Priority Range:
-     * <ul>
-     *   <li><code>-1</code> - Highest priority, for primitive types, e.g. int, long, float, double, boolean, byte, short, char, String</li>
-     *   <li><code>100</code> - Medium priority, for registry types and Unique/Standalone/Final type, e.g. UUID, Block, Item, Fluid, EntityType, BlockEntityType</li>
-     *   <li><code>1000</code> - Default priority, for common types, e.g. ItemStack, FluidStack</li>
-     *   <li><code>1500</code> - Low priority, for read-only types, e.g., IManaged</li>
-     *   <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g., INBTSerializable</li>
-     * </ul>
+     *                 <ul>
+     *                 <li><code>-1</code> - Highest priority, for primitive types, e.g. int, long, float, double,
+     *                 boolean, byte, short, char, String</li>
+     *                 <li><code>100</code> - Medium priority, for registry types and Unique/Standalone/Final type, e.g.
+     *                 UUID, Block, Item, Fluid, EntityType, BlockEntityType</li>
+     *                 <li><code>1000</code> - Default priority, for common types, e.g. ItemStack, FluidStack</li>
+     *                 <li><code>1500</code> - Low priority, for read-only types, e.g., IManaged</li>
+     *                 <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g.,
+     *                 INBTSerializable</li>
+     *                 </ul>
      */
     public static void registerAccessor(IAccessor<?> accessor, int priority) {
         synchronized (ACCESSOR_HOLDERS) {
@@ -100,14 +108,18 @@ public class AccessorRegistries {
 
     /**
      * Set the priority for the current thread.
+     * 
      * @param priority The priority of the accessor. Priority Range:
-     * <ul>
-     *   <li><code>-1</code> - Highest priority, for primitive types, e.g. int, long, float, double, boolean, byte, short, char, String</li>
-     *   <li><code>100</code> - Medium priority, for registry types and Unique/Standalone/Final type, e.g. UUID, Block, Item, Fluid, EntityType, BlockEntityType</li>
-     *   <li><code>1000</code> - Default priority, for common types, e.g. ItemStack, FluidStack</li>
-     *   <li><code>1500</code> - Low priority, for read-only types, e.g., IManaged</li>
-     *   <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g., INBTSerializable</li>
-     * </ul>
+     *                 <ul>
+     *                 <li><code>-1</code> - Highest priority, for primitive types, e.g. int, long, float, double,
+     *                 boolean, byte, short, char, String</li>
+     *                 <li><code>100</code> - Medium priority, for registry types and Unique/Standalone/Final type, e.g.
+     *                 UUID, Block, Item, Fluid, EntityType, BlockEntityType</li>
+     *                 <li><code>1000</code> - Default priority, for common types, e.g. ItemStack, FluidStack</li>
+     *                 <li><code>1500</code> - Low priority, for read-only types, e.g., IManaged</li>
+     *                 <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g.,
+     *                 INBTSerializable</li>
+     *                 </ul>
      */
     public static void setPriority(int priority) {
         PRIORITY.set(priority);
@@ -116,6 +128,7 @@ public class AccessorRegistries {
     /**
      * Register an accessor by using the current priority {@link #setPriority(int)}.
      * Its useful for registering accessors in a static block.
+     * 
      * @param accessor The accessor to register
      */
     public static void registerAccessor(IAccessor<?> accessor) {
@@ -240,7 +253,7 @@ public class AccessorRegistries {
         registerAccessor(PrimitiveAccessor.of(Codec.BOOL, ByteBufCodecs.BOOL, boolean.class, Boolean.class));
         registerAccessor(PrimitiveAccessor.of(Codec.BYTE, ByteBufCodecs.BYTE, byte.class, Byte.class));
         registerAccessor(PrimitiveAccessor.of(Codec.SHORT, ByteBufCodecs.SHORT, short.class, Short.class));
-        registerAccessor(PrimitiveAccessor.of(LDLibExtraCodecs.CHAR, ByteBufCodecs.VAR_INT.map(integer -> (char) integer.intValue(), character -> (int)character), char.class, Character.class));
+        registerAccessor(PrimitiveAccessor.of(LDLibExtraCodecs.CHAR, ByteBufCodecs.VAR_INT.map(integer -> (char) integer.intValue(), character -> (int) character), char.class, Character.class));
         registerAccessor(PrimitiveAccessor.of(Codec.STRING, ByteBufCodecs.STRING_UTF8, String.class));
         registerAccessor(new EnumAccessor());
 
@@ -249,8 +262,8 @@ public class AccessorRegistries {
         registerAccessor(RegistryAccessor.of(Block.class, BuiltInRegistries.BLOCK));
         registerAccessor(RegistryAccessor.of(Item.class, BuiltInRegistries.ITEM));
         registerAccessor(RegistryAccessor.of(Fluid.class, BuiltInRegistries.FLUID));
-        registerAccessor(RegistryAccessor.of((Class<EntityType<?>>)(Class<?>) EntityType.class, BuiltInRegistries.ENTITY_TYPE));
-        registerAccessor(RegistryAccessor.of((Class<BlockEntityType<?>>)(Class<?>)BlockEntityType.class, BuiltInRegistries.BLOCK_ENTITY_TYPE));
+        registerAccessor(RegistryAccessor.of((Class<EntityType<?>>) (Class<?>) EntityType.class, BuiltInRegistries.ENTITY_TYPE));
+        registerAccessor(RegistryAccessor.of((Class<BlockEntityType<?>>) (Class<?>) BlockEntityType.class, BuiltInRegistries.BLOCK_ENTITY_TYPE));
         registerAccessor(CustomDirectAccessor.builder(UUID.class)
                 .codec(LDLibExtraCodecs.UUID)
                 .streamCodec(StreamCodec.of(
@@ -258,8 +271,7 @@ public class AccessorRegistries {
                             byteBuf.writeLong(uuid.getMostSignificantBits());
                             byteBuf.writeLong(uuid.getLeastSignificantBits());
                         },
-                        byteBuf -> new UUID(byteBuf.readLong(), byteBuf.readLong())
-                ))
+                        byteBuf -> new UUID(byteBuf.readLong(), byteBuf.readLong())))
                 .build());
         registerAccessor(CustomDirectAccessor.builder(BlockState.class)
                 .codec(BlockState.CODEC)
@@ -317,8 +329,7 @@ public class AccessorRegistries {
                             byteBuf.writeVarInt(vector.y);
                             byteBuf.writeVarInt(vector.z);
                         },
-                        byteBuf -> new Vector3i(byteBuf.readVarInt(), byteBuf.readVarInt(), byteBuf.readVarInt())
-                ))
+                        byteBuf -> new Vector3i(byteBuf.readVarInt(), byteBuf.readVarInt(), byteBuf.readVarInt())))
                 .copyMark(Vector3i::new)
                 .build());
         registerAccessor(CustomDirectAccessor.builder(Vector4f.class)
@@ -330,8 +341,7 @@ public class AccessorRegistries {
                             byteBuf.writeFloat(vector.z);
                             byteBuf.writeFloat(vector.w);
                         },
-                        (RegistryFriendlyByteBuf byteBuf) -> new Vector4f(byteBuf.readFloat(), byteBuf.readFloat(), byteBuf.readFloat(), byteBuf.readFloat())
-                ))
+                        (RegistryFriendlyByteBuf byteBuf) -> new Vector4f(byteBuf.readFloat(), byteBuf.readFloat(), byteBuf.readFloat(), byteBuf.readFloat())))
                 .copyMark(Vector4f::new)
                 .build());
         registerAccessor(CustomDirectAccessor.builder(Vector2f.class)
@@ -341,8 +351,7 @@ public class AccessorRegistries {
                             byteBuf.writeFloat(vector.x);
                             byteBuf.writeFloat(vector.y);
                         },
-                        byteBuf -> new Vector2f(byteBuf.readFloat(), byteBuf.readFloat())
-                ))
+                        byteBuf -> new Vector2f(byteBuf.readFloat(), byteBuf.readFloat())))
                 .copyMark(Vector2f::new)
                 .build());
         registerAccessor(CustomDirectAccessor.builder(Vector2i.class)
@@ -352,8 +361,7 @@ public class AccessorRegistries {
                             byteBuf.writeVarInt(vector.x);
                             byteBuf.writeVarInt(vector.y);
                         },
-                        byteBuf -> new Vector2i(byteBuf.readVarInt(), byteBuf.readVarInt())
-                ))
+                        byteBuf -> new Vector2i(byteBuf.readVarInt(), byteBuf.readVarInt())))
                 .copyMark(Vector2i::new)
                 .build());
         registerAccessor(CustomDirectAccessor.builder(Quaternionf.class)
@@ -364,8 +372,7 @@ public class AccessorRegistries {
         registerAccessor(CustomDirectAccessor.builder(AABB.class)
                 .codec(RecordCodecBuilder.create(instance -> instance.group(
                         Vec3.CODEC.fieldOf("min").forGetter(aabb -> new Vec3(aabb.minX, aabb.minY, aabb.minZ)),
-                        Vec3.CODEC.fieldOf("max").forGetter(aabb -> new Vec3(aabb.maxX, aabb.maxY, aabb.maxZ))
-                ).apply(instance, AABB::new)))
+                        Vec3.CODEC.fieldOf("max").forGetter(aabb -> new Vec3(aabb.maxX, aabb.maxY, aabb.maxZ))).apply(instance, AABB::new)))
                 .streamCodec(StreamCodec.of(
                         (byteBuf, aabb) -> {
                             byteBuf.writeDoubleLE(aabb.minX);
@@ -377,8 +384,7 @@ public class AccessorRegistries {
                         },
                         byteBuf -> new AABB(
                                 byteBuf.readDoubleLE(), byteBuf.readDoubleLE(), byteBuf.readDoubleLE(),
-                                byteBuf.readDoubleLE(), byteBuf.readDoubleLE(), byteBuf.readDoubleLE())
-                ))
+                                byteBuf.readDoubleLE(), byteBuf.readDoubleLE(), byteBuf.readDoubleLE())))
                 .build());
         registerAccessor(CustomDirectAccessor.builder(BlockPos.class)
                 .codec(BlockPos.CODEC)
@@ -421,8 +427,7 @@ public class AccessorRegistries {
                                 throw new IllegalStateException("No recipe manager available while reading recipe from stream");
                             }
                             return (Recipe) server.getRecipeManager().byKey(buf.readResourceLocation()).orElseThrow();
-                        }
-                ))
+                        }))
                 .build());
         registerAccessor(CustomDirectAccessor.builder(IResourcePath.class, true)
                 .codec(IResourcePath.CODEC)
@@ -432,7 +437,6 @@ public class AccessorRegistries {
                 .codec(UITemplate.CODEC)
                 .streamCodec(UITemplate.STREAM_CODEC)
                 .build());
-
 
         setPriority(1500);
 
@@ -454,5 +458,4 @@ public class AccessorRegistries {
 
         setPriority(1000);
     }
-
 }

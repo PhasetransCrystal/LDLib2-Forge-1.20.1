@@ -15,6 +15,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.util.RenameColorConfigurabl
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Model;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.*;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -23,10 +24,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class NodeElement extends GraphElement<AbstractNodeModel> {
+
     public final static String NODE_LAYER = "Node";
 
     @Configurable(name = "NodeStyle")
     public class NodeStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.FOCUS_OVERLAY,
         };
@@ -90,7 +93,8 @@ public class NodeElement extends GraphElement<AbstractNodeModel> {
 
     /**
      * Creates the preview panel part from the model's {@code NodePreviewModel} (the model decides the
-     * concrete element via {@link com.lowdragmc.lowdraglib2.nodegraphtookit.model.IGraphElementUIModel#createElementUI()}).
+     * concrete element via
+     * {@link com.lowdragmc.lowdraglib2.nodegraphtookit.model.IGraphElementUIModel#createElementUI()}).
      * Called last in {@link #buildPartList()} so subclasses can rely on the other parts existing.
      */
     protected void buildPreviewPart() {
@@ -117,8 +121,7 @@ public class NodeElement extends GraphElement<AbstractNodeModel> {
 
     @Override
     public boolean hasModelDependenciesChanged() {
-        return (getModel() instanceof InputOutputPortsNodeModel ioNode && !ioNode.getNodeOptions().isEmpty())
-                || getModel().getNodePreviewModel() != null;
+        return (getModel() instanceof InputOutputPortsNodeModel ioNode && !ioNode.getNodeOptions().isEmpty()) || getModel().getNodePreviewModel() != null;
     }
 
     @Override
@@ -152,6 +155,7 @@ public class NodeElement extends GraphElement<AbstractNodeModel> {
     /**
      * Checks if the underlying graph element model should be highlighted.
      * Highlight is the feedback when multiple instances stand out. e.g. variable declarations.
+     * 
      * @return true if the element should be highlighted
      */
     public boolean shouldBeHighlighted() {

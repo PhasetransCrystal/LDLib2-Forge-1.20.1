@@ -5,7 +5,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
 public interface ISceneEntityRenderHook {
-    default void applyEntity(Level world, Entity entity, PoseStack poseStack, float partialTicks) {
 
-    }
+    default void applyEntity(Level world, Entity entity, PoseStack poseStack, float partialTicks) {}
 }

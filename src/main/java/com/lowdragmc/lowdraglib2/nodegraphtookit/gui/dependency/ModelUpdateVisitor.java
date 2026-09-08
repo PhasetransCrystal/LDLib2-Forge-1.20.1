@@ -3,11 +3,13 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.ModelElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHintList;
+
 import lombok.EqualsAndHashCode;
 import org.jetbrains.annotations.Nullable;
 
 @EqualsAndHashCode(callSuper = false)
 public class ModelUpdateVisitor extends ElementUpdateVisitor {
+
     public static final ModelUpdateVisitor UNSPECIFIED = new ModelUpdateVisitor(ChangeHintList.UNSPECIFIED);
     public static final ModelUpdateVisitor LAYOUT = new ModelUpdateVisitor(ChangeHintList.LAYOUT);
     private @Nullable ChangeHintList changeHints;

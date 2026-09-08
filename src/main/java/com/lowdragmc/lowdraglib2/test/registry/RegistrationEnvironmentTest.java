@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.test.registry;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.registry.AutoRegistry;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraftforge.gametest.GameTestHolder;
@@ -17,8 +18,7 @@ import java.util.function.Supplier;
 @GameTestHolder(LDLib2.MOD_ID)
 public class RegistrationEnvironmentTest {
 
-    public static final AutoRegistry.LDLibRegister<ITestRegistryEntry, Supplier<ITestRegistryEntry>> TEST_ENV_REGISTRY =
-            AutoRegistry.LDLibRegister.create(LDLib2.id("test_env_registry"), ITestRegistryEntry.class, AutoRegistry::noArgsCreator);
+    public static final AutoRegistry.LDLibRegister<ITestRegistryEntry, Supplier<ITestRegistryEntry>> TEST_ENV_REGISTRY = AutoRegistry.LDLibRegister.create(LDLib2.id("test_env_registry"), ITestRegistryEntry.class, AutoRegistry::noArgsCreator);
 
     @GameTest(template = "empty")
     @PrefixGameTestTemplate(false)

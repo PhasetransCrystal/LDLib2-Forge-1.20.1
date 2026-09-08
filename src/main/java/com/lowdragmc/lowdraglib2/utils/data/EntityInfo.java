@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @Setter
 public final class EntityInfo {
+
     private int id;
     @Nullable
     private CompoundTag tag;
@@ -36,5 +37,4 @@ public final class EntityInfo {
     public static EntityInfo of(int id, @Nullable EntityType<?> entityType, @Nullable CompoundTag tag) {
         return new EntityInfo(id, entityType, tag);
     }
-
 }

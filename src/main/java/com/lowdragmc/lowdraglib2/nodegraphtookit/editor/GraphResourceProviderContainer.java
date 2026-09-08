@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.editor;
 
-import com.google.common.collect.Maps;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourceProvider;
@@ -9,6 +8,8 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.graph.Graph;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.GraphView;
+
+import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 public class GraphResourceProviderContainer<G extends Graph> extends ResourceProviderContainer<CompoundTag> {
+
     public record DraggingGraph(GraphResource<?> graphResource, IResourcePath path) {}
 
     @Getter
@@ -30,7 +32,8 @@ public class GraphResourceProviderContainer<G extends Graph> extends ResourcePro
      * from {@link GraphResource#getGraphViewFactory()}; can be overridden per-container for a custom
      * {@code GraphView} subclass.
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     private Supplier<? extends GraphView> graphViewFactory;
     private final Map<UUID, Tuple<IResourcePath, GraphEditorView>> openedViews = Maps.newHashMap();
 
@@ -67,6 +70,7 @@ public class GraphResourceProviderContainer<G extends Graph> extends ResourcePro
             // back to a cross-resource lookup so a graph can reference a subgraph of a *different*
             // (host-accepted) graph type.
             IGraphReferenceResolver resolver = new IGraphReferenceResolver() {
+
                 @Override
                 public Graph resolve(IResourcePath refPath) {
                     if (refPath == null) return null;
@@ -78,7 +82,7 @@ public class GraphResourceProviderContainer<G extends Graph> extends ResourcePro
                         return refGraph;
                     }
                     // 2. Cross-type: find the GraphResource that owns refPath among the editor's
-                    //    loaded resources and build the inner graph from it.
+                    // loaded resources and build the inner graph from it.
                     return resolveForeign(container, refPath);
                 }
 

@@ -1,26 +1,29 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalNotification;
 import com.lowdragmc.lowdraglib2.LDLib2Registries;
 import com.lowdragmc.lowdraglib2.editor.resource.TexturesResource;
 import com.lowdragmc.lowdraglib2.gui.texture.*;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Transform2D;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalNotification;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nonnull;
+
 public class TextureValue extends StyleValue<IGuiTexture> {
+
     private static final LoadingCache<String, IGuiTexture> CACHE = CacheBuilder.newBuilder()
             .expireAfterAccess(10, TimeUnit.SECONDS)
             .removalListener((RemovalNotification<String, IGuiTexture> notification) -> {
@@ -34,6 +37,7 @@ public class TextureValue extends StyleValue<IGuiTexture> {
                 }
             })
             .build(new CacheLoader<>() {
+
                 @Override
                 @Nonnull
                 public IGuiTexture load(@Nonnull String key) {
@@ -129,8 +133,7 @@ public class TextureValue extends StyleValue<IGuiTexture> {
                         color = ColorUtils.color(a, r, g, b);
                     }
                 }
-                default -> {
-                }
+                default -> {}
             }
         }
 
@@ -275,8 +278,7 @@ public class TextureValue extends StyleValue<IGuiTexture> {
         return null;
     }
 
-
-    record Func(String name, String args) { }
+    record Func(String name, String args) {}
 
     // parse tokens based on the format: foo(...)[ space ]bar(...)[ space ]baz(...)
     static List<Func> tokenizeFunctions(String s) {

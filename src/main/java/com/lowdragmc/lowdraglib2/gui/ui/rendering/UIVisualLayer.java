@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.rendering;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibShaders;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -10,17 +11,17 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
-
 import org.jetbrains.annotations.Nullable;
 
 public class UIVisualLayer {
+
     // msaa does it necessary?
-//    private static final ObjectArrayList<MsaaTarget> TARGET_POOL = new ObjectArrayList<>();
+    // private static final ObjectArrayList<MsaaTarget> TARGET_POOL = new ObjectArrayList<>();
     private static final ObjectArrayList<MainTarget> TARGET_POOL = new ObjectArrayList<>();
     private static final ObjectArrayList<TextureTarget> MASK_POOL = new ObjectArrayList<>();
     private static final int MAX_POOL_SIZE = 10;
-//    private static final int SAMPLER = 4;
-//    private static TextureTarget MSAA_RESOLVED_COLOR;
+    // private static final int SAMPLER = 4;
+    // private static TextureTarget MSAA_RESOLVED_COLOR;
 
     private final UIElement element;
     @Nullable
@@ -69,15 +70,15 @@ public class UIVisualLayer {
         }
     }
 
-//    private TextureTarget ensureResolvedValid(int width, int height) {
-//        if (MSAA_RESOLVED_COLOR == null) {
-//            MSAA_RESOLVED_COLOR = new TextureTarget(width, height, false, Minecraft.ON_OSX);
-//        }
-//        if (MSAA_RESOLVED_COLOR.width != width || MSAA_RESOLVED_COLOR.height != height) {
-//            MSAA_RESOLVED_COLOR.resize(width, height, Minecraft.ON_OSX);
-//        }
-//        return MSAA_RESOLVED_COLOR;
-//    }
+    // private TextureTarget ensureResolvedValid(int width, int height) {
+    // if (MSAA_RESOLVED_COLOR == null) {
+    // MSAA_RESOLVED_COLOR = new TextureTarget(width, height, false, Minecraft.ON_OSX);
+    // }
+    // if (MSAA_RESOLVED_COLOR.width != width || MSAA_RESOLVED_COLOR.height != height) {
+    // MSAA_RESOLVED_COLOR.resize(width, height, Minecraft.ON_OSX);
+    // }
+    // return MSAA_RESOLVED_COLOR;
+    // }
 
     public void clear() {
         if (target != null) {
@@ -110,17 +111,17 @@ public class UIVisualLayer {
             target.unbindWrite();
         }
         // resolve MSAA -> single-sample texture for sampling in shader
-//        if (target != null) {
-//            var resolvedColor = ensureResolvedValid(target.getWidth(), target.getHeight());
-//            target.resolveTo(resolvedColor, GL30.GL_COLOR_BUFFER_BIT);
-//        }
+        // if (target != null) {
+        // var resolvedColor = ensureResolvedValid(target.getWidth(), target.getHeight());
+        // target.resolveTo(resolvedColor, GL30.GL_COLOR_BUFFER_BIT);
+        // }
     }
 
     public int textureId() {
         if (target == null) return -1;
         return target.getColorTextureId();
-//        if (MSAA_RESOLVED_COLOR == null) return -1;
-//        return MSAA_RESOLVED_COLOR.getColorTextureId();
+        // if (MSAA_RESOLVED_COLOR == null) return -1;
+        // return MSAA_RESOLVED_COLOR.getColorTextureId();
     }
 
     private void drawMask(GUIContext guiContext, IGuiTexture maskTexture) {
@@ -171,8 +172,7 @@ public class UIVisualLayer {
                 GlStateManager.SourceFactor.ONE,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                 GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
-        );
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
         Tesselator tesselator = RenderSystem.renderThreadTesselator();
         BufferBuilder bufferbuilder = tesselator.getBuilder();

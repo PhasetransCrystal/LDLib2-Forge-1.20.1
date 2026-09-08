@@ -1,28 +1,31 @@
 package com.lowdragmc.lowdraglib2.async;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
+
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.concurrent.*;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * @author KilaBash
  * @date 2022/9/7
  * @implNote AsyncWorldSavedData
- * used for Async logic, it's world-related.
- * all logic runnable {@link IAsyncLogic} will be constantly executed in a async thread per tick.
- * warning, you have to add and remove runnable manually.
+ *           used for Async logic, it's world-related.
+ *           all logic runnable {@link IAsyncLogic} will be constantly executed in a async thread per tick.
+ *           warning, you have to add and remove runnable manually.
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class AsyncThreadData extends SavedData {
+
     private static final String THREAD_NAME_FORMAT = "LDLib Async Thread-%d";
     private static final int DEFAULT_SCHEDULE_PERIOD_MS = 50;
 
@@ -45,7 +48,6 @@ public class AsyncThreadData extends SavedData {
         return compoundTag;
     }
 
-
     // ********************************* async thread ********************************* //
     private final CopyOnWriteArrayList<IAsyncLogic> asyncLogics = new CopyOnWriteArrayList<>();
     private ScheduledExecutorService executorService;
@@ -65,6 +67,7 @@ public class AsyncThreadData extends SavedData {
 
     /**
      * add a async logic runnable
+     * 
      * @param logic runnable
      */
     public void addAsyncLogic(IAsyncLogic logic) {
@@ -74,6 +77,7 @@ public class AsyncThreadData extends SavedData {
 
     /**
      * remove logic runnable
+     * 
      * @param logic runnable
      */
     public void removeAsyncLogic(IAsyncLogic logic) {
@@ -110,5 +114,4 @@ public class AsyncThreadData extends SavedData {
         }
         executorService = null;
     }
-
 }

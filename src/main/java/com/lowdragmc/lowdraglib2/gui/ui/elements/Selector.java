@@ -3,13 +3,13 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.SkipPersistedValue;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
@@ -28,17 +29,18 @@ import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import org.appliedenergistics.yoga.*;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -46,8 +48,10 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "selector", group = "basic", registry = "ldlib2:ui_element")
 public class Selector<T> extends BindableUIElement<T> {
+
     @Configurable(name = "SelectorStyle")
     public class SelectorStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.FOCUS_OVERLAY,
                 PropertyRegistry.MAX_ITEM,
@@ -258,8 +262,8 @@ public class Selector<T> extends BindableUIElement<T> {
         var candidateUI = new UIElement().layout(layout -> layout.widthPercent(100));
         var overlayButton = new Button();
         overlayButton.buttonStyle(style -> style.baseTexture(IGuiTexture.EMPTY)
-                        .hoverTexture(selectorStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY)
-                        .pressedTexture(selectorStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY))
+                .hoverTexture(selectorStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY)
+                .pressedTexture(selectorStyle.showOverlay() ? ColorPattern.T_GRAY.rectTexture() : IGuiTexture.EMPTY))
                 .setOnClick(e -> {
                     setSelected(candidate);
                     if (selectorStyle.closeAfterSelect()) {
@@ -320,7 +324,7 @@ public class Selector<T> extends BindableUIElement<T> {
         return this;
     }
 
-    ///  events
+    /// events
     protected void onMouseDown(UIEvent event) {
         if (event.button == 0) {
             if (isOpen()) {
@@ -332,9 +336,7 @@ public class Selector<T> extends BindableUIElement<T> {
         }
     }
 
-    protected void onScrollViewLayoutChanged(UIEvent event) {
-
-    }
+    protected void onScrollViewLayoutChanged(UIEvent event) {}
 
     public Selector<T> selectorStyle(Consumer<SelectorStyle> style) {
         style.accept(getSelectorStyle());
@@ -443,7 +445,7 @@ public class Selector<T> extends BindableUIElement<T> {
             }
         }
         if (!candidates.isEmpty()) {
-            setCandidates((List)candidates);
+            setCandidates((List) candidates);
         }
         // default value
         if (element.hasAttribute("default-value")) {

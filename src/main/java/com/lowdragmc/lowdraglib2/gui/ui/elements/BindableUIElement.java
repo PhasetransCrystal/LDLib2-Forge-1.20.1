@@ -5,18 +5,21 @@ import com.lowdragmc.lowdraglib2.gui.sync.bindings.*;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventListener;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import com.lowdragmc.lowdraglib2.gui.util.ITickable;
+import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 
+import net.minecraft.MethodsReturnNonnullByDefault;
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.*;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public abstract class BindableUIElement<T> extends UIElement implements IBindable<T>, IObservable<T>, IDataConsumer<T> {
+
     protected final List<Consumer<T>> listeners = new ArrayList<>();
     protected final Map<IObserver<T>, ISubscription> observers = new LinkedHashMap<>();
     protected final Map<IDataProvider<T>, ISubscription> dataSources = new LinkedHashMap<>();
@@ -115,8 +118,8 @@ public abstract class BindableUIElement<T> extends UIElement implements IBindabl
     /**
      * Sets the value of this bindable UI element.
      *
-     * @param value   The new value to set.
-     * @param notify  Whether to notify listeners of the change.
+     * @param value  The new value to set.
+     * @param notify Whether to notify listeners of the change.
      */
     public abstract BindableUIElement<T> setValue(@Nullable T value, boolean notify);
 
@@ -129,5 +132,4 @@ public abstract class BindableUIElement<T> extends UIElement implements IBindabl
         setValue(value, true);
         return this;
     }
-
 }

@@ -1,12 +1,13 @@
 package com.lowdragmc.lowdraglib2.test.noddegraphtoolkit;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.itemlibrary.GraphNodeCreationData;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.SpawnFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.CustomGraphModelImpl;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ContextNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomBlockNodeModelImpl;
-import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.itemlibrary.GraphNodeCreationData;
+
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraftforge.gametest.GameTestHolder;
@@ -36,33 +37,64 @@ public class ContextBlockTest {
         ctxModel.insertBlock(blockB, -1);
 
         if (ctxModel.getBlockCount() != 2) {
-            helper.fail("Expected 2 blocks, got " + ctxModel.getBlockCount()); return;
+            helper.fail("Expected 2 blocks, got " + ctxModel.getBlockCount());
+            return;
         }
-        if (ctxModel.getBlocks().get(0) != blockA) { helper.fail("Block 0 should be A"); return; }
-        if (ctxModel.getBlocks().get(1) != blockB) { helper.fail("Block 1 should be B"); return; }
-        if (blockA.getIndex() != 0) { helper.fail("blockA index should be 0"); return; }
-        if (blockB.getIndex() != 1) { helper.fail("blockB index should be 1"); return; }
-        if (blockA.getContextNodeModel() != ctxModel) { helper.fail("blockA parent link broken"); return; }
+        if (ctxModel.getBlocks().get(0) != blockA) {
+            helper.fail("Block 0 should be A");
+            return;
+        }
+        if (ctxModel.getBlocks().get(1) != blockB) {
+            helper.fail("Block 1 should be B");
+            return;
+        }
+        if (blockA.getIndex() != 0) {
+            helper.fail("blockA index should be 0");
+            return;
+        }
+        if (blockB.getIndex() != 1) {
+            helper.fail("blockB index should be 1");
+            return;
+        }
+        if (blockA.getContextNodeModel() != ctxModel) {
+            helper.fail("blockA parent link broken");
+            return;
+        }
 
         // Block UUIDs must be registered in the graph so wires can resolve to their ports.
         if (graphModel.getModel(blockA.getUid()) != blockA) {
-            helper.fail("blockA not registered in graph elementsByUID"); return;
+            helper.fail("blockA not registered in graph elementsByUID");
+            return;
         }
 
         // Reorder: move B from index 1 to index 0.
         ctxModel.moveBlock(1, 0);
-        if (ctxModel.getBlocks().get(0) != blockB) { helper.fail("After move, block 0 should be B"); return; }
-        if (ctxModel.getBlocks().get(1) != blockA) { helper.fail("After move, block 1 should be A"); return; }
+        if (ctxModel.getBlocks().get(0) != blockB) {
+            helper.fail("After move, block 0 should be B");
+            return;
+        }
+        if (ctxModel.getBlocks().get(1) != blockA) {
+            helper.fail("After move, block 1 should be A");
+            return;
+        }
 
         // Remove A, B should remain.
         ctxModel.removeBlock(blockA);
-        if (ctxModel.getBlockCount() != 1) { helper.fail("After remove, count should be 1"); return; }
-        if (ctxModel.getBlocks().get(0) != blockB) { helper.fail("After remove, sole block should be B"); return; }
+        if (ctxModel.getBlockCount() != 1) {
+            helper.fail("After remove, count should be 1");
+            return;
+        }
+        if (ctxModel.getBlocks().get(0) != blockB) {
+            helper.fail("After remove, sole block should be B");
+            return;
+        }
         if (graphModel.getModel(blockA.getUid()) != null) {
-            helper.fail("blockA still registered after removal"); return;
+            helper.fail("blockA still registered after removal");
+            return;
         }
         if (blockA.getContextNodeModel() != null) {
-            helper.fail("blockA parent link not cleared after removal"); return;
+            helper.fail("blockA parent link not cleared after removal");
+            return;
         }
 
         helper.succeed();
@@ -88,7 +120,8 @@ public class ContextBlockTest {
             // ok
         }
         if (ctxModel.getBlockCount() != 0) {
-            helper.fail("Block list should still be empty after rejected insert"); return;
+            helper.fail("Block list should still be empty after rejected insert");
+            return;
         }
         helper.succeed();
     }
@@ -113,7 +146,10 @@ public class ContextBlockTest {
 
         // Set an input constant on blockB's "inA" to verify port-level data survives the trip.
         var inA = blockB.getInputConstantsById().get("inA");
-        if (inA == null) { helper.fail("blockB inA constant missing pre-serialize"); return; }
+        if (inA == null) {
+            helper.fail("blockB inA constant missing pre-serialize");
+            return;
+        }
         inA.setValue(123.5f);
 
         var originalCtxUid = ctxModel.getUid();
@@ -130,26 +166,35 @@ public class ContextBlockTest {
         ContextNodeModel restoredCtx = null;
         for (var node : graphModel2.getNodeModels()) {
             if (node instanceof ContextNodeModel cn && cn.getUid().equals(originalCtxUid)) {
-                restoredCtx = cn; break;
+                restoredCtx = cn;
+                break;
             }
         }
-        if (restoredCtx == null) { helper.fail("Context not found after deserialize"); return; }
+        if (restoredCtx == null) {
+            helper.fail("Context not found after deserialize");
+            return;
+        }
         if (restoredCtx.getBlockCount() != 2) {
-            helper.fail("Expected 2 blocks after deserialize, got " + restoredCtx.getBlockCount()); return;
+            helper.fail("Expected 2 blocks after deserialize, got " + restoredCtx.getBlockCount());
+            return;
         }
         var restoredA = restoredCtx.getBlocks().get(0);
         var restoredB = restoredCtx.getBlocks().get(1);
         if (!restoredA.getUid().equals(originalBlockAUid)) {
-            helper.fail("Block 0 UID mismatch: expected " + originalBlockAUid + ", got " + restoredA.getUid()); return;
+            helper.fail("Block 0 UID mismatch: expected " + originalBlockAUid + ", got " + restoredA.getUid());
+            return;
         }
         if (!restoredB.getUid().equals(originalBlockBUid)) {
-            helper.fail("Block 1 UID mismatch"); return;
+            helper.fail("Block 1 UID mismatch");
+            return;
         }
         if (restoredA.getContextNodeModel() != restoredCtx) {
-            helper.fail("Restored blockA parent link broken"); return;
+            helper.fail("Restored blockA parent link broken");
+            return;
         }
         if (graphModel2.getModel(restoredA.getUid()) != restoredA) {
-            helper.fail("Restored blockA not registered in graph elementsByUID"); return;
+            helper.fail("Restored blockA not registered in graph elementsByUID");
+            return;
         }
         var restoredInA = restoredB.getInputConstantsById().get("inA");
         if (restoredInA == null || !(restoredInA.getValue() instanceof Float f) || Math.abs(f - 123.5f) > 0.001f) {
@@ -177,10 +222,12 @@ public class ContextBlockTest {
         graphModel.deleteNode(ctxModel, true, true);
 
         if (graphModel.getModel(blockAUid) != null) {
-            helper.fail("blockA still registered after context deletion"); return;
+            helper.fail("blockA still registered after context deletion");
+            return;
         }
         if (blockA.getContextNodeModel() != null) {
-            helper.fail("blockA parent link not cleared after context deletion"); return;
+            helper.fail("blockA parent link not cleared after context deletion");
+            return;
         }
         helper.succeed();
     }
@@ -188,9 +235,9 @@ public class ContextBlockTest {
     /**
      * Copy/paste a context that owns two blocks plus an internal wire between them. Verifies:
      * <ul>
-     *   <li>The pasted context and its blocks all receive fresh UIDs (no collision with originals).</li>
-     *   <li>Both original and pasted UIDs resolve via {@code graphModel.getModel(uid)} — no overwrite.</li>
-     *   <li>The internal block-to-block wire is reproduced against the new ports (not the originals).</li>
+     * <li>The pasted context and its blocks all receive fresh UIDs (no collision with originals).</li>
+     * <li>Both original and pasted UIDs resolve via {@code graphModel.getModel(uid)} — no overwrite.</li>
+     * <li>The internal block-to-block wire is reproduced against the new ports (not the originals).</li>
      * </ul>
      * Regression for the duplicate-element-UID issue.
      */
@@ -210,9 +257,15 @@ public class ContextBlockTest {
         // Internal wire: blockA.out -> blockB.inA — must survive copy/paste, hooked to the new blocks.
         var aOut = blockA.getOutputsById().get("out");
         var bInA = blockB.getInputsById().get("inA");
-        if (aOut == null || bInA == null) { helper.fail("pre-wire port lookup failed"); return; }
+        if (aOut == null || bInA == null) {
+            helper.fail("pre-wire port lookup failed");
+            return;
+        }
         var originalWire = graphModel.createWire(bInA, aOut);
-        if (originalWire == null) { helper.fail("internal wire creation failed"); return; }
+        if (originalWire == null) {
+            helper.fail("internal wire creation failed");
+            return;
+        }
 
         var originalCtxUid = ctxModel.getUid();
         var originalBlockAUid = blockA.getUid();
@@ -225,34 +278,45 @@ public class ContextBlockTest {
         var pasted = graphModel.pasteElements(clipboard, new Vector2f(200, 0));
 
         // Exactly one new context, with two new blocks inside.
-        if (pasted.size() != 1) { helper.fail("Expected 1 pasted top-level model, got " + pasted.size()); return; }
+        if (pasted.size() != 1) {
+            helper.fail("Expected 1 pasted top-level model, got " + pasted.size());
+            return;
+        }
         if (!(pasted.get(0) instanceof ContextNodeModel pastedCtx)) {
-            helper.fail("Pasted element is not a ContextNodeModel"); return;
+            helper.fail("Pasted element is not a ContextNodeModel");
+            return;
         }
         if (pastedCtx.getUid().equals(originalCtxUid)) {
-            helper.fail("Pasted context kept the original UID — re-uid is missing"); return;
+            helper.fail("Pasted context kept the original UID — re-uid is missing");
+            return;
         }
         if (pastedCtx.getBlockCount() != 2) {
-            helper.fail("Pasted context should have 2 blocks, got " + pastedCtx.getBlockCount()); return;
+            helper.fail("Pasted context should have 2 blocks, got " + pastedCtx.getBlockCount());
+            return;
         }
         var pastedA = pastedCtx.getBlocks().get(0);
         var pastedB = pastedCtx.getBlocks().get(1);
         if (pastedA.getUid().equals(originalBlockAUid) || pastedB.getUid().equals(originalBlockBUid)) {
-            helper.fail("Pasted blocks kept original UIDs — block re-uid is missing"); return;
+            helper.fail("Pasted blocks kept original UIDs — block re-uid is missing");
+            return;
         }
 
         // Both the originals and the copies must resolve through elementsByUID — no overwrite.
         if (graphModel.getModel(originalCtxUid) != ctxModel) {
-            helper.fail("Original context lookup was clobbered by paste"); return;
+            helper.fail("Original context lookup was clobbered by paste");
+            return;
         }
         if (graphModel.getModel(originalBlockAUid) != blockA) {
-            helper.fail("Original blockA lookup was clobbered by paste"); return;
+            helper.fail("Original blockA lookup was clobbered by paste");
+            return;
         }
         if (graphModel.getModel(pastedCtx.getUid()) != pastedCtx) {
-            helper.fail("Pasted context not registered under its new UID"); return;
+            helper.fail("Pasted context not registered under its new UID");
+            return;
         }
         if (graphModel.getModel(pastedA.getUid()) != pastedA) {
-            helper.fail("Pasted blockA not registered under its new UID"); return;
+            helper.fail("Pasted blockA not registered under its new UID");
+            return;
         }
 
         // Node-list count: original context still there + one new pasted context. Blocks don't
@@ -264,13 +328,14 @@ public class ContextBlockTest {
 
         // Internal wire reproduced and pinned to the NEW block ports, not the originals.
         if (graphModel.getWireModels().size() != originalWireCount + 1) {
-            helper.fail("Expected one new wire after paste, got "
-                    + (graphModel.getWireModels().size() - originalWireCount)); return;
+            helper.fail("Expected one new wire after paste, got " + (graphModel.getWireModels().size() - originalWireCount));
+            return;
         }
         var pastedAOut = pastedA.getOutputsById().get("out");
         var pastedBInA = pastedB.getInputsById().get("inA");
         if (pastedAOut == null || pastedBInA == null) {
-            helper.fail("pasted ports not found by id"); return;
+            helper.fail("pasted ports not found by id");
+            return;
         }
         boolean foundPastedWire = false;
         for (var wire : graphModel.getWireModels()) {
@@ -281,11 +346,13 @@ public class ContextBlockTest {
             }
         }
         if (!foundPastedWire) {
-            helper.fail("Internal wire was not reproduced against pasted block ports"); return;
+            helper.fail("Internal wire was not reproduced against pasted block ports");
+            return;
         }
         // And the original wire still hits the original block ports.
         if (originalWire.getFromPort() != aOut || originalWire.getToPort() != bInA) {
-            helper.fail("Original wire endpoints corrupted after paste"); return;
+            helper.fail("Original wire endpoints corrupted after paste");
+            return;
         }
 
         helper.succeed();

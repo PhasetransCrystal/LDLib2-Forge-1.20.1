@@ -2,11 +2,13 @@ package com.lowdragmc.lowdraglib2.syncdata.holder.blockentity;
 
 import com.lowdragmc.lowdraglib2.syncdata.holder.IPersistManagedHolder;
 import com.lowdragmc.lowdraglib2.syncdata.storage.IManagedStorage;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public interface ISyncPersistRPCBlockEntity extends ISyncBlockEntity, IRPCBlockEntity, IPersistManagedHolder, IBlockEntityManaged {
+
     @Override
     default IManagedStorage getRootStorage() {
         return getSyncStorage();

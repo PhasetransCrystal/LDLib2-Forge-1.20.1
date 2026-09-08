@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.gui.blackboard;
 import com.lowdragmc.lowdraglib2.gui.util.ITreeNode;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModelBase;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.IGroupItemModel;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,9 @@ import java.util.List;
 
 @EqualsAndHashCode
 public class GroupItemTreeNode implements ITreeNode<IGroupItemModel, Void> {
-    @Getter @Nullable
+
+    @Getter
+    @Nullable
     private final GroupItemTreeNode parent;
     @Getter
     private final IGroupItemModel key;

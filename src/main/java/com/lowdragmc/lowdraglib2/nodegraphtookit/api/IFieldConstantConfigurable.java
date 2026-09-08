@@ -6,10 +6,14 @@ import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.configurator.ui.ValueConfigurator;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.ITypeConfigurable;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
+
 import org.jetbrains.annotations.Nullable;
 
 public interface IFieldConstantConfigurable extends IFieldValueConfigurable {
-    @Nullable Constant getConfigurableConstant();
+
+    @Nullable
+    Constant getConfigurableConstant();
+
     void onValueChanged();
 
     /**
@@ -89,8 +93,7 @@ public interface IFieldConstantConfigurable extends IFieldValueConfigurable {
                         this::setValue,
                         this.forceUpdate(),
                         this.getValueField(),
-                        this.getValueOwer()
-                );
+                        this.getValueOwer());
                 if (configurator instanceof ValueConfigurator<?> valueConfigurator) {
                     valueConfigurator.setDefaultValue(getDefaultValue());
                 }
@@ -102,5 +105,4 @@ public interface IFieldConstantConfigurable extends IFieldValueConfigurable {
             father.addConfigurator(configurator);
         }
     }
-
 }

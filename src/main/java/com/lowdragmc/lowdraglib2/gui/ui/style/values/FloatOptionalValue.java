@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import org.appliedenergistics.yoga.numeric.FloatOptional;
 import org.jetbrains.annotations.Nullable;
 

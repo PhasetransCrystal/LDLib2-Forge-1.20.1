@@ -6,12 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for specifying that a {@link net.minecraft.resources.ResourceLocation} field refers to a specific registry of objects,
+ * Annotation for specifying that a {@link net.minecraft.resources.ResourceLocation} field refers to a specific registry
+ * of objects,
  * and have specific component for it.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 public @interface ConfigRL {
+
     enum Type {
         FONT,
         ITEM_TAG_KEY,

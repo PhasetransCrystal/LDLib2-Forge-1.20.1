@@ -7,16 +7,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 public @interface ConfigList {
+
     /**
      * Specifies the name of a method used to configure elements of the annotated field.
      * This method is expected to handle the customization or initialization of the
      * configuration for elements in the list.
-     * <br> e.g. {@code Configurator methodName(Supplier<T> getter, Consumer<T> setter)}
+     * <br>
+     * e.g. {@code Configurator methodName(Supplier<T> getter, Consumer<T> setter)}
      *
      * @return the name of the configurator method as a String; returns an empty string
-     * if no method is specified by default
+     *         if no method is specified by default
      */
     String configuratorMethod() default "";
 
@@ -25,7 +27,8 @@ public @interface ConfigList {
      * annotated field. This method is expected to handle the creation of default
      * values or elements to the configuration list, if applicable.
      *
-     * <br> e.g. {@code T methodName()}
+     * <br>
+     * e.g. {@code T methodName()}
      *
      * @return the name of the method responsible for adding default configurations
      *         as a String; returns an empty string if no method is specified by default

@@ -9,18 +9,20 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import net.minecraft.client.gui.GuiGraphics;
-import org.appliedenergistics.yoga.YogaEdge;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class HDRColorConfigurator extends ValueConfigurator<Vector4f> {
+
     public final ColorSelector colorSelector;
     public final NumberConfigurator intensityConfigurator;
     public final UIElement dialog;
@@ -34,19 +36,18 @@ public class HDRColorConfigurator extends ValueConfigurator<Vector4f> {
             value = defaultValue;
         }
 
-
         this.dialog = new UIElement();
         this.colorSelector = new ColorSelector();
         this.intensityConfigurator = new NumberConfigurator("HDR", () -> supplier.get().w,
                 intensity -> updateValueActively(new Vector4f(
                         ColorUtils.red(colorSelector.getColor()), ColorUtils.green(colorSelector.getColor()), ColorUtils.blue(colorSelector.getColor()),
-                        intensity.floatValue())), value.w, forceUpdate);
+                        intensity.floatValue())),
+                value.w, forceUpdate);
         this.intensityConfigurator.setType(ConfigNumber.Type.FLOAT);
         this.colorSelector.setOnColorChangeListener(color -> updateValueActively(new Vector4f(
                 ColorUtils.red(color), ColorUtils.green(color), ColorUtils.blue(color),
                 Optional.ofNullable(this.intensityConfigurator.getValue()).map(Number::floatValue).orElse(1f))));
         this.colorSelector.alphaSlider.setDisplay(false);
-
 
         inlineContainer.addChildren(colorPreview = new UIElement().layout(layout -> {
             layout.height(14);
@@ -142,5 +143,4 @@ public class HDRColorConfigurator extends ValueConfigurator<Vector4f> {
         textTexture.setWidth((int) width);
         textTexture.draw(graphics, mouseX, mouseY, x, y + 1, width, height, partialTicks);
     }
-
 }

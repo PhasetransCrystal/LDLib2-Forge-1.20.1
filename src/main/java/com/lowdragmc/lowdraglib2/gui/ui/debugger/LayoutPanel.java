@@ -3,12 +3,14 @@ package com.lowdragmc.lowdraglib2.gui.ui.debugger;
 import com.lowdragmc.lowdraglib2.gui.texture.SDFRectTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+
 import dev.vfyjxf.taffy.geometry.FloatRect;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import org.jetbrains.annotations.Nullable;
 
 public class LayoutPanel extends UIElement {
+
     private UIElement container = new UIElement();
     private Label top = new Label();
     private Label bottom = new Label();

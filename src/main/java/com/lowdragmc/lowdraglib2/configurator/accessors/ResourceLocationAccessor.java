@@ -11,6 +11,7 @@ import com.lowdragmc.lowdraglib2.core.mixins.accessor.FontManagerAccessor;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.MinecraftAccessor;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -58,28 +59,23 @@ public class ResourceLocationAccessor extends TypesAccessor<ResourceLocation> {
                                 }
                             }
                         }, ResourceLocation::toString, UIElementProvider.text(font -> font == null ?
-                        Component.literal("---") : Component.literal(font.toString()))
-                );
+                                Component.literal("---") : Component.literal(font.toString())));
                 case ITEM_TAG_KEY -> new TagKeySearchComponent.Item(name,
                         () -> ItemTags.create(supplier.get()), tagKey -> consumer.accept(tagKey.location()),
                         ItemTags.create(defaultValue(field, ResourceLocation.class)),
-                        forceUpdate
-                );
+                        forceUpdate);
                 case BLOCK_TAG_KEY -> new TagKeySearchComponent.Block(name,
                         () -> BlockTags.create(supplier.get()), tagKey -> consumer.accept(tagKey.location()),
                         BlockTags.create(defaultValue(field, ResourceLocation.class)),
-                        forceUpdate
-                );
+                        forceUpdate);
                 case FLUID_TAG_KEY -> new TagKeySearchComponent.Fluid(name,
                         () -> FluidTags.create(supplier.get()), tagKey -> consumer.accept(tagKey.location()),
                         FluidTags.create(defaultValue(field, ResourceLocation.class)),
-                        forceUpdate
-                );
+                        forceUpdate);
                 case ENTITY_TYPE_TAG_KEY -> new TagKeySearchComponent.EntityType(name,
                         () -> TagKey.create(Registries.ENTITY_TYPE, supplier.get()), tagKey -> consumer.accept(tagKey.location()),
                         TagKey.create(Registries.ENTITY_TYPE, defaultValue(field, ResourceLocation.class)),
-                        forceUpdate
-                );
+                        forceUpdate);
             };
         }
         var configurator = new StringConfigurator(name,

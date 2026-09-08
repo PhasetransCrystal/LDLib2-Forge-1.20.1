@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.integration.xei.emi;
 
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModularUIEMIWidget extends Widget {
+
     public final ModularUI modularUI;
     // runtime
     @Getter

@@ -1,9 +1,14 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor;
 
+import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.IScene;
+import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneInteractable;
+import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneObject;
+import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneRendering;
+import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.utils.TransformGizmo;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
@@ -14,11 +19,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.math.Ray;
 import com.lowdragmc.lowdraglib2.math.Transform;
-import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.IScene;
-import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneInteractable;
-import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneObject;
-import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneRendering;
-import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.utils.TransformGizmo;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyPosition;
@@ -28,17 +29,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
 import org.appliedenergistics.yoga.*;
+import org.jetbrains.annotations.Nullable;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A scene which provides editable features as a unity scene.
@@ -46,6 +48,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SceneEditor extends UIElement implements IScene {
+
     public static final Object SCENE_OBJECT_DRAGGING = new Object();
     public static final Object CAMERA_MOVING = new Object();
     public final UIElement topBar;
@@ -60,12 +63,14 @@ public class SceneEditor extends UIElement implements IScene {
     protected Map<UUID, ISceneObject> sceneObjects = new LinkedHashMap<>();
     @Getter
     protected final TransformGizmo transformGizmo;
+
     public enum TransformGizmoMode {
         TRANSLATE,
         ROTATE,
         SCALE,
         NONE
     }
+
     @Getter
     protected TransformGizmoMode transformGizmoMode = TransformGizmoMode.NONE;
 
@@ -110,7 +115,7 @@ public class SceneEditor extends UIElement implements IScene {
             layout.widthPercent(100);
             layout.heightPercent(100);
         }).moveInlineAsDefault();
-//        this.scene.addChild(screenTips);
+        // this.scene.addChild(screenTips);
 
         transformGizmo = new TransformGizmo();
         transformGizmo.setSceneInternal(this);
@@ -171,8 +176,7 @@ public class SceneEditor extends UIElement implements IScene {
                 .layout(layout -> layout.width(50))
                 .style(style -> style.tooltips("editor.camera.mode"))
                 .moveInlineAsDefault()
-                .addClass("__ui-editor-view_header-projection-mode__")
-        );
+                .addClass("__ui-editor-view_header-projection-mode__"));
     }
 
     public void initGizmos() {
@@ -184,7 +188,6 @@ public class SceneEditor extends UIElement implements IScene {
         // scale
         gizmoBar.addChild(createTransformToggle(toggleGroup, TransformGizmoMode.SCALE, Icons.TRANSFORM_SCALE));
     }
-
 
     private Toggle createTransformToggle(Toggle.ToggleGroup toggleGroup, TransformGizmoMode mode, IGuiTexture icon) {
         return (Toggle) new Toggle()
@@ -216,7 +219,6 @@ public class SceneEditor extends UIElement implements IScene {
                     }
                 }).addClass("__editor-gizmo-bar-toggle__");
     }
-
 
     public Optional<Ray> getMouseRay() {
         var renderer = scene.getRenderer();
@@ -366,8 +368,7 @@ public class SceneEditor extends UIElement implements IScene {
                 Vector3f pos = new Vector3f(eyePos).sub(lookAt);
                 scene.setCameraYawAndPitch(
                         (float) Math.toDegrees(Math.atan2(pos.z, pos.x)),
-                        (float) Math.toDegrees(Math.atan2(pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z)))
-                );
+                        (float) Math.toDegrees(Math.atan2(pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z))));
                 renderer.setCameraLookAt(eyePos, center, worldUp);
             }
         }

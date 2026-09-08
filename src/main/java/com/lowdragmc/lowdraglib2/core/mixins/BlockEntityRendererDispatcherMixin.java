@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.core.mixins;
 
 import com.lowdragmc.lowdraglib2.client.renderer.ATESRRendererProvider;
+
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,5 +20,4 @@ public abstract class BlockEntityRendererDispatcherMixin {
             cir.setReturnValue(null);
         }
     }
-
 }

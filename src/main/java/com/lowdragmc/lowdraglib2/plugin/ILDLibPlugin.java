@@ -6,5 +6,6 @@ package com.lowdragmc.lowdraglib2.plugin;
  * @implNote ILDLibPlugin
  */
 public interface ILDLibPlugin {
+
     void onLoad();
 }

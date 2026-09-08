@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.Stylesheet;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.NoArgsConstructor;
@@ -21,22 +22,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
-import org.appliedenergistics.yoga.YogaJustify;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-@LDLRegisterClient(name="doc", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "doc", registry = "ldlib2:screen_test")
 @NoArgsConstructor
-public class TestDoc implements IScreenTest{
+public class TestDoc implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
-//        return step12();
-//        return step3();
-//        return step4();
-//        return step5();
-//        return step6();
-//        return step6_2();
-//        return step6_3();
+        // return step12();
+        // return step3();
+        // return step4();
+        // return step5();
+        // return step6();
+        // return step6_2();
+        // return step6_3();
         var element = new UIElement();
         // many ways to set the layout
         // set the layout directly
@@ -52,8 +53,7 @@ public class TestDoc implements IScreenTest{
                 .width(150)
                 .heightPercent(100)
                 .marginAll(10)
-                .paddingAll(10)
-        );
+                .paddingAll(10));
         // set the layout by stylesheet
         element.lss("flex-direction", "row");
         element.lss("width", 150);
@@ -74,9 +74,8 @@ public class TestDoc implements IScreenTest{
                 // add an element to display an image based on a resource location
                 new UIElement().layout(layout -> layout.width(80).height(80))
                         .style(style -> style.background(
-                                SpriteTexture.of("ldlib2:textures/gui/icon.png"))
-                        )
-        ).style(style -> style.background(Sprites.BORDER)); // set a background for the root element
+                                SpriteTexture.of("ldlib2:textures/gui/icon.png"))))
+                .style(style -> style.background(Sprites.BORDER)); // set a background for the root element
         // create a UI
         var ui = UI.of(root);
         // return a modular UI for runtime instance
@@ -96,9 +95,8 @@ public class TestDoc implements IScreenTest{
                 // add an element to display an image based on a resource location
                 new UIElement().layout(layout -> layout.width(80).height(80))
                         .style(style -> style.background(
-                                SpriteTexture.of("ldlib2:textures/gui/icon.png"))
-                        )
-        ).style(style -> style.background(Sprites.BORDER)); // set a background for the root element
+                                SpriteTexture.of("ldlib2:textures/gui/icon.png"))))
+                .style(style -> style.background(Sprites.BORDER)); // set a background for the root element
         // set padding and gap for children elements
         root.layout(layout -> layout.paddingAll(7).gapAll(5));
         // create a UI
@@ -113,8 +111,7 @@ public class TestDoc implements IScreenTest{
         // add an element to display an image based on a resource location
         var image = new UIElement().layout(layout -> layout.width(80).height(80))
                 .style(style -> style.background(
-                        SpriteTexture.of("ldlib2:textures/gui/icon.png"))
-                );
+                        SpriteTexture.of("ldlib2:textures/gui/icon.png")));
         root.addChildren(
                 // add a label to display text
                 new Label().setText("Interaction")
@@ -125,15 +122,12 @@ public class TestDoc implements IScreenTest{
                 new UIElement().layout(layout -> layout.flexDirection(FlexDirection.ROW)).addChildren(
                         // a button to rotate the image -45°
                         new Button().setText("-45°")
-                                .setOnClick(e -> image.transform(transform ->
-                                        transform.rotation(transform.rotation()-45))),
+                                .setOnClick(e -> image.transform(transform -> transform.rotation(transform.rotation() - 45))),
                         new UIElement().layout(layout -> layout.flex(1)), // occupies the remaining space
                         // a button to rotate the image 45°
                         new Button().setText("+45°")
-                                .setOnClick(e -> image.transform(transform ->
-                                        transform.rotation(transform.rotation() + 45)))
-                )
-        ).style(style -> style.background(Sprites.BORDER)); // set a background for the root element
+                                .setOnClick(e -> image.transform(transform -> transform.rotation(transform.rotation() + 45)))))
+                .style(style -> style.background(Sprites.BORDER)); // set a background for the root element
         // set padding and gap for children elements
         root.layout(layout -> layout.paddingAll(7).gapAll(5));
         // create a UI
@@ -148,8 +142,7 @@ public class TestDoc implements IScreenTest{
         // add an element to display an image based on a resource location
         var image = new UIElement().layout(layout -> layout.width(80).height(80))
                 .style(style -> style.background(
-                        SpriteTexture.of("ldlib2:textures/gui/icon.png"))
-                );
+                        SpriteTexture.of("ldlib2:textures/gui/icon.png")));
         root.addChildren(
                 // add a label to display text
                 new Label().setText("Interaction")
@@ -162,19 +155,14 @@ public class TestDoc implements IScreenTest{
                         new UIElement().addChild(new Label().setText("-45°").textStyle(textStyle -> textStyle.adaptiveWidth(true)))
                                 .layout(layout -> layout.justifyContent(AlignContent.CENTER).paddingHorizontal(3))
                                 .style(style -> style.background(Sprites.BORDER1))
-                                .addEventListener(UIEvents.MOUSE_DOWN, e -> image.transform(transform ->
-                                        transform.rotation(transform.rotation()-45)))
-                                .addEventListener(UIEvents.MOUSE_ENTER, e ->
-                                        e.currentElement.style(style -> style.background(Sprites.BORDER1_DARK)), true)
-                                .addEventListener(UIEvents.MOUSE_LEAVE, e ->
-                                        e.currentElement.style(style -> style.background(Sprites.BORDER1)), true),
+                                .addEventListener(UIEvents.MOUSE_DOWN, e -> image.transform(transform -> transform.rotation(transform.rotation() - 45)))
+                                .addEventListener(UIEvents.MOUSE_ENTER, e -> e.currentElement.style(style -> style.background(Sprites.BORDER1_DARK)), true)
+                                .addEventListener(UIEvents.MOUSE_LEAVE, e -> e.currentElement.style(style -> style.background(Sprites.BORDER1)), true),
                         new UIElement().layout(layout -> layout.flex(1)), // occupies the remaining space
                         // a button to rotate the image 45°
                         new Button().setText("+45°")
-                                .setOnClick(e -> image.transform(transform ->
-                                        transform.rotation(transform.rotation() + 45)))
-                )
-        ).style(style -> style.background(Sprites.BORDER)); // set a background for the root element
+                                .setOnClick(e -> image.transform(transform -> transform.rotation(transform.rotation() + 45)))))
+                .style(style -> style.background(Sprites.BORDER)); // set a background for the root element
         // set padding and gap for children elements
         root.layout(layout -> layout.paddingAll(7).gapAll(5));
         // create a UI
@@ -209,28 +197,27 @@ public class TestDoc implements IScreenTest{
                 new Label().setText("LSS example"),
                 new Button().setText("Click Me!"),
                 // set the element with a class
-                new UIElement().addClass("image")
-        );
+                new UIElement().addClass("image"));
         var lss = """
-            // id selector
-            #root {
-                background: built-in(ui-gdp:BORDER);
-                padding-all: 7;
-                gap-all: 5;
-            }
-            
-            // class selector
-            .image {
-                width: 80;
-                height: 80;
-                background: sprite(ldlib2:textures/gui/icon.png);
-            }
-            
-            // element selector
-            #root label {
-                horizontal-align: center;
-            }
-            """;
+                // id selector
+                #root {
+                    background: built-in(ui-gdp:BORDER);
+                    padding-all: 7;
+                    gap-all: 5;
+                }
+
+                // class selector
+                .image {
+                    width: 80;
+                    height: 80;
+                    background: sprite(ldlib2:textures/gui/icon.png);
+                }
+
+                // element selector
+                #root label {
+                    horizontal-align: center;
+                }
+                """;
         var stylesheet = Stylesheet.parse(lss);
         // add to ui
         var ui = UI.of(root, stylesheet);
@@ -248,8 +235,7 @@ public class TestDoc implements IScreenTest{
                 new TextField().setText("Text Field"),
                 new UIElement().layout(layout -> layout.flexDirection(FlexDirection.ROW)).addChildren(
                         new ItemSlot().setItem(Items.APPLE.getDefaultInstance()),
-                        new FluidSlot().setFluid(new FluidStack(Fluids.WATER, 1000))
-                ),
+                        new FluidSlot().setFluid(new FluidStack(Fluids.WATER, 1000))),
                 // list all stylesheets
                 new Selector<ResourceLocation>()
                         .setSelected(StylesheetManager.GDP, false)
@@ -261,8 +247,7 @@ public class TestDoc implements IScreenTest{
                                 mui.getStyleEngine().clearAllStylesheets();
                                 mui.getStyleEngine().addStylesheet(StylesheetManager.INSTANCE.getStylesheetSafe(selected));
                             }
-                        })
-        );
+                        }));
         root.addClass("panel_bg");
         // use GDP stylesheets by default
         var ui = UI.of(root, StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.GDP));
@@ -299,15 +284,14 @@ public class TestDoc implements IScreenTest{
                                     if (valueHolder.get() < 100) {
                                         valueHolder.incrementAndGet();
                                     }
-                                })
-                ),
+                                })),
                 // bind a DataSource to notify the value changes for label and progress bar
                 new Label().bindDataSource(SupplierDataSource.of(() -> Component.literal("Binding: ").append(String.valueOf(valueHolder.get())))),
                 new ProgressBar()
                         .setProgress(valueHolder.get() / 100f)
                         .bindDataSource(SupplierDataSource.of(() -> valueHolder.get() / 100f))
-                        .label(label -> label.bindDataSource(SupplierDataSource.of(() -> Component.literal("Progress: ").append(String.valueOf(valueHolder.get())))))
-        ).style(style -> style.background(Sprites.BORDER));
+                        .label(label -> label.bindDataSource(SupplierDataSource.of(() -> Component.literal("Progress: ").append(String.valueOf(valueHolder.get()))))))
+                .style(style -> style.background(Sprites.BORDER));
         root.layout(layout -> layout.width(100).paddingAll(7).gapAll(5));
         return new ModularUI(UI.of(root));
     }

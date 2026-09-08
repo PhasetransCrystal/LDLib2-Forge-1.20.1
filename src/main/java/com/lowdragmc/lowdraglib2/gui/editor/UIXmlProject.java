@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.editor.resource.*;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
 import com.lowdragmc.lowdraglib2.gui.editor.view.UIXmlView;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 public class UIXmlProject implements IProject {
+
     @Getter
     private String xml = "";
     @Getter
@@ -91,5 +93,4 @@ public class UIXmlProject implements IProject {
         this.editor = null;
         this.xmlView = null;
     }
-
 }

@@ -7,8 +7,8 @@ import com.lowdragmc.lowdraglib2.integration.xei.rei.handler.REIDraggableStackBo
 import com.lowdragmc.lowdraglib2.integration.xei.rei.handler.REIRecipeIngredientHandler;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.handler.REIRecipeWidgetHandler;
 import com.lowdragmc.lowdraglib2.test.xei.TestREIPlugin;
+
 import dev.architectury.event.CompoundEventResult;
-import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.drag.DraggableStackVisitor;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
@@ -30,8 +30,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @REIPluginClient
-public class
-LDLibREIPlugin implements REIClientPlugin {
+public class LDLibREIPlugin implements REIClientPlugin {
 
     public static Rectangle getRectangle(UIElement element) {
         return getRectangle(element, false);
@@ -85,9 +84,9 @@ LDLibREIPlugin implements REIClientPlugin {
      * <br>
      * For example, if you want to lookup the rei recipe while clicking the element of your ui.
      *
-     * @param <T> The type of the {@link UIElement} implementing the functionality.
-     * @param <I> The type of the data object supplied by the {@code focusedStackProvider}.
-     * @param element The {@link UIElement} to which the focus stack functionality is applied.
+     * @param <T>                  The type of the {@link UIElement} implementing the functionality.
+     * @param <I>                  The type of the data object supplied by the {@code focusedStackProvider}.
+     * @param element              The {@link UIElement} to which the focus stack functionality is applied.
      * @param focusedStackProvider A {@link Supplier} that provides the data to be set as focus
      *                             when interaction with the {@code UIElement} occurs.
      */
@@ -109,10 +108,10 @@ LDLibREIPlugin implements REIClientPlugin {
      * <br>
      * For example, if you want your element to accept dragging ingredients from REI.
      *
-     * @param <T> The type of the {@link UIElement} to which the functionality is being added.
-     * @param <I> The type of the stack type handled by {@link EntryType}.
-     * @param element The {@link UIElement} where the ghost ingredient functionality is applied.
-     * @param type The {@link EntryStack} of the ingredient being handled.
+     * @param <T>      The type of the {@link UIElement} to which the functionality is being added.
+     * @param <I>      The type of the stack type handled by {@link EntryType}.
+     * @param element  The {@link UIElement} where the ghost ingredient functionality is applied.
+     * @param type     The {@link EntryStack} of the ingredient being handled.
      * @param mayPlace A {@link Predicate} that determines whether the ghost ingredient can be placed.
      */
     public static <T extends UIElement, I> void draggableStackBounds(T element, EntryType<I> type,
@@ -127,21 +126,20 @@ LDLibREIPlugin implements REIClientPlugin {
         });
     }
 
-
     /**
      * Accept draggable stack to a specified {@link UIElement}. This handler enables interaction
      * for dropping {@link EntryStack} objects into the designated UI element.
      *
-     * @param <T>       the type of the UI element, constrained to {@link UIElement}.
-     * @param element   the UI element to which the drop handler will be attached.
-     * @param mayPlace  a predicate to test whether the dropped {@link EntryStack} can be placed
-     *                  into the specified UI element.
-     * @param onPlace   a consumer that specifies the action to be performed when an {@link EntryStack}
-     *                  is successfully placed in the UI element.
+     * @param <T>      the type of the UI element, constrained to {@link UIElement}.
+     * @param element  the UI element to which the drop handler will be attached.
+     * @param mayPlace a predicate to test whether the dropped {@link EntryStack} can be placed
+     *                 into the specified UI element.
+     * @param onPlace  a consumer that specifies the action to be performed when an {@link EntryStack}
+     *                 is successfully placed in the UI element.
      */
     public static <T extends UIElement, I> void acceptDraggableStack(T element, EntryType<I> type,
-                                                              Predicate<EntryStack<I>> mayPlace,
-                                                              Consumer<EntryStack<I>> onPlace) {
+                                                                     Predicate<EntryStack<I>> mayPlace,
+                                                                     Consumer<EntryStack<I>> onPlace) {
         element.addEventListener(REIUIEvents.ACCEPT_DRAGGABLE_STACK, event -> {
             if (event.customData instanceof REIDraggableStackBoundsHandler handler &&
                     handler.context.getCurrentPosition() != null &&
@@ -161,10 +159,11 @@ LDLibREIPlugin implements REIClientPlugin {
      * <br>
      * For example, if you want to add input/output/catalyst ingredients to the recipe based on the UI element.
      *
-     * @param <T> The type of the {@code UIElement} to which the functionality is being added.
-     * @param element The {@link UIElement} to which the recipe ingredient behavior will be bound.
-     * @param ingredientIO The {@link IngredientIO} specifying the type of ingredient input/output.
-     * @param ingredientsProvider A {@link Supplier} that provides a list of {@link EntryIngredient} values to associate with the element.
+     * @param <T>                 The type of the {@code UIElement} to which the functionality is being added.
+     * @param element             The {@link UIElement} to which the recipe ingredient behavior will be bound.
+     * @param ingredientIO        The {@link IngredientIO} specifying the type of ingredient input/output.
+     * @param ingredientsProvider A {@link Supplier} that provides a list of {@link EntryIngredient} values to associate
+     *                            with the element.
      */
     public static <T extends UIElement> void recipeIngredient(T element, IngredientIO ingredientIO,
                                                               Supplier<List<EntryIngredient>> ingredientsProvider) {
@@ -179,11 +178,14 @@ LDLibREIPlugin implements REIClientPlugin {
      * Adds recipe widgets functionality to the REI recipe.
      * This allows associating an invisible slot in the UI element for REI lookups and tooltips.
      *
-     * @param <T>                The type of the {@link UIElement} to which the functionality is being added.
-     * @param element            The {@link UIElement} to associate with the recipe slot functionality.
-     * @param ingredientIO       The {@link IngredientIO} type that determines whether the element is used for input or output.
-     * @param displayedIngredient A {@link Supplier} providing the primary {@link EntryStack} to be displayed in the recipe slot.
-     * @param allIngredients     An optional {@link Supplier} providing a list of all possible {@link EntryStack}s available for the recipe slot.
+     * @param <T>                 The type of the {@link UIElement} to which the functionality is being added.
+     * @param element             The {@link UIElement} to associate with the recipe slot functionality.
+     * @param ingredientIO        The {@link IngredientIO} type that determines whether the element is used for input or
+     *                            output.
+     * @param displayedIngredient A {@link Supplier} providing the primary {@link EntryStack} to be displayed in the
+     *                            recipe slot.
+     * @param allIngredients      An optional {@link Supplier} providing a list of all possible {@link EntryStack}s
+     *                            available for the recipe slot.
      */
     public static <T extends UIElement> void recipeSlot(T element, IngredientIO ingredientIO,
                                                         Supplier<EntryStack<?>> displayedIngredient,

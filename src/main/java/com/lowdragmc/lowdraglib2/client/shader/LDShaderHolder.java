@@ -14,6 +14,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.syncdata.IProviderAwareNBTSerializable;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.shaders.AbstractUniform;
 import com.mojang.blaze3d.shaders.Uniform;
@@ -32,12 +33,10 @@ import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
-import org.appliedenergistics.yoga.YogaEdge;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 import org.joml.*;
 
-import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -45,9 +44,12 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR;
 
 public class LDShaderHolder implements IConfigurable, IProviderAwareNBTSerializable<CompoundTag>, AutoCloseable {
+
     public final static String SHADER_UID_DEFINE = "LD_SHADER_%d";
     private final static AtomicInteger SHADER_ID = new AtomicInteger();
 
@@ -175,7 +177,7 @@ public class LDShaderHolder implements IConfigurable, IProviderAwareNBTSerializa
 
     @Nullable
     public Object deserializeSampler(CompoundTag tag) {
-        var type  = tag.getString("type");
+        var type = tag.getString("type");
         if (type.equals("texture")) {
             return ResourceLocation.parse(tag.getString("resource"));
         }
@@ -334,7 +336,8 @@ public class LDShaderHolder implements IConfigurable, IProviderAwareNBTSerializa
         var sampler = samplerCache.get(name);
         if (sampler instanceof ResourceLocation location) {
             return Minecraft.getInstance().getTextureManager().getTexture(location).getId();
-        } if (sampler instanceof RenderTarget renderTarget) {
+        }
+        if (sampler instanceof RenderTarget renderTarget) {
             return renderTarget.getColorTextureId();
         }
         return -1;
@@ -356,13 +359,13 @@ public class LDShaderHolder implements IConfigurable, IProviderAwareNBTSerializa
             samplerConfigurator.addChildren(
                     // preview
                     new UIElement().layout(layout -> {
-                                layout.setPipelineState(StyleOrigin.DEFAULT);
-                                layout.setAspectRatio(1.0f);
-                                layout.widthPercent(80);
-                                layout.alignSelf(AlignItems.CENTER);
-                                layout.paddingAll(3);
-                                layout.setPipelineState(StyleOrigin.INLINE);
-                            }).style(style -> Style.defaultPipeline(style, s -> s.backgroundTexture(Sprites.BORDER1_RT1)))
+                        layout.setPipelineState(StyleOrigin.DEFAULT);
+                        layout.setAspectRatio(1.0f);
+                        layout.widthPercent(80);
+                        layout.alignSelf(AlignItems.CENTER);
+                        layout.paddingAll(3);
+                        layout.setPipelineState(StyleOrigin.INLINE);
+                    }).style(style -> Style.defaultPipeline(style, s -> s.backgroundTexture(Sprites.BORDER1_RT1)))
                             .addClass("preview_bg")
                             .addChild(new UIElement().layout(layout -> {
                                 layout.widthPercent(100);
@@ -379,8 +382,7 @@ public class LDShaderHolder implements IConfigurable, IProviderAwareNBTSerializa
                                 samplerConfigurator.notifyChanges();
                             }
                         }).show(e.currentElement.getModularUI());
-                    }).layout(layout -> layout.alignSelf(AlignItems.CENTER))
-            );
+                    }).layout(layout -> layout.alignSelf(AlignItems.CENTER)));
             father.addConfigurator(samplerConfigurator);
         }
 
@@ -463,5 +465,4 @@ public class LDShaderHolder implements IConfigurable, IProviderAwareNBTSerializa
             }
         }
     }
-
 }

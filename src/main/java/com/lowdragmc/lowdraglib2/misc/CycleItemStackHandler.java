@@ -4,12 +4,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-public class CycleItemStackHandler implements IItemHandlerModifiable {
-    private List<List<ItemStack>> stacks;
+import javax.annotation.Nonnull;
 
+public class CycleItemStackHandler implements IItemHandlerModifiable {
+
+    private List<List<ItemStack>> stacks;
 
     public CycleItemStackHandler(List<List<ItemStack>> stacks) {
         updateStacks(stacks);
@@ -28,7 +29,7 @@ public class CycleItemStackHandler implements IItemHandlerModifiable {
     @Override
     public ItemStack getStackInSlot(int i) {
         List<ItemStack> stackList = stacks.get(i);
-        return stackList == null || stackList.isEmpty() ? ItemStack.EMPTY : stackList.get(Math.abs((int)(System.currentTimeMillis() / 1000) % stackList.size()));
+        return stackList == null || stackList.isEmpty() ? ItemStack.EMPTY : stackList.get(Math.abs((int) (System.currentTimeMillis() / 1000) % stackList.size()));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class CycleItemStackHandler implements IItemHandlerModifiable {
         }
     }
 
-    public List<ItemStack> getStackList(int i){
+    public List<ItemStack> getStackList(int i) {
         return stacks.get(i);
     }
 
@@ -53,7 +54,6 @@ public class CycleItemStackHandler implements IItemHandlerModifiable {
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
         return ItemStack.EMPTY;
     }
-
 
     @Override
     public int getSlotLimit(int i) {

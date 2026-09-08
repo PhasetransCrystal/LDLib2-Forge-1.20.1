@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ElementUpdateVis
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.ModelUpdateVisitor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.dependency.UIDependencies;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Model;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class ModelElement extends UIElement {
-    @Getter @Setter(AccessLevel.PROTECTED)
+
+    @Getter
+    @Setter(AccessLevel.PROTECTED)
     private Model model;
     @Getter
     protected final UIDependencies dependencies;
@@ -56,9 +59,7 @@ public abstract class ModelElement extends UIElement {
     /**
      * Builds the list of parts for this UI Element.
      */
-    protected void buildPartList() {
-
-    }
+    protected void buildPartList() {}
 
     protected final void buildUITree() {
         clearAllChildren();
@@ -66,13 +67,9 @@ public abstract class ModelElement extends UIElement {
         postBuildUI();
     }
 
-    protected void buildUI() {
+    protected void buildUI() {}
 
-    }
-
-    protected void postBuildUI() {
-
-    }
+    protected void postBuildUI() {}
 
     protected void onStyleChanged(UIEvent evt) {
         dependencies.onSelfStyleChanged(evt);
@@ -95,6 +92,7 @@ public abstract class ModelElement extends UIElement {
 
     /**
      * Recursively updates this element and its children by the given visitor
+     * 
      * @param visitor the visitor to use to update the element
      */
     public void updateElement(ElementUpdateVisitor visitor) {
@@ -119,6 +117,7 @@ public abstract class ModelElement extends UIElement {
      * Tells whether theUI has some forward dependencies that got changed.
      * <br/>
      * It can be used to know if the ui dependencies should be rebuilt
+     * 
      * @return true has changed, false otherwise
      */
     public boolean hasForwardsDependenciesChanged() {
@@ -129,6 +128,7 @@ public abstract class ModelElement extends UIElement {
      * Tells whether theUI has some backward dependencies that got changed.
      * <br/>
      * It can be used to know if the ui dependencies should be rebuilt
+     * 
      * @return true has changed, false otherwise
      */
     public boolean hasBackwardsDependenciesChanged() {
@@ -139,6 +139,7 @@ public abstract class ModelElement extends UIElement {
      * Tells whether the UI has some dependencies that got changed.
      * <br/>
      * It can be used to know if the ui dependencies should be rebuilt
+     * 
      * @return true has changed, false otherwise
      */
     public boolean hasModelDependenciesChanged() {
@@ -149,29 +150,26 @@ public abstract class ModelElement extends UIElement {
      * Adds graph elements to the model dependencies list.
      * A model dependency is a graph element model that causes this model UI to be updated whenever it is updated.
      */
-    public void addModelDependencies() {
-    }
+    public void addModelDependencies() {}
 
     /**
      * Adds graph elements to the forward dependencies list.
      * A forward dependency is a graph element that must be updated whenever this model UI is updated.
      */
-    public void addForwardDependencies() {
-    }
+    public void addForwardDependencies() {}
 
     /**
      * Adds graph elements to the backward dependencies list.
      * A backward dependency is a graph element that causes this model UI to be updated whenever it is updated.
      */
-    public void addBackwardDependencies() {
-    }
+    public void addBackwardDependencies() {}
 
     /**
      * Update the element to reflect the state of the attached model.
+     * 
      * @param visitor
      */
-    public void updateUIFromModel(ModelUpdateVisitor visitor) {
-    }
+    public void updateUIFromModel(ModelUpdateVisitor visitor) {}
 
     /**
      * Fully update the element
@@ -204,8 +202,7 @@ public abstract class ModelElement extends UIElement {
     /**
      * Called when the selection state of this element changes.
      */
-    protected void onSelectionChanged() {
-    }
+    protected void onSelectionChanged() {}
 
     /**
      * Handles the inspection of the selection state of this element. This method is invoked to
@@ -214,8 +211,7 @@ public abstract class ModelElement extends UIElement {
      * @param inspector the {@link GraphInspector} instance used for inspecting the selection.
      *                  Provides tools for interacting with the graph-related selection.
      */
-    protected void onSelectionInspect(GraphInspector inspector) {
-    }
+    protected void onSelectionInspect(GraphInspector inspector) {}
 
     /**
      * Checks if this element can be selected within the specified region.

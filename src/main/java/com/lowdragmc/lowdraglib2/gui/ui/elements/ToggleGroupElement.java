@@ -5,18 +5,20 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.AutoRegistry;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
-import org.appliedenergistics.yoga.YogaGutter;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Supplier;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @KJSBindings
 @LDLRegister(name = "toggle-group", group = "utils", registry = "ldlib2:ui_element")
 public class ToggleGroupElement extends UIElement {
+
     @Configurable(name = "ToggleGroup", subConfigurable = true)
     public final Toggle.ToggleGroup toggleGroup = new Toggle.ToggleGroup();
 

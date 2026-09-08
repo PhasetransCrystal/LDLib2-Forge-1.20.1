@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public final class CommandEvents {
+
     public final String COPY = "copy";
     public final String CUT = "cut";
     public final String PASTE = "paste";

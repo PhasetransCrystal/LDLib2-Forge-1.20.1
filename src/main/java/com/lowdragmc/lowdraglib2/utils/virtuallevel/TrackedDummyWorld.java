@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.utils.virtuallevel;
 
 import com.lowdragmc.lowdraglib2.client.scene.ParticleManager;
 import com.lowdragmc.lowdraglib2.utils.data.BlockInfo;
+
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -15,15 +16,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.entity.LevelEntityGetter;
-import net.minecraft.world.level.material.FluidState;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Author: KilaBash
@@ -33,6 +34,7 @@ import java.util.function.Predicate;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TrackedDummyWorld extends DummyWorld {
+
     @Setter
     private Predicate<BlockPos> blockFilter;
     public final WeakReference<Level> proxyWorld;
@@ -86,7 +88,7 @@ public class TrackedDummyWorld extends DummyWorld {
     @Override
     public BlockState getBlockState(@Nonnull BlockPos pos) {
         if (blockFilter != null && !blockFilter.test(pos))
-            return Blocks.AIR.defaultBlockState(); //return air if not rendering this
+            return Blocks.AIR.defaultBlockState(); // return air if not rendering this
         Level proxy = proxyWorld.get();
         return proxy != null ? proxy.getBlockState(pos) : super.getBlockState(pos);
     }

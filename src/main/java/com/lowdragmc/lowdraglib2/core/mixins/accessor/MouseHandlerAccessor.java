@@ -11,5 +11,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
  */
 @Mixin(MouseHandler.class)
 public interface MouseHandlerAccessor {
-    @Accessor int getActiveButton();
+
+    @Accessor
+    int getActiveButton();
 }

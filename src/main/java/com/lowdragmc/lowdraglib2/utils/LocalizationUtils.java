@@ -1,7 +1,7 @@
 package com.lowdragmc.lowdraglib2.utils;
 
-
 import com.lowdragmc.lowdraglib2.LDLib2;
+
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.resources.language.I18n;
 
@@ -10,6 +10,7 @@ import java.util.Map;
 
 @UtilityClass
 public final class LocalizationUtils {
+
     private final static Map<String, String> DYNAMIC_LANG = new HashMap<>();
 
     public static void appendDynamicLang(Map<String, String> dynamicLang) {
@@ -28,10 +29,11 @@ public final class LocalizationUtils {
      * This function calls `net.minecraft.client.resources.I18n.format` when called on client
      * or `net.minecraft.util.text.translation.I18n.translateToLocalFormatted` when called on server.
      * <ul>
-     *  <li>It is intended that translations should be done using `I18n` on the client.</li>
-     *  <li>For setting up translations on the server you should use `TextComponentTranslatable`.</li>
-     *  <li>`LocalisationUtils` is only for cases where some kind of translation is required on the server and there is no client/player in context.</li>
-     *  <li>`LocalisationUtils` is "best effort" and will probably only work properly with en-us.</li>
+     * <li>It is intended that translations should be done using `I18n` on the client.</li>
+     * <li>For setting up translations on the server you should use `TextComponentTranslatable`.</li>
+     * <li>`LocalisationUtils` is only for cases where some kind of translation is required on the server and there is
+     * no client/player in context.</li>
+     * <li>`LocalisationUtils` is "best effort" and will probably only work properly with en-us.</li>
      * </ul>
      *
      * @param localisationKey the localisation key passed to the underlying format function
@@ -50,10 +52,11 @@ public final class LocalizationUtils {
      * This function calls `net.minecraft.client.resources.I18n.hasKey` when called on client
      * or `net.minecraft.util.text.translation.I18n.canTranslate` when called on server.
      * <ul>
-     *  <li>It is intended that translations should be done using `I18n` on the client.</li>
-     *  <li>For setting up translations on the server you should use `TextComponentTranslatable`.</li>
-     *  <li>`LocalisationUtils` is only for cases where some kind of translation is required on the server and there is no client/player in context.</li>
-     *  <li>`LocalisationUtils` is "best effort" and will probably only work properly with en-us.</li>
+     * <li>It is intended that translations should be done using `I18n` on the client.</li>
+     * <li>For setting up translations on the server you should use `TextComponentTranslatable`.</li>
+     * <li>`LocalisationUtils` is only for cases where some kind of translation is required on the server and there is
+     * no client/player in context.</li>
+     * <li>`LocalisationUtils` is "best effort" and will probably only work properly with en-us.</li>
      * </ul>
      *
      * @param localisationKey the localisation key passed to the underlying hasKey function

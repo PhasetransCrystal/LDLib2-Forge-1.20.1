@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
+
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
@@ -16,9 +17,11 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class WindowDragHelper {
+
     public record DragMove(float startX, float startY) {};
 
     public enum ResizeHandle {
+
         LEFT(Icons.ARROW_LEFT_RIGHT),
         RIGHT(Icons.ARROW_LEFT_RIGHT),
         TOP(Icons.ARROW_UP_DOWN),
@@ -27,6 +30,7 @@ public class WindowDragHelper {
         TOP_RIGHT(Icons.ARROW_RT_LB),
         BOTTOM_LEFT(Icons.ARROW_RT_LB),
         BOTTOM_RIGHT(Icons.ARROW_LT_RB);
+
         public final SpriteTexture icon;
 
         ResizeHandle(SpriteTexture icon) {
@@ -35,10 +39,9 @@ public class WindowDragHelper {
     }
 
     public record DragResize(
-            float startX, float startY,
-            float startW, float startH,
-            ResizeHandle handle
-    ) {}
+                             float startX, float startY,
+                             float startW, float startH,
+                             ResizeHandle handle) {}
 
     public static void setDragMove(UIElement element, UIElement target, @Nullable Predicate<UIEvent> movePredicate, @Nullable Consumer<UIEvent> onFinish) {
         element.addEventListener(UIEvents.MOUSE_DOWN, e -> {
@@ -47,7 +50,7 @@ public class WindowDragHelper {
                 var width = 12;
                 var height = 12;
                 element.startDrag(new DragMove(target.getLayoutX(), target.getLayoutY()), icon)
-                        .setDragTexture(- width / 2f, -height / 2f, width, height);
+                        .setDragTexture(-width / 2f, -height / 2f, width, height);
                 e.stopPropagation();
             }
         });
@@ -85,9 +88,9 @@ public class WindowDragHelper {
                 var width = handle.icon.spriteSize.width;
                 var height = handle.icon.spriteSize.height;
                 element.startDrag(new DragResize(
-                                target.getLayoutX(), target.getLayoutY(),
-                                target.getSizeWidth(), target.getSizeHeight(), handle), icon)
-                         .setDragTexture(- width / 2f, -height / 2f, width, height);
+                        target.getLayoutX(), target.getLayoutY(),
+                        target.getSizeWidth(), target.getSizeHeight(), handle), icon)
+                        .setDragTexture(-width / 2f, -height / 2f, width, height);
                 e.stopPropagation();
             }
         });

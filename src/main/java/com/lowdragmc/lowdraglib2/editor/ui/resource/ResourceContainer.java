@@ -4,32 +4,35 @@ import com.lowdragmc.lowdraglib2.LDLib2Registries;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourceProvider;
 import com.lowdragmc.lowdraglib2.editor.resource.ResourceInstance;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.SplitView;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.SplitView;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ResourceContainer<T> extends UIElement {
+
     public final SplitView.Horizontal splitView = new SplitView.Horizontal();
     public final ScrollerView providerList = new ScrollerView();
     public final UIElement providerContainer = new UIElement();
@@ -41,7 +44,8 @@ public class ResourceContainer<T> extends UIElement {
     @Getter
     @Nullable
     private IResourceProvider<T> selectedProvider = null;
-    @Nullable @Setter
+    @Nullable
+    @Setter
     private Consumer<T> onResourceSelect;
 
     public ResourceContainer(ResourceInstance<T> resourceInstance, Editor editor) {
@@ -176,8 +180,7 @@ public class ResourceContainer<T> extends UIElement {
         super.screenTick();
         // check if the providers have changed
         boolean changed = (resourceInstance.getBuiltinProviders().values().stream().mapToInt(List::size).sum() +
-                        resourceInstance.getCustomProviders().values().stream().mapToInt(List::size).sum()
-                ) != providerToggles.size();
+                resourceInstance.getCustomProviders().values().stream().mapToInt(List::size).sum()) != providerToggles.size();
         if (!changed) {
             for (var provider : resourceInstance.getBuiltinProviders().values().stream().flatMap(List::stream).toList()) {
                 if (!providerToggles.containsKey(provider)) {

@@ -1,24 +1,26 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.direct;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
-import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
 import com.lowdragmc.lowdraglib2.syncdata.ref.DirectRef;
-import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
 import com.lowdragmc.lowdraglib2.syncdata.ref.UniqueDirectRef;
+import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
+import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Registry;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
 public final class RegistryAccessor<TYPE> implements IDirectAccessor<TYPE> {
+
     private final Class<TYPE> typeClass;
     private final Registry<TYPE> registry;
     private final Codec<TYPE> codec;
@@ -77,5 +79,4 @@ public final class RegistryAccessor<TYPE> implements IDirectAccessor<TYPE> {
     public IVar<TYPE> createDirectVar(ManagedKey managedKey, @NotNull Object holder) {
         return FieldVar.of(managedKey, holder);
     }
-
 }

@@ -6,11 +6,13 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.NodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortNodeModel;
+
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 public class CollapsibleInOutNodeElement extends NodeElement {
+
     /** CSS class applied while the node is collapsed — exposed for stylesheet rules. */
     public static final String COLLAPSED_CLASS = "__collapsed__";
 

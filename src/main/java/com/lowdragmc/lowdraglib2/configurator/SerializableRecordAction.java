@@ -4,12 +4,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.INBTSerializable;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Consumer;
 
 @Accessors(chain = true)
 public class SerializableRecordAction<T extends INBTSerializable<?>> implements EditAction {
+
     public final T serializable;
     @Nullable
     @Setter
@@ -41,7 +42,7 @@ public class SerializableRecordAction<T extends INBTSerializable<?>> implements 
 
     @Override
     public void execute() {
-        ((INBTSerializable)serializable).deserializeNBT(snapshot);
+        ((INBTSerializable) serializable).deserializeNBT(snapshot);
         if (onExecute != null) {
             onExecute.accept(serializable);
         }
@@ -49,7 +50,7 @@ public class SerializableRecordAction<T extends INBTSerializable<?>> implements 
 
     @Override
     public void undo() {
-        ((INBTSerializable)serializable).deserializeNBT(snapshot);
+        ((INBTSerializable) serializable).deserializeNBT(snapshot);
         if (onUndo != null) {
             onUndo.accept(serializable);
         }

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.utils.animation;
 
 import com.lowdragmc.lowdraglib2.gui.ui.style.IValueInterpolator;
+
 import it.unimi.dsi.fastutil.floats.FloatObjectPair;
 
 import java.util.Collections;
@@ -10,8 +11,7 @@ public record KeyFrames<T>(TreeSet<FloatObjectPair<T>> keyframes, IValueInterpol
 
     public static <T> KeyFrames<T> of(IValueInterpolator<T> interpolator, FloatObjectPair<T>... keyframes) {
         if (keyframes.length == 0) throw new IllegalArgumentException("Keyframes cannot be empty");
-        var set = new TreeSet<FloatObjectPair<T>>((x, y) ->
-                Float.compare(x.leftFloat(), y.leftFloat()));
+        var set = new TreeSet<FloatObjectPair<T>>((x, y) -> Float.compare(x.leftFloat(), y.leftFloat()));
         Collections.addAll(set, keyframes);
         return new KeyFrames<>(set, interpolator);
     }

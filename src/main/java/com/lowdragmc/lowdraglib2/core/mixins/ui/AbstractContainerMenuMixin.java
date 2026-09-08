@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.core.mixins.ui;
 import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolderMenu;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
+
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @Mixin(AbstractContainerMenu.class)
 public abstract class AbstractContainerMenuMixin implements IModularUIHolderMenu {
+
     @Unique
     @Nullable
     public ModularUI ldlib2$modularUI;
@@ -41,7 +43,7 @@ public abstract class AbstractContainerMenuMixin implements IModularUIHolderMenu
     @Override
     public void ldlib2$setModularUI(ModularUI modularUI) {
         ldlib2$modularUI = modularUI;
-        modularUI.setMenu((AbstractContainerMenu)(Object)this);
+        modularUI.setMenu((AbstractContainerMenu) (Object) this);
     }
 
     @Inject(method = "broadcastChanges", at = @At(value = "RETURN"))

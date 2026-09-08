@@ -11,10 +11,11 @@ import java.lang.annotation.Target;
  * The annotation for registering elements in the auto registry. The element will be registered only in the client side.
  * see{@link com.lowdragmc.lowdraglib2.registry.AutoRegistry.LDLibRegisterClient}
  * <br>
- * make sure the class with this annotation has implemented the interface {@link com.lowdragmc.lowdraglib2.registry.ILDLRegisterClient}
+ * make sure the class with this annotation has implemented the interface
+ * {@link com.lowdragmc.lowdraglib2.registry.ILDLRegisterClient}
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target({ ElementType.TYPE, ElementType.FIELD })
 public @interface LDLRegisterClient {
 
     /**
@@ -44,9 +45,11 @@ public @interface LDLRegisterClient {
 
     /**
      * Whether the element should be registered manually. If true, the element will not be registered automatically.
-     * If false you HAVE TO register it manually in the {@link com.lowdragmc.lowdraglib2.registry.AutoRegistry.LDLibRegisterClient}
+     * If false you HAVE TO register it manually in the
+     * {@link com.lowdragmc.lowdraglib2.registry.AutoRegistry.LDLibRegisterClient}
+     * 
      * @deprecated since 26.1. Use {@link #environment()} with {@link RegistrationEnvironment#MANUAL} instead.
-     * TODO: Remove in a future version.
+     *             TODO: Remove in a future version.
      */
     @Deprecated(since = "26.1")
     boolean manual() default false;

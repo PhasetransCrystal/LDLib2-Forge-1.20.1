@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.integration.kjs.ui;
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
 import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerScreen;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,6 +18,7 @@ import static com.lowdragmc.lowdraglib2.gui.factory.LDMenuTypes.MENUS;
 
 @KJSBindings("LDLib2UIFactory")
 public class LDKJSMenuTypes {
+
     @KJSBindings
     public static final Supplier<MenuType<ModularUIContainerMenu>> PLAYER_UI = MENUS.register("kjs_player_ui",
             () -> IForgeMenuType.create(KJSPlayerUIMenuType::create));
@@ -27,9 +29,7 @@ public class LDKJSMenuTypes {
     public static final Supplier<MenuType<ModularUIContainerMenu>> BLOCK_UI = MENUS.register("kjs_block_ui",
             () -> IForgeMenuType.create(KJSBlockUIMenuType::create));
 
-    public static void init() {
-
-    }
+    public static void init() {}
 
     public static void registerMenuScreens() {
         MenuScreens.register(PLAYER_UI.get(), ModularUIContainerScreen::new);
@@ -51,5 +51,4 @@ public class LDKJSMenuTypes {
         if (!(player instanceof ServerPlayer serverPlayer)) return false;
         return KJSBlockUIMenuType.openUI(serverPlayer, pos, id);
     }
-
 }

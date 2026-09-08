@@ -4,11 +4,12 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.TextureValue;
+import com.lowdragmc.lowdraglib2.integration.kjs.ui.UIEvents;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.utils.ReflectionUtils;
+
 import dev.latvian.mods.kubejs.KubeJSPlugin;
-import com.lowdragmc.lowdraglib2.integration.kjs.ui.UIEvents;
 import dev.latvian.mods.kubejs.script.BindingsEvent;
 import dev.latvian.mods.kubejs.script.ScriptType;
 import dev.latvian.mods.kubejs.util.ClassFilter;

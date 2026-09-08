@@ -1,6 +1,5 @@
 package com.lowdragmc.lowdraglib2.configurator.ui;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.texture.FluidStackTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
@@ -12,6 +11,8 @@ import com.lowdragmc.lowdraglib2.integration.xei.jei.LDLibJEIPlugin;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.LDLibREIPlugin;
 import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
+import com.google.common.base.Predicates;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import dev.emi.emi.api.stack.FluidEmiStack;
 import dev.emi.emi.api.stack.ItemEmiStack;
@@ -30,9 +31,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -40,17 +40,23 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
+
     public final Registry<T> registry;
-    @Setter @Accessors(chain = true)
+    @Setter
+    @Accessors(chain = true)
     protected Predicate<T> filter = Predicates.alwaysTrue();
-    @Setter @Accessors(chain = true)
+    @Setter
+    @Accessors(chain = true)
     protected Function<T, String> translator = null;
 
-    public RegistrySearchComponent(String name, Supplier<T> supplier, Consumer<T> onUpdate,T defaultValue, boolean forceUpdate, Registry<T> registry, UIElementProvider<T> uiProvider) {
+    public RegistrySearchComponent(String name, Supplier<T> supplier, Consumer<T> onUpdate, T defaultValue, boolean forceUpdate, Registry<T> registry, UIElementProvider<T> uiProvider) {
         super(name, supplier, onUpdate, new SearchComponentConfigurator.ISearchConfigurator<>() {
+
             @Override
             public T defaultValue() {
                 return defaultValue;
@@ -92,11 +98,11 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
     }
 
     public static class Item extends RegistrySearchComponent<net.minecraft.world.item.Item> {
+
         public Item(String name, Supplier<net.minecraft.world.item.Item> supplier, Consumer<net.minecraft.world.item.Item> onUpdate, net.minecraft.world.item.Item defaultValue, boolean forceUpdate) {
             super(name, supplier, onUpdate, defaultValue, forceUpdate, BuiltInRegistries.ITEM, UIElementProvider.iconText(
                     item -> new ItemStackTexture(item.asItem()),
-                    item -> Component.translatable(item.getDescriptionId())
-            ));
+                    item -> Component.translatable(item.getDescriptionId())));
 
             if (LDLib2.isJeiLoaded()) {
                 RegistrySearchComponent.JEISupport.ghostItem(this, itemStack -> filter.test(itemStack.getItem()),
@@ -116,11 +122,11 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
     }
 
     public static class Block extends RegistrySearchComponent<net.minecraft.world.level.block.Block> {
+
         public Block(String name, Supplier<net.minecraft.world.level.block.Block> supplier, Consumer<net.minecraft.world.level.block.Block> onUpdate, net.minecraft.world.level.block.Block defaultValue, boolean forceUpdate) {
             super(name, supplier, onUpdate, defaultValue, forceUpdate, BuiltInRegistries.BLOCK, UIElementProvider.iconText(
                     block -> new ItemStackTexture(block.asItem()),
-                    block -> Component.translatable(block.getDescriptionId())
-            ));
+                    block -> Component.translatable(block.getDescriptionId())));
 
             if (LDLib2.isJeiLoaded()) {
                 RegistrySearchComponent.JEISupport.ghostBlock(this, block -> filter.test(block),
@@ -140,6 +146,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
     }
 
     public static class Fluid extends RegistrySearchComponent<net.minecraft.world.level.material.Fluid> {
+
         public Fluid(String name, Supplier<net.minecraft.world.level.material.Fluid> supplier, Consumer<net.minecraft.world.level.material.Fluid> onUpdate, net.minecraft.world.level.material.Fluid defaultValue, boolean forceUpdate) {
             super(name, supplier, onUpdate, defaultValue, forceUpdate, BuiltInRegistries.FLUID, UIElementProvider.iconText(
                     fluid -> {
@@ -148,8 +155,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
                         if (fluid == Fluids.EMPTY) return IGuiTexture.EMPTY;
                         return new FluidStackTexture(fluid);
                     },
-                    fluid -> Component.translatable(fluid.getFluidType().getDescriptionId())
-            ));
+                    fluid -> Component.translatable(fluid.getFluidType().getDescriptionId())));
             setFilter(fluid -> fluid != Fluids.EMPTY && fluid.isSource(fluid.defaultFluidState()));
 
             if (LDLib2.isJeiLoaded()) {
@@ -170,6 +176,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
     }
 
     public static class EntityType extends RegistrySearchComponent<net.minecraft.world.entity.EntityType<?>> {
+
         public EntityType(String name, Supplier<net.minecraft.world.entity.EntityType<?>> supplier, Consumer<net.minecraft.world.entity.EntityType<?>> onUpdate, net.minecraft.world.entity.EntityType<?> defaultValue, boolean forceUpdate) {
             super(name, supplier, onUpdate, defaultValue, forceUpdate, BuiltInRegistries.ENTITY_TYPE, UIElementProvider.iconText(
                     entityType -> {
@@ -177,24 +184,20 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
                         if (egg != null) return new ItemStackTexture(egg.asItem());
                         return IGuiTexture.EMPTY;
                     },
-                    net.minecraft.world.entity.EntityType::getDescription
-            ));
+                    net.minecraft.world.entity.EntityType::getDescription));
 
             if (LDLib2.isJeiLoaded()) {
-                RegistrySearchComponent.JEISupport.ghostItem(this, itemStack ->
-                                Optional.ofNullable(getTypeFromEgg(itemStack)).map(filter::test).orElse(false),
+                RegistrySearchComponent.JEISupport.ghostItem(this, itemStack -> Optional.ofNullable(getTypeFromEgg(itemStack)).map(filter::test).orElse(false),
                         itemStack -> Optional.ofNullable(getTypeFromEgg(itemStack)).filter(filter)
                                 .ifPresent(entityType -> setValue(entityType, true)));
             }
             if (LDLib2.isReiLoaded()) {
-                RegistrySearchComponent.REISupport.ghostItem(this, itemStack ->
-                                Optional.ofNullable(getTypeFromEgg(itemStack)).map(filter::test).orElse(false),
+                RegistrySearchComponent.REISupport.ghostItem(this, itemStack -> Optional.ofNullable(getTypeFromEgg(itemStack)).map(filter::test).orElse(false),
                         itemStack -> Optional.ofNullable(getTypeFromEgg(itemStack)).filter(filter)
                                 .ifPresent(entityType -> setValue(entityType, true)));
             }
             if (LDLib2.isEmiLoaded()) {
-                RegistrySearchComponent.EMISupport.ghostItem(this, itemStack ->
-                                Optional.ofNullable(getTypeFromEgg(itemStack)).map(filter::test).orElse(false),
+                RegistrySearchComponent.EMISupport.ghostItem(this, itemStack -> Optional.ofNullable(getTypeFromEgg(itemStack)).map(filter::test).orElse(false),
                         itemStack -> Optional.ofNullable(getTypeFromEgg(itemStack)).filter(filter)
                                 .ifPresent(entityType -> setValue(entityType, true)));
             }
@@ -212,6 +215,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
     }
 
     public static class JEISupport {
+
         public static void ghostItem(UIElement element, Predicate<ItemStack> filter, Consumer<ItemStack> setter) {
             LDLibJEIPlugin.ghostIngredient(element, VanillaTypes.ITEM_STACK,
                     ingredient -> filter.test(ingredient.getIngredient()),
@@ -225,7 +229,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
         }
 
         public static void ghostBlock(UIElement element, Predicate<net.minecraft.world.level.block.Block> filter, Consumer<net.minecraft.world.level.block.Block> setter) {
-            ghostItem(element,itemStack -> {
+            ghostItem(element, itemStack -> {
                 if (itemStack.getItem() instanceof BlockItem blockItem) {
                     return filter.test(blockItem.getBlock());
                 }
@@ -240,6 +244,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
 
     // region XEI Supports
     public static class REISupport {
+
         public static void ghostItem(UIElement element, Predicate<ItemStack> filter, Consumer<ItemStack> setter) {
             LDLibREIPlugin.draggableStackBounds(element,
                     VanillaEntryTypes.ITEM,
@@ -261,7 +266,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
         }
 
         public static void ghostBlock(UIElement element, Predicate<net.minecraft.world.level.block.Block> filter, Consumer<net.minecraft.world.level.block.Block> setter) {
-            ghostItem(element,itemStack -> {
+            ghostItem(element, itemStack -> {
                 if (itemStack.getItem() instanceof BlockItem blockItem) {
                     return filter.test(blockItem.getBlock());
                 }
@@ -272,10 +277,10 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
                 }
             });
         }
-
     }
 
     public static class EMISupport {
+
         public static void ghostItem(UIElement element, Predicate<ItemStack> filter, Consumer<ItemStack> setter) {
             LDLibEMIPlugin.renderDragHandler(element,
                     dragged -> dragged instanceof ItemEmiStack item && filter.test(item.getItemStack()));
@@ -315,7 +320,7 @@ public class RegistrySearchComponent<T> extends SearchComponentConfigurator<T> {
         }
 
         public static void ghostBlock(UIElement element, Predicate<net.minecraft.world.level.block.Block> filter, Consumer<net.minecraft.world.level.block.Block> setter) {
-            ghostItem(element,itemStack -> {
+            ghostItem(element, itemStack -> {
                 if (itemStack.getItem() instanceof BlockItem blockItem) {
                     return filter.test(blockItem.getBlock());
                 }

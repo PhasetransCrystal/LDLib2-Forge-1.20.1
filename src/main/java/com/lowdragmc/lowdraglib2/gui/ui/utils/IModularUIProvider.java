@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 @FunctionalInterface
 public interface IModularUIProvider<T> extends Function<T, ModularUI> {
+
     ModularUI createModularUI(T value);
 
     @Override

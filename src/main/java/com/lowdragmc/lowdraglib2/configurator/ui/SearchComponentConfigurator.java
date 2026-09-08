@@ -1,27 +1,29 @@
 package com.lowdragmc.lowdraglib2.configurator.ui;
 
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.SearchComponent;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
 import com.lowdragmc.lowdraglib2.utils.search.ISearch;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import org.appliedenergistics.yoga.YogaOverflow;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 @MethodsReturnNonnullByDefault
 public class SearchComponentConfigurator<T> extends ValueConfigurator<T> implements SearchComponent.ISearchUI<T> {
+
     public final SearchComponent<T> searchComponent;
     public final BiConsumer<String, Consumer<T>> searchAction;
     public final Function<T, String> searchResultText;
@@ -69,6 +71,7 @@ public class SearchComponentConfigurator<T> extends ValueConfigurator<T> impleme
     }
 
     public interface ISearchConfigurator<T> extends ISearch<T> {
+
         /**
          * Returns the default value for the generic type {@code T}.
          *

@@ -7,14 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement
 /**
  * Specification for SplitView elements
  */
-open class SplitViewSpec<T : SplitView>(
-    var percentage: Float? = null,
-    var borderSize: Float? = null,
-    var minPercentage: Float? = null,
-    var maxPercentage: Float? = null,
-    var firstPane: UIElement? = null,
-    var secondPane: UIElement? = null,
-) : ElementSpec<T>() {
+open class SplitViewSpec<T : SplitView>(var percentage: Float? = null, var borderSize: Float? = null, var minPercentage: Float? = null, var maxPercentage: Float? = null, var firstPane: UIElement? = null, var secondPane: UIElement? = null) : ElementSpec<T>() {
     /**
      * Set the split percentage (0-100)
      */
@@ -34,13 +27,8 @@ open class SplitViewSpec<T : SplitView>(
 /**
  * Base SplitView element builder
  */
-open class SplitViewElement<T : SplitView>(
-    element: T,
-    spec: (SplitViewSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, SplitViewSpec<T>>(element, spec) {
-    override fun makeSpec(): SplitViewSpec<T>? {
-        return spec?.let { SplitViewSpec<T>().apply(it) }
-    }
+open class SplitViewElement<T : SplitView>(element: T, spec: (SplitViewSpec<T>.() -> Unit)? = null) : UIContainer<T, SplitViewSpec<T>>(element, spec) {
+    override fun makeSpec(): SplitViewSpec<T>? = spec?.let { SplitViewSpec<T>().apply(it) }
 
     override fun build(spec: SplitViewSpec<T>?): T {
         val e = super.build(spec)
@@ -65,10 +53,7 @@ open class SplitViewElement<T : SplitView>(
 /**
  * Specification for Horizontal SplitView
  */
-open class SplitViewHorizontalSpec(
-    var leftPane: UIElement? = null,
-    var rightPane: UIElement? = null,
-) : SplitViewSpec<SplitView.Horizontal>() {
+open class SplitViewHorizontalSpec(var leftPane: UIElement? = null, var rightPane: UIElement? = null) : SplitViewSpec<SplitView.Horizontal>() {
     /**
      * Configure left pane
      */
@@ -89,13 +74,8 @@ open class SplitViewHorizontalSpec(
 /**
  * Horizontal SplitView element builder
  */
-open class SplitViewHorizontalElement(
-    element: SplitView.Horizontal,
-    spec: (SplitViewHorizontalSpec.() -> Unit)? = null,
-) : SplitViewElement<SplitView.Horizontal>(element, spec as (SplitViewSpec<SplitView.Horizontal>.() -> Unit)?) {
-    override fun makeSpec(): SplitViewHorizontalSpec? {
-        return spec?.let { SplitViewHorizontalSpec().apply(it) }
-    }
+open class SplitViewHorizontalElement(element: SplitView.Horizontal, spec: (SplitViewHorizontalSpec.() -> Unit)? = null) : SplitViewElement<SplitView.Horizontal>(element, spec as (SplitViewSpec<SplitView.Horizontal>.() -> Unit)?) {
+    override fun makeSpec(): SplitViewHorizontalSpec? = spec?.let { SplitViewHorizontalSpec().apply(it) }
 
     override fun build(spec: SplitViewSpec<SplitView.Horizontal>?): SplitView.Horizontal {
         val e = super.build(spec)
@@ -110,25 +90,17 @@ open class SplitViewHorizontalElement(
 /**
  * Top Level - Create a standalone Horizontal SplitView
  */
-fun splitViewHorizontal(spec: (SplitViewHorizontalSpec.() -> Unit)? = null,
-                        init: SplitViewHorizontalElement.() -> Unit = {}): SplitView.Horizontal {
-    return SplitViewHorizontalElement(SplitView.Horizontal(), spec).apply(init).build()
-}
+fun splitViewHorizontal(spec: (SplitViewHorizontalSpec.() -> Unit)? = null, init: SplitViewHorizontalElement.() -> Unit = {}): SplitView.Horizontal = SplitViewHorizontalElement(SplitView.Horizontal(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Horizontal SplitView as a child to a container
  */
-fun UIContainer<*, *>.splitViewHorizontal(spec: (SplitViewHorizontalSpec.() -> Unit)? = null,
-                                          init: SplitViewHorizontalElement.() -> Unit = {}) =
-    add(SplitViewHorizontalElement(SplitView.Horizontal(), spec), init)
+fun UIContainer<*, *>.splitViewHorizontal(spec: (SplitViewHorizontalSpec.() -> Unit)? = null, init: SplitViewHorizontalElement.() -> Unit = {}) = add(SplitViewHorizontalElement(SplitView.Horizontal(), spec), init)
 
 /**
  * DSL converter - Convert existing Horizontal SplitView to DSL builder
  */
-fun SplitView.Horizontal.dsl(spec: (SplitViewHorizontalSpec.() -> Unit)? = null,
-                             init: SplitViewHorizontalElement.() -> Unit = {}): SplitViewHorizontalElement {
-    return SplitViewHorizontalElement(this, spec).apply(init)
-}
+fun SplitView.Horizontal.dsl(spec: (SplitViewHorizontalSpec.() -> Unit)? = null, init: SplitViewHorizontalElement.() -> Unit = {}): SplitViewHorizontalElement = SplitViewHorizontalElement(this, spec).apply(init)
 
 // ============================================
 // Vertical SplitView (split-view-vertical)
@@ -137,10 +109,7 @@ fun SplitView.Horizontal.dsl(spec: (SplitViewHorizontalSpec.() -> Unit)? = null,
 /**
  * Specification for Vertical SplitView
  */
-open class SplitViewVerticalSpec(
-    var topPane: UIElement? = null,
-    var bottomPane: UIElement? = null,
-) : SplitViewSpec<SplitView.Vertical>() {
+open class SplitViewVerticalSpec(var topPane: UIElement? = null, var bottomPane: UIElement? = null) : SplitViewSpec<SplitView.Vertical>() {
     /**
      * Configure top pane
      */
@@ -161,13 +130,8 @@ open class SplitViewVerticalSpec(
 /**
  * Vertical SplitView element builder
  */
-open class SplitViewVerticalElement(
-    element: SplitView.Vertical,
-    spec: (SplitViewVerticalSpec.() -> Unit)? = null,
-) : SplitViewElement<SplitView.Vertical>(element, spec as (SplitViewSpec<SplitView.Vertical>.() -> Unit)?) {
-    override fun makeSpec(): SplitViewVerticalSpec? {
-        return spec?.let { SplitViewVerticalSpec().apply(it) }
-    }
+open class SplitViewVerticalElement(element: SplitView.Vertical, spec: (SplitViewVerticalSpec.() -> Unit)? = null) : SplitViewElement<SplitView.Vertical>(element, spec as (SplitViewSpec<SplitView.Vertical>.() -> Unit)?) {
+    override fun makeSpec(): SplitViewVerticalSpec? = spec?.let { SplitViewVerticalSpec().apply(it) }
 
     override fun build(spec: SplitViewSpec<SplitView.Vertical>?): SplitView.Vertical {
         val e = super.build(spec)
@@ -182,25 +146,17 @@ open class SplitViewVerticalElement(
 /**
  * Top Level - Create a standalone Vertical SplitView
  */
-fun splitViewVertical(spec: (SplitViewVerticalSpec.() -> Unit)? = null,
-                      init: SplitViewVerticalElement.() -> Unit = {}): SplitView.Vertical {
-    return SplitViewVerticalElement(SplitView.Vertical(), spec).apply(init).build()
-}
+fun splitViewVertical(spec: (SplitViewVerticalSpec.() -> Unit)? = null, init: SplitViewVerticalElement.() -> Unit = {}): SplitView.Vertical = SplitViewVerticalElement(SplitView.Vertical(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add Vertical SplitView as a child to a container
  */
-fun UIContainer<*, *>.splitViewVertical(spec: (SplitViewVerticalSpec.() -> Unit)? = null,
-                                        init: SplitViewVerticalElement.() -> Unit = {}) =
-    add(SplitViewVerticalElement(SplitView.Vertical(), spec), init)
+fun UIContainer<*, *>.splitViewVertical(spec: (SplitViewVerticalSpec.() -> Unit)? = null, init: SplitViewVerticalElement.() -> Unit = {}) = add(SplitViewVerticalElement(SplitView.Vertical(), spec), init)
 
 /**
  * DSL converter - Convert existing Vertical SplitView to DSL builder
  */
-fun SplitView.Vertical.dsl(spec: (SplitViewVerticalSpec.() -> Unit)? = null,
-                           init: SplitViewVerticalElement.() -> Unit = {}): SplitViewVerticalElement {
-    return SplitViewVerticalElement(this, spec).apply(init)
-}
+fun SplitView.Vertical.dsl(spec: (SplitViewVerticalSpec.() -> Unit)? = null, init: SplitViewVerticalElement.() -> Unit = {}): SplitViewVerticalElement = SplitViewVerticalElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods

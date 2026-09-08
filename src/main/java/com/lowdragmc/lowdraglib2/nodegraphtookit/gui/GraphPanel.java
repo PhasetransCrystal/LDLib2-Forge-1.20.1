@@ -1,7 +1,5 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.gui;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -18,6 +16,9 @@ import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.util.WindowDragHelper;
 import com.lowdragmc.lowdraglib2.gui.util.WindowDragHelper.ResizeHandle;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
 import dev.vfyjxf.taffy.style.TaffyPosition;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 public class GraphPanel extends UIElement {
+
     public static final float DEFAULT_PANEL_W = 150f;
     public static final float DEFAULT_PANEL_H = 150f;
 
@@ -389,6 +391,7 @@ public class GraphPanel extends UIElement {
     // region drag-to-dock
 
     public record DragPanel(GraphPanel source, float startLeft, float startTop) {}
+
     public record DragTab(GraphPanel source, IGraphTool tool) {}
 
     /** True if dropping onto {@code target} would land on this exact panel (so no dock/highlight needed). */

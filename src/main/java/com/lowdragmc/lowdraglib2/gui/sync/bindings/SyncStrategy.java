@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.sync.bindings;
 
 public enum SyncStrategy {
+
     /**
      * It won't sync the value at all.
      */

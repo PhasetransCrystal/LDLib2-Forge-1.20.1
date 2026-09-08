@@ -1,12 +1,13 @@
 package com.lowdragmc.lowdraglib2.integration.kjs.ui;
 
-import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
 import com.lowdragmc.lowdraglib2.gui.factory.LDMenuTypes;
+import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+
 import dev.latvian.mods.kubejs.script.ScriptType;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,6 +20,7 @@ import net.minecraftforge.network.NetworkHooks;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class KJSHeldItemUIMenuType {
+
     public static boolean openUI(ServerPlayer player, InteractionHand hand, String id) {
         var heldItem = player.getItemInHand(hand);
         var event = new ItemUIEventJS(player, hand, heldItem, id);
@@ -41,6 +43,7 @@ public class KJSHeldItemUIMenuType {
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
     public static class ItemUIEventJS extends UIEventJS {
+
         public final InteractionHand hand;
         public final ItemStack itemStack;
 

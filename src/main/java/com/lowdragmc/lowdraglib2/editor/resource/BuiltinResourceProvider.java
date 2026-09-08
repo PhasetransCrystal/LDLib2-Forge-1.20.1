@@ -2,11 +2,13 @@ package com.lowdragmc.lowdraglib2.editor.resource;
 
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
+
 import lombok.Getter;
 
-
 public class BuiltinResourceProvider<T> extends ResourceProvider<T> {
+
     public static final ResourceProviderType TYPE = new ResourceProviderType() {
+
         @Override
         public String getTypeName() {
             return "built-in";

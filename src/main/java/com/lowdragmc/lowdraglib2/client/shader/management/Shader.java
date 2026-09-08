@@ -1,7 +1,8 @@
 package com.lowdragmc.lowdraglib2.client.shader.management;
 
-import com.google.common.base.Charsets;
 import com.lowdragmc.lowdraglib2.LDLib2;
+
+import com.google.common.base.Charsets;
 import com.mojang.blaze3d.platform.GlStateManager;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.client.Minecraft;
@@ -26,6 +27,7 @@ import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class Shader {
+
     public final ShaderType shaderType;
     public final String source;
     private int shaderId;
@@ -72,7 +74,7 @@ public class Shader {
         byte[] bs = source.getBytes(Charsets.UTF_8);
         ByteBuffer byteBuffer = MemoryUtil.memAlloc(bs.length + 1);
         byteBuffer.put(bs);
-        byteBuffer.put((byte)0);
+        byteBuffer.put((byte) 0);
         byteBuffer.flip();
 
         try {
@@ -113,7 +115,7 @@ public class Shader {
             StringBuilder stringBuilder = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             String line;
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line).append('\n');
             }
             stream.close();
@@ -124,6 +126,7 @@ public class Shader {
     }
 
     public enum ShaderType {
+
         VERTEX("vertex", ".vsh", GL20.GL_VERTEX_SHADER, GL20::glCreateShader),
         FRAGMENT("fragment", ".fsh", GL20.GL_FRAGMENT_SHADER, GL20::glCreateShader),
         COMPUTE("compute", ".comp", 0x91B9, id -> GL43.glCreateShader(GL43.GL_COMPUTE_SHADER));

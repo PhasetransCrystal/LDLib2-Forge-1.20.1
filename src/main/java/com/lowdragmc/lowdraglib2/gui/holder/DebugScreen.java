@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.debugger.UIDebugger;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
@@ -23,13 +24,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class DebugScreen extends ModularUIScreen {
+
     public final static Vector2i REAL_MOUSE_POS = new Vector2i();
     public final ModularUI targetUI;
     public final UIDebugger uiDebugger;
 
     public DebugScreen(UIDebugger debugger) {
         super(ModularUI.of(UI.of(new UIElement().layout(layout -> layout.widthPercent(100).heightPercent(100)),
-                        StylesheetManager.INSTANCE.getStylesheet(StylesheetManager.MODERN))),
+                StylesheetManager.INSTANCE.getStylesheet(StylesheetManager.MODERN))),
                 Component.literal("Debug Screen"));
         this.uiDebugger = debugger;
         this.targetUI = debugger.modularUI;
@@ -157,7 +159,6 @@ public class DebugScreen extends ModularUIScreen {
             graphics.drawString(font, "pos(%d, %d)".formatted(mouseX, mouseY), mouseX, Math.max(0, mouseY - 10), ColorPattern.YELLOW.color, true);
             graphics.pose().popPose();
         }
-
 
         if (shapingUI != null) {
             var x = 0;

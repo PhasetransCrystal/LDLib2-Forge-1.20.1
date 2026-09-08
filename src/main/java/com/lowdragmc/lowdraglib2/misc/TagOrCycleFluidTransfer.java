@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TagOrCycleFluidTransfer implements IFluidHandlerModifiable {
+
     @Getter
     private List<Either<List<Pair<TagKey<Fluid>, Integer>>, List<FluidStack>>> stacks;
 
     private List<List<FluidStack>> unwrapped = null;
-
 
     public TagOrCycleFluidTransfer(List<Either<List<Pair<TagKey<Fluid>, Integer>>, List<FluidStack>>> stacks) {
         updateStacks(stacks);
@@ -62,7 +62,7 @@ public class TagOrCycleFluidTransfer implements IFluidHandlerModifiable {
     @Override
     public FluidStack getFluidInTank(int tank) {
         List<FluidStack> stackList = getUnwrapped().get(tank);
-        return stackList == null || stackList.isEmpty() ? FluidStack.EMPTY : stackList.get(Math.abs((int)(System.currentTimeMillis() / 1000) % stackList.size()));
+        return stackList == null || stackList.isEmpty() ? FluidStack.EMPTY : stackList.get(Math.abs((int) (System.currentTimeMillis() / 1000) % stackList.size()));
     }
 
     @Override

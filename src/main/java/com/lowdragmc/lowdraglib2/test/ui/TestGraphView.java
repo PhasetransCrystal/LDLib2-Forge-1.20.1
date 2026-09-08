@@ -7,13 +7,14 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.GraphView;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import lombok.NoArgsConstructor;
 import net.minecraft.world.entity.player.Player;
-import org.appliedenergistics.yoga.YogaEdge;
 
-@LDLRegisterClient(name="graph_view", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "graph_view", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestGraphView implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var root = new UIElement();

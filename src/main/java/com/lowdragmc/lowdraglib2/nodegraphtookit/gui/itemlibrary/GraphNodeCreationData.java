@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.SpawnFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.AbstractNodeModel;
+
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 public record GraphNodeCreationData(GraphModel graphModel, Vector2f position, @Nullable SpawnFlags spawnFlags, @Nullable UUID uuid) {
+
     public static GraphNodeCreationData ofOrphan(GraphModel graphModel) {
         return new GraphNodeCreationData(graphModel, new Vector2f(), SpawnFlags.ORPHAN, null);
     }

@@ -1,19 +1,21 @@
 package com.lowdragmc.lowdraglib2.gui.ui.event;
 
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import it.unimi.dsi.fastutil.Pair;
 import lombok.ToString;
 import net.minecraft.network.FriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @ToString
 public class UIEvent {
+
     // region CODEC
     public final static Codec<UIEvent> CODEC = Codec.STRING
             .comapFlatMap(type -> DataResult.success(UIEvent.create(type)), event -> event.type)
@@ -32,7 +34,7 @@ public class UIEvent {
                 } else {
                     byteBuf.writeBoolean(false);
                 }
-                if (event.keyCode != 0 || event.scanCode != 0 || event.modifiers != 0 || event.codePoint != 0 ) {
+                if (event.keyCode != 0 || event.scanCode != 0 || event.modifiers != 0 || event.codePoint != 0) {
                     byteBuf.writeBoolean(true);
                     byteBuf.writeVarInt(event.keyCode);
                     byteBuf.writeVarInt(event.scanCode);
@@ -67,8 +69,7 @@ public class UIEvent {
                     event.command = byteBuf.readUtf();
                 }
                 return event;
-            }
-    );
+            });
     // endregion
 
     /**
@@ -124,7 +125,8 @@ public class UIEvent {
     /**
      * The target element that the event is dispatched to.
      * <br>
-     * The related target element may be used in some events. e.g. {@code focus}, {@code blur}, {@code focusIn}, {@code focusOut}.
+     * The related target element may be used in some events. e.g. {@code focus}, {@code blur}, {@code focusIn},
+     * {@code focusOut}.
      */
     public UIElement target, relatedTarget;
     /**
@@ -156,7 +158,7 @@ public class UIEvent {
         this.type = type;
     }
 
-    //TODO Shall we use an Event Pool here to avoid the cost of creating instances?
+    // TODO Shall we use an Event Pool here to avoid the cost of creating instances?
     public static UIEvent create(String type) {
         return new UIEvent(type);
     }
@@ -164,22 +166,28 @@ public class UIEvent {
     /**
      * Stops the event from propagating to all later phases.
      * <br>
-     * <b>Capture</b> and <b>bubbling</b> both cease: Regardless of whether the event is currently in the capture stage or the bubbling stage, the propagation is immediately interrupted.
-     * Applicable scenario: When a certain processor clearly knows that the event should be completely intercepted, for example:
-     * <li> A dialog box captures click events and does not want the events to bubble up to the parent level (such as the main interface).
-     * <li> A full-screen pop-up window captures all inputs to prevent underlying elements from responding.
+     * <b>Capture</b> and <b>bubbling</b> both cease: Regardless of whether the event is currently in the capture stage
+     * or the bubbling stage, the propagation is immediately interrupted.
+     * Applicable scenario: When a certain processor clearly knows that the event should be completely intercepted, for
+     * example:
+     * <li>A dialog box captures click events and does not want the events to bubble up to the parent level (such as the
+     * main interface).
+     * <li>A full-screen pop-up window captures all inputs to prevent underlying elements from responding.
      */
     public void stopPropagation() {
         this.propagationStopped = true;
     }
 
     /**
-     * Stops the event from propagating to other listeners and prevents any further event listeners of the current phase.
+     * Stops the event from propagating to other listeners and prevents any further event listeners of the current
+     * phase.
      * <br>
      * No impact on capture or bubbling: The event propagation of other nodes is not affected.
-     * Applicable scenario: When a certain listener knows that it is the only listener that should handle this event, for example:
-     * <li> A button has multiple listeners, and one of them is the logic of "highest priority".
-     * <li> A certain listener has already handled the event and does not want other listeners on the same node to handle it repeatedly.
+     * Applicable scenario: When a certain listener knows that it is the only listener that should handle this event,
+     * for example:
+     * <li>A button has multiple listeners, and one of them is the logic of "highest priority".
+     * <li>A certain listener has already handled the event and does not want other listeners on the same node to handle
+     * it repeatedly.
      */
     public void stopImmediatePropagation() {
         this.propagationStopped = true;
@@ -217,5 +225,4 @@ public class UIEvent {
     public boolean isKeyDown(int keyCode) {
         return UIElement.isKeyDown(keyCode);
     }
-
 }

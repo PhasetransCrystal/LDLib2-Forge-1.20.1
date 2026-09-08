@@ -10,11 +10,12 @@ import java.util.function.Consumer;
  * @implNote FieldUpdateListener
  */
 @FunctionalInterface
-public
-interface IFieldUpdateListener<T> {
+public interface IFieldUpdateListener<T> {
+
     /**
      * It is called at the remote side when a field is updated from the server.
-     * @param managedKey the metadata of the field
+     * 
+     * @param managedKey   the metadata of the field
      * @param currentValue the current value of the field before the update
      * @return the new value of the field after the update
      */

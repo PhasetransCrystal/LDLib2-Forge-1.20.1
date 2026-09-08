@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.style.properties.*;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.FlexIcons;
+
 import dev.vfyjxf.taffy.style.*;
 import lombok.experimental.UtilityClass;
 import org.appliedenergistics.yoga.*;
@@ -17,6 +18,7 @@ import java.util.function.BiConsumer;
 
 @UtilityClass
 public final class LayoutProperties {
+
     public static final List<AlignItems> DEFAULT_ALIGN_ITEMS = Arrays.asList(
             AlignItems.AUTO,
             AlignItems.START,
@@ -24,8 +26,7 @@ public final class LayoutProperties {
             AlignItems.FLEX_START,
             AlignItems.FLEX_END,
             AlignItems.CENTER,
-            AlignItems.STRETCH
-    );
+            AlignItems.STRETCH);
 
     public static final Property<TaffyDisplay> DISPLAY = PropertyRegistry.create("display", TaffyDisplay.class, TaffyDisplay.FLEX);
     public static final Property<TaffyDirection> LAYOUT_DIRECTION = PropertyRegistry.create("layout-direction", TaffyDirection.class, TaffyDirection.INHERIT);
@@ -196,7 +197,6 @@ public final class LayoutProperties {
 
     private static <T> void createSetter(Property<T> property,
                                          BiConsumer<TaffyLayoutStyle, T> taffySetter) {
-        property.addListener((el, p, oldValue, newValue) ->
-                taffySetter.accept(el.getTaffyStyle(), newValue == null ? property.initialValue : newValue));
+        property.addListener((el, p, oldValue, newValue) -> taffySetter.accept(el.getTaffyStyle(), newValue == null ? property.initialValue : newValue));
     }
 }

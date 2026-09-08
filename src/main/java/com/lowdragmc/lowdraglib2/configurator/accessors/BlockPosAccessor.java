@@ -1,16 +1,15 @@
 package com.lowdragmc.lowdraglib2.configurator.accessors;
 
+import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
-import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
-import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import org.appliedenergistics.yoga.YogaEdge;
-import org.appliedenergistics.yoga.YogaGutter;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -57,13 +56,13 @@ public class BlockPosAccessor extends TypesAccessor<Vec3i> {
                         defaultValue(field).getY(), forceUpdate),
                 z = new NumberConfigurator("z", () -> supplier.get().getZ(),
                         v -> consumer.accept(new BlockPos(supplier.get().getX(), supplier.get().getY(), v.intValue())),
-                        defaultValue(field).getZ(), forceUpdate)
-        ).layout(layout -> {
-            layout.gapAll(2);
-            layout.marginLeft(2);
-            layout.flexDirection(FlexDirection.ROW);
-            layout.wrap(FlexWrap.WRAP);
-        });
+                        defaultValue(field).getZ(), forceUpdate))
+                .layout(layout -> {
+                    layout.gapAll(2);
+                    layout.marginLeft(2);
+                    layout.flexDirection(FlexDirection.ROW);
+                    layout.wrap(FlexWrap.WRAP);
+                });
         x.layout(layout -> {
             layout.flex(1);
             layout.minWidth(40);
@@ -90,5 +89,4 @@ public class BlockPosAccessor extends TypesAccessor<Vec3i> {
         configurator.setPastable(Vec3i.class, consumer);
         return configurator;
     }
-
 }

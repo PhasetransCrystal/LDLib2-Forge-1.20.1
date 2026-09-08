@@ -2,13 +2,14 @@ package com.lowdragmc.lowdraglib2.gui.ui.utils;
 
 import com.lowdragmc.lowdraglib2.configurator.EditAction;
 import com.lowdragmc.lowdraglib2.configurator.SerializableRecordAction;
+
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.util.INBTSerializable;
-
 import org.jetbrains.annotations.Nullable;
 
 public interface IHistoryStack {
-    record HistoryItem(Component name, EditAction action, @Nullable Object source) { }
+
+    record HistoryItem(Component name, EditAction action, @Nullable Object source) {}
 
     default <T extends INBTSerializable<?>> SerializableRecordAction<T> recordSerializableObject(Component name, T object) {
         return recordSerializableObject(name, object, null);

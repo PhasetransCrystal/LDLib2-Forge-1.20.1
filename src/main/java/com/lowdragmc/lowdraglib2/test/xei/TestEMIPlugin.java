@@ -3,15 +3,16 @@ package com.lowdragmc.lowdraglib2.test.xei;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.ModularUIEMIRecipe;
 import com.lowdragmc.lowdraglib2.test.TestItem;
+
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
-
 import org.jetbrains.annotations.Nullable;
 
 public class TestEMIPlugin {
+
     public static void register(EmiRegistry registry) {
         var category = new TestEmiRecipeCategory();
         registry.addCategory(category);
@@ -20,12 +21,14 @@ public class TestEMIPlugin {
     }
 
     protected static class TestEmiRecipeCategory extends EmiRecipeCategory {
+
         public TestEmiRecipeCategory() {
             super(LDLib2.id("test_category"), EmiStack.of(TestItem.ITEM));
         }
     }
 
     protected static class TestEmiRecipe extends ModularUIEMIRecipe {
+
         @Getter
         protected TestEmiRecipeCategory category;
 

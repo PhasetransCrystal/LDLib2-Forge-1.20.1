@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import net.minecraft.world.phys.AABB;
@@ -50,11 +51,12 @@ public class AABBConfiguratorAccessor extends TypesAccessor<AABB> {
                         minZ = new NumberConfigurator("minZ", () -> supplier.get().minZ,
                                 v -> consumer.accept(new AABB(supplier.get().minX, supplier.get().minY, v.floatValue(),
                                         supplier.get().maxX, supplier.get().maxY, supplier.get().maxZ)),
-                                defaultValue(field).minZ, forceUpdate)).layout(layout -> {
-                    layout.gapAll(2);
-                    layout.flexDirection(FlexDirection.ROW);
-                    layout.wrap(FlexWrap.WRAP);
-                }),
+                                defaultValue(field).minZ, forceUpdate))
+                        .layout(layout -> {
+                            layout.gapAll(2);
+                            layout.flexDirection(FlexDirection.ROW);
+                            layout.wrap(FlexWrap.WRAP);
+                        }),
                 new UIElement().addChildren(
                         maxX = new NumberConfigurator("maxX", () -> supplier.get().maxX,
                                 v -> consumer.accept(new AABB(supplier.get().minX, supplier.get().minY, supplier.get().minZ,
@@ -67,16 +69,17 @@ public class AABBConfiguratorAccessor extends TypesAccessor<AABB> {
                         maxZ = new NumberConfigurator("maxZ", () -> supplier.get().maxZ,
                                 v -> consumer.accept(new AABB(supplier.get().minX, supplier.get().minY, supplier.get().minZ,
                                         supplier.get().maxX, supplier.get().maxY, v.floatValue())),
-                                defaultValue(field).minZ, forceUpdate)).layout(layout -> {
+                                defaultValue(field).minZ, forceUpdate))
+                        .layout(layout -> {
+                            layout.gapAll(2);
+                            layout.marginLeft(2);
+                            layout.flexDirection(FlexDirection.ROW);
+                            layout.wrap(FlexWrap.WRAP);
+                        }))
+                .layout(layout -> {
                     layout.gapAll(2);
                     layout.marginLeft(2);
-                    layout.flexDirection(FlexDirection.ROW);
-                    layout.wrap(FlexWrap.WRAP);
-                })
-        ).layout(layout -> {
-            layout.gapAll(2);
-            layout.marginLeft(2);
-        });
+                });
         minX.layout(layout -> {
             layout.flex(1);
             layout.minWidth(40);

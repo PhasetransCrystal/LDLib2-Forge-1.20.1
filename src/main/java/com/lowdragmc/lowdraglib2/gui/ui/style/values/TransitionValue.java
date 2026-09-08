@@ -7,12 +7,14 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.animation.StyleTransition;
 import com.lowdragmc.lowdraglib2.gui.ui.style.animation.Transition;
 import com.lowdragmc.lowdraglib2.math.interpolate.Eases;
 import com.lowdragmc.lowdraglib2.utils.animation.Animation;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TransitionValue extends StyleValue<Transition> {
+
     public TransitionValue(String rawValue) {
         super(rawValue);
     }

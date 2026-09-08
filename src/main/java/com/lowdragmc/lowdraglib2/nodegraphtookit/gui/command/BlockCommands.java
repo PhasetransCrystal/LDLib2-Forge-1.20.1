@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.SpawnFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.BlockNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.ContextNodeModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.CustomBlockNodeModelImpl;
+
 import net.minecraft.network.chat.Component;
 
 /**
@@ -17,6 +18,7 @@ import net.minecraft.network.chat.Component;
 public final class BlockCommands {
 
     public static class InsertBlockCommand extends UndoableGraphCommand {
+
         public static final Component NAME = Component.translatable("graph.commands.insert_block");
         private final ContextNodeModel contextNodeModel;
         private final Class<? extends BlockNode> blockType;
@@ -59,6 +61,7 @@ public final class BlockCommands {
     }
 
     public static class RemoveBlockCommand extends UndoableGraphCommand {
+
         public static final Component NAME = Component.translatable("graph.commands.remove_block");
         private final BlockNodeModel block;
 
@@ -80,6 +83,7 @@ public final class BlockCommands {
     }
 
     public static class MoveBlockCommand extends UndoableGraphCommand {
+
         public static final Component NAME = Component.translatable("graph.commands.move_block");
         private final ContextNodeModel contextNodeModel;
         private final int from;

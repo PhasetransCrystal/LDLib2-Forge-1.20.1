@@ -3,9 +3,9 @@ package com.lowdragmc.lowdraglib2.gui.sync.bindings;
 import com.lowdragmc.lowdraglib2.gui.sync.SyncValue;
 
 import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 
 public interface IBinding<T> {
+
     /**
      * Get the strategy for synchronizing data from client to server.
      */
@@ -60,7 +60,8 @@ public interface IBinding<T> {
      * @return the {@link IDataSource} instance representing the remote data source.
      *         The returned value is guaranteed to be non-null.
      */
-    @Nonnull IDataSource<T> getRemoteDataSource();
+    @Nonnull
+    IDataSource<T> getRemoteDataSource();
 
     /**
      * Sets the server-side data source used for synchronization with this binding.
@@ -79,5 +80,6 @@ public interface IBinding<T> {
      * @return the {@link IDataSource} instance representing the server-side data source.
      *         The returned value is guaranteed to be non-null.
      */
-    @Nonnull IDataSource<T> getServerDataSource();
+    @Nonnull
+    IDataSource<T> getServerDataSource();
 }

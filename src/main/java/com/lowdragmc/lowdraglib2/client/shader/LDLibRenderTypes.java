@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 @OnlyIn(Dist.CLIENT)
 public class LDLibRenderTypes extends RenderType {
+
     private static final RenderType POSITION_COLOR_NO_DEPTH = create("position_color_no_depth",
             DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES, 256, false, false,
             RenderType.CompositeState.builder()
@@ -35,7 +36,6 @@ public class LDLibRenderTypes extends RenderType {
                     .setCullState(NO_CULL)
                     .createCompositeState(false));
 
-
     private static final RenderStateShard.ShaderStateShard GUI_TEXTURE_SHADER = new RenderStateShard.ShaderStateShard(
             LDLibShaders::getGuiTexture);
 
@@ -53,9 +53,7 @@ public class LDLibRenderTypes extends RenderType {
                             .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                             .setDepthTestState(NO_DEPTH_TEST)
                             .setWriteMaskState(COLOR_WRITE)
-                            .createCompositeState(false)
-            )
-    );
+                            .createCompositeState(false)));
 
     private static final RenderStateShard.ShaderStateShard HSB_SHADER = new RenderStateShard.ShaderStateShard(
             LDLibShaders::getHsbShader);
@@ -67,8 +65,7 @@ public class LDLibRenderTypes extends RenderType {
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setDepthTestState(NO_DEPTH_TEST)
                     .setWriteMaskState(COLOR_WRITE)
-                    .createCompositeState(false)
-    );
+                    .createCompositeState(false));
 
     private static final RenderType RECT = create("rect",
             DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES,
@@ -78,8 +75,7 @@ public class LDLibRenderTypes extends RenderType {
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setDepthTestState(NO_DEPTH_TEST)
                     .setWriteMaskState(COLOR_WRITE)
-                    .createCompositeState(false)
-    );
+                    .createCompositeState(false));
 
     private static final RenderType STRIP_LINES = create("stripLines",
             DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLE_STRIP,
@@ -89,8 +85,7 @@ public class LDLibRenderTypes extends RenderType {
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setDepthTestState(NO_DEPTH_TEST)
                     .setWriteMaskState(COLOR_WRITE)
-                    .createCompositeState(false)
-    );
+                    .createCompositeState(false));
 
     private static final RenderStateShard.ShaderStateShard GRAPH_WIRE_SHADER = new RenderStateShard.ShaderStateShard(
             LDLibShaders::getGraphWireShader);
@@ -102,8 +97,7 @@ public class LDLibRenderTypes extends RenderType {
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setDepthTestState(NO_DEPTH_TEST)
                     .setWriteMaskState(COLOR_WRITE)
-                    .createCompositeState(false)
-    );
+                    .createCompositeState(false));
 
     public LDLibRenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
         super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);

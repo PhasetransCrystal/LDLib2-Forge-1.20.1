@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.IBindable;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.IDataConsumer;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.IDataProvider;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -12,14 +13,15 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventListener;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+import com.lowdragmc.lowdraglib2.gui.util.ITickable;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
@@ -27,18 +29,16 @@ import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import com.lowdragmc.lowdraglib2.gui.util.ITickable;
 import net.minecraft.util.Mth;
-import org.appliedenergistics.yoga.YogaEdge;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -46,8 +46,10 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "progress-bar", group = "basic", registry = "ldlib2:ui_element")
 public class ProgressBar extends UIElement implements IBindable<Float>, IDataConsumer<Float> {
+
     @Configurable(name = "ProgressBarStyle")
     public class ProgressBarStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.FILL_DIRECTION,
                 PropertyRegistry.INTERPOLATE,
@@ -148,10 +150,10 @@ public class ProgressBar extends UIElement implements IBindable<Float>, IDataCon
                 });
 
         this.barContainer.addChildren(barBackground
-                        .layout(layout -> {
-                            layout.heightPercent(100);
-                            layout.widthPercent(100);
-                        })
+                .layout(layout -> {
+                    layout.heightPercent(100);
+                    layout.widthPercent(100);
+                })
                 .addChildren(this.bar, this.label));
         this.addChildren(this.barContainer);
         updateProgressBarStyle(getNormalizedValue());
@@ -339,7 +341,7 @@ public class ProgressBar extends UIElement implements IBindable<Float>, IDataCon
                         lastValue = value;
                     }
                 } else if (lastValue > value) {
-                    if  (lastValue - stepValue > value) {
+                    if (lastValue - stepValue > value) {
                         lastValue -= stepValue;
                     } else {
                         lastValue = value;
@@ -365,7 +367,7 @@ public class ProgressBar extends UIElement implements IBindable<Float>, IDataCon
                         updateProgressBarStyle(getNormalizedValue(Mth.lerp(guiContext.partialTick, lastValue, value)));
                     }
                 } else if (lastValue > value) {
-                    if  (lastValue - stepValue > value) {
+                    if (lastValue - stepValue > value) {
                         updateProgressBarStyle(getNormalizedValue(Mth.lerp(guiContext.partialTick, lastValue, lastValue - stepValue)));
                     } else {
                         updateProgressBarStyle(getNormalizedValue(Mth.lerp(guiContext.partialTick, lastValue, value)));

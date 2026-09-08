@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.Tooltips;
 import java.lang.reflect.Field;
 
 public interface IFieldValueConfigurable extends IConfigurable {
+
     /**
      * Sets the value of this option.
      *
@@ -34,9 +35,7 @@ public interface IFieldValueConfigurable extends IConfigurable {
      */
     Tooltips getTooltips();
 
-    default void notifyValueChanged() {
-
-    }
+    default void notifyValueChanged() {}
 
     /**
      * Indicates whether the option should only be displayed in the inspector view.

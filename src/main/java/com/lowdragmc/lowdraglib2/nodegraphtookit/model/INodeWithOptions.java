@@ -8,7 +8,10 @@ import java.util.List;
 /**
  * Interface for node model implementations that support user-defined nodes.
  *
- * <p>This interface is implemented by node models that back user-defined {@link com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node} instances.</p>
+ * <p>
+ * This interface is implemented by node models that back user-defined
+ * {@link com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node} instances.
+ * </p>
  */
 public interface INodeWithOptions {
 

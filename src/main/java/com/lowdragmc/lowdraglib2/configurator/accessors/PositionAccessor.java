@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.configurator.accessors;
 
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
-import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
-import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.math.Position;
+import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +23,7 @@ public class PositionAccessor extends TypesAccessor<Position> {
     }
 
     @Override
-    public Position defaultValue(@Nullable Field field,@Nullable  Class<?> type) {
+    public Position defaultValue(@Nullable Field field, @Nullable Class<?> type) {
         if (field != null && field.isAnnotationPresent(DefaultValue.class)) {
             return Position.of((int) field.getAnnotation(DefaultValue.class).numberValue()[0], (int) field.getAnnotation(DefaultValue.class).numberValue()[1]);
         }
@@ -39,13 +40,13 @@ public class PositionAccessor extends TypesAccessor<Position> {
                         defaultValue(field).x, forceUpdate),
                 y = new NumberConfigurator("y", () -> supplier.get().y,
                         v -> consumer.accept(Position.of(supplier.get().x, v.intValue())),
-                        defaultValue(field).y, forceUpdate)
-        ).layout(layout -> {
-            layout.gapAll(2);
-            layout.marginLeft(2);
-            layout.flexDirection(FlexDirection.ROW);
-            layout.wrap(FlexWrap.WRAP);
-        });
+                        defaultValue(field).y, forceUpdate))
+                .layout(layout -> {
+                    layout.gapAll(2);
+                    layout.marginLeft(2);
+                    layout.flexDirection(FlexDirection.ROW);
+                    layout.wrap(FlexWrap.WRAP);
+                });
         x.layout(layout -> {
             layout.flex(1);
             layout.minWidth(40);
@@ -67,5 +68,4 @@ public class PositionAccessor extends TypesAccessor<Position> {
         configurator.setPastable(Position.class, consumer);
         return configurator;
     }
-
 }

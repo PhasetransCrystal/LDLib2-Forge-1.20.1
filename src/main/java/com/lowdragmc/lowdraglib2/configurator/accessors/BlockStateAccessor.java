@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.SelectorConfigurator;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.SupplierDataSource;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -52,8 +53,9 @@ public class BlockStateAccessor extends TypesAccessor<BlockState> {
             updateSlot(slot, safeState);
             consumer.accept(safeState);
         };
-        var lastBlock = new Block[]{safeState(supplier).getBlock()};
+        var lastBlock = new Block[] { safeState(supplier).getBlock() };
         var propertiesGroup = new ConfiguratorGroup("properties") {
+
             @Override
             public void screenTick() {
                 super.screenTick();

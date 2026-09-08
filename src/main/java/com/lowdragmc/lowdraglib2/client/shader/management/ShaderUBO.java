@@ -14,6 +14,7 @@ import java.nio.FloatBuffer;
  */
 @OnlyIn(Dist.CLIENT)
 public class ShaderUBO {
+
     public final int id;
     private boolean inValid;
     private int blockBinding = -1;
@@ -23,7 +24,7 @@ public class ShaderUBO {
     }
 
     private void close() {
-        if(!inValid) {
+        if (!inValid) {
             GL30.glDeleteBuffers(id);
             inValid = true;
         }
@@ -79,5 +80,4 @@ public class ShaderUBO {
             GL31.glUniformBlockBinding(program, GL31.glGetUniformBlockIndex(program, bufBlockName), blockBinding);
         }
     }
-
 }

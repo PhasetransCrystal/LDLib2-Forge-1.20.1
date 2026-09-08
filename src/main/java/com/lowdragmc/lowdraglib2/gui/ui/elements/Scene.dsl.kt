@@ -5,42 +5,19 @@ import com.lowdragmc.lowdraglib2.gui.ui.ElementSpec
 import com.lowdragmc.lowdraglib2.gui.ui.UIContainer
 import com.lowdragmc.lowdraglib2.math.Size
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.TrackedDummyWorld
+
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.Level
 import org.joml.Vector3f
+
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
 /**
  * Specification for Scene element
  */
-open class SceneSpec<T : Scene>(
-    var world: Level? = null,
-    var useFBORenderer: Boolean? = null,
-    var fboSize: Size? = null,
-    var renderedBlocks: Collection<BlockPos>? = null,
-    var renderHook: ISceneBlockRenderHook? = null,
-    var autoCamera: Boolean? = null,
-    var center: Vector3f? = null,
-    var rotationPitch: Float? = null,
-    var rotationYaw: Float? = null,
-    var zoom: Float? = null,
-    var orthoRange: Float? = null,
-    var renderFacing: Boolean? = null,
-    var renderSelect: Boolean? = null,
-    var draggable: Boolean? = null,
-    var scalable: Boolean? = null,
-    var intractable: Boolean? = null,
-    var showHoverBlockTips: Boolean? = null,
-    var useCache: Boolean? = null,
-    var useOrtho: Boolean? = null,
-    var autoReleased: Boolean? = null,
-    var tickWorld: Boolean? = null,
-    var onSelected: BiConsumer<BlockPos, Direction>? = null,
-    var beforeWorldRender: Consumer<Scene>? = null,
-    var afterWorldRender: Consumer<Scene>? = null,
-) : ElementSpec<T>() {
+open class SceneSpec<T : Scene>(var world: Level? = null, var useFBORenderer: Boolean? = null, var fboSize: Size? = null, var renderedBlocks: Collection<BlockPos>? = null, var renderHook: ISceneBlockRenderHook? = null, var autoCamera: Boolean? = null, var center: Vector3f? = null, var rotationPitch: Float? = null, var rotationYaw: Float? = null, var zoom: Float? = null, var orthoRange: Float? = null, var renderFacing: Boolean? = null, var renderSelect: Boolean? = null, var draggable: Boolean? = null, var scalable: Boolean? = null, var intractable: Boolean? = null, var showHoverBlockTips: Boolean? = null, var useCache: Boolean? = null, var useOrtho: Boolean? = null, var autoReleased: Boolean? = null, var tickWorld: Boolean? = null, var onSelected: BiConsumer<BlockPos, Direction>? = null, var beforeWorldRender: Consumer<Scene>? = null, var afterWorldRender: Consumer<Scene>? = null) : ElementSpec<T>() {
     /**
      * Set world level
      */
@@ -145,13 +122,8 @@ open class SceneSpec<T : Scene>(
 /**
  * Scene element builder
  */
-open class SceneElement<T : Scene>(
-    element: T,
-    spec: (SceneSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, SceneSpec<T>>(element, spec) {
-    override fun makeSpec(): SceneSpec<T>? {
-        return spec?.let { SceneSpec<T>().apply(it) }
-    }
+open class SceneElement<T : Scene>(element: T, spec: (SceneSpec<T>.() -> Unit)? = null) : UIContainer<T, SceneSpec<T>>(element, spec) {
+    override fun makeSpec(): SceneSpec<T>? = spec?.let { SceneSpec<T>().apply(it) }
 
     override fun build(spec: SceneSpec<T>?): T {
         val e = super.build(spec)
@@ -195,7 +167,7 @@ open class SceneElement<T : Scene>(
             if (spec.rotationYaw != null || spec.rotationPitch != null) {
                 element.setCameraYawAndPitch(
                     spec.rotationYaw ?: element.rotationYaw,
-                    spec.rotationPitch ?: element.rotationPitch
+                    spec.rotationPitch ?: element.rotationPitch,
                 )
             }
         }
@@ -205,17 +177,12 @@ open class SceneElement<T : Scene>(
 /**
  * Top Level - Create a standalone Scene element
  */
-fun scene(spec: (SceneSpec<Scene>.() -> Unit)? = null,
-          init: SceneElement<Scene>.() -> Unit = {}): Scene {
-    return SceneElement(Scene(), spec).apply(init).build()
-}
+fun scene(spec: (SceneSpec<Scene>.() -> Unit)? = null, init: SceneElement<Scene>.() -> Unit = {}): Scene = SceneElement(Scene(), spec).apply(init).build()
 
 /**
  * Top Level - Create Scene with world
  */
-fun scene(world: Level,
-          spec: (SceneSpec<Scene>.() -> Unit)? = null,
-          init: SceneElement<Scene>.() -> Unit = {}): Scene {
+fun scene(world: Level, spec: (SceneSpec<Scene>.() -> Unit)? = null, init: SceneElement<Scene>.() -> Unit = {}): Scene {
     val element = Scene()
     element.createScene(world)
     return SceneElement(element, spec).apply(init).build()
@@ -224,25 +191,17 @@ fun scene(world: Level,
 /**
  * Internal Builder - Add Scene as a child to a container
  */
-fun UIContainer<*, *>.scene(spec: (SceneSpec<Scene>.() -> Unit)? = null,
-                             init: SceneElement<Scene>.() -> Unit = {}) =
-    add(SceneElement(Scene(), spec), init)
+fun UIContainer<*, *>.scene(spec: (SceneSpec<Scene>.() -> Unit)? = null, init: SceneElement<Scene>.() -> Unit = {}) = add(SceneElement(Scene(), spec), init)
 
 /**
  * Internal Builder - Add Scene with world as a child to a container
  */
-fun UIContainer<*, *>.scene(world: Level,
-                             spec: (SceneSpec<Scene>.() -> Unit)? = null,
-                             init: SceneElement<Scene>.() -> Unit = {}) =
-    add(SceneElement(Scene().apply { createScene(world) }, spec), init)
+fun UIContainer<*, *>.scene(world: Level, spec: (SceneSpec<Scene>.() -> Unit)? = null, init: SceneElement<Scene>.() -> Unit = {}) = add(SceneElement(Scene().apply { createScene(world) }, spec), init)
 
 /**
  * DSL converter - Convert existing Scene to DSL builder
  */
-fun <T : Scene> T.dsl(spec: (SceneSpec<T>.() -> Unit)? = null,
-                      init: SceneElement<T>.() -> Unit = {}): SceneElement<T> {
-    return SceneElement(this, spec).apply(init)
-}
+fun <T : Scene> T.dsl(spec: (SceneSpec<T>.() -> Unit)? = null, init: SceneElement<T>.() -> Unit = {}): SceneElement<T> = SceneElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -362,4 +321,3 @@ fun <T : Scene> SceneElement<T>.recompileCache(): SceneElement<T> = apply {
 fun <T : Scene> SceneElement<T>.dummyWorld(config: TrackedDummyWorld.() -> Unit): SceneElement<T> = apply {
     element.dummyWorld?.apply(config)
 }
-

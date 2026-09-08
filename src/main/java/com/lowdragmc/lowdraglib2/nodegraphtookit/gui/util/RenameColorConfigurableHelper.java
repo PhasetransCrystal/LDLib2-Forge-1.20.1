@@ -14,6 +14,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command.ElementRenameColorC
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.GraphElementModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.IHasElementColor;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.IHasName;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 
 /**
@@ -23,6 +24,7 @@ import dev.vfyjxf.taffy.style.FlexDirection;
  * undoable commands.
  */
 public final class RenameColorConfigurableHelper {
+
     private RenameColorConfigurableHelper() {}
 
     public static IConfigurable build(GraphElementModel model, GraphView view) {

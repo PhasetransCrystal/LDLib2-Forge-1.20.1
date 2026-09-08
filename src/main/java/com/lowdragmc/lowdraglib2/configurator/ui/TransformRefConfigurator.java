@@ -3,16 +3,18 @@ package com.lowdragmc.lowdraglib2.configurator.ui;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.ISceneObject;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.TransformRef;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
-import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.math.Transform;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class TransformRefConfigurator extends ValueConfigurator<TransformRef> {
+
     public final TextField textField;
 
     public TransformRefConfigurator(String name, Supplier<TransformRef> supplier, Consumer<TransformRef> onUpdate, @Nonnull TransformRef defaultValue, boolean forceUpdate) {
@@ -66,5 +68,4 @@ public class TransformRefConfigurator extends ValueConfigurator<TransformRef> {
         super.onValueUpdatePassively(newValue);
         textField.setText(newValue.toString(), false);
     }
-
 }

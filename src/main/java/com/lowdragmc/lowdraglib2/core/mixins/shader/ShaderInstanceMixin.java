@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.core.mixins.shader;
 
 import com.lowdragmc.lowdraglib2.client.shader.ILDShaderInstance;
 import com.lowdragmc.lowdraglib2.client.shader.LDProgramDefineManager;
+
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.ProgramManager;
 import com.mojang.blaze3d.shaders.Shader;
@@ -20,8 +21,9 @@ import java.io.IOException;
 
 @Mixin(ShaderInstance.class)
 public abstract class ShaderInstanceMixin implements ILDShaderInstance {
+
     @Redirect(method = "<init>(Lnet/minecraft/server/packs/resources/ResourceProvider;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/VertexFormat;)V",
-            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/shaders/ProgramManager;linkShader(Lcom/mojang/blaze3d/shaders/Shader;)V"))
+              at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/shaders/ProgramManager;linkShader(Lcom/mojang/blaze3d/shaders/Shader;)V"))
     private void ldlib2$linkShader(Shader shader, ResourceProvider resourceProvider, ResourceLocation shaderLocation, VertexFormat vertexFormat) throws IOException {
         var jsonLocation = ResourceLocation.fromNamespaceAndPath(shaderLocation.getNamespace(), "shaders/core/" + shaderLocation.getPath() + ".json");
         try (var reader = resourceProvider.openAsReader(jsonLocation)) {
@@ -30,7 +32,7 @@ public abstract class ShaderInstanceMixin implements ILDShaderInstance {
         ProgramManager.linkShader(shader);
     }
 
-    @Inject(method = "getOrCreate", at = {@At(value = "HEAD")}, cancellable = true)
+    @Inject(method = "getOrCreate", at = { @At(value = "HEAD") }, cancellable = true)
     private static void ldlib2$getOrCreate(ResourceProvider resourceProvider,
                                            Program.Type programType,
                                            String name,

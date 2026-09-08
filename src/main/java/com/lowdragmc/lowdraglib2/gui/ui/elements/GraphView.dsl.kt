@@ -17,20 +17,13 @@ fun <T : GraphView> T.graphViewStyleDsl(init: GraphView.GraphViewStyle.() -> Uni
 /**
  * Specification for GraphView element
  */
-open class GraphViewSpec<T : GraphView>(
-    var graphViewStyle: (GraphView.GraphViewStyle.() -> Unit)? = null,
-) : ElementSpec<T>()
+open class GraphViewSpec<T : GraphView>(var graphViewStyle: (GraphView.GraphViewStyle.() -> Unit)? = null) : ElementSpec<T>()
 
 /**
  * GraphView element builder
  */
-open class GraphViewElement<T : GraphView>(
-    element: T,
-    spec: (GraphViewSpec<T>.() -> Unit)? = null,
-) : UIContainer<T, GraphViewSpec<T>>(element, spec) {
-    override fun makeSpec(): GraphViewSpec<T>? {
-        return spec?.let { GraphViewSpec<T>().apply(it) }
-    }
+open class GraphViewElement<T : GraphView>(element: T, spec: (GraphViewSpec<T>.() -> Unit)? = null) : UIContainer<T, GraphViewSpec<T>>(element, spec) {
+    override fun makeSpec(): GraphViewSpec<T>? = spec?.let { GraphViewSpec<T>().apply(it) }
 
     override fun build(spec: GraphViewSpec<T>?): T {
         val e = super.build(spec)
@@ -67,25 +60,17 @@ open class GraphViewElement<T : GraphView>(
 /**
  * Top Level - Create a standalone GraphView element
  */
-fun graphView(spec: (GraphViewSpec<GraphView>.() -> Unit)? = null,
-              init: GraphViewElement<GraphView>.() -> Unit = {}): GraphView {
-    return GraphViewElement(GraphView(), spec).apply(init).build()
-}
+fun graphView(spec: (GraphViewSpec<GraphView>.() -> Unit)? = null, init: GraphViewElement<GraphView>.() -> Unit = {}): GraphView = GraphViewElement(GraphView(), spec).apply(init).build()
 
 /**
  * Internal Builder - Add GraphView as a child to a container
  */
-fun UIContainer<*, *>.graphView(spec: (GraphViewSpec<GraphView>.() -> Unit)? = null,
-                                 init: GraphViewElement<GraphView>.() -> Unit = {}) =
-    add(GraphViewElement(GraphView(), spec), init)
+fun UIContainer<*, *>.graphView(spec: (GraphViewSpec<GraphView>.() -> Unit)? = null, init: GraphViewElement<GraphView>.() -> Unit = {}) = add(GraphViewElement(GraphView(), spec), init)
 
 /**
  * DSL converter - Convert existing GraphView to DSL builder
  */
-fun <T : GraphView> T.dsl(spec: (GraphViewSpec<T>.() -> Unit)? = null,
-                          init: GraphViewElement<T>.() -> Unit = {}): GraphViewElement<T> {
-    return GraphViewElement(this, spec).apply(init)
-}
+fun <T : GraphView> T.dsl(spec: (GraphViewSpec<T>.() -> Unit)? = null, init: GraphViewElement<T>.() -> Unit = {}): GraphViewElement<T> = GraphViewElement(this, spec).apply(init)
 
 // ===========================
 // Convenience Extension Methods
@@ -170,4 +155,3 @@ fun <T : GraphView> GraphViewElement<T>.fitToBounds(minX: Float, minY: Float, ma
 fun <T : GraphView> GraphViewElement<T>.withContentRoot(config: UIElement.() -> Unit): GraphViewElement<T> = apply {
     element.contentRoot.apply(config)
 }
-

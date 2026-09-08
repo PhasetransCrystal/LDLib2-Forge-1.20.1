@@ -24,6 +24,7 @@ import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.utils.TagBuilder;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
 import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.BlockPos;
@@ -45,16 +46,18 @@ import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-@LDLRegisterClient(name="component_examples", registry = "ldlib2:screen_test")
+import javax.annotation.Nonnull;
+
+@LDLRegisterClient(name = "component_examples", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestComponentExamples implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var ui = Optional.ofNullable(UIResource.INSTANCE.getResourceInstance()
@@ -131,8 +134,7 @@ public class TestComponentExamples implements IScreenTest {
                 new Button(),
                 new Button().setText("disabled").disabled(),
                 new Button().setText("pre icon").addPreIcon(SpriteTexture.of("ldlib2:textures/gui/icon.png")),
-                new Button().setText("post icon").addPostIcon(SpriteTexture.of("ldlib2:textures/gui/icon.png"))
-        );
+                new Button().setText("post icon").addPostIcon(SpriteTexture.of("ldlib2:textures/gui/icon.png")));
     }
 
     private UIElement labelExample() {
@@ -150,15 +152,14 @@ public class TestComponentExamples implements IScreenTest {
                         .textStyle(textStyle -> textStyle
                                 .font(LDLibFonts.JETBRAINS_MONO_BOLD).fontSize(18).textColor(0xff3fff32)
                                 .textWrap(TextWrap.WRAP)
-                                .adaptiveHeight())
-        );
+                                .adaptiveHeight()));
     }
 
     private UIElement textAreaExample() {
         return new UIElement().layout(layout -> layout.gapAll(2)).addChildren(
                 new TextArea().setValue("""
                         LDLib2 provides powerful UI library based on the yoga layout engine. If you are struggling with GUI development, LDLib2 is definitely one of your best choice. Compared with the LDLib, LDLib2 has undergone a complete refactoring:
-                        
+
                         1. modern UI layout system
                         2. modern UI event system
                         3. data binding system (support data synchronization and rpc event between server <-> remote)
@@ -167,22 +168,20 @@ public class TestComponentExamples implements IScreenTest {
                         6. xml support + in-game UI visual editor
                         xei / kjs supports
                         7. completed document and usage examples
-                        
+
                         """.split("\n")),
                 new TextArea().setLines(List.of("disabled")).disabled(),
                 new TextArea().setValue("""
                         with styles
                         """.split("\n"))
-                        .textAreaStyle(style -> style.fontSize(14).textColor(ColorPattern.LIME.color))
-        );
+                        .textAreaStyle(style -> style.fontSize(14).textColor(ColorPattern.LIME.color)));
     }
 
     private UIElement progressBarExample() {
         return new UIElement().layout(layout -> layout.gapAll(2)).addChildren(
                 new ProgressBar().setValue(0.5f),
                 new ProgressBar().setValue(0.5f).label(label -> label.setDisplay(false)),
-                new ProgressBar().label(label -> label.setText("Progress: 30%")).setValue(0.3f)
-        );
+                new ProgressBar().label(label -> label.setText("Progress: 30%")).setValue(0.3f));
     }
 
     private UIElement slotsExample() {
@@ -190,8 +189,7 @@ public class TestComponentExamples implements IScreenTest {
                 new ItemSlot(),
                 new ItemSlot().setItem(Items.APPLE.getDefaultInstance()),
                 new FluidSlot(),
-                new FluidSlot().setFluid(new FluidStack(Fluids.LAVA, 1000))
-        );
+                new FluidSlot().setFluid(new FluidStack(Fluids.LAVA, 1000)));
     }
 
     private UIElement toggleExample() {
@@ -202,16 +200,13 @@ public class TestComponentExamples implements IScreenTest {
                         new Label().setText("Toggle Group"),
                         new Toggle().setText("toggle 1"),
                         new Toggle().setText("toggle 2"),
-                        new Toggle().setText("toggle 3")
-                ).addClass("panel_bg")
-        );
+                        new Toggle().setText("toggle 3")).addClass("panel_bg"));
     }
 
     private UIElement switchExample() {
         return new UIElement().layout(layout -> layout.gapAll(2)).addChildren(
                 new Switch(),
-                new Switch().disabled()
-        );
+                new Switch().disabled());
     }
 
     private UIElement selectorExample() {
@@ -220,23 +215,20 @@ public class TestComponentExamples implements IScreenTest {
                 new Selector<Item>()
                         .setSelected(Items.APPLE)
                         .setCandidates(List.of(Items.APPLE, Items.STONE, Items.CHEST))
-                        .setCandidateUIProvider(UIElementProvider.iconText(ItemStackTexture::new, Item::getDescription))
-        );
+                        .setCandidateUIProvider(UIElementProvider.iconText(ItemStackTexture::new, Item::getDescription)));
     }
 
     private UIElement scrollerExample() {
         return new UIElement().layout(layout -> layout.gapAll(2).heightPercent(100)).addChildren(
                 new Scroller.Horizontal().setValue(0.3f),
-                new Scroller.Vertical().setValue(0.6f).layout(layout -> layout.flex(1))
-        );
+                new Scroller.Vertical().setValue(0.6f).layout(layout -> layout.flex(1)));
     }
 
     private UIElement textFieldExample() {
         return new UIElement().layout(layout -> layout.gapAll(2)).addChildren(
                 new TextField(),
                 new TextField().setText("disabled").disabled(),
-                new TextField().setText("editable").textFieldStyle(style -> style.fontSize(13)).layout(l -> l.height(18))
-        );
+                new TextField().setText("editable").textFieldStyle(style -> style.fontSize(13)).layout(l -> l.height(18)));
     }
 
     private UIElement tagFieldExample() {
@@ -247,16 +239,15 @@ public class TestComponentExamples implements IScreenTest {
                 new TagField().setCompoundTagOnly().setValue(TagBuilder.compound().add("a", 123)
                         .add("b", "test").build()),
                 new Label().setText("list tag only"),
-                new TagField().setListOnly().setValue(new ListTag())
-        );
+                new TagField().setListOnly().setValue(new ListTag()));
     }
 
     private UIElement structuredTagEditorExample() {
         var root = new CompoundTag();
         root.putString("name", "LDLib2");
         root.putInt("count", 3);
-        root.put("bytes", new ByteArrayTag(new byte[] {1, 2, 3}));
-        root.put("ints", new IntArrayTag(new int[] {10, 20, 30}));
+        root.put("bytes", new ByteArrayTag(new byte[] { 1, 2, 3 }));
+        root.put("ints", new IntArrayTag(new int[] { 10, 20, 30 }));
         var list = new ListTag();
         list.add(StringTag.valueOf("first"));
         list.add(StringTag.valueOf("second"));
@@ -278,11 +269,9 @@ public class TestComponentExamples implements IScreenTest {
                         .leaf("leaf 4", null)
                         .branch("branch 5", branch -> branch
                                 .leaf("leaf 5-1", null)
-                                .branch("branch 5-2", branch2 ->
-                                        branch2.leaf("leaf 5-2-1", null)
-                                                .leaf("leaf 5-2-2", null)))
-                        .build())
-        );
+                                .branch("branch 5-2", branch2 -> branch2.leaf("leaf 5-2-1", null)
+                                        .leaf("leaf 5-2-2", null)))
+                        .build()));
     }
 
     private UIElement codeEditorExample() {
@@ -321,8 +310,7 @@ public class TestComponentExamples implements IScreenTest {
                         function add(a, b) {
                           return a + b;
                         }
-                        """.split("\n"))
-        );
+                        """.split("\n")));
     }
 
     private UIElement sceneExample() {
@@ -344,13 +332,13 @@ public class TestComponentExamples implements IScreenTest {
                         .setRenderedCore(dummyWorld2.getFilledBlocks().longStream().mapToObj(BlockPos::of).toList())
                         .useCacheBuffer()
                         .layout(layout -> layout.widthPercent(100).flex(1).paddingAll(3))
-                        .addClass("panel_bg")
-        );
+                        .addClass("panel_bg"));
     }
 
     private UIElement searchComponentExample() {
         return new UIElement().layout(layout -> layout.gapAll(2).widthPercent(100).heightPercent(100)).addChildren(
                 new SearchComponent<>(new SearchComponent.ISearchUI<Block>() {
+
                     @Override
                     public void search(String word, IResultHandler<Block> searchHandler) {
                         var lowerWord = word.toLowerCase();
@@ -374,26 +362,19 @@ public class TestComponentExamples implements IScreenTest {
                     }
                 }).setCandidateUIProvider(UIElementProvider.iconText(
                         block -> new ItemStackTexture(block.asItem()),
-                        block -> Component.translatable(block.getDescriptionId())
-                ))
-        );
+                        block -> Component.translatable(block.getDescriptionId()))));
     }
 
     private UIElement colorSelectorExample() {
         return new UIElement().layout(layout -> layout.gapAll(2).widthPercent(40)).addChildren(
-                new ColorSelector()
-        );
+                new ColorSelector());
     }
 
     private UIElement tabViewExample() {
         return new UIElement().layout(layout -> layout.gapAll(2).widthPercent(100)).addChildren(
                 new TabView().addTab(new Tab().setText("Tab1"),
-                        new UIElement().layout(layout ->
-                                layout.height(150)).addChildren(new Label().setText("Tab1 Content")
-                        )).addTab(new Tab().setText("Tab2"),
-                        new UIElement().layout(layout ->
-                                layout.height(150)).addChildren(new Label().setText("Tab2 Content")
-                        ))
+                        new UIElement().layout(layout -> layout.height(150)).addChildren(new Label().setText("Tab1 Content"))).addTab(new Tab().setText("Tab2"),
+                                new UIElement().layout(layout -> layout.height(150)).addChildren(new Label().setText("Tab2 Content")))
 
         );
     }
@@ -426,10 +407,8 @@ public class TestComponentExamples implements IScreenTest {
                                 new TextField(),
                                 new Button(),
                                 new Switch(),
-                                new TextField()
-                        )
-                        .layout(layout -> layout.widthPercent(100).heightPercent(100))
-        );
+                                new TextField())
+                        .layout(layout -> layout.widthPercent(100).heightPercent(100)));
     }
 
     private UIElement graphViewExample() {
@@ -438,28 +417,23 @@ public class TestComponentExamples implements IScreenTest {
                         .addContentChild(new Button().layout(layout -> layout
                                 .positionType(TaffyPosition.ABSOLUTE)
                                 .left(0)
-                                .top(0)
-                        ).transform(transform2D -> transform2D.rotation(-45)))
+                                .top(0)).transform(transform2D -> transform2D.rotation(-45)))
                         .addContentChild(new Button().layout(layout -> layout
                                 .positionType(TaffyPosition.ABSOLUTE)
                                 .left(15)
-                                .top(50)
-                        ))
+                                .top(50)))
                         .addContentChild(new TextField().layout(layout -> layout
                                 .positionType(TaffyPosition.ABSOLUTE)
                                 .width(150)
                                 .left(30)
-                                .top(20)
-                        ))
+                                .top(20)))
                         .addContentChild(new UIElement().layout(layout -> layout
                                 .positionType(TaffyPosition.ABSOLUTE)
                                 .width(100)
                                 .height(100)
                                 .left(100)
-                                .top(40)
-                        ).style(style -> style.background(new SpriteTexture())).transform(transform2D -> transform2D.rotation(45)))
-                        .layout(layout -> layout.widthPercent(100).heightPercent(100))
-        );
+                                .top(40)).style(style -> style.background(new SpriteTexture())).transform(transform2D -> transform2D.rotation(45)))
+                        .layout(layout -> layout.widthPercent(100).heightPercent(100)));
     }
 
     private UIElement splitViewExample() {
@@ -479,7 +453,6 @@ public class TestComponentExamples implements IScreenTest {
                         .bottom(new UIElement().layout(layout -> layout.widthPercent(100).heightPercent(100))
                                 .addChildren(new Label().setText("bottom"))
                                 .addClass("panel_bg"))
-                        .layout(layout -> layout.flex(1))
-        );
+                        .layout(layout -> layout.flex(1)));
     }
 }

@@ -3,10 +3,12 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.model.node;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.port.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 public class PortModelImpl extends PortModel {
+
     @Getter
     protected PortConnectorUI connectorUI = PortConnectorUI.DEFAULT;
 

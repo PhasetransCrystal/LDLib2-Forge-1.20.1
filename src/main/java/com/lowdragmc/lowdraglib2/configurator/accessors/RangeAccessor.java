@@ -1,10 +1,11 @@
 package com.lowdragmc.lowdraglib2.configurator.accessors;
 
+import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.NumberConfigurator;
 import com.lowdragmc.lowdraglib2.math.Range;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
-import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.FlexWrap;
 import org.jetbrains.annotations.Nullable;
@@ -47,13 +48,13 @@ public class RangeAccessor extends TypesAccessor<Range> {
                         defaultValue(field).getMin(), forceUpdate),
                 max = new NumberConfigurator("max", () -> supplier.get().getMax(),
                         v -> consumer.accept(Range.of(supplier.get().getMin(), v.floatValue())),
-                        defaultValue(field).getMax(), forceUpdate)
-        ).layout(layout -> {
-            layout.gapAll(2);
-            layout.marginLeft(2);
-            layout.flexDirection(FlexDirection.ROW);
-            layout.wrap(FlexWrap.WRAP);
-        });
+                        defaultValue(field).getMax(), forceUpdate))
+                .layout(layout -> {
+                    layout.gapAll(2);
+                    layout.marginLeft(2);
+                    layout.flexDirection(FlexDirection.ROW);
+                    layout.wrap(FlexWrap.WRAP);
+                });
         min.layout(layout -> {
             layout.flex(1);
             layout.minWidth(40);

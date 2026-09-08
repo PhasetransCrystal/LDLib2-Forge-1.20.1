@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language;
 
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.network.chat.Style;
@@ -10,8 +11,9 @@ import java.util.Map;
 
 @Getter
 public class StyleManager {
+
     public final static StyleManager DEFAULT = new StyleManager();
-    
+
     private final Map<String, Style> styleMap = new HashMap<>();
     @Setter
     public Style defaultStyle = Style.EMPTY.withColor(-1);

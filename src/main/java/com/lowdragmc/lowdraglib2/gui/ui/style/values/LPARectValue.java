@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.gui.ui.style.values;
 
 import com.lowdragmc.lowdraglib2.gui.ui.data.LPARect;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleValue;
+
 import dev.vfyjxf.taffy.geometry.TaffyRect;
 import dev.vfyjxf.taffy.style.LengthPercentageAuto;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * Parses CSS margin/padding shorthand syntax.
  *
  * Supported syntax (following CSS box model):
+ * 
  * <pre>
  * margin: 10px;                     // All sides
  * margin: 10px 20px;                // Vertical Horizontal
@@ -53,20 +55,20 @@ public class LPARectValue extends StyleValue<LPARect> {
             // Apply CSS shorthand rules
             TaffyRect<LengthPercentageAuto> rect = switch (parts.length) {
                 case 1 ->
-                    // All sides
-                    TaffyRect.all(values[0]);
+                        // All sides
+                        TaffyRect.all(values[0]);
                 case 2 ->
-                    // Vertical (top/bottom), Horizontal (left/right)
-                    TaffyRect.hv(values[1], values[0]);
+                        // Vertical (top/bottom), Horizontal (left/right)
+                        TaffyRect.hv(values[1], values[0]);
                 case 3 ->
-                    // Top, Horizontal (left/right), Bottom
-                    new TaffyRect<>(values[1], values[1], values[0], values[2]);
+                        // Top, Horizontal (left/right), Bottom
+                        new TaffyRect<>(values[1], values[1], values[0], values[2]);
                 case 4 ->
-                    // Top, Right, Bottom, Left (clockwise from top)
-                    new TaffyRect<>(values[3], values[1], values[0], values[2]);
+                        // Top, Right, Bottom, Left (clockwise from top)
+                        new TaffyRect<>(values[3], values[1], values[0], values[2]);
                 default ->
-                    // Invalid number of values
-                    null;
+                        // Invalid number of values
+                        null;
             };
 
             if (rect == null) {

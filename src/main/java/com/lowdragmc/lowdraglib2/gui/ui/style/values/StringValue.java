@@ -12,5 +12,4 @@ public class StringValue extends StyleValue<String> {
     protected String doCompute(String rawValue) {
         return rawValue;
     }
-    
 }

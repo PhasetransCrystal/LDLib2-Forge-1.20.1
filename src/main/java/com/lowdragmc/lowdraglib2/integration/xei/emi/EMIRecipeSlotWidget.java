@@ -15,6 +15,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class EMIRecipeSlotWidget extends SlotWidget {
+
     public final Supplier<EmiIngredient> ingredientProvider;
     public final Supplier<Matrix4f> localToWorldSupplier;
     public final BiPredicate<Float, Float> isMouseOver;

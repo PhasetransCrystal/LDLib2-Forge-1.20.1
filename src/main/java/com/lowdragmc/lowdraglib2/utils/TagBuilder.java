@@ -2,8 +2,8 @@ package com.lowdragmc.lowdraglib2.utils;
 
 import lombok.experimental.UtilityClass;
 import net.minecraft.nbt.*;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
@@ -29,6 +29,7 @@ public final class TagBuilder {
     }
 
     public static final class Compound {
+
         private final CompoundTag tag;
 
         private Compound(CompoundTag tag) {
@@ -150,6 +151,7 @@ public final class TagBuilder {
     }
 
     public static final class List {
+
         private final ListTag tag;
 
         private List(ListTag tag) {

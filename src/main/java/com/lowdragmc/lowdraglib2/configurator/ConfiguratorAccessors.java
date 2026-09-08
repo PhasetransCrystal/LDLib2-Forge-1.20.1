@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @implNote ConfiguratorAccessors
  */
 public class ConfiguratorAccessors {
+
     private static final Map<Class<?>, IConfiguratorAccessor<?>> ACCESSOR_MAP = new ConcurrentHashMap<>();
 
     public static IConfiguratorAccessor<?> findByType(Type clazz) {
@@ -66,5 +67,4 @@ public class ConfiguratorAccessors {
             return IConfiguratorAccessor.DEFAULT;
         });
     }
-
 }

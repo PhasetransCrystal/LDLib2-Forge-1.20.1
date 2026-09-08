@@ -9,18 +9,15 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Tooltips;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.syncdata.AccessorRegistries;
+
 import com.mojang.serialization.Codec;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
@@ -28,6 +25,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
 
 @SuppressWarnings("unchecked")
 @Accessors(chain = true)
@@ -43,18 +42,22 @@ public class Property<VALUE> {
     public final VALUE initialValue;
     public final ValueParser<VALUE> valueParser;
     private final List<StyleChangeListener<VALUE>> styleChangeListeners = new ArrayList<>();
-    @Setter @Getter
+    @Setter
+    @Getter
     private IValueInterpolator<VALUE> interpolator = IValueInterpolator.BINARY;
     // config
-    @Setter @Getter
+    @Setter
+    @Getter
     private boolean allowTransition = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String configName;
     @Setter
     private Tooltips configTooltips = Tooltips.empty();
 
     @Getter(lazy = true, value = AccessLevel.PROTECTED)
     private static final Field VALUE_FIELD = getValueField();
+
     private static Field getValueField() {
         try {
             return Property.class.getDeclaredField("initialValue");
@@ -129,8 +132,7 @@ public class Property<VALUE> {
         var clearButton = new Button().noText().setOnClick(e -> setter.accept(null));
         clearButton.layout(layout -> layout.height(14).width(14)).addChild(new UIElement()
                 .layout(layout -> layout.height(10).width(10))
-                .style(style -> style.backgroundTexture(Icons.REPLAY).tooltips("property.reset"))
-        );
+                .style(style -> style.backgroundTexture(Icons.REPLAY).tooltips("property.reset")));
         clearButton.setDisplay(inlineMark.get());
         configurator.label.setText(inlineMark.get() ?
                 configurator.label.getText().copy().withStyle(style -> style.withColor(ColorPattern.ORANGE.color)) :

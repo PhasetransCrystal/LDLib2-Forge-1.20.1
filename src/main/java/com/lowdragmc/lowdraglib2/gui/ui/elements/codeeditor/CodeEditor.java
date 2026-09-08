@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,9 +22,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A code editor with syntax highlighting support
@@ -34,11 +36,13 @@ import java.util.List;
 @KJSBindings
 @LDLRegister(name = "code-editor", group = "misc", registry = "ldlib2:ui_element")
 public class CodeEditor extends TextArea {
+
     private static final String CMT = "//";
 
     @Getter
     private final SyntaxParser syntaxParser = new SyntaxParser();
-    @Getter @Setter
+    @Getter
+    @Setter
     private StyleManager styleManager = StyleManager.DEFAULT;
 
     // runtime
@@ -143,10 +147,13 @@ public class CodeEditor extends TextArea {
         boolean allCommented = true;
         for (int i = a; i <= b; i++) {
             String s = lines.get(i);
-            if (!s.startsWith(CMT)) { allCommented = false; break; }
+            if (!s.startsWith(CMT)) {
+                allCommented = false;
+                break;
+            }
         }
 
-        int caretLine  = getCursorLine();
+        int caretLine = getCursorLine();
         int caretDelta = 0;
 
         for (int i = a; i <= b; i++) {
@@ -247,8 +254,7 @@ public class CodeEditor extends TextArea {
                         0,
                         0,
                         -1, // Color is in the style
-                        getTextAreaStyle().textShadow()
-                );
+                        getTextAreaStyle().textShadow());
                 guiContext.pose.popPose();
 
                 // Move X position for next segment

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.core.mixins;
 
 import com.lowdragmc.lowdraglib2.client.renderer.IBlockRendererProvider;
+
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockModelShaper.class)
 public abstract class BlockModelShaperMixin {
+
     @Inject(method = "getParticleIcon", at = @At(value = "HEAD"), cancellable = true)
     private void injectGetRenderer(BlockState state, CallbackInfoReturnable<TextureAtlasSprite> cir) {
         if (state.getBlock() instanceof IBlockRendererProvider rendererProvider) {

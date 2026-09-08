@@ -7,21 +7,22 @@ import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourceProvider;
 import com.lowdragmc.lowdraglib2.editor.resource.Resource;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
-import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.TextTexture;
-import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
-import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.*;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
+import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.*;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.gui.util.TreeBuilder;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
@@ -31,9 +32,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -41,6 +42,7 @@ import java.util.function.*;
 
 @Accessors(chain = true)
 public class ResourceProviderContainer<T> extends UIElement {
+
     public final ScrollerView scrollerView = new ScrollerView();
     public final IResourceProvider<T> resourceProvider;
     private final Map<IResourcePath, UIElement> resourceUIs = new HashMap<>();
@@ -77,9 +79,11 @@ public class ResourceProviderContainer<T> extends UIElement {
     // runtime
     @Getter
     protected HashSet<IResourcePath> dirtyResources = new HashSet<>();
-    @Getter @Nullable
+    @Getter
+    @Nullable
     protected IResourcePath selected = null;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected Editor editor;
     @Nullable
     protected IResourcePath lastClickPath;
@@ -103,8 +107,8 @@ public class ResourceProviderContainer<T> extends UIElement {
             layout.flex(1);
         });
         this.scrollerView.viewContainer.layout(layout -> {
-           layout.flexDirection(FlexDirection.ROW);
-           layout.wrap(FlexWrap.WRAP);
+            layout.flexDirection(FlexDirection.ROW);
+            layout.wrap(FlexWrap.WRAP);
         });
         addChild(scrollerView);
         addEventListener(UIEvents.MOUSE_DOWN, this::onMouseDown);
@@ -129,10 +133,10 @@ public class ResourceProviderContainer<T> extends UIElement {
             }
             layout.gapAll(2);
         }).addChildren(new UIElement().layout(layout -> {
-                    layout.width(resourceProvider.getResourceInstance().getUiWidth());
-                    layout.height(resourceProvider.getResourceInstance().getUiWidth());
-                    layout.alignItems(AlignItems.CENTER);
-                    layout.justifyContent(AlignContent.CENTER);
+            layout.width(resourceProvider.getResourceInstance().getUiWidth());
+            layout.height(resourceProvider.getResourceInstance().getUiWidth());
+            layout.alignItems(AlignItems.CENTER);
+            layout.justifyContent(AlignContent.CENTER);
         }).addChild(uiSupplier.apply(key)), new Label().textStyle(style -> {
             if (resourceProvider.getResourceInstance().getDisplayMode() == Resource.DisplayMode.LIST) {
                 style.textAlignHorizontal(Horizontal.LEFT).textAlignVertical(Vertical.CENTER).textWrap(TextWrap.HOVER_ROLL);
@@ -151,7 +155,7 @@ public class ResourceProviderContainer<T> extends UIElement {
             }
         }))
                 .addEventListener(UIEvents.MOUSE_DOWN, e -> selectResource(key))
-                .addEventListener(UIEvents.DOUBLE_CLICK, e-> editResource(key))
+                .addEventListener(UIEvents.DOUBLE_CLICK, e -> editResource(key))
                 .addEventListener(UIEvents.MOUSE_DOWN, e -> {
                     if (e.button == 0) {
                         lastClickPath = key;
@@ -178,6 +182,7 @@ public class ResourceProviderContainer<T> extends UIElement {
     /**
      * Reloads a specific resource UI by its path.
      * If the resource does not exist, it will not do anything.
+     * 
      * @param path the resource path to reload
      */
     public void reloadSpecificResource(IResourcePath path) {
@@ -276,9 +281,7 @@ public class ResourceProviderContainer<T> extends UIElement {
         });
         menu.crossLine();
         if (selected != null) {
-            menu.leaf("ldlib.gui.editor.menu.copy_path", () ->
-                    ClipboardManager.INSTANCE.copyDirect(selected.getPathWithType())
-            );
+            menu.leaf("ldlib.gui.editor.menu.copy_path", () -> ClipboardManager.INSTANCE.copyDirect(selected.getPathWithType()));
         }
         if (selected != null && canEdit.test(selected) && onEdit != null) {
             menu.leaf(Icons.EDIT_FILE, "ldlib.gui.editor.menu.edit", () -> editResource(selected));
@@ -335,7 +338,7 @@ public class ResourceProviderContainer<T> extends UIElement {
                     if (copied != null) {
                         var count = 1;
                         var newKey = resourceProvider.createSubPath(resourceProvider.getResourceName(key) + "_copy");
-                        while(resourceProvider.hasResource(newKey)) {
+                        while (resourceProvider.hasResource(newKey)) {
                             newKey = resourceProvider.createSubPath(resourceProvider.getResourceName(key) + "_copy_" + count);
                             count++;
                         }
@@ -446,5 +449,4 @@ public class ResourceProviderContainer<T> extends UIElement {
             selectResource(oldPath);
         }));
     }
-
 }

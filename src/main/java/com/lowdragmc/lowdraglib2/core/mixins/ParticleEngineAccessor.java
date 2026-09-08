@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Mixin(ParticleEngine.class)
 public interface ParticleEngineAccessor {
+
     @Accessor("providers")
     Map<ResourceLocation, ParticleProvider<?>> getProviders();
-
 }

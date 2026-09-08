@@ -3,14 +3,13 @@ package com.lowdragmc.lowdraglib2.gui.ui.utils;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextElement;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import net.minecraft.network.chat.Component;
-import org.appliedenergistics.yoga.YogaGutter;
-import org.appliedenergistics.yoga.YogaOverflow;
 
 import java.util.function.Function;
 
@@ -35,8 +34,8 @@ public interface UIElementProvider<T> extends Function<T, UIElement> {
     }
 
     static <T> UIElementProvider<T> iconText(
-            Function<T, IGuiTexture> iconMapper,
-            Function<T, Component> textMapper) {
+                                             Function<T, IGuiTexture> iconMapper,
+                                             Function<T, Component> textMapper) {
         return node -> {
             var container = new UIElement().layout(layout -> {
                 layout.flexDirection(FlexDirection.ROW);
@@ -58,8 +57,8 @@ public interface UIElementProvider<T> extends Function<T, UIElement> {
     }
 
     static <T> UIElementProvider<T> optionalIconText(
-            Function<T, IGuiTexture> iconMapper,
-            Function<T, Component> textMapper) {
+                                                     Function<T, IGuiTexture> iconMapper,
+                                                     Function<T, Component> textMapper) {
         return node -> {
             var container = new UIElement().layout(layout -> {
                 layout.flexDirection(FlexDirection.ROW);

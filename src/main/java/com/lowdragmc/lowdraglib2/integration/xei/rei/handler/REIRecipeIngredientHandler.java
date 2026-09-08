@@ -1,12 +1,14 @@
 package com.lowdragmc.lowdraglib2.integration.xei.rei.handler;
 
 import com.lowdragmc.lowdraglib2.integration.xei.IngredientIO;
+
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class REIRecipeIngredientHandler {
+
     public final List<EntryIngredient> inputs = new ArrayList<>();
     public final List<EntryIngredient> outputs = new ArrayList<>();
 

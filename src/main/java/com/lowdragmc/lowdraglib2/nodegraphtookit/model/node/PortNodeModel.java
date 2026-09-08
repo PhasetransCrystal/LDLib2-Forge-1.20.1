@@ -6,6 +6,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant.Constant;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -17,6 +18,7 @@ import java.util.stream.Stream;
  * Base class for a model of a node that has ports.
  */
 public abstract class PortNodeModel extends AbstractNodeModel {
+
     /**
      * {@inheritDoc}
      *
@@ -43,10 +45,8 @@ public abstract class PortNodeModel extends AbstractNodeModel {
      */
     public List<PortModel> getPorts(PortDirection direction, PortType portType) {
         return getPorts().stream()
-            .filter(p ->
-                p.getPortType() == portType && (p.getDirection().mask & direction.mask) == direction.mask
-            )
-            .toList();
+                .filter(p -> p.getPortType() == portType && (p.getDirection().mask & direction.mask) == direction.mask)
+                .toList();
     }
 
     /**
@@ -77,22 +77,21 @@ public abstract class PortNodeModel extends AbstractNodeModel {
      * @param newUniqueName the new unique name of the port
      */
     public abstract void onPortUniqueNameChanged(
-        PortModel portModel,
-        String oldUniqueName,
-        String newUniqueName
-    );
+                                                 PortModel portModel,
+                                                 String oldUniqueName,
+                                                 String newUniqueName);
 
     /**
-     *Updates an input port's constant.
-     * @param inputPort the port to update
+     * Updates an input port's constant.
+     * 
+     * @param inputPort              the port to update
      * @param initializationCallback the callback to initialize the constant with
-     * @param setterAction the action to perform when the constant changes
+     * @param setterAction           the action to perform when the constant changes
      */
     protected abstract void updateConstantForInput(
-            PortModel inputPort,
-            @Nullable Consumer<Constant> initializationCallback,
-            @Nullable Consumer<Object> setterAction
-    );
+                                                   PortModel inputPort,
+                                                   @Nullable Consumer<Constant> initializationCallback,
+                                                   @Nullable Consumer<Object> setterAction);
 
     /**
      * Gets the model of a port that would be fit to connect to another port model.
@@ -120,26 +119,26 @@ public abstract class PortNodeModel extends AbstractNodeModel {
         }
 
         return getPorts().stream()
-            .flatMap(p -> getGraphModel().getWiresForPort(p).stream())
-            .distinct()
-            .collect(Collectors.toList());
+                .flatMap(p -> getGraphModel().getWiresForPort(p).stream())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     /**
      * Called when the data type of a port has changed.
      *
-     * @param portModel       the port model
+     * @param portModel      the port model
      * @param previousType   the previous type
      * @param dataTypeHandle the new data type
      */
     protected abstract void onPortDataTypeChanged(
-        PortModel portModel,
-        TypeHandle previousType,
-        TypeHandle dataTypeHandle
-    );
+                                                  PortModel portModel,
+                                                  TypeHandle previousType,
+                                                  TypeHandle dataTypeHandle);
 
     /**
      * Gets the offset for wire connection from this port.
+     * 
      * @return the offset value
      */
     public float getPortWireOffset() {

@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.gui.texture.SpriteTexture;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
@@ -13,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 @UtilityClass
 public final class FlexIcons {
+
     public static ResourceLocation FLEX = LDLib2.id("textures/gui/flex.png");
 
     public static SpriteTexture create(int x, int y) {
@@ -34,33 +36,33 @@ public final class FlexIcons {
     public static SpriteTexture ALIGN_CONTENTS_FLEX_END_COLUMN = create(2, 2);
     public static SpriteTexture ALIGN_CONTENTS_STRETCH_COLUMN = create(3, 2);
 
-    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_ROW =  create(0, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_ROW =  create(1, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_ROW =  create(2, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW =  create(3, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_ROW =  create(4, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_ROW =  create(5, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_ROW = create(0, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_ROW = create(1, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_ROW = create(2, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW = create(3, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_ROW = create(4, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_ROW = create(5, 3);
 
-    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_ROW_REVERSE =  create(6, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_ROW_REVERSE =  create(7, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_ROW_REVERSE =  create(8, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW_REVERSE =  create(9, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_ROW_REVERSE =  create(10, 3);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_ROW_REVERSE =  create(11, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_ROW_REVERSE = create(6, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_ROW_REVERSE = create(7, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_ROW_REVERSE = create(8, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW_REVERSE = create(9, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_ROW_REVERSE = create(10, 3);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_ROW_REVERSE = create(11, 3);
 
-    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_COLUMN =  create(0, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_COLUMN =  create(1, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_COLUMN =  create(2, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN =  create(3, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_COLUMN =  create(4, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_COLUMN =  create(5, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_COLUMN = create(0, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_COLUMN = create(1, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_COLUMN = create(2, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN = create(3, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_COLUMN = create(4, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_COLUMN = create(5, 4);
 
-    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_COLUMN_REVERSE =  create(6, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_COLUMN_REVERSE =  create(7, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_COLUMN_REVERSE =  create(8, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN_REVERSE =  create(9, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_COLUMN_REVERSE =  create(10, 4);
-    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_COLUMN_REVERSE =  create(11, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_CENTER_COLUMN_REVERSE = create(6, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_START_COLUMN_REVERSE = create(7, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_FLEX_END_COLUMN_REVERSE = create(8, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN_REVERSE = create(9, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_AROUND_COLUMN_REVERSE = create(10, 4);
+    public static SpriteTexture JUSTIFY_CONTENTS_SPACE_EVENLY_COLUMN_REVERSE = create(11, 4);
 
     public static SpriteTexture ALIGN_ITEMS_CENTER_ROW = create(0, 5);
     public static SpriteTexture ALIGN_ITEMS_FLEX_START_ROW = create(1, 5);
@@ -71,7 +73,6 @@ public final class FlexIcons {
     public static SpriteTexture ALIGN_ITEMS_FLEX_END_ROW_REVERSE = create(7, 5);
     public static SpriteTexture ALIGN_ITEMS_STRETCH_ROW_REVERSE = create(8, 5);
 
-
     public static SpriteTexture ALIGN_ITEMS_CENTER_COLUMN = create(0, 6);
     public static SpriteTexture ALIGN_ITEMS_FLEX_START_COLUMN = create(1, 6);
     public static SpriteTexture ALIGN_ITEMS_FLEX_END_COLUMN = create(2, 6);
@@ -80,7 +81,6 @@ public final class FlexIcons {
     public static SpriteTexture ALIGN_ITEMS_FLEX_START_COLUMN_REVERSE = create(6, 6);
     public static SpriteTexture ALIGN_ITEMS_FLEX_END_COLUMN_REVERSE = create(7, 6);
     public static SpriteTexture ALIGN_ITEMS_STRETCH_COLUMN_REVERSE = create(8, 6);
-
 
     public static SpriteTexture AUTO_ROW = create(4, 5);
     public static SpriteTexture AUTO_COLUMN = create(4, 6);
@@ -119,7 +119,7 @@ public final class FlexIcons {
             case FLEX_END, END -> ALIGN_CONTENTS_FLEX_END_ROW;
             case CENTER -> ALIGN_CONTENTS_CENTER_ROW;
             case STRETCH -> ALIGN_CONTENTS_STRETCH_ROW;
-            case SPACE_BETWEEN-> JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN;
+            case SPACE_BETWEEN -> JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN;
             case SPACE_AROUND -> JUSTIFY_CONTENTS_SPACE_AROUND_COLUMN;
             case SPACE_EVENLY -> JUSTIFY_CONTENTS_SPACE_EVENLY_COLUMN;
             case AUTO -> AUTO_ROW;
@@ -128,7 +128,7 @@ public final class FlexIcons {
             case FLEX_END, END -> ALIGN_CONTENTS_FLEX_END_COLUMN;
             case CENTER -> ALIGN_CONTENTS_CENTER_COLUMN;
             case STRETCH -> ALIGN_CONTENTS_STRETCH_COLUMN;
-            case SPACE_BETWEEN-> JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW;
+            case SPACE_BETWEEN -> JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW;
             case SPACE_AROUND -> JUSTIFY_CONTENTS_SPACE_AROUND_ROW;
             case SPACE_EVENLY -> JUSTIFY_CONTENTS_SPACE_EVENLY_ROW;
             case AUTO -> AUTO_COLUMN;
@@ -138,40 +138,40 @@ public final class FlexIcons {
     public static SpriteTexture getJustifyContentIcon(FlexDirection flexDirection, AlignContent alignContent) {
         return switch (flexDirection) {
             case COLUMN -> switch (alignContent) {
-                case FLEX_START, START   -> JUSTIFY_CONTENTS_FLEX_START_COLUMN;
-                case FLEX_END, END     -> JUSTIFY_CONTENTS_FLEX_END_COLUMN;
-                case CENTER       -> JUSTIFY_CONTENTS_CENTER_COLUMN;
-                case SPACE_BETWEEN-> JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN;
+                case FLEX_START, START -> JUSTIFY_CONTENTS_FLEX_START_COLUMN;
+                case FLEX_END, END -> JUSTIFY_CONTENTS_FLEX_END_COLUMN;
+                case CENTER -> JUSTIFY_CONTENTS_CENTER_COLUMN;
+                case SPACE_BETWEEN -> JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN;
                 case SPACE_AROUND -> JUSTIFY_CONTENTS_SPACE_AROUND_COLUMN;
                 case SPACE_EVENLY -> JUSTIFY_CONTENTS_SPACE_EVENLY_COLUMN;
                 case STRETCH -> ALIGN_CONTENTS_STRETCH_COLUMN;
                 case AUTO -> AUTO_COLUMN;
             };
             case COLUMN_REVERSE -> switch (alignContent) {
-                case FLEX_START, START   -> JUSTIFY_CONTENTS_FLEX_START_COLUMN_REVERSE;
-                case FLEX_END, END     -> JUSTIFY_CONTENTS_FLEX_END_COLUMN_REVERSE;
-                case CENTER       -> JUSTIFY_CONTENTS_CENTER_COLUMN_REVERSE;
-                case SPACE_BETWEEN-> JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN_REVERSE;
+                case FLEX_START, START -> JUSTIFY_CONTENTS_FLEX_START_COLUMN_REVERSE;
+                case FLEX_END, END -> JUSTIFY_CONTENTS_FLEX_END_COLUMN_REVERSE;
+                case CENTER -> JUSTIFY_CONTENTS_CENTER_COLUMN_REVERSE;
+                case SPACE_BETWEEN -> JUSTIFY_CONTENTS_SPACE_BETWEEN_COLUMN_REVERSE;
                 case SPACE_AROUND -> JUSTIFY_CONTENTS_SPACE_AROUND_COLUMN_REVERSE;
                 case SPACE_EVENLY -> JUSTIFY_CONTENTS_SPACE_EVENLY_COLUMN_REVERSE;
                 case STRETCH -> ALIGN_CONTENTS_STRETCH_COLUMN;
                 case AUTO -> AUTO_COLUMN;
             };
             case ROW -> switch (alignContent) {
-                case FLEX_START, START   -> JUSTIFY_CONTENTS_FLEX_START_ROW;
-                case FLEX_END, END     -> JUSTIFY_CONTENTS_FLEX_END_ROW;
-                case CENTER       -> JUSTIFY_CONTENTS_CENTER_ROW;
-                case SPACE_BETWEEN-> JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW;
+                case FLEX_START, START -> JUSTIFY_CONTENTS_FLEX_START_ROW;
+                case FLEX_END, END -> JUSTIFY_CONTENTS_FLEX_END_ROW;
+                case CENTER -> JUSTIFY_CONTENTS_CENTER_ROW;
+                case SPACE_BETWEEN -> JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW;
                 case SPACE_AROUND -> JUSTIFY_CONTENTS_SPACE_AROUND_ROW;
                 case SPACE_EVENLY -> JUSTIFY_CONTENTS_SPACE_EVENLY_ROW;
                 case STRETCH -> ALIGN_CONTENTS_STRETCH_ROW;
                 case AUTO -> AUTO_ROW;
             };
             case ROW_REVERSE -> switch (alignContent) {
-                case FLEX_START, START   -> JUSTIFY_CONTENTS_FLEX_START_ROW_REVERSE;
-                case FLEX_END, END     -> JUSTIFY_CONTENTS_FLEX_END_ROW_REVERSE;
-                case CENTER       -> JUSTIFY_CONTENTS_CENTER_ROW_REVERSE;
-                case SPACE_BETWEEN-> JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW_REVERSE;
+                case FLEX_START, START -> JUSTIFY_CONTENTS_FLEX_START_ROW_REVERSE;
+                case FLEX_END, END -> JUSTIFY_CONTENTS_FLEX_END_ROW_REVERSE;
+                case CENTER -> JUSTIFY_CONTENTS_CENTER_ROW_REVERSE;
+                case SPACE_BETWEEN -> JUSTIFY_CONTENTS_SPACE_BETWEEN_ROW_REVERSE;
                 case SPACE_AROUND -> JUSTIFY_CONTENTS_SPACE_AROUND_ROW_REVERSE;
                 case SPACE_EVENLY -> JUSTIFY_CONTENTS_SPACE_EVENLY_ROW_REVERSE;
                 case STRETCH -> ALIGN_CONTENTS_STRETCH_ROW;

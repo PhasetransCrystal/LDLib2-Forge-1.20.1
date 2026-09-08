@@ -1,13 +1,16 @@
 package com.lowdragmc.lowdraglib2.configurator.ui;
 
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TagField;
+
 import net.minecraft.nbt.Tag;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class TagConfigurator extends ValueConfigurator<Tag> {
+
     public final TagField tagField;
 
     public TagConfigurator(String name, Supplier<Tag> supplier, Consumer<Tag> onUpdate, @Nonnull Tag defaultValue, boolean forceUpdate) {
@@ -19,7 +22,6 @@ public class TagConfigurator extends ValueConfigurator<Tag> {
         tagField.setTagResponder(this::updateValueActively);
         tagField.setValue(value, false);
     }
-
 
     @Override
     protected void onValueUpdatePassively(Tag newValue) {

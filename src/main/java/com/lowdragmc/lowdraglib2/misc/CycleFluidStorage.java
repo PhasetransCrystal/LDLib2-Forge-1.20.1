@@ -10,8 +10,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class CycleFluidStorage implements IFluidTank, IFluidHandlerModifiable {
+
     private List<FluidStack> storages;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int capacity;
 
     public CycleFluidStorage(int capacity, List<FluidStack> storages) {
@@ -23,11 +25,10 @@ public class CycleFluidStorage implements IFluidTank, IFluidHandlerModifiable {
         this.storages = storages;
     }
 
-
     @NotNull
     @Override
     public FluidStack getFluid() {
-        return storages == null || storages.isEmpty() ? FluidStack.EMPTY : storages.get(Math.abs((int)(System.currentTimeMillis() / 1000) % storages.size()));
+        return storages == null || storages.isEmpty() ? FluidStack.EMPTY : storages.get(Math.abs((int) (System.currentTimeMillis() / 1000) % storages.size()));
     }
 
     @Override

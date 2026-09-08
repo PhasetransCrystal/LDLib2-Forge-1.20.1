@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Toggle;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
@@ -22,6 +23,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ToggleSelectorConfigurator<T> extends ValueConfigurator<T> {
+
     public final List<T> candidates;
     public final List<Toggle> toggles;
     public final Toggle.ToggleGroup group;
@@ -46,7 +48,7 @@ public class ToggleSelectorConfigurator<T> extends ValueConfigurator<T> {
     }
 
     public ToggleSelectorConfigurator<T> initToggles(Function<T, String> nameMapping,
-                                                         Function<T, IGuiTexture> iconProvider) {
+                                                     Function<T, IGuiTexture> iconProvider) {
         inlineContainer.clearAllChildren();
         toggles.clear();
         for (T candidate : this.candidates) {
@@ -97,5 +99,4 @@ public class ToggleSelectorConfigurator<T> extends ValueConfigurator<T> {
             toggle.setOn(Objects.equals(candidates.get(i), newValue), false);
         }
     }
-
 }

@@ -14,6 +14,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModelBase;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.IGroupItemModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.VariableNodeModel;
+
 import com.mojang.serialization.DataResult;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,35 +24,43 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.stream.Stream;
 
-
 /**
  * Base class for variable declarations.
  */
 public abstract class VariableDeclarationModelBase extends DeclarationModel implements IVariable, IGroupItemModel, IFieldConstantConfigurable {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     protected GroupModelBase parentGroup;
 
     public VariableDeclarationModelBase() {}
 
     public abstract VariableFlags getVariableFlags();
+
     public abstract void setVariableFlags(VariableFlags flags);
 
     public abstract ModifierFlags getModifiers();
+
     public abstract void setModifiers(ModifierFlags flags);
 
     public abstract VariableScope getScope();
+
     public abstract void setScope(VariableScope scope);
 
     public abstract boolean isShowOnInspectorOnly();
+
     public abstract void setShowOnInspectorOnly(boolean show);
 
     public abstract TypeHandle getDataTypeHandle();
+
     public abstract void setDataTypeHandle(TypeHandle dataType);
 
     public abstract Constant getInitializationModel();
+
     public abstract void setInitializationModel(Constant constant);
 
     public abstract Tooltips getTooltips();
+
     public abstract void setTooltips(Tooltips tooltips);
 
     /**

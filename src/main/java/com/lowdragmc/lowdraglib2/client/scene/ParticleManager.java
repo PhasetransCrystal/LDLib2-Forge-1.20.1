@@ -4,11 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
@@ -16,6 +13,8 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -27,6 +26,7 @@ import java.util.function.Predicate;
  */
 @OnlyIn(Dist.CLIENT)
 public class ParticleManager {
+
     private static final List<ParticleRenderType> RENDER_ORDER = ImmutableList.of(ParticleRenderType.TERRAIN_SHEET, ParticleRenderType.PARTICLE_SHEET_OPAQUE, ParticleRenderType.PARTICLE_SHEET_LIT, ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT, ParticleRenderType.CUSTOM);
     protected final Queue<Particle> waitToAdded = Queues.newArrayDeque();
     protected final Map<ParticleRenderType, Queue<Particle>> particles = Maps.newTreeMap(makeParticleRenderTypeComparator(RENDER_ORDER));
@@ -72,7 +72,7 @@ public class ParticleManager {
     private void tickParticleList(Collection<Particle> pParticles) {
         if (!pParticles.isEmpty()) {
             var iterator = pParticles.iterator();
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 var particle = iterator.next();
                 particle.tick();
                 if (!particle.isAlive()) {
@@ -92,7 +92,7 @@ public class ParticleManager {
         posestack.mulPoseMatrix(pMatrixStack.last().pose());
         RenderSystem.applyModelViewMatrix();
 
-        for(ParticleRenderType particlerendertype : this.particles.keySet()) {
+        for (ParticleRenderType particlerendertype : this.particles.keySet()) {
             if (particlerendertype == ParticleRenderType.NO_RENDER || !renderTypePredicate.test(particlerendertype)) continue;
             var iterable = this.particles.get(particlerendertype);
             if (iterable != null) {
@@ -102,7 +102,7 @@ public class ParticleManager {
                 var bufferBuilder = tesselator.getBuilder();
                 particlerendertype.begin(bufferBuilder, this.textureManager);
 
-                for(var particle : iterable) {
+                for (var particle : iterable) {
                     particle.render(bufferBuilder, pActiveRenderInfo, pPartialTicks);
                 }
 
@@ -119,21 +119,17 @@ public class ParticleManager {
 
     public static Comparator<ParticleRenderType> makeParticleRenderTypeComparator(List<ParticleRenderType> renderOrder) {
         Comparator<ParticleRenderType> vanillaComparator = Comparator.comparingInt(renderOrder::indexOf);
-        return (typeOne, typeTwo) ->
-        {
+        return (typeOne, typeTwo) -> {
             boolean vanillaOne = renderOrder.contains(typeOne);
             boolean vanillaTwo = renderOrder.contains(typeTwo);
 
-            if (vanillaOne && vanillaTwo)
-            {
+            if (vanillaOne && vanillaTwo) {
                 return vanillaComparator.compare(typeOne, typeTwo);
             }
-            if (!vanillaOne && !vanillaTwo)
-            {
+            if (!vanillaOne && !vanillaTwo) {
                 return Integer.compare(System.identityHashCode(typeOne), System.identityHashCode(typeTwo));
             }
             return vanillaOne ? -1 : 1;
         };
     }
-
 }

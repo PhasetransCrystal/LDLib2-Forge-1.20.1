@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model.constant;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.PortModel;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,14 +10,15 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class SubPortCustomConstant extends Constant {
+
     public final PortModel port;
     @Setter
     private Supplier<Object> getter;
     @Setter
     private Consumer<Object> setter;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Object defaultValue;
-
 
     public SubPortCustomConstant(PortModel portModel, Supplier<Object> getter, Consumer<Object> setter) {
         setOwner(portModel);

@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public abstract class GraphElementModel extends Model implements IGraphElementModelHolder, IHasContextualMenuItems {
+
     protected GraphModel graphModel;
 
     /**
@@ -56,8 +57,7 @@ public abstract class GraphElementModel extends Model implements IGraphElementMo
             ContextualMenuHelpers.DELETE_ITEM,
             ContextualMenuHelpers.FRAME_SELECTION_ITEM,
             ContextualMenuHelpers.COLOR_ITEM,
-            ContextualMenuHelpers.ALIGN_AND_DISTRIBUTE_ELEMENTS_ITEM
-    );
+            ContextualMenuHelpers.ALIGN_AND_DISTRIBUTE_ELEMENTS_ITEM);
 
     // -------------------------
     // Capabilities (from your previous partial)
@@ -98,17 +98,51 @@ public abstract class GraphElementModel extends Model implements IGraphElementMo
         capabilities.clear();
     }
 
-    public boolean isSelectable()  { return hasCapability(Capabilities.SELECTABLE); }
-    public boolean isCollapsible() { return hasCapability(Capabilities.COLLAPSIBLE); }
-    public boolean isResizable()   { return hasCapability(Capabilities.RESIZABLE); }
-    public boolean isMovable()     { return hasCapability(Capabilities.MOVABLE); }
-    public boolean isDeletable()   { return hasCapability(Capabilities.DELETABLE); }
-    public boolean isDroppable()   { return hasCapability(Capabilities.DROPPABLE); }
-    public boolean isRenamable()   { return hasCapability(Capabilities.RENAMABLE); }
-    public boolean isCopiable()    { return hasCapability(Capabilities.COPIABLE); }
-    public boolean isColorable()   { return hasCapability(Capabilities.COLORABLE); }
-    public boolean isAscendable()  { return hasCapability(Capabilities.ASCENDABLE); }
-    public boolean needsContainer(){ return hasCapability(Capabilities.NEEDS_CONTAINER); }
-    public boolean isDisableable() { return hasCapability(Capabilities.DISABLEABLE); }
+    public boolean isSelectable() {
+        return hasCapability(Capabilities.SELECTABLE);
+    }
 
+    public boolean isCollapsible() {
+        return hasCapability(Capabilities.COLLAPSIBLE);
+    }
+
+    public boolean isResizable() {
+        return hasCapability(Capabilities.RESIZABLE);
+    }
+
+    public boolean isMovable() {
+        return hasCapability(Capabilities.MOVABLE);
+    }
+
+    public boolean isDeletable() {
+        return hasCapability(Capabilities.DELETABLE);
+    }
+
+    public boolean isDroppable() {
+        return hasCapability(Capabilities.DROPPABLE);
+    }
+
+    public boolean isRenamable() {
+        return hasCapability(Capabilities.RENAMABLE);
+    }
+
+    public boolean isCopiable() {
+        return hasCapability(Capabilities.COPIABLE);
+    }
+
+    public boolean isColorable() {
+        return hasCapability(Capabilities.COLORABLE);
+    }
+
+    public boolean isAscendable() {
+        return hasCapability(Capabilities.ASCENDABLE);
+    }
+
+    public boolean needsContainer() {
+        return hasCapability(Capabilities.NEEDS_CONTAINER);
+    }
+
+    public boolean isDisableable() {
+        return hasCapability(Capabilities.DISABLEABLE);
+    }
 }

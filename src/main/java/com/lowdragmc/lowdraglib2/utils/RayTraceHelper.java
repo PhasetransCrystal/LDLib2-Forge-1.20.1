@@ -19,6 +19,7 @@ import java.util.function.Predicate;
  */
 @UtilityClass
 public final class RayTraceHelper {
+
     public static BlockHitResult rayTraceRange(Level worldIn, Player playerIn, double range) {
         Vec3 origin = getTraceOrigin(playerIn);
         Vec3 target = getTraceTarget(playerIn, range, origin);
@@ -168,6 +169,7 @@ public final class RayTraceHelper {
     }
 
     public static class PredicateTraceResult {
+
         private BlockPos pos;
         private Direction facing;
 

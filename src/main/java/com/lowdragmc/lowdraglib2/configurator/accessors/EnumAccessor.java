@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.configurator.accessors;
 
+import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSelector;
+import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.configurator.ui.*;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
-import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSelector;
-import com.lowdragmc.lowdraglib2.configurator.annotation.DefaultValue;
 import com.lowdragmc.lowdraglib2.utils.ReflectionUtils;
+
 import net.minecraft.util.StringRepresentable;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +26,7 @@ import java.util.stream.Stream;
  * @implNote NumberAccessor
  */
 @LDLRegisterClient(name = "enum", registry = "ldlib2:configurator_accessor")
-@SuppressWarnings({"rawtypes"})
+@SuppressWarnings({ "rawtypes" })
 public class EnumAccessor implements IConfiguratorAccessor<Enum> {
 
     @Override

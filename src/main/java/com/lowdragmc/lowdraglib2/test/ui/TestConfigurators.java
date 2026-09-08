@@ -15,9 +15,9 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.math.Range;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
-import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,11 +49,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-@LDLRegister(name="configurators", registry = "ldlib2:menu_test")
+@LDLRegister(name = "configurators", registry = "ldlib2:menu_test")
 @NoArgsConstructor
 public class TestConfigurators implements IMenuTest, IConfigurable, IPersistedSerializable {
+
     @Configurable
-    @ConfigNumber(range = {-5, 5})
+    @ConfigNumber(range = { -5, 5 })
     private float numberFloat = 0.0f;
     @Configurable
     @ConfigColor
@@ -78,13 +79,13 @@ public class TestConfigurators implements IMenuTest, IConfigurable, IPersistedSe
     @Configurable
     private AABB aabbValue = new AABB(0, 0, 0, 1, 1, 1);
     @Configurable
-    @ConfigNumber(range = {0, 1}, type = ConfigNumber.Type.FLOAT)
+    @ConfigNumber(range = { 0, 1 }, type = ConfigNumber.Type.FLOAT)
     private Range rangeValue = Range.of(0, 1);
     @Configurable
     private TransformRef transformRef = new TransformRef();
     @ConfigHeader("Array Like")
     @Configurable
-    private int[] intArray = new int[]{1, 2, 3};
+    private int[] intArray = new int[] { 1, 2, 3 };
     @Configurable
     private List<Boolean> booleanList = new ArrayList<>(List.of(true, false, true));
     @Configurable
@@ -92,13 +93,13 @@ public class TestConfigurators implements IMenuTest, IConfigurable, IPersistedSe
     @Configurable(subConfigurable = true)
     private final TestToggleGroup toggleGroup = new TestToggleGroup();
     @Configurable
-    @ConfigList(configuratorMethod="buildTestGroupConfigurator", addDefaultMethod = "addDefaultTestGroup")
+    @ConfigList(configuratorMethod = "buildTestGroupConfigurator", addDefaultMethod = "addDefaultTestGroup")
     private final List<TestGroup> groupList = new ArrayList<>();
     @Configurable
-    @ConfigSelector(candidate = {"A", "B", "C"})
+    @ConfigSelector(candidate = { "A", "B", "C" })
     private String stringSelector = "A";
     @Configurable
-    @ConfigSelector(candidate = {"north", "west", "east"} , subConfiguratorBuilder = "subConfiguratorBuilder")
+    @ConfigSelector(candidate = { "north", "west", "east" }, subConfiguratorBuilder = "subConfiguratorBuilder")
     private Direction subConfiguratorSelector = Direction.NORTH;
     @Configurable
     @ConfigSearch(searchConfiguratorMethod = "createBlockSearchConfigurator")
@@ -158,6 +159,7 @@ public class TestConfigurators implements IMenuTest, IConfigurable, IPersistedSe
 
     private SearchComponentConfigurator.ISearchConfigurator<Block> createBlockSearchConfigurator() {
         return new SearchComponentConfigurator.ISearchConfigurator<>() {
+
             @Override
             public Block defaultValue() {
                 return Blocks.STONE;
@@ -183,24 +185,25 @@ public class TestConfigurators implements IMenuTest, IConfigurable, IPersistedSe
             public @Nullable UIElementProvider<Block> candidateUIProvider() {
                 return UIElementProvider.iconText(
                         block -> new ItemStackTexture(block.asItem()),
-                        block -> Component.translatable(block.getDescriptionId())
-                );
+                        block -> Component.translatable(block.getDescriptionId()));
             }
         };
     }
 
     public static class TestToggleGroup implements IToggleConfigurable {
+
         @Getter
         @Setter
         private boolean isEnable = false;
         @Configurable
-        @ConfigSelector(candidate = {"north", "west", "south", "east"})
+        @ConfigSelector(candidate = { "north", "west", "south", "east" })
         private Direction enumValue = Direction.NORTH;
     }
 
     public static class TestGroup implements IConfigurable {
+
         @Configurable
-        @ConfigNumber(range = {0, 1}, type = ConfigNumber.Type.FLOAT)
+        @ConfigNumber(range = { 0, 1 }, type = ConfigNumber.Type.FLOAT)
         private Range rangeValue = Range.of(0, 1);
         @Configurable
         private Direction enumValue = Direction.NORTH;

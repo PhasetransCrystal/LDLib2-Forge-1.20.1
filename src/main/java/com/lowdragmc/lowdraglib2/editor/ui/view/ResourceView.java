@@ -1,7 +1,5 @@
 package com.lowdragmc.lowdraglib2.editor.ui.view;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.lowdragmc.lowdraglib2.editor.resource.Resource;
 import com.lowdragmc.lowdraglib2.editor.resource.ResourceInstance;
 import com.lowdragmc.lowdraglib2.editor.resource.Resources;
@@ -15,21 +13,26 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollerMode;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Tab;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TabView;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.Getter;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ResourceView extends View {
+
     public final TabView tabView = new TabView();
     public final Editor editor;
     @Getter
     private final Map<Resource<?>, ResourceInstance<?>> resources = new HashMap<>();
     @Getter
-    private final BiMap<Resource<?>, Tab> resourceTabs= HashBiMap.create();
-    @Getter @Nullable
+    private final BiMap<Resource<?>, Tab> resourceTabs = HashBiMap.create();
+    @Getter
+    @Nullable
     private ResourceInstance<?> selectedResourceInstance = null;
 
     public ResourceView(Editor editor) {
@@ -134,5 +137,4 @@ public class ResourceView extends View {
     public <T> ResourceInstance<T> getResourceInstance(Resource<?> resource) {
         return (ResourceInstance<T>) resources.get(resource);
     }
-
 }

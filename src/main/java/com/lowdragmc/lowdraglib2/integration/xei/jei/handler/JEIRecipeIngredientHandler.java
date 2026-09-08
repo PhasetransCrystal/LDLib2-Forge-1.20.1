@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class JEIRecipeIngredientHandler {
+
     public record Entry(RecipeIngredientRole role, List<ITypedIngredient<?>> ingredients, Rect2i area) {
 
     }

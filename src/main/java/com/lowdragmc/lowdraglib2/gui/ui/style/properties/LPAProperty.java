@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.LPAConfigurator;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.TaffyCodecs;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.LPAValue;
+
 import dev.vfyjxf.taffy.style.LengthPercentageAuto;
 import lombok.experimental.Accessors;
 
@@ -16,6 +17,7 @@ import java.util.function.Supplier;
  */
 @Accessors(chain = true)
 public class LPAProperty extends Property<LengthPercentageAuto> {
+
     public LPAProperty(String name, LengthPercentageAuto initialValue) {
         super(name, LengthPercentageAuto.class, TaffyCodecs.LPA_STYLE_LENGTH_COMPAT_CODEC, initialValue, LPAValue::new);
         setAllowTransition(true);
@@ -29,8 +31,7 @@ public class LPAProperty extends Property<LengthPercentageAuto> {
                 getter,
                 setter,
                 initialValue,
-                true
-        );
+                true);
     }
 
     private LengthPercentageAuto interpolate(LengthPercentageAuto from, LengthPercentageAuto to, float interpolation) {

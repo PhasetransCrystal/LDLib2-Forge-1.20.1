@@ -6,19 +6,26 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target({ ElementType.METHOD })
 public @interface SkipPersistedValue {
+
     /**
      * Specifies the field name associated with this method.
      * This value is used to map the annotated method to skip the persistence of the value if the method returns false.
-     * <pre>{@code
-     * @Configurable
+     * 
+     * <pre>
+     * {@code
+     * 
+     * &#64;Configurable
      * int intField = 10;
      *
      * @SkipPersistedValue(field = "intField")
      * public boolean skipIntFieldPersisted(int value) {
      *     return value == 10;
-     * }}</pre>
+     * }
+     * }
+     * </pre>
+     * 
      * @return the name of the associated configuration field as a String
      */
     String field();

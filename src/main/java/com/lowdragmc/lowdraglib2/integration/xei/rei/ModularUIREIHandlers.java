@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolder;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventDispatcher;
 import com.lowdragmc.lowdraglib2.integration.xei.rei.handler.REIDraggableStackBoundsHandler;
+
 import dev.architectury.event.CompoundEventResult;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.drag.DraggableStack;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public final class ModularUIREIHandlers {
+
     public static final ExclusionZonesProvider<Screen> EXCLUSION_ZONES_PROVIDER = screen -> {
         var areas = new ArrayList<Rectangle>();
         for (var child : screen.children()) {
@@ -33,7 +35,7 @@ public final class ModularUIREIHandlers {
         return areas;
     };
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({ "unchecked" })
     public static final FocusedStackProvider FOCUSED_STACK_PROVIDER = (screen, mouse) -> {
         for (var child : screen.children()) {
             if (child instanceof IModularUIHolder holder && holder.getModularUI() != null) {
@@ -53,6 +55,7 @@ public final class ModularUIREIHandlers {
     };
 
     public static final DraggableStackVisitor<Screen> DRAGGABLE_STACK_VISITOR = new DraggableStackVisitor<>() {
+
         @Override
         public boolean isHandingScreen(Screen screen) {
             return screen.children().stream().anyMatch(IModularUIHolder.class::isInstance);

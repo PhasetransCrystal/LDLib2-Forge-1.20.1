@@ -1,8 +1,8 @@
 package com.lowdragmc.lowdraglib2.editor.ui;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
+
 import net.minecraft.nbt.NbtIo;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.Optional;
@@ -12,6 +12,7 @@ import java.util.Optional;
  * One file per project type; later writes overwrite earlier ones (last-closed wins).
  */
 public final class EditorLayoutStore {
+
     private EditorLayoutStore() {}
 
     private static File getStoreDir() {

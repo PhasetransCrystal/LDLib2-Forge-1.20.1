@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.core.mixins;
 
 import com.lowdragmc.lowdraglib2.client.model.forge.LDLRendererModel;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.block.BlockModelShaper;
@@ -27,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(BlockRenderDispatcher.class)
 public abstract class BlockRenderDispatcherMixin {
+
     @Shadow(aliases = "f_110899_")
     @Final
     private BlockModelShaper blockModelShaper;
@@ -41,8 +43,8 @@ public abstract class BlockRenderDispatcherMixin {
 
     @Inject(method = "renderBreakingTexture(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraftforge/client/model/data/ModelData;)V", at = @At(value = "HEAD"), cancellable = true, remap = false)
     private void ldlib2$renderBreakingTexture(BlockState state, BlockPos pos, BlockAndTintGetter level,
-                                             PoseStack poseStack, VertexConsumer consumer,
-                                             ModelData modelData, CallbackInfo ci) {
+                                              PoseStack poseStack, VertexConsumer consumer,
+                                              ModelData modelData, CallbackInfo ci) {
         if (state.getRenderShape() == RenderShape.MODEL) {
             var bakedModel = this.blockModelShaper.getBlockModel(state);
             if (bakedModel instanceof LDLRendererModel.RendererBakedModel) {

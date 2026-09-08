@@ -1,20 +1,21 @@
 package com.lowdragmc.lowdraglib2.syncdata.ref;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IAccessor;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib2.syncdata.var.IReadOnlyManagedVar;
 import com.lowdragmc.lowdraglib2.syncdata.var.ReadOnlyVar;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import com.lowdragmc.lowdraglib2.compat.network.codec.ByteBufCodecs;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-
 import org.jetbrains.annotations.Nullable;
 
 public abstract class ReadOnlyManagedRef<TYPE> extends Ref<TYPE> {
+
     @Getter
     private final ReadOnlyVar<TYPE> readOnlyVar;
     protected @Nullable Tag oldUid;
@@ -25,7 +26,8 @@ public abstract class ReadOnlyManagedRef<TYPE> extends Ref<TYPE> {
     }
 
     /**
-     * Check if the var is a read-only managed var. If it is, the instance of the value can be changed internal via {@link IReadOnlyManagedVar}.
+     * Check if the var is a read-only managed var. If it is, the instance of the value can be changed internal via
+     * {@link IReadOnlyManagedVar}.
      */
     public boolean isReadOnlyManaged() {
         return getReadOnlyVar().isReadOnlyManaged();
@@ -129,7 +131,6 @@ public abstract class ReadOnlyManagedRef<TYPE> extends Ref<TYPE> {
         super.writeSyncFromStream(buffer);
     }
 
-
     @Override
     public final <T> T readInitialSync(DynamicOps<T> op) {
         if (isReadOnlyManaged()) {
@@ -148,7 +149,7 @@ public abstract class ReadOnlyManagedRef<TYPE> extends Ref<TYPE> {
         }
     }
 
-    public  <T> T readReadOnlySync(DynamicOps<T> op) {
+    public <T> T readReadOnlySync(DynamicOps<T> op) {
         return super.readInitialSync(op);
     }
 
@@ -222,7 +223,7 @@ public abstract class ReadOnlyManagedRef<TYPE> extends Ref<TYPE> {
         }
     }
 
-    public  <T> void writeReadOnlyPersisted(DynamicOps<T> op, T payload) {
+    public <T> void writeReadOnlyPersisted(DynamicOps<T> op, T payload) {
         super.writePersisted(op, payload);
     }
 }

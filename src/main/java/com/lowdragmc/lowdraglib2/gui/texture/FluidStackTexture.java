@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.level.material.Fluid;
@@ -16,6 +17,7 @@ import net.minecraftforge.fluids.FluidStack;
 @KJSBindings
 @LDLRegisterClient(name = "fluid_stack_texture", registry = "ldlib2:gui_texture")
 public class FluidStackTexture extends TransformTexture {
+
     @Configurable(name = "ldlib.gui.editor.name.fluids")
     public FluidStack[] fluids;
     private int index = 0;
@@ -36,7 +38,7 @@ public class FluidStackTexture extends TransformTexture {
 
     public FluidStackTexture(Fluid... fluids) {
         this.fluids = new FluidStack[fluids.length];
-        for(int i = 0; i < fluids.length; i++) {
+        for (int i = 0; i < fluids.length; i++) {
             this.fluids[i] = new FluidStack(fluids[i], 1000);
         }
     }
@@ -55,7 +57,7 @@ public class FluidStackTexture extends TransformTexture {
 
     @Override
     public FluidStackTexture copy() {
-        var copied= new FluidStackTexture(fluids);
+        var copied = new FluidStackTexture(fluids);
         copied.color = color;
         copied.copyTransform(this);
         return copied;
@@ -67,8 +69,8 @@ public class FluidStackTexture extends TransformTexture {
             long tick = Minecraft.getInstance().level.getGameTime();
             if (tick == lastTick) return;
             lastTick = tick;
-            if(fluids.length > 1 && ++ticks % 20 == 0)
-                if(++index == fluids.length)
+            if (fluids.length > 1 && ++ticks % 20 == 0)
+                if (++index == fluids.length)
                     index = 0;
         }
     }

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language;
 
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,4 +66,3 @@ public class LanguageDefinition implements ILanguageDefinition {
         return false;
     }
 }
-

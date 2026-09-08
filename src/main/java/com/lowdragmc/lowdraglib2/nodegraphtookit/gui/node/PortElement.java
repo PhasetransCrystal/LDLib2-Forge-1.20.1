@@ -16,6 +16,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.ModifierFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.variable.VariableDeclarationModelBase;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDirection;
@@ -28,6 +29,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class PortElement extends GraphElement<PortModel> {
+
     @Getter
     private PortConnectorElement connector;
     @Getter
@@ -111,7 +113,7 @@ public class PortElement extends GraphElement<PortModel> {
     }
 
     private void addSubPorts(PortModel portModel) {
-        for (var subPort : portModel.getSubPorts()){
+        for (var subPort : portModel.getSubPorts()) {
             getDependencies().addModelDependency(subPort);
             addSubPorts(subPort);
         }
@@ -138,7 +140,7 @@ public class PortElement extends GraphElement<PortModel> {
         if (visitor.hasHint(ChangeHint.DATA)) {
             // direction follows port direction (model data) — pin via IMPORTANT.
             Style.importantPipeline(getLayout(), l -> l.direction(model.getDirection() == PortDirection.INPUT ? TaffyDirection.LTR :
-                            model.getDirection() == PortDirection.OUTPUT ? TaffyDirection.RTL : TaffyDirection.INHERIT));
+                    model.getDirection() == PortDirection.OUTPUT ? TaffyDirection.RTL : TaffyDirection.INHERIT));
         }
     }
 
@@ -162,10 +164,11 @@ public class PortElement extends GraphElement<PortModel> {
                 WireDragHelper.enableAllWires(wireDragHelper.graphView, false, Set.of(wireDragHelper.getWireCandidateModel()));
                 isWireDragging = true;
                 event.stopPropagation();
-//                // We need to prevent the node on which the port is from being culled because it would detach the port and loose the mouse capture.
-//                if (graphView.getModelElement(model.getNodeModel()) instanceof GraphElement<?> nodeUI) {
-//                    nodeUI.preventCulling = true;
-//                }
+                // // We need to prevent the node on which the port is from being culled because it would detach the
+                // port and loose the mouse capture.
+                // if (graphView.getModelElement(model.getNodeModel()) instanceof GraphElement<?> nodeUI) {
+                // nodeUI.preventCulling = true;
+                // }
                 connector.startDrag(wireDragHelper, null);
             } else {
                 wireDragHelper.reset();
@@ -174,9 +177,7 @@ public class PortElement extends GraphElement<PortModel> {
     }
 
     protected void onDragSourceUpdate(UIEvent event) {
-        if (isWireDragging && graphView != null && graphView.getGraph() != null
-                && event.dragHandler.draggingObject == wireDragHelper
-                && wireDragHelper != null) {
+        if (isWireDragging && graphView != null && graphView.getGraph() != null && event.dragHandler.draggingObject == wireDragHelper && wireDragHelper != null) {
             wireDragHelper.handleMouseMove(event);
             event.stopPropagation();
         }
@@ -184,9 +185,7 @@ public class PortElement extends GraphElement<PortModel> {
 
     protected void onDragEnd(UIEvent event) {
         if (isWireDragging) {
-            if (graphView != null && graphView.getGraph() != null
-                    && event.dragHandler.draggingObject == wireDragHelper
-                    && wireDragHelper != null) {
+            if (graphView != null && graphView.getGraph() != null && event.dragHandler.draggingObject == wireDragHelper && wireDragHelper != null) {
                 if (canPerformConnection(getLocalMouse(event.x, event.y))) {
                     wireDragHelper.handleMouseUp(event, true, Collections.emptyList(), Collections.emptyList());
                 } else {
@@ -199,7 +198,8 @@ public class PortElement extends GraphElement<PortModel> {
     }
 
     public boolean canAcceptDrop(GraphElementModel droppedElement) {
-        // The elements that can be dropped: a variable declaration from the Blackboard and any node with a single input or output (eg.: variable and constant nodes).
+        // The elements that can be dropped: a variable declaration from the Blackboard and any node with a single input
+        // or output (eg.: variable and constant nodes).
         if (droppedElement instanceof VariableDeclarationModelBase variableDeclaration) {
             return canAcceptDroppedVariable(variableDeclaration);
         } else if (droppedElement instanceof ISingleInputPortNodeModel || droppedElement instanceof ISingleOutputPortNodeModel) {
@@ -216,8 +216,7 @@ public class PortElement extends GraphElement<PortModel> {
             return false;
 
         if (!variableDeclaration.isInputOrOutput())
-            return model.getDirection() == PortDirection.INPUT
-                    && Objects.equals(variableDeclaration.getDataTypeHandle(), model.getDataTypeHandle());
+            return model.getDirection() == PortDirection.INPUT && Objects.equals(variableDeclaration.getDataTypeHandle(), model.getDataTypeHandle());
 
         if (!Objects.equals(model.getDataTypeHandle(), variableDeclaration.getDataTypeHandle()))
             return false;

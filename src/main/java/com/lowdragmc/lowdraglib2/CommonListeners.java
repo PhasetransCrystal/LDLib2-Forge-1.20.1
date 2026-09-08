@@ -5,21 +5,22 @@ import com.lowdragmc.lowdraglib2.editor.resource.PackResourceManager;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.*;
 import com.lowdragmc.lowdraglib2.test.NoRendererTestBlock;
 import com.lowdragmc.lowdraglib2.test.TestItem;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -33,9 +34,9 @@ import java.util.function.Supplier;
 public class CommonListeners {
 
     public static class ModCreativeModeTab {
+
         // Deferred register for creative tabs
-        public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-                DeferredRegister.create(Registries.CREATIVE_MODE_TAB, LDLib2.MOD_ID);
+        public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, LDLib2.MOD_ID);
 
         // Supplier for your dev-only tab
         public static final Supplier<CreativeModeTab> LDLIB2_DEV_TAB = Platform.isDevEnv() ?
@@ -47,7 +48,8 @@ public class CommonListeners {
                             output.accept(TestItem.ITEM.getBlock());
                             output.accept(NoRendererTestBlock.BLOCK);
                         })
-                        .build()) : null;
+                        .build()) :
+                null;
 
         // Method to hook the deferred register to the event bus
         public static void register(IEventBus eventBus) {
@@ -95,53 +97,54 @@ public class CommonListeners {
     }
 
     // TODO move example to somewhere else
-//    @SubscribeEvent
-//    public static void onContainerMenuCreateEvent(ContainerMenuEvent.Create event) throws Exception {
-//        // furnace screen
-//        if (event.menu instanceof AbstractFurnaceMenu furnaceMenu && furnaceMenu instanceof IModularUIHolderMenu uiHolderMenu) {
-//            var player = event.player;
-//            var field = AbstractFurnaceMenu.class.getDeclaredField("data");
-//            field.setAccessible(true);
-//            ContainerData data = (ContainerData) field.get(furnaceMenu);
-//            var mui = ModularUI.of(UI.of(
-//                    new UIElement().layout(l -> l.width(176).height(166)).addChildren(
-//                            new UIElement().addChildren(
-//                                    new Label().bind(DataBindingBuilder.componentS2C(() -> {
-//                                        return Component.literal("burn time: %.2f / %.2f s"
-//                                                .formatted(data.get(2) / 20f, data.get(3) / 20f));
-//                                    }).build())
-//                            ).layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE)
-//                                            .widthPercent(100).paddingAll(5).top(-15))
-//                                    .style(style -> style.background(MCSprites.BORDER))
-//                    )), player);
-//            uiHolderMenu.setModularUI(mui);
-//        }
-//
-//        // ae drive
-//        if (event.menu instanceof DriveMenu driveMenu && driveMenu instanceof IModularUIHolderMenu uiHolderMenu) {
-//            var player = event.player;
-//            var mui = ModularUI.of(UI.of(
-//                    new UIElement().layout(l -> l.width(176).height(201)).addChildren(
-//                            new UIElement().addChildren(
-//                                    new TextField().setNumbersOnlyInt(Integer.MIN_VALUE, Integer.MAX_VALUE)
-//                                            .bind(DataBindingBuilder.string(() -> {
-//                                                if (driveMenu.getBlockEntity() instanceof DriveBlockEntity entity) {
-//                                                    return String.valueOf(entity.getPriority());
-//                                                }
-//                                                return String.valueOf(-1);
-//                                            }, priority -> {
-//                                                if (driveMenu.getBlockEntity() instanceof DriveBlockEntity entity) {
-//                                                    try {
-//                                                        entity.setPriority(Integer.parseInt(priority));
-//                                                    } catch (NumberFormatException ignored) {
-//                                                    }
-//                                                }
-//                                            }).build())
-//                                    ).layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE)
-//                                            .width(50).paddingAll(5).left(173).top(-5))
-//                                    .style(style -> style.background(MCSprites.BORDER))
-//                    ), StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC)), player);
-//            uiHolderMenu.setModularUI(mui);
-//        }
-//    }
+    // @SubscribeEvent
+    // public static void onContainerMenuCreateEvent(ContainerMenuEvent.Create event) throws Exception {
+    // // furnace screen
+    // if (event.menu instanceof AbstractFurnaceMenu furnaceMenu && furnaceMenu instanceof IModularUIHolderMenu
+    // uiHolderMenu) {
+    // var player = event.player;
+    // var field = AbstractFurnaceMenu.class.getDeclaredField("data");
+    // field.setAccessible(true);
+    // ContainerData data = (ContainerData) field.get(furnaceMenu);
+    // var mui = ModularUI.of(UI.of(
+    // new UIElement().layout(l -> l.width(176).height(166)).addChildren(
+    // new UIElement().addChildren(
+    // new Label().bind(DataBindingBuilder.componentS2C(() -> {
+    // return Component.literal("burn time: %.2f / %.2f s"
+    // .formatted(data.get(2) / 20f, data.get(3) / 20f));
+    // }).build())
+    // ).layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE)
+    // .widthPercent(100).paddingAll(5).top(-15))
+    // .style(style -> style.background(MCSprites.BORDER))
+    // )), player);
+    // uiHolderMenu.setModularUI(mui);
+    // }
+    //
+    // // ae drive
+    // if (event.menu instanceof DriveMenu driveMenu && driveMenu instanceof IModularUIHolderMenu uiHolderMenu) {
+    // var player = event.player;
+    // var mui = ModularUI.of(UI.of(
+    // new UIElement().layout(l -> l.width(176).height(201)).addChildren(
+    // new UIElement().addChildren(
+    // new TextField().setNumbersOnlyInt(Integer.MIN_VALUE, Integer.MAX_VALUE)
+    // .bind(DataBindingBuilder.string(() -> {
+    // if (driveMenu.getBlockEntity() instanceof DriveBlockEntity entity) {
+    // return String.valueOf(entity.getPriority());
+    // }
+    // return String.valueOf(-1);
+    // }, priority -> {
+    // if (driveMenu.getBlockEntity() instanceof DriveBlockEntity entity) {
+    // try {
+    // entity.setPriority(Integer.parseInt(priority));
+    // } catch (NumberFormatException ignored) {
+    // }
+    // }
+    // }).build())
+    // ).layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE)
+    // .width(50).paddingAll(5).left(173).top(-5))
+    // .style(style -> style.background(MCSprites.BORDER))
+    // ), StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC)), player);
+    // uiHolderMenu.setModularUI(mui);
+    // }
+    // }
 }

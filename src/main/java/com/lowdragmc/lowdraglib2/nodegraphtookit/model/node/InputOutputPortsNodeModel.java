@@ -8,9 +8,12 @@ import java.util.*;
 /**
  * Node model that supports both input and output ports, as well as node options.
  *
- * <p>This is the base class for most node types that have ports on both sides.</p>
+ * <p>
+ * This is the base class for most node types that have ports on both sides.
+ * </p>
  */
 public abstract class InputOutputPortsNodeModel extends PortNodeModel {
+
     protected final List<NodeOption> nodeOptions = new ArrayList<>();
     protected final Map<String, NodeOption> nodeOptionsById = new HashMap<>();
 

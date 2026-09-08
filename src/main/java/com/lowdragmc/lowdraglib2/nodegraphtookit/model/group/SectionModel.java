@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Capabilities;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.IGraphElementContainer;
 
 public class SectionModel extends GroupModel {
+
     public SectionModel() {
         setCapability(Capabilities.DELETABLE, false);
         setCapability(Capabilities.DROPPABLE, false);

@@ -8,8 +8,9 @@ import com.lowdragmc.lowdraglib2.syncdata.annotation.UpdateListener;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib2.syncdata.holder.blockentity.IBlockEntityManaged;
 import com.lowdragmc.lowdraglib2.syncdata.ref.IRef;
-import net.minecraft.Util;
 import com.lowdragmc.lowdraglib2.utils.function.LDConsumers;
+
+import net.minecraft.Util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -38,6 +39,7 @@ public class FieldManagedStorage implements IManagedStorage {
 
     public <T> ISubscription addSyncUpdateListener(ManagedKey key, IFieldUpdateListener<T> listener) {
         var subscription = new FieldUpdateSubscription(key, listener) {
+
             @Override
             public void unsubscribe() {
                 listeners.getOrDefault(key, new ArrayList<>()).remove(this);
@@ -141,7 +143,7 @@ public class FieldManagedStorage implements IManagedStorage {
 
     @Override
     public IManaged[] getManaged() {
-        return new IManaged[]{owner};
+        return new IManaged[] { owner };
     }
 
     public IRef<?> getFieldByKey(ManagedKey key) {
@@ -162,8 +164,7 @@ public class FieldManagedStorage implements IManagedStorage {
                 // make sure the method types
                 method = clazz.getDeclaredMethod(methodName, rawField.getType(), rawField.getType());
                 method.setAccessible(true);
-            } catch (NoSuchMethodException ignored) {
-            }
+            } catch (NoSuchMethodException ignored) {}
             clazz = clazz.getSuperclass();
         }
         if (method == null) {
@@ -202,8 +203,7 @@ public class FieldManagedStorage implements IManagedStorage {
                     method = foundMethod;
                     method.setAccessible(true);
                 }
-            } catch (NoSuchMethodException ignored) {
-            }
+            } catch (NoSuchMethodException ignored) {}
             clazz = clazz.getSuperclass();
         }
         if (method == null) {

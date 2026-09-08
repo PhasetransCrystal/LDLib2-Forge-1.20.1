@@ -9,25 +9,31 @@ import java.util.Set;
 /**
  * Central bus for "an external subgraph asset was just saved" events.
  *
- * <p>Two flavors of subscribers:</p>
+ * <p>
+ * Two flavors of subscribers:
+ * </p>
  * <ul>
- *   <li><b>{@link GraphModel} (root)</b> — used by tests and headless contexts; on notify, the
- *       root graph (and its nested local subgraphs) re-define any {@code SubgraphNodeModel} that
- *       references the saved path. Pure model-layer behavior, no UI dependency.</li>
- *   <li><b>{@link Listener}</b> — used by the editor UI. Lets the editor view decide what to do
- *       (refresh ports <em>and</em> potentially reload its root if the saved path matches
- *       what it's currently editing).</li>
+ * <li><b>{@link GraphModel} (root)</b> — used by tests and headless contexts; on notify, the
+ * root graph (and its nested local subgraphs) re-define any {@code SubgraphNodeModel} that
+ * references the saved path. Pure model-layer behavior, no UI dependency.</li>
+ * <li><b>{@link Listener}</b> — used by the editor UI. Lets the editor view decide what to do
+ * (refresh ports <em>and</em> potentially reload its root if the saved path matches
+ * what it's currently editing).</li>
  * </ul>
  *
- * <p>Reference-equality tracked; subscribers must explicitly {@code unregister} when they go
- * away.</p>
+ * <p>
+ * Reference-equality tracked; subscribers must explicitly {@code unregister} when they go
+ * away.
+ * </p>
  */
 public final class SubgraphRegistry {
+
     public static final SubgraphRegistry INSTANCE = new SubgraphRegistry();
 
     /** Subscriber that gets called when an external graph at {@code path} is saved. */
     @FunctionalInterface
     public interface Listener {
+
         void onExternalGraphSaved(IResourcePath path);
     }
 

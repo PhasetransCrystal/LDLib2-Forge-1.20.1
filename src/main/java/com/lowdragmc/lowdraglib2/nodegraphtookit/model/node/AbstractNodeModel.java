@@ -8,11 +8,12 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.model.*;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.wire.WireModel;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -20,12 +21,15 @@ import java.util.stream.Stream;
  * Base class for a model that represents a node in a graph.
  */
 public abstract class AbstractNodeModel extends GraphElementModel implements IHasName, IHasDisplayName, IMovable,
-        IHasElementColor, IHasContextualMenuItems, IGraphElementUIModel, IResizeWidth {
+                                        IHasElementColor, IHasContextualMenuItems, IGraphElementUIModel, IResizeWidth {
+
     @Persisted
     private Vector2f position = new Vector2f(0);
-    @Persisted @Getter
+    @Persisted
+    @Getter
     protected String name = "";
-    @Persisted @Nullable
+    @Persisted
+    @Nullable
     protected Component title;
     @Nullable
     protected Component tooltip;
@@ -58,9 +62,11 @@ public abstract class AbstractNodeModel extends GraphElementModel implements IHa
 
     /**
      * Whether the node UI is collapsed to title-only. Element subclasses decide which parts to
-     * hide; wires connected to hidden ports re-route to the title bar (see {@link com.lowdragmc.lowdraglib2.nodegraphtookit.gui.WireElement}).
+     * hide; wires connected to hidden ports re-route to the title bar (see
+     * {@link com.lowdragmc.lowdraglib2.nodegraphtookit.gui.WireElement}).
      */
-    @Persisted @Getter
+    @Persisted
+    @Getter
     protected boolean collapsed = false;
 
     protected AbstractNodeModel() {
@@ -74,8 +80,7 @@ public abstract class AbstractNodeModel extends GraphElementModel implements IHa
                 Capabilities.COLORABLE,
                 Capabilities.ASCENDABLE,
                 Capabilities.DISABLEABLE,
-                Capabilities.RESIZABLE
-        ));
+                Capabilities.RESIZABLE));
     }
 
     /**
@@ -341,6 +346,5 @@ public abstract class AbstractNodeModel extends GraphElementModel implements IHa
             new ContextualMenuItem(ContextualMenuHelpers.bypassNodeItem, 1),
             new ContextualMenuItem(ContextualMenuHelpers.disableNodeItem, 2),
             new ContextualMenuItem(ContextualMenuHelpers.disconnectAllWiresItem, 3),
-            new ContextualMenuItem(ContextualMenuHelpers.toggleCollapseItem, 5)
-    );
+            new ContextualMenuItem(ContextualMenuHelpers.toggleCollapseItem, 5));
 }

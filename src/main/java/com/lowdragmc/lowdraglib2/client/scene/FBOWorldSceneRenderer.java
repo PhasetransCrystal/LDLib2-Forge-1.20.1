@@ -1,25 +1,25 @@
 package com.lowdragmc.lowdraglib2.client.scene;
 
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import lombok.Getter;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,12 +27,13 @@ import org.jetbrains.annotations.Nullable;
  * @Author: KilaBash
  * @Date: 2021/08/23
  * @Description: It looks similar to {@link ImmediateWorldSceneRenderer}, but totally different.
- * It uses FBO and is more universality and efficient(X).
- * FBO can be rendered anywhere more flexibly, not just in the GUI.
- * If you have scene rendering needs, you will love this FBO renderer.
+ *               It uses FBO and is more universality and efficient(X).
+ *               FBO can be rendered anywhere more flexibly, not just in the GUI.
+ *               If you have scene rendering needs, you will love this FBO renderer.
  */
 @OnlyIn(Dist.CLIENT)
 public class FBOWorldSceneRenderer extends WorldSceneRenderer {
+
     @Getter
     private int resolutionWidth = 1080;
     @Getter
@@ -68,7 +69,7 @@ public class FBOWorldSceneRenderer extends WorldSceneRenderer {
         return looking;
     }
 
-    public Vector3f blockPos2ScreenPos(BlockPos pos, boolean depth){
+    public Vector3f blockPos2ScreenPos(BlockPos pos, boolean depth) {
         int lastID = bindFBO();
         Vector3f winPos = super.blockPos2ScreenPos(pos, depth, 0, 0, this.resolutionWidth, this.resolutionHeight);
         unbindFBO(lastID);
@@ -130,7 +131,7 @@ public class FBOWorldSceneRenderer extends WorldSceneRenderer {
         render(poseStack, x, y, width, height, (float) mouseX, (float) mouseY);
     }
 
-    private int bindFBO(){
+    private int bindFBO() {
         if (!checkFBOValid()) {
             createFBO();
         }
@@ -142,7 +143,7 @@ public class FBOWorldSceneRenderer extends WorldSceneRenderer {
         return lastID;
     }
 
-    private void unbindFBO(int lastID){
+    private void unbindFBO(int lastID) {
         fbo.unbindRead();
         GlStateManager._glBindFramebuffer(36160, lastID);
         var mainBuffer = Minecraft.getInstance().getMainRenderTarget();

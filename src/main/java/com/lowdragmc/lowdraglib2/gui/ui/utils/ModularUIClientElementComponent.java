@@ -14,6 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @OnlyIn(Dist.CLIENT)
 public record ModularUIClientElementComponent(ModularUITooltipComponent modularUITooltipComponent) implements ClientTooltipComponent {
+
     @Override
     public int getHeight() {
         return (int) modularUITooltipComponent.modularUI.getHeight();

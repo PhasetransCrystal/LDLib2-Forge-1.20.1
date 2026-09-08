@@ -1,13 +1,14 @@
 package com.lowdragmc.lowdraglib2.core.mixins;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.client.renderer.IBlockRendererProvider;
 import com.lowdragmc.lowdraglib2.client.renderer.IItemRendererProvider;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.client.resources.model.*;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.client.resources.model.*;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
@@ -26,15 +27,20 @@ import java.util.Map;
 @Mixin(ModelBakery.class)
 public abstract class ModelBakeryMixin {
 
-    @Shadow(aliases = "m_119341_") abstract UnbakedModel getModel(ResourceLocation modelPath);
+    @Shadow(aliases = "m_119341_")
+    abstract UnbakedModel getModel(ResourceLocation modelPath);
 
-    @Shadow(aliases = "f_119212_") @Final private Map<ResourceLocation, UnbakedModel> unbakedCache;
+    @Shadow(aliases = "f_119212_")
+    @Final
+    private Map<ResourceLocation, UnbakedModel> unbakedCache;
 
-    @Shadow(aliases = "f_119214_") @Final private Map<ResourceLocation, UnbakedModel> topLevelModels;
+    @Shadow(aliases = "f_119214_")
+    @Final
+    private Map<ResourceLocation, UnbakedModel> topLevelModels;
 
     @WrapOperation(method = "getModel",
-              at = @At(value = "INVOKE",
-                       target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;[Ljava/lang/Object;)V"))
+                   at = @At(value = "INVOKE",
+                            target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;[Ljava/lang/Object;)V"))
     protected void injectStateToModelLocation(Logger instance, String s, Object[] objects, Operation<Void> original) {
         ResourceLocation id = objects[0] instanceof ResourceLocation rl ? rl : null;
         if (id != null) {

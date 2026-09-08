@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.ColorValue;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.serialization.Codec;
 import lombok.experimental.Accessors;
 
@@ -13,6 +14,7 @@ import java.util.function.Supplier;
 
 @Accessors(chain = true)
 public class ColorProperty extends Property<Integer> {
+
     public ColorProperty(String name, int initialValue) {
         super(name, Integer.class, Codec.INT, initialValue, ColorValue::new);
         setAllowTransition(true);

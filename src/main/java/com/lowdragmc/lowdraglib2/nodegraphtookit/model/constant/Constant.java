@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.type.TypeHandle;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.GraphElementModel;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib2.utils.TypeUtils;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import lombok.Getter;
@@ -18,11 +19,15 @@ import java.util.function.Consumer;
 /**
  * Represents a constant value embedded in a port or node option.
  *
- * <p>Constants store typed values that can be edited in the graph UI and used as default values
- * for input ports when they are not connected.</p>
+ * <p>
+ * Constants store typed values that can be edited in the graph UI and used as default values
+ * for input ports when they are not connected.
+ * </p>
  */
 public abstract class Constant {
-    @Getter @Setter
+
+    @Getter
+    @Setter
     protected GraphElementModel owner;
     @Getter
     protected @Nullable TypeHandle typeHandle;
@@ -31,14 +36,17 @@ public abstract class Constant {
      * when present — takes precedence over the default {@code AccessorRegistries}-based path.
      * Set by the port/option builder; not persisted (reapplied on every {@code defineNode}).
      */
-    @Getter @Setter @Nullable
+    @Getter
+    @Setter
+    @Nullable
     protected Codec<?> customCodec;
     /**
      * When {@code false}, the constant's value and default value are skipped during serialization
      * — only the type identifier survives the round-trip. Useful for transient / runtime-computed
      * port values. Not persisted (reapplied on every {@code defineNode}).
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     protected boolean serializationEnabled = true;
     /**
      * Transient flag set by {@code TypeConstant.deserializeIntoConstant} when the saved NBT
@@ -48,15 +56,15 @@ public abstract class Constant {
      * the affected port, surfacing the data-loss event rather than silently using the builder
      * default. Cleared on {@link #init(TypeHandle)} and never persisted.
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     protected transient boolean deserializeFailed = false;
     protected final List<Consumer<Object>> listeners = new ArrayList<>();
 
     /**
      * Creates an empty constant.
      */
-    public Constant() {
-    }
+    public Constant() {}
 
     public void init(TypeHandle typeHandle) {
         this.typeHandle = typeHandle;
@@ -106,7 +114,7 @@ public abstract class Constant {
      * returns a successful result containing {@code null}.
      * If the value is not compatible with the expected type, returns an error result.
      *
-     * @param <T> the type of the value to retrieve
+     * @param <T>          the type of the value to retrieve
      * @param expectedType the class of the type to which the value should be cast
      * @return a {@link DataResult} containing the cast value if successful, or an error if the type is mismatched
      */
@@ -126,7 +134,7 @@ public abstract class Constant {
      * Attempts to set a new value for the constant. This method checks whether the provided value
      * is compatible with the type of the constant and assigns the value if it is valid.
      *
-     * @param <T> the type of the value to set
+     * @param <T>   the type of the value to set
      * @param value the new value to set for the constant; can be {@code null} if the type of the
      *              constant allows {@code null} or is not primitive
      * @return {@code true} if the value is successfully set; {@code false} if the value is incompatible

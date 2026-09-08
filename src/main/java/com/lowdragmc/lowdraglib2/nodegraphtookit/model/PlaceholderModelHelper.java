@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model;
 
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.graph.GraphModel;
+
 import com.mojang.serialization.DataResult;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Nullable;
@@ -14,9 +15,10 @@ public final class PlaceholderModelHelper {
      * Retrieves a {@link GraphElementModel} instance from the provided {@link GraphModel} if the model
      * identified by the specified {@link UUID} is an instance of {@code IPlaceHolder}.
      *
-     * @param graphModel The {@link GraphModel} from which the model should be retrieved. Must not be null.
+     * @param graphModel        The {@link GraphModel} from which the model should be retrieved. Must not be null.
      * @param originalModelGuid The {@link UUID} that identifies the model to be retrieved. Must not be null.
-     * @return The corresponding {@link GraphElementModel} if the retrieved model is an instance of {@code IPlaceHolder},
+     * @return The corresponding {@link GraphElementModel} if the retrieved model is an instance of
+     *         {@code IPlaceHolder},
      *         or {@code null} otherwise.
      */
     @Nullable

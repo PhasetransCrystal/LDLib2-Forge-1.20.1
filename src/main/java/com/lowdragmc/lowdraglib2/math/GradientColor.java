@@ -1,7 +1,8 @@
 package com.lowdragmc.lowdraglib2.math;
 
-import com.lowdragmc.lowdraglib2.utils.ColorUtils;
 import com.lowdragmc.lowdraglib2.syncdata.IProviderAwareNBTSerializable;
+import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -12,12 +13,14 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nonnull;
+
 public class GradientColor implements IProviderAwareNBTSerializable<CompoundTag> {
+
     @Getter
     protected List<Vector2f> aP;
     @Getter
@@ -74,8 +77,7 @@ public class GradientColor implements IProviderAwareNBTSerializable<CompoundTag>
                     value = new Vector3f(
                             s.y * (e.x - t) / (e.x - s.x) + e.y * (t - s.x) / (e.x - s.x),
                             s.z * (e.x - t) / (e.x - s.x) + e.z * (t - s.x) / (e.x - s.x),
-                            s.w * (e.x - t) / (e.x - s.x) + e.w * (t - s.x) / (e.x - s.x)
-                    );
+                            s.w * (e.x - t) / (e.x - s.x) + e.w * (t - s.x) / (e.x - s.x));
                     found = true;
                     break;
                 }
@@ -108,7 +110,7 @@ public class GradientColor implements IProviderAwareNBTSerializable<CompoundTag>
             return 0;
         }
         for (int i = 0; i < aP.size() - 1; i++) {
-            if (t >= aP.get(i).x && t <=  aP.get(i + 1).x) {
+            if (t >= aP.get(i).x && t <= aP.get(i + 1).x) {
                 aP.add(i + 1, new Vector2f(t, value));
                 return i + 1;
             }
@@ -127,7 +129,7 @@ public class GradientColor implements IProviderAwareNBTSerializable<CompoundTag>
             return 0;
         }
         for (int i = 0; i < rgbP.size() - 1; i++) {
-            if (t >= rgbP.get(i).x && t <=  rgbP.get(i + 1).x) {
+            if (t >= rgbP.get(i).x && t <= rgbP.get(i + 1).x) {
                 rgbP.add(i + 1, new Vector4f(t, r, g, b));
                 return i + 1;
             }
@@ -183,7 +185,7 @@ public class GradientColor implements IProviderAwareNBTSerializable<CompoundTag>
         loadAlphaFromTag(aP, nbt.getList("a", Tag.TAG_FLOAT));
         loadRGBFromTag(rgbP, nbt.getList("rgb", Tag.TAG_FLOAT));
     }
-    
+
     public GradientColor copy() {
         var copy = new GradientColor();
         copy.aP.clear();

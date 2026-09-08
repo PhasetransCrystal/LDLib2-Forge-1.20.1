@@ -1,11 +1,12 @@
 package com.lowdragmc.lowdraglib2.gui.sync;
 
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.SyncStrategy;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib2.syncdata.SyncValueHolder;
+
 import lombok.Getter;
 import lombok.Setter;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
@@ -15,15 +16,20 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class SyncValue<T> {
+
     public final SyncValueHolder<T> syncValueHolder;
     public final List<Consumer<T>> listeners = new ArrayList<>();
-    @Nullable @Setter
+    @Nullable
+    @Setter
     public Supplier<T> valueProvider;
-    @Getter @Setter
+    @Getter
+    @Setter
     public boolean acceptSync = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     public boolean toSync = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     public SyncStrategy syncStrategy = SyncStrategy.CHANGED_PERIODIC;
 
     public SyncValue(String name, Type type, @Nullable T value) {

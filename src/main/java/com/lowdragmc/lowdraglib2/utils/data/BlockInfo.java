@@ -1,9 +1,9 @@
 package com.lowdragmc.lowdraglib2.utils.data;
 
-import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
+
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -25,6 +25,7 @@ import java.util.function.Consumer;
  */
 @NoArgsConstructor
 public class BlockInfo implements IPersistedSerializable, IConfigurable {
+
     public static final BlockInfo EMPTY = new BlockInfo(Blocks.AIR);
 
     @Setter
@@ -72,7 +73,7 @@ public class BlockInfo implements IPersistedSerializable, IConfigurable {
                     return new BlockInfo(state, true);
                 }
             }
-        } catch (Exception ignored){ }
+        } catch (Exception ignored) {}
         return new BlockInfo(state);
     }
 
@@ -110,5 +111,4 @@ public class BlockInfo implements IPersistedSerializable, IConfigurable {
         if (itemStack != null) return itemStack;
         return blockState.getBlock().getCloneItemStack(level, pos, blockState);
     }
-
 }

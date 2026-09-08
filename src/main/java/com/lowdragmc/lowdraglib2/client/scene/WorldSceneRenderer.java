@@ -7,18 +7,17 @@ import com.lowdragmc.lowdraglib2.math.PositionedRect;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.DummyWorld;
 import com.lowdragmc.lowdraglib2.utils.virtuallevel.TrackedDummyWorld;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.gui.screens.LoadingOverlay;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.LoadingOverlay;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
@@ -32,14 +31,15 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.data.ModelData;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
-import net.minecraftforge.client.model.data.ModelData;
 
-import javax.annotation.Nonnull;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -50,8 +50,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import static net.minecraft.world.level.block.RenderShape.INVISIBLE;
+import javax.annotation.Nonnull;
 
+import static net.minecraft.world.level.block.RenderShape.INVISIBLE;
 
 /**
  * @author KilaBash
@@ -61,6 +62,7 @@ import static net.minecraft.world.level.block.RenderShape.INVISIBLE;
 @OnlyIn(Dist.CLIENT)
 @Accessors(chain = true)
 public abstract class WorldSceneRenderer {
+
     protected static final FloatBuffer MODELVIEW_MATRIX_BUFFER = ByteBuffer.allocateDirect(16 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
     protected static final FloatBuffer PROJECTION_MATRIX_BUFFER = ByteBuffer.allocateDirect(16 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
     protected static final IntBuffer VIEWPORT_BUFFER = ByteBuffer.allocateDirect(16 * 4).order(ByteOrder.nativeOrder()).asIntBuffer();
@@ -82,8 +84,7 @@ public abstract class WorldSceneRenderer {
      */
     public final Map<Collection<BlockPos>, RenderedBlocksEntry> renderedBlocksMap;
 
-    public record RenderedBlocksEntry(Set<BlockPos> snapshot, @Nullable ISceneBlockRenderHook hook) {
-    }
+    public record RenderedBlocksEntry(Set<BlockPos> snapshot, @Nullable ISceneBlockRenderHook hook) {}
 
     @Nullable
     protected VertexBuffer[] vertexBuffers;
@@ -211,19 +212,23 @@ public abstract class WorldSceneRenderer {
      * compile is in flight; cleared by {@link #cancelCompile()} and replaced on next compile.
      */
     protected static class SyncCompileState {
+
         final List<RenderType> layers;
         final List<RenderedBlocksEntry> entries;
         final PoseStack matrixStack = new PoseStack();
         final RandomSource randomSource = RandomSource.createNewThreadLocalInstance();
         // block phase
         int layerIndex = 0;
-        @Nullable BufferBuilder currentBuffer;
+        @Nullable
+        BufferBuilder currentBuffer;
         int entryIndex = 0;
-        @Nullable Iterator<BlockPos> blockIter;
+        @Nullable
+        Iterator<BlockPos> blockIter;
         // tile-entity scan phase
         boolean tilePhase = false;
         int tileEntryIndex = 0;
-        @Nullable Iterator<BlockPos> tileBlockIter;
+        @Nullable
+        Iterator<BlockPos> tileBlockIter;
         final Set<BlockPos> collectedTiles = new HashSet<>();
 
         SyncCompileState(List<RenderType> layers, List<RenderedBlocksEntry> entries) {
@@ -293,8 +298,7 @@ public abstract class WorldSceneRenderer {
         if (syncCompileState != null && syncCompileState.currentBuffer != null) {
             try {
                 syncCompileState.currentBuffer.discard();
-            } catch (Throwable ignored) {
-            }
+            } catch (Throwable ignored) {}
         }
         syncCompileState = null;
     }
@@ -348,8 +352,7 @@ public abstract class WorldSceneRenderer {
         // check lookingAt
         this.lastTraceResult = null;
         this.lastHit = unProject(mouseX, mouseY);
-        if (onLookingAt != null && mouseX > viewport.position.x && mouseX < viewport.position.x + viewport.size.width
-                && mouseY > viewport.position.y && mouseY < viewport.position.y + viewport.size.height) {
+        if (onLookingAt != null && mouseX > viewport.position.x && mouseX < viewport.position.x + viewport.size.width && mouseY > viewport.position.y && mouseY < viewport.position.y + viewport.size.height) {
             BlockHitResult result = rayTrace(lastHit);
             if (result != null) {
                 this.lastTraceResult = null;
@@ -423,13 +426,13 @@ public abstract class WorldSceneRenderer {
         RenderSystem.enableDepthTest();
         RenderSystem.enableBlend();
 
-        //setup viewport and clear GL buffers
+        // setup viewport and clear GL buffers
         RenderSystem.viewport(x, y, width, height);
 
         RenderSystem.depthMask(true);
         clearView(x, y, width, height);
 
-        //setup projection matrix to perspective
+        // setup projection matrix to perspective
         RenderSystem.backupProjectionMatrix();
 
         Minecraft mc = Minecraft.getInstance();
@@ -441,7 +444,7 @@ public abstract class WorldSceneRenderer {
             RenderSystem.setProjectionMatrix(new Matrix4f().setPerspective(fov * 0.01745329238474369F, aspectRatio, 0.1f, 10000.0f), VertexSorting.byDistance(camera.getPosition().toVector3f()));
         }
 
-        //setup model view matrix
+        // setup model view matrix
         PoseStack posesStack = RenderSystem.getModelViewStack();
         posesStack.pushPose();
         posesStack.setIdentity();
@@ -453,7 +456,6 @@ public abstract class WorldSceneRenderer {
         RenderSystem.enableCull();
 
         ShaderManager.getInstance().setViewPort(viewport);
-
     }
 
     protected void clearView(int x, int y, int width, int height) {
@@ -462,19 +464,19 @@ public abstract class WorldSceneRenderer {
     }
 
     protected void resetCamera() {
-        //reset viewport
+        // reset viewport
         Minecraft minecraft = Minecraft.getInstance();
         RenderSystem.viewport(0, 0, minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
 
-        //reset projection matrix
+        // reset projection matrix
         RenderSystem.restoreProjectionMatrix();
 
-        //reset modelview matrix
+        // reset modelview matrix
         PoseStack posesStack = RenderSystem.getModelViewStack();
         posesStack.popPose();
         RenderSystem.applyModelViewMatrix();
 
-//        RenderSystem.depthMask(false);
+        // RenderSystem.depthMask(false);
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         ShaderManager.getInstance().clearViewPort();
@@ -548,7 +550,8 @@ public abstract class WorldSceneRenderer {
         buffers.endBatch();
 
         if (particleManager != null) { // render translucent particles
-            @Nonnull PoseStack poseStack = new PoseStack();
+            @Nonnull
+            PoseStack poseStack = new PoseStack();
             poseStack.setIdentity();
             poseStack.translate(cameraEntity.getX(), cameraEntity.getY(), cameraEntity.getZ());
             particleManager.render(poseStack, camera, particleTicks, WorldSceneRenderer::isTranslucentParticleRenderType);
@@ -628,8 +631,7 @@ public abstract class WorldSceneRenderer {
                     });
                 }
                 ModelBlockRenderer.clearCache();
-            } finally {
-            }
+            } finally {}
             Set<BlockPos> poses = new HashSet<>();
             renderedBlocksMap.forEach((key, entry) -> {
                 for (BlockPos pos : entry.snapshot()) {
@@ -962,7 +964,6 @@ public abstract class WorldSceneRenderer {
         }
     }
 
-
     public static void setDefaultRenderLayerState(RenderType layer) {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         if (layer == RenderType.translucent()) { // TRANSLUCENT
@@ -991,33 +992,33 @@ public abstract class WorldSceneRenderer {
     }
 
     public Vector3f project(Vector3f pos) {
-        //read current rendering parameters
+        // read current rendering parameters
         RenderSystem.getModelViewMatrix().get(MODELVIEW_MATRIX_BUFFER);
         RenderSystem.getProjectionMatrix().get(PROJECTION_MATRIX_BUFFER);
         GL11.glGetIntegerv(GL11.GL_VIEWPORT, VIEWPORT_BUFFER);
 
-        //rewind buffers after write by OpenGL glGet calls
+        // rewind buffers after write by OpenGL glGet calls
         MODELVIEW_MATRIX_BUFFER.rewind();
         PROJECTION_MATRIX_BUFFER.rewind();
         VIEWPORT_BUFFER.rewind();
 
-        //call gluProject with retrieved parameters
+        // call gluProject with retrieved parameters
         Project.gluProject(pos.x(), pos.y(), pos.z(), MODELVIEW_MATRIX_BUFFER, PROJECTION_MATRIX_BUFFER, VIEWPORT_BUFFER, OBJECT_POS_BUFFER);
 
-        //rewind buffers after read by gluProject
+        // rewind buffers after read by gluProject
         VIEWPORT_BUFFER.rewind();
         PROJECTION_MATRIX_BUFFER.rewind();
         MODELVIEW_MATRIX_BUFFER.rewind();
 
-        //rewind buffer after write by gluProject
+        // rewind buffer after write by gluProject
         OBJECT_POS_BUFFER.rewind();
 
-        //obtain position in Screen
+        // obtain position in Screen
         float winX = OBJECT_POS_BUFFER.get();
         float winY = OBJECT_POS_BUFFER.get();
         float winZ = OBJECT_POS_BUFFER.get();
 
-        //rewind buffer after read
+        // rewind buffer after read
         OBJECT_POS_BUFFER.rewind();
 
         return new Vector3f(winX, winY, winZ);
@@ -1030,53 +1031,55 @@ public abstract class WorldSceneRenderer {
     public Vector3f unProject(int mouseX, int mouseY, boolean checkDepth) {
         var pixelDepth = 0.999f;
         if (checkDepth) {
-            //read depth of pixel under mouse
+            // read depth of pixel under mouse
             GL11.glReadPixels(mouseX, mouseY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, PIXEL_DEPTH_BUFFER);
 
-            //rewind buffer after write by glReadPixels
+            // rewind buffer after write by glReadPixels
             PIXEL_DEPTH_BUFFER.rewind();
 
-            //retrieve depth from buffer (0.0-1.0f)
+            // retrieve depth from buffer (0.0-1.0f)
             pixelDepth = PIXEL_DEPTH_BUFFER.get();
         }
 
-        //rewind buffer after read
+        // rewind buffer after read
         PIXEL_DEPTH_BUFFER.rewind();
 
-        //read current rendering parameters
+        // read current rendering parameters
         RenderSystem.getModelViewMatrix().get(MODELVIEW_MATRIX_BUFFER);
         RenderSystem.getProjectionMatrix().get(PROJECTION_MATRIX_BUFFER);
         GL11.glGetIntegerv(GL11.GL_VIEWPORT, VIEWPORT_BUFFER);
 
-        //rewind buffers after write by OpenGL glGet calls
+        // rewind buffers after write by OpenGL glGet calls
         MODELVIEW_MATRIX_BUFFER.rewind();
         PROJECTION_MATRIX_BUFFER.rewind();
         VIEWPORT_BUFFER.rewind();
 
-        //call gluUnProject with retrieved parameters
+        // call gluUnProject with retrieved parameters
         Project.gluUnProject(mouseX, mouseY, pixelDepth, MODELVIEW_MATRIX_BUFFER, PROJECTION_MATRIX_BUFFER, VIEWPORT_BUFFER, OBJECT_POS_BUFFER);
 
-        //rewind buffers after read by gluUnProject
+        // rewind buffers after read by gluUnProject
         VIEWPORT_BUFFER.rewind();
         PROJECTION_MATRIX_BUFFER.rewind();
         MODELVIEW_MATRIX_BUFFER.rewind();
 
-        //rewind buffer after write by gluUnProject
+        // rewind buffer after write by gluUnProject
         OBJECT_POS_BUFFER.rewind();
 
-        //obtain absolute position in world
+        // obtain absolute position in world
         float posX = OBJECT_POS_BUFFER.get();
         float posY = OBJECT_POS_BUFFER.get();
         float posZ = OBJECT_POS_BUFFER.get();
 
-        //rewind buffer after read
+        // rewind buffer after read
         OBJECT_POS_BUFFER.rewind();
 
         return new Vector3f(posX, posY, posZ);
     }
 
     /***
-     * For better performance, You'd better handle the event {@link #setOnLookingAt(Consumer)} or {@link #getLastTraceResult()}
+     * For better performance, You'd better handle the event {@link #setOnLookingAt(Consumer)} or
+     * {@link #getLastTraceResult()}
+     * 
      * @param mouseX xPos in Texture
      * @param mouseY yPos in Texture
      * @return RayTraceResult Hit
@@ -1098,7 +1101,8 @@ public abstract class WorldSceneRenderer {
 
     /***
      * For better performance, You'd better do project in {@link #setAfterWorldRender(Consumer)}
-     * @param pos BlockPos
+     * 
+     * @param pos   BlockPos
      * @param depth should pass Depth Test
      * @return x, y, z
      */

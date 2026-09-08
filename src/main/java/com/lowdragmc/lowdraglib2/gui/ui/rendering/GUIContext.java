@@ -4,6 +4,7 @@ import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.math.Rect;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
@@ -14,12 +15,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.opengl.GL30;
 
 import java.util.function.Consumer;
 
-import org.lwjgl.opengl.GL30;
-
 public class GUIContext {
+
     @OnlyIn(Dist.CLIENT)
     public ModularUI modularUI;
     @OnlyIn(Dist.CLIENT)
@@ -50,9 +51,11 @@ public class GUIContext {
     public final ObjectArrayList<Rect> scissorStack = new ObjectArrayList<>();
     @OnlyIn(Dist.CLIENT)
     private final ObjectArrayList<PostCall> postRenderingCalls = new ObjectArrayList<>();
+
     private record PostCall(Consumer<GUIContext> call, Matrix4f pose) {}
+
     private int lastFBO = -1;
-    
+
     @OnlyIn(Dist.CLIENT)
     public static GUIContext of(ModularUI modularUI, GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         var context = new GUIContext();

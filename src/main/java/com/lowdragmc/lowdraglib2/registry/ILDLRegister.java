@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.registry;
 
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -48,7 +49,7 @@ public interface ILDLRegister<T extends ILDLRegister<T, V>, V> {
     @SuppressWarnings("unchecked")
     default AutoRegistry.LDLibRegister<T, V> getRegistry() {
         if (isLDLRegister()) {
-            if (AutoRegistry.REGISTERED.get(registryName()) instanceof AutoRegistry.LDLibRegister<?,?> registry) {
+            if (AutoRegistry.REGISTERED.get(registryName()) instanceof AutoRegistry.LDLibRegister<?, ?> registry) {
                 return (AutoRegistry.LDLibRegister<T, V>) registry;
             }
         }

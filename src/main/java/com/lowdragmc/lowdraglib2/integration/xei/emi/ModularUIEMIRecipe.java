@@ -1,16 +1,17 @@
 package com.lowdragmc.lowdraglib2.integration.xei.emi;
 
-import com.google.common.base.Suppliers;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalNotification;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventDispatcher;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.IModularUIProvider;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.handler.EMIRecipeIngredientHandler;
 import com.lowdragmc.lowdraglib2.integration.xei.emi.handler.EMIRecipeWidgetHandler;
+
+import com.google.common.base.Suppliers;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalNotification;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -18,14 +19,16 @@ import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public abstract class ModularUIEMIRecipe implements EmiRecipe {
+
     public final IModularUIProvider<ModularUIEMIRecipe> uiProvider;
     // runtime
     protected final LoadingCache<ModularUIEMIRecipe, ModularUI> uiCache;
@@ -43,6 +46,7 @@ public abstract class ModularUIEMIRecipe implements EmiRecipe {
                     }
                 })
                 .build(new CacheLoader<>() {
+
                     @Override
                     public ModularUI load(ModularUIEMIRecipe key) {
                         var mui = uiProvider.createModularUI(key);
@@ -53,7 +57,8 @@ public abstract class ModularUIEMIRecipe implements EmiRecipe {
                         return mui;
                     }
                 });
-        this.ingredientCache = Suppliers.memoizeWithExpiration(() -> {var recipeIngredient = new EMIRecipeIngredientHandler();
+        this.ingredientCache = Suppliers.memoizeWithExpiration(() -> {
+            var recipeIngredient = new EMIRecipeIngredientHandler();
             var mui = getModularUI();
             var event = UIEvent.create(EMIUIEvents.RECIPE_INGREDIENT);
             event.target = mui.ui.rootElement;

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language;
 
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 @UtilityClass
 @KJSBindings
 public final class Languages {
+
     public static LanguageDefinition JAVASCRIPT = new LanguageDefinition("JavaScript", List.of(
             TokenTypes.KEYWORD.createTokenType(List.of("break", "case", "catch", "class", "const", "continue", "debugger", "default", "delete", "do", "else", "enum", "export", "extends", "false", "finally", "for", "function", "if", "import", "in", "instanceof", "let", "new", "null", "return", "super", "switch", "this", "throw", "true", "try", "typeof", "var", "void", "while", "with", "yield")),
             TokenTypes.IDENTIFIER,
@@ -39,8 +41,7 @@ public final class Languages {
             TokenTypes.CSS_IMPORTANT,
             TokenTypes.IDENTIFIER,
             TokenTypes.WHITESPACE,
-            TokenTypes.OTHER
-    ), Set.of("{"));
+            TokenTypes.OTHER), Set.of("{"));
 
     public static LanguageDefinition XML = new LanguageDefinition("XML", List.of(
             TokenTypes.XML_COMMENT,
@@ -54,6 +55,5 @@ public final class Languages {
             TokenTypes.XML_EQ,
             TokenTypes.OPERATOR,
             TokenTypes.WHITESPACE,
-            TokenTypes.OTHER
-    ), Set.of("<"));
+            TokenTypes.OTHER), Set.of("<"));
 }

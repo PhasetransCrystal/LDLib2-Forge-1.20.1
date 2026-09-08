@@ -8,15 +8,17 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.codeeditor.language.Languages;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Stylesheet;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 import lombok.NoArgsConstructor;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-@LDLRegisterClient(name="lss", registry = "ldlib2:screen_test")
+@LDLRegisterClient(name = "lss", registry = "ldlib2:screen_test")
 @NoArgsConstructor
 public class TestLSS implements IScreenTest {
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var root = new UIElement().addClass("panel_bg");
@@ -49,18 +51,15 @@ public class TestLSS implements IScreenTest {
                     }
                 })
                 .setValue(initialLSS.split("\n"), false)
-                .layout(layout -> layout.widthPercent(100).heightPercent(100))
-        );
+                .layout(layout -> layout.widthPercent(100).heightPercent(100)));
 
         right.addChildren(target);
 
         root.getLayout().width(300).height(150).flexDirection(FlexDirection.ROW);
         root.addChildren(
                 left,
-                right
-        );
+                right);
         var ui = UI.of(root, StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC), stylesheetRef.get());
         return new ModularUI(ui);
     }
-
 }

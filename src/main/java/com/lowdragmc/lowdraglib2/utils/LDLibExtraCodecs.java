@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.utils;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
+
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
@@ -25,7 +26,9 @@ import java.util.stream.Stream;
 
 @UtilityClass
 public final class LDLibExtraCodecs {
+
     public final static MapCodec ERROR_DECODER = MapCodec.of(Encoder.empty(), new MapDecoder.Implementation<>() {
+
         @Override
         public <T> DataResult<Object> decode(final DynamicOps<T> ops, final MapLike<T> input) {
             return DataResult.error(() -> "Error decoding");
@@ -45,6 +48,7 @@ public final class LDLibExtraCodecs {
     public final static Codec<UUID> UUID = Codec.STRING.xmap(java.util.UUID::fromString, java.util.UUID::toString);
 
     public final static Codec<Tag> TAG = new Codec<>() {
+
         @Override
         public <T> DataResult<Pair<Tag, T>> decode(DynamicOps<T> ops, T input) {
             return DataResult.success(Pair.of(ops.convertTo(NbtOps.INSTANCE, input), input));
@@ -63,7 +67,7 @@ public final class LDLibExtraCodecs {
     public final static Codec<Recipe> RECIPE_ID = ResourceLocation.CODEC.flatXmap(id -> {
         if (Platform.getMinecraftServer() != null) {
             return Platform.getMinecraftServer().getRecipeManager().byKey(id).map(DataResult::success).orElseGet(() -> DataResult.error(() -> "Unknown recipe: " + id));
-        } else if (Platform.isClient()){
+        } else if (Platform.isClient()) {
             var level = Minecraft.getInstance().level;
             if (level == null) return DataResult.error(() -> "No recipe manager available");
             return level.getRecipeManager().byKey(id).map(DataResult::success).orElseGet(() -> DataResult.error(() -> "Unknown recipe: " + id));
@@ -72,6 +76,7 @@ public final class LDLibExtraCodecs {
     }, recipe -> DataResult.success(recipe.getId()));
 
     public final static PrimitiveCodec<Character> CHAR = new PrimitiveCodec<>() {
+
         public <T> DataResult<Character> read(DynamicOps<T> ops, T input) {
             return ops.getNumberValue(input).map(number -> (char) number.intValue());
         }
@@ -105,38 +110,34 @@ public final class LDLibExtraCodecs {
                 if (number instanceof Double value) return DoubleTag.valueOf(value);
                 if (number == null) return null;
                 return DoubleTag.valueOf(number.doubleValue());
-            }
-    );
+            });
 
     public static final Codec<Vector3i> VECTOR3I = Codec.INT
             .listOf()
             .comapFlatMap(
                     list -> Util.fixedSize(list, 3).map(l -> new Vector3i(l.get(0), l.get(1), l.get(2))),
-                    vec3i -> List.of(vec3i.x, vec3i.y, vec3i.z)
-            );
+                    vec3i -> List.of(vec3i.x, vec3i.y, vec3i.z));
 
     public static final Codec<Vector2f> VECTOR2F = Codec.FLOAT
             .listOf()
             .comapFlatMap(
                     list -> Util.fixedSize(list, 2).map(l -> new Vector2f(l.get(0), l.get(1))),
-                    vec2f -> List.of(vec2f.x, vec2f.y)
-            );
+                    vec2f -> List.of(vec2f.x, vec2f.y));
 
     public static final Codec<Vector2i> VECTOR2I = Codec.INT
             .listOf()
             .comapFlatMap(
                     list -> Util.fixedSize(list, 2).map(l -> new Vector2i(l.get(0), l.get(1))),
-                    vec2i -> List.of(vec2i.x, vec2i.y)
-            );
+                    vec2i -> List.of(vec2i.x, vec2i.y));
 
     public static final Codec<Vector4f> VECTOR4F = Codec.FLOAT
             .listOf()
             .comapFlatMap(
                     list -> Util.fixedSize(list, 4).map(l -> new Vector4f(l.get(0), l.get(1), l.get(2), l.get(3))),
-                    vec4f -> List.of(vec4f.x, vec4f.y, vec4f.z, vec4f.w)
-            );
+                    vec4f -> List.of(vec4f.x, vec4f.y, vec4f.z, vec4f.w));
 
     public static final Codec<ItemStack> ITEM_STACK = new Codec<>() {
+
         @Override
         public <T> DataResult<Pair<ItemStack, T>> decode(DynamicOps<T> ops, T input) {
             var result = ItemStack.CODEC.decode(ops, input);
@@ -158,12 +159,11 @@ public final class LDLibExtraCodecs {
             var realOp = Platform.registryOps(ops, Platform.getClientRegistryAccess());
             result = ItemStack.CODEC.encode(input, realOp, prefix);
             if (result.result().isPresent()) return result;
-            
+
             realOp = Platform.registryOps(ops, Platform.getServerRegistryAccess());
             return ItemStack.CODEC.encode(input, realOp, prefix);
         }
     };
-
 
     /**
      * This codec use an empty encoder and a decoder that always return an error
@@ -189,8 +189,8 @@ public final class LDLibExtraCodecs {
      * Checks if the provided payload is equivalent to the empty value in the given {@link DynamicOps} instance
      * or if it represents a string with the value of "null".
      *
-     * @param <T>    the generic type representing the data structure being operated on within {@link DynamicOps}
-     * @param ops    the {@link DynamicOps} instance to interpret the payload
+     * @param <T>     the generic type representing the data structure being operated on within {@link DynamicOps}
+     * @param ops     the {@link DynamicOps} instance to interpret the payload
      * @param payload the data payload to be checked
      * @return {@code true} if the payload is empty or evaluates to the string "null"; otherwise, {@code false}
      */
@@ -216,13 +216,11 @@ public final class LDLibExtraCodecs {
         if (outdated.length == 1) {
             return Codec.either(latest, outdated[0]).xmap(
                     either -> either.map(value -> value, value -> value),
-                    Either::left
-            );
+                    Either::left);
         }
         return Codec.either(latest, compat(outdated[0], Arrays.copyOfRange(outdated, 1, outdated.length))).xmap(
                 either -> either.map(value -> value, value -> value),
-                Either::left
-        );
+                Either::left);
     }
 
     /**
@@ -244,7 +242,6 @@ public final class LDLibExtraCodecs {
                         return fallback;
                     }
                 },
-                Enum::name
-        );
+                Enum::name);
     }
 }

@@ -2,12 +2,14 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.api.type;
 
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.utils.TypeUtils;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
 import java.util.Objects;
 
 public final class TypeHandle implements Comparable<TypeHandle> {
+
     private final String identification;
 
     // lazy caches (not serialized)

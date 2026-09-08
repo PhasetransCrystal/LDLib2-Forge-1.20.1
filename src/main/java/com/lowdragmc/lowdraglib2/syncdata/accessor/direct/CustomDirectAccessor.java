@@ -1,6 +1,8 @@
 package com.lowdragmc.lowdraglib2.syncdata.accessor.direct;
 
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import com.lowdragmc.lowdraglib2.syncdata.accessor.IMarkFunction;
 import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib2.syncdata.ref.DirectRef;
@@ -9,12 +11,11 @@ import com.lowdragmc.lowdraglib2.syncdata.ref.UniqueDirectRef;
 import com.lowdragmc.lowdraglib2.syncdata.var.FieldVar;
 import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
 import net.minecraft.nbt.NbtOps;
-import com.lowdragmc.lowdraglib2.compat.network.RegistryFriendlyByteBuf;
-import com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +25,7 @@ import java.util.function.Function;
 
 @Getter
 public class CustomDirectAccessor<TYPE> implements IDirectAccessor<TYPE>, IMarkFunction<TYPE, Object> {
+
     private final Class<TYPE> type;
     private final boolean supportChildClass;
     private final Codec<TYPE> codec;
@@ -98,6 +100,7 @@ public class CustomDirectAccessor<TYPE> implements IDirectAccessor<TYPE>, IMarkF
     }
 
     public static class Builder<TYPE> {
+
         private final Class<TYPE> type;
         private final boolean supportChildClass;
         private Codec<TYPE> codec;
@@ -138,6 +141,7 @@ public class CustomDirectAccessor<TYPE> implements IDirectAccessor<TYPE>, IMarkF
          * Copy the mark from the value.
          * This will use the {@link Objects#equals(Object, Object)} to compare the mark.
          * Make sure the object supports {@link Object#equals(Object)}.
+         * 
          * @param managedMarkFunction the function to get the mark from the value.
          */
         public Builder<TYPE> copyMark(Function<TYPE, TYPE> managedMarkFunction) {
@@ -147,9 +151,10 @@ public class CustomDirectAccessor<TYPE> implements IDirectAccessor<TYPE>, IMarkF
 
         /**
          * Custom mark function. This will use the given function to get and compare marks.
+         * 
          * @param managedMarkFunction the function to get the mark from the value.
-         * @param areEqualFunction the function to compare the mark with the value.
-         * @param <MARK> the type of the mark.
+         * @param areEqualFunction    the function to compare the mark with the value.
+         * @param <MARK>              the type of the mark.
          */
         public <MARK> Builder<TYPE> customMark(Function<TYPE, MARK> managedMarkFunction, BiPredicate<MARK, TYPE> areEqualFunction) {
             this.markFunction = new IMarkFunction.Simple<>(managedMarkFunction, (a, b) -> !areEqualFunction.test(a, b));

@@ -2,10 +2,12 @@ package com.lowdragmc.lowdraglib2.gui.holder;
 
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
+
 import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.Nullable;
 
 public interface IModularUIHolderMenu extends IModularUIHolder, IItemSlotHolderMenu {
+
     @Override
     default @Nullable ItemSlot getItemSlot(Slot slot) {
         return ldlib2$getItemSlot(slot);
@@ -26,9 +28,11 @@ public interface IModularUIHolderMenu extends IModularUIHolder, IItemSlotHolderM
         ldlib2$setModularUI(modularUI);
     }
 
-    @Nullable ModularUI ldlib2$getModularUI();
+    @Nullable
+    ModularUI ldlib2$getModularUI();
 
-    @Nullable ItemSlot ldlib2$getItemSlot(Slot slot);
+    @Nullable
+    ItemSlot ldlib2$getItemSlot(Slot slot);
 
     void ldlib2$addSlot(ItemSlot itemSlot);
 

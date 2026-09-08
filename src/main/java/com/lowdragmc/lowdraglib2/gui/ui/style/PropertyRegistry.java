@@ -1,5 +1,6 @@
 package com.lowdragmc.lowdraglib2.gui.ui.style;
 
+import com.lowdragmc.lowdraglib2.compat.network.chat.ComponentSerialization;
 import com.lowdragmc.lowdraglib2.editor.ui.SplittableWindow;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
@@ -10,10 +11,10 @@ import com.lowdragmc.lowdraglib2.gui.ui.layout.LayoutProperties;
 import com.lowdragmc.lowdraglib2.gui.ui.style.animation.Transition;
 import com.lowdragmc.lowdraglib2.gui.ui.style.properties.*;
 import com.lowdragmc.lowdraglib2.gui.ui.style.values.*;
+
 import com.mojang.serialization.Codec;
 import lombok.experimental.UtilityClass;
 import net.minecraft.network.chat.Component;
-import com.lowdragmc.lowdraglib2.compat.network.chat.ComponentSerialization;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -26,14 +27,14 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 @UtilityClass
 public final class PropertyRegistry {
+
     private static final Map<String, Property<?>> PROPERTIES_BY_NAME = new ConcurrentHashMap<>();
     private static volatile AtomicReferenceArray<Property<?>> PROPERTIES_BY_ID = new AtomicReferenceArray<>(256);
 
     public static <T> void register(Property<T> property) {
         var prev = PROPERTIES_BY_NAME.putIfAbsent(property.name, property);
         if (prev != null) {
-            throw new IllegalArgumentException("A style property named '" + property.name + "' already exists (id="
-                    + prev.id + ")");
+            throw new IllegalArgumentException("A style property named '" + property.name + "' already exists (id=" + prev.id + ")");
         }
         ensureCapacity(property.id);
         var existing = PROPERTIES_BY_ID.get(property.id);

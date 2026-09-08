@@ -2,12 +2,14 @@ package com.lowdragmc.lowdraglib2.configurator.ui;
 
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextArea;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class TextAreaConfigurator extends ValueConfigurator<String[]> {
+
     public final TextArea textArea;
 
     public TextAreaConfigurator(String name, Supplier<String[]> supplier, Consumer<String[]> onUpdate, @Nonnull String[] defaultValue, boolean forceUpdate) {
@@ -27,5 +29,4 @@ public class TextAreaConfigurator extends ValueConfigurator<String[]> {
         super.onValueUpdatePassively(newValue);
         textArea.setValue(newValue, false);
     }
-
 }

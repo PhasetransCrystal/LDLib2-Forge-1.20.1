@@ -7,9 +7,11 @@ import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.group.GroupModelBase;
+
 import dev.vfyjxf.taffy.style.FlexDirection;
 
 public class BlackboardGroup extends BlackboardElement {
+
     public final UIElement icon;
     public final Label label;
 

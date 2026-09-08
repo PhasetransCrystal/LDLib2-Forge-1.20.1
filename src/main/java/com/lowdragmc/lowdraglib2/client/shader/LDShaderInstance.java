@@ -1,8 +1,9 @@
 package com.lowdragmc.lowdraglib2.client.shader;
 
-import com.google.gson.JsonObject;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.ShaderInstanceAccessor;
+
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.vertex.*;
 import lombok.Getter;
@@ -11,13 +12,15 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.minecraft.util.GsonHelper;
-
-import javax.annotation.Nonnull;
 import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.*;
 
+import javax.annotation.Nonnull;
+
 public class LDShaderInstance extends ShaderInstance implements ILDShaderInstance {
+
     public final ResourceLocation shaderLocation;
     public final Set<String> defines;
     @Getter
@@ -100,8 +103,7 @@ public class LDShaderInstance extends ShaderInstance implements ILDShaderInstanc
             applySamplers();
         }
         if (holder != null) {
-            holder.dynamicSampler.forEach((name, supplier) ->
-                    getShaderInstanceAccessor().getSamplerMap().put(name, supplier.get()));
+            holder.dynamicSampler.forEach((name, supplier) -> getShaderInstanceAccessor().getSamplerMap().put(name, supplier.get()));
 
             holder.dynamicUniform.forEach((name, consumer) -> {
                 var uniform = getUniform(name);

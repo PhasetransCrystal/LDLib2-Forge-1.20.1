@@ -8,6 +8,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.gui.node.ContextNodeElement;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.Capabilities;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.ChangeHint;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.GraphElementModel;
+
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -25,19 +26,24 @@ import java.util.stream.Stream;
  * dependent models of the context, so UID lookups (ports, wires) still resolve, but graph-wide
  * node iteration skips them.
  *
- * <p>This base owns the container semantics (block list, ordering, cascade-delete,
+ * <p>
+ * This base owns the container semantics (block list, ordering, cascade-delete,
  * serialization). The user-node binding (annotation discovery, port definition delegation)
  * lives in {@link CustomContextNodeModelImpl}, mirroring how {@link NodeModel} and
- * {@link CustomNodeModelImpl} are split.</p>
+ * {@link CustomNodeModelImpl} are split.
+ * </p>
  *
- * <p>Mutations (insert / remove / move) emit {@link ChangeHint#GRAPH_TOPOLOGY} on this model.
+ * <p>
+ * Mutations (insert / remove / move) emit {@link ChangeHint#GRAPH_TOPOLOGY} on this model.
  * The associated {@link ContextNodeElement} listens and rebuilds its block list. Block
  * lifecycle notifications (addNewModel / addDeletedModel) are <em>not</em> emitted for blocks
  * themselves — that would cause {@code GraphView} to also try to instantiate top-level
  * elements for them, which is wrong. The UI tree for blocks is owned exclusively by
- * {@code BlockListContainerElement}.</p>
+ * {@code BlockListContainerElement}.
+ * </p>
  */
 public abstract class ContextNodeModel extends NodeModel {
+
     @Getter
     private final List<BlockNodeModel> blocks = new ArrayList<>();
 

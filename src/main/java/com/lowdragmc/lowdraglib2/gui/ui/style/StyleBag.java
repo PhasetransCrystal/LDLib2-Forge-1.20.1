@@ -3,12 +3,14 @@ package com.lowdragmc.lowdraglib2.gui.ui.style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.style.animation.TransitionAnimation;
 import com.lowdragmc.lowdraglib2.gui.ui.style.properties.TransitionProperty;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Predicate;
 
 public final class StyleBag {
+
     public final UIElement element;
     public final Map<Property<?>, List<StyleSlot<?>>> candidates = new HashMap<>();
 
@@ -37,8 +39,7 @@ public final class StyleBag {
                             cast(p),
                             StyleOrigin.DEFAULT,
                             0, inlineSourceOrder,
-                            slot.value()
-                    ));
+                            slot.value()));
                     dirtyProps.set(p.id);
                 }
             }
@@ -84,8 +85,7 @@ public final class StyleBag {
                     origin,
                     specificity,
                     sourceOrder,
-                    cast(v.compute())
-            ));
+                    cast(v.compute())));
             dirtyProps.set(p.id);
         }
         markDirty();
@@ -177,8 +177,7 @@ public final class StyleBag {
 
                     transitionAnimation.play(
                             cast(from),
-                            cast(to)
-                    );
+                            cast(to));
                     transitionAnimations.put(property, transitionAnimation);
                 } else {
                     property.notifyListeners(element, cast(oldValue), cast(newValue));
@@ -189,7 +188,9 @@ public final class StyleBag {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T cast(Object o) { return (T) o; }
+    private static <T> T cast(Object o) {
+        return (T) o;
+    }
 
     public <T> StyleSlot<T> computeCandidateSlot(Property<T> p) {
         List<StyleSlot<?>> list = candidates.get(p);
@@ -289,9 +290,7 @@ public final class StyleBag {
         StyleSlot<T> oldComputed = cast(computedSlots.get(p));
         for (int i = 0; i < slots.size(); i++) {
             var existSlot = slots.get(i);
-            if (existSlot.origin() == animationOrigin
-                    && existSlot.specificity() == 999
-                    && existSlot.sourceOrder() == 0) {
+            if (existSlot.origin() == animationOrigin && existSlot.specificity() == 999 && existSlot.sourceOrder() == 0) {
                 T oldValue = (T) existSlot.value();
                 if (!Objects.equals(oldValue, value)) {
                     var animationSlot = new StyleSlot<>(p, animationOrigin, 999, 0, value);

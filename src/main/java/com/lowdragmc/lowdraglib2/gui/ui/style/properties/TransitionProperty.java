@@ -12,16 +12,19 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.values.TransitionValue;
 import com.lowdragmc.lowdraglib2.math.interpolate.Eases;
 import com.lowdragmc.lowdraglib2.utils.animation.Animation;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 public class TransitionProperty extends Property<Transition> {
+
     public TransitionProperty(String name, Transition initialValue) {
         super(name, Transition.class, Transition.CODEC, initialValue, TransitionValue::new);
     }
@@ -36,8 +39,7 @@ public class TransitionProperty extends Property<Transition> {
     @Override
     public Configurator createConfiguratorInternal(String propertyName, Supplier<Transition> getter, Consumer<Transition> setter) {
         var arrayConfigurator = new ArrayConfiguratorGroup<>(propertyName, true,
-                () -> getter.get().animations().entrySet().stream().map(entry ->
-                        new StyleTransition(entry.getKey(), entry.getValue())).toList(),
+                () -> getter.get().animations().entrySet().stream().map(entry -> new StyleTransition(entry.getKey(), entry.getValue())).toList(),
                 (transitionGetter, transitionSetter) -> {
                     var configurator = new ConfiguratorGroup().hideTitle();
                     configurator.setCollapse(false);
@@ -45,6 +47,7 @@ public class TransitionProperty extends Property<Transition> {
                             new SearchComponentConfigurator<>("property.name", () -> transitionGetter.get().property(), property -> {
                                 transitionSetter.accept(new StyleTransition(property, transitionGetter.get().animation()));
                             }, new SearchComponentConfigurator.ISearchConfigurator<Property<?>>() {
+
                                 @Override
                                 @Nonnull
                                 public Property<?> defaultValue() {
@@ -63,7 +66,7 @@ public class TransitionProperty extends Property<Transition> {
                                     for (Property<?> property : PropertyRegistry.all()) {
                                         if (Thread.currentThread().isInterrupted()) return;
                                         if (property.isAllowTransition() && !getter.get().animations().containsKey(property)) {
-                                            if(property.name.toLowerCase().contains(lowerWord)) {
+                                            if (property.name.toLowerCase().contains(lowerWord)) {
                                                 searchHandler.acceptResult(property);
                                             }
                                         }
@@ -93,8 +96,7 @@ public class TransitionProperty extends Property<Transition> {
                                                 current.animation().duration(),
                                                 current.animation().delay(),
                                                 eases)));
-                                    }, Eases.LINEAR, true, Arrays.stream(Eases.values()).toList(), Enum::name)
-                    );
+                                    }, Eases.LINEAR, true, Arrays.stream(Eases.values()).toList(), Enum::name));
                     return configurator;
                 }, true);
         arrayConfigurator.setAddDefault(() -> {
@@ -112,5 +114,4 @@ public class TransitionProperty extends Property<Transition> {
         });
         return arrayConfigurator;
     }
-
 }

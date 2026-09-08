@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.NodeAttribute;
 import com.lowdragmc.lowdraglib2.registry.AutoRegistry;
 import com.lowdragmc.lowdraglib2.registry.RegistrationEnvironment;
+
 import net.minecraft.resources.ResourceLocation;
 
 import java.lang.reflect.Modifier;
@@ -16,10 +17,11 @@ import java.util.List;
  * bound to a specific graph type.
  * <p>
  * Usage:
+ * 
  * <pre>{@code
  * public class MyGraph extends Graph {
- *     public static final GraphNodeRegistry NODE_REGISTRY =
- *             GraphNodeRegistry.create(MyMod.id("my_graph"), MyGraph.class);
+ * 
+ *     public static final GraphNodeRegistry NODE_REGISTRY = GraphNodeRegistry.create(MyMod.id("my_graph"), MyGraph.class);
  *
  *     @Override
  *     public List<Class<? extends Node>> getSupportNodes() {
@@ -29,6 +31,7 @@ import java.util.List;
  * }</pre>
  */
 public final class GraphNodeRegistry {
+
     private final AutoRegistry<NodeAttribute, Node, Class<? extends Node>> registry;
 
     private GraphNodeRegistry(AutoRegistry<NodeAttribute, Node, Class<? extends Node>> registry) {
@@ -65,8 +68,7 @@ public final class GraphNodeRegistry {
                 },
                 (annotation, clazz) -> annotation.name(),
                 (annotation, clazz) -> clazz,
-                (a, b) -> b.annotation().priority() - a.annotation().priority()
-        );
+                (a, b) -> b.annotation().priority() - a.annotation().priority());
         return new GraphNodeRegistry(autoRegistry);
     }
 

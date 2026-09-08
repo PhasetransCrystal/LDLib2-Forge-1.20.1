@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.nodegraphtookit.gui.command;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.SpawnFlags;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.SubgraphNodeModel;
+
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * {@link UndoableGraphCommand}.
  */
 public class CreateLocalSubgraphCommand extends UndoableGraphCommand {
+
     private final static Component NAME = Component.translatable("graph.commands.create_local_subgraph");
 
     private final Vector2f position;

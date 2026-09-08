@@ -8,8 +8,8 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.Node;
 import java.util.List;
 
 public class AnnotatedOtherGraph extends Graph {
-    public static final GraphNodeRegistry NODE_REGISTRY =
-            GraphNodeRegistry.create(LDLib2.id("other_test_graph"), AnnotatedOtherGraph.class);
+
+    public static final GraphNodeRegistry NODE_REGISTRY = GraphNodeRegistry.create(LDLib2.id("other_test_graph"), AnnotatedOtherGraph.class);
 
     @Override
     public List<Class<? extends Node>> getSupportNodes() {

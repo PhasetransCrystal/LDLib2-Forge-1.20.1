@@ -1,11 +1,10 @@
 package com.lowdragmc.lowdraglib2.utils;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
-import com.lowdragmc.lowdraglib2.Platform;
-import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.utils.data.BlockInfo;
 import com.lowdragmc.lowdraglib2.utils.data.EntityInfo;
+
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import lombok.experimental.UtilityClass;
 import lombok.val;
@@ -30,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,13 +38,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 
-import org.jetbrains.annotations.Nullable;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * @author KilaBash
@@ -54,13 +54,14 @@ import java.util.*;
 @UtilityClass
 @KJSBindings
 public class XmlUtils {
+
     public final static DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
     @Nullable
     public static Document loadXml(ResourceLocation location) {
         var resourceManager = ResourceHelper.getResourceManager();
         return resourceManager.getResource(location).map(resource -> {
-            try(var inputStream = resource.open()) {
+            try (var inputStream = resource.open()) {
                 return XmlUtils.loadXml(inputStream);
             } catch (Exception e) {
                 return null;
@@ -70,7 +71,7 @@ public class XmlUtils {
 
     @Nullable
     public static Document loadXml(String xml) {
-        try(var inputStream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {
+        try (var inputStream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {
             return XmlUtils.loadXml(inputStream);
         } catch (Exception ignored) {}
         return null;
@@ -81,14 +82,15 @@ public class XmlUtils {
         try {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             documentBuilder.setErrorHandler(new ErrorHandler() {
-                @Override
-                public void warning(SAXParseException exception) { }
 
                 @Override
-                public void error(SAXParseException exception) { }
+                public void warning(SAXParseException exception) {}
 
                 @Override
-                public void fatalError(SAXParseException exception) { }
+                public void error(SAXParseException exception) {}
+
+                @Override
+                public void fatalError(SAXParseException exception) {}
             });
             return documentBuilder.parse(inputstream);
         } catch (Exception e) {
@@ -181,7 +183,7 @@ public class XmlUtils {
                 Enum<T>[] values = enumClass.getEnumConstants();
                 for (Enum<T> value : values) {
                     if (value.name().equalsIgnoreCase(data)) {
-                        return (T)value;
+                        return (T) value;
                     }
                 }
             } catch (Exception ignored) {

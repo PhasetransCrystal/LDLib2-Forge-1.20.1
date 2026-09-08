@@ -16,6 +16,7 @@ import java.nio.file.*;
  */
 @UtilityClass
 public final class FileUtility {
+
     public static final Gson GSON_PRETTY = new GsonBuilder().setPrettyPrinting().create();
 
     public static String readInputStream(InputStream inputStream) throws IOException {
@@ -37,8 +38,7 @@ public final class FileUtility {
         try (InputStream fileStream = Files.newInputStream(filePath)) {
             InputStreamReader streamReader = new InputStreamReader(fileStream);
             return JsonParser.parseReader(streamReader).getAsJsonObject();
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
 
         return null;
     }
@@ -50,8 +50,7 @@ public final class FileUtility {
             JsonElement json = JsonParser.parseReader(new JsonReader(reader));
             reader.close();
             return json;
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         return null;
     }
 
@@ -64,9 +63,7 @@ public final class FileUtility {
             writer.write(GSON_PRETTY.toJson(element));
             writer.close();
             return true;
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         return false;
     }
-
 }

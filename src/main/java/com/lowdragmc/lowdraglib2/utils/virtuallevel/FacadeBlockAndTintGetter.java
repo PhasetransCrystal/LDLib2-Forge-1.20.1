@@ -12,11 +12,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Author: KilaBash
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class FacadeBlockAndTintGetter implements BlockAndTintGetter {
+
     public final BlockAndTintGetter parent;
     public final BlockPos pos;
     public final BlockState state;
@@ -37,7 +39,6 @@ public class FacadeBlockAndTintGetter implements BlockAndTintGetter {
         this.state = state;
         this.tile = tile;
     }
-
 
     @Override
     public float getShade(Direction pDirection, boolean pIsShade) {
@@ -78,7 +79,6 @@ public class FacadeBlockAndTintGetter implements BlockAndTintGetter {
     @Override
     public BlockState getBlockState(BlockPos pPos) {
         return pPos.equals(pos) ? state : parent.getBlockState(pPos);
-
     }
 
     @Override
@@ -182,8 +182,8 @@ public class FacadeBlockAndTintGetter implements BlockAndTintGetter {
         return parent.getBlockFloorHeight(pPos);
     }
 
-//    @Override
-//    public @Nullable BlockEntity getExistingBlockEntity(BlockPos pos) {
-//        return pos.equals(this.pos) ? tile : BlockAndTintGetter.super.getExistingBlockEntity(pos);
-//    }
+    // @Override
+    // public @Nullable BlockEntity getExistingBlockEntity(BlockPos pos) {
+    // return pos.equals(this.pos) ? tile : BlockAndTintGetter.super.getExistingBlockEntity(pos);
+    // }
 }

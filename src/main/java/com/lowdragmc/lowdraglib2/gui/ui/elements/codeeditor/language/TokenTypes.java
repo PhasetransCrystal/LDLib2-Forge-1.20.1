@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class TokenTypes {
+
     public static DynamicTokenType<List<String>> KEYWORD = new DynamicTokenType<>("Keyword", keywords -> {
         var patternBuilder = new StringBuilder();
         patternBuilder.append("\\b(");

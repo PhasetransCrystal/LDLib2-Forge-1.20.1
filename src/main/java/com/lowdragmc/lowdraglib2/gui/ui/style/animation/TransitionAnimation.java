@@ -4,11 +4,12 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleBag;
 import com.lowdragmc.lowdraglib2.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib2.utils.animation.*;
-import lombok.Getter;
 
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 public class TransitionAnimation<T> implements IFrameValueHandler<T> {
+
     public final StyleBag styleBag;
     public final Property<T> property;
     public final Animation animation;

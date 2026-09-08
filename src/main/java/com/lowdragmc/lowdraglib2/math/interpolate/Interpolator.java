@@ -10,6 +10,7 @@ import java.util.function.Consumer;
  * Date: 2022/08/26
  */
 public class Interpolator {
+
     public final float from;
     public final float to;
     public final float range;

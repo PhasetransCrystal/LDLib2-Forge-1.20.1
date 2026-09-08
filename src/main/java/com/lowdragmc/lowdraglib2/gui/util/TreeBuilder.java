@@ -3,10 +3,11 @@ package com.lowdragmc.lowdraglib2.gui.util;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
+
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import net.minecraft.network.chat.Component;
@@ -30,6 +31,7 @@ import java.util.function.Consumer;
  */
 @KJSBindings
 public class TreeBuilder<K, V> {
+
     protected final Stack<TreeNode<K, V>> stack = new Stack<>();
 
     public TreeBuilder(K key) {
@@ -40,7 +42,7 @@ public class TreeBuilder<K, V> {
         return new TreeNode<>(key);
     }
 
-    public static <K, V> TreeBuilder<K, V> start(K key){
+    public static <K, V> TreeBuilder<K, V> start(K key) {
         return new TreeBuilder<>(key);
     }
 
@@ -51,7 +53,7 @@ public class TreeBuilder<K, V> {
      * The specified {@link Consumer} is applied to the {@link TreeBuilder} to define
      * the contents or properties of the branch.
      *
-     * @param key the key to identify or create the branch in the tree
+     * @param key             the key to identify or create the branch in the tree
      * @param builderConsumer a {@link Consumer} that accepts the {@link TreeBuilder}
      *                        and is used to modify or define the branch
      * @return the current instance of {@link TreeBuilder} for method chaining
@@ -81,8 +83,9 @@ public class TreeBuilder<K, V> {
      * The given {@link Consumer} is invoked on the {@link TreeBuilder} instance once the navigation or creation
      * is complete.
      *
-     * @param paths a {@link List} of keys representing the path of branches to navigate or create
-     * @param builderConsumer a {@link Consumer} that operates on the {@link TreeBuilder} instance at the deepest resolved branch
+     * @param paths           a {@link List} of keys representing the path of branches to navigate or create
+     * @param builderConsumer a {@link Consumer} that operates on the {@link TreeBuilder} instance at the deepest
+     *                        resolved branch
      * @return the current instance of {@link TreeBuilder} for method chaining
      */
     public TreeBuilder<K, V> diveBranch(List<K> paths, Consumer<TreeBuilder<K, V>> builderConsumer) {
@@ -159,8 +162,10 @@ public class TreeBuilder<K, V> {
 
     @KJSBindings("MenuBuilder")
     public static class Menu extends TreeBuilder<Tuple<IGuiTexture, Component>, Runnable> {
+
         @Deprecated(since = "26.1")
         private static class MenuTreeNode extends TreeNode<Tuple<IGuiTexture, Component>, Runnable> {
+
             public MenuTreeNode(Tuple<IGuiTexture, Component> key) {
                 super(key);
             }
@@ -193,7 +198,7 @@ public class TreeBuilder<K, V> {
             return new MenuTreeNode(key);
         }
 
-        public static Menu start(){
+        public static Menu start() {
             return new Menu(new Tuple<>(IGuiTexture.EMPTY, Component.empty()));
         }
 
@@ -340,12 +345,10 @@ public class TreeBuilder<K, V> {
                             .setText(node.getB()).layout(layout -> {
                                 layout.setFlexGrow(1);
                             }).setOverflowVisible(false));
-
         }
 
         public static IGuiTexture hoverTextureProvider(ITreeNode<Tuple<IGuiTexture, Component>, Runnable> node) {
-            return isCrossLine(node.getKey()) ? IGuiTexture.EMPTY :ColorPattern.BLUE.rectTexture();
+            return isCrossLine(node.getKey()) ? IGuiTexture.EMPTY : ColorPattern.BLUE.rectTexture();
         }
     }
-
 }

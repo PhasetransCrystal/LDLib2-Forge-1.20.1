@@ -1,12 +1,12 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
-import com.google.common.base.Predicates;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.editor.ClipboardManager;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Cursor;
 import com.lowdragmc.lowdraglib2.gui.ui.data.ScrollDisplay;
@@ -15,7 +15,6 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.CommandEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
@@ -25,6 +24,8 @@ import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.HistoryStack;
 import com.lowdragmc.lowdraglib2.utils.TextUtilities;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
+import com.google.common.base.Predicates;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.vfyjxf.taffy.style.FlexDirection;
 import dev.vfyjxf.taffy.style.TaffyDisplay;
@@ -42,14 +43,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.appliedenergistics.yoga.YogaEdge;
-import org.appliedenergistics.yoga.YogaOverflow;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.w3c.dom.Element;
 import oshi.util.tuples.Pair;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,15 +55,20 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Accessors(chain = true)
 @KJSBindings
 @LDLRegister(name = "text-area", group = "basic", registry = "ldlib2:ui_element")
 public class TextArea extends BindableUIElement<String[]> {
+
     // Internal helpers
     public record CursorDragStart(Cursor anchor) {}
+
     public record History(String[] lines, Cursor cursor) {
+
         @Override
         public boolean equals(Object obj) {
             return obj instanceof History history &&
@@ -76,6 +79,7 @@ public class TextArea extends BindableUIElement<String[]> {
 
     @Configurable(name = "TextAreaStyle")
     public class TextAreaStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.SCROLLER_VIEW_MARGIN,
                 PropertyRegistry.FONT,
@@ -91,6 +95,7 @@ public class TextArea extends BindableUIElement<String[]> {
                 PropertyRegistry.LINE_SPACING,
                 PropertyRegistry.FOCUS_OVERLAY,
         };
+
         public TextAreaStyle() {
             super(TextArea.this);
             setDefault(PropertyRegistry.FOCUS_OVERLAY, Sprites.RECT_RD_T_SOLID);
@@ -240,11 +245,14 @@ public class TextArea extends BindableUIElement<String[]> {
     public final UIElement contentView;
 
     // Validation
-    @Setter private Predicate<String[]> textValidator = Predicates.alwaysTrue();
-    @Setter private Predicate<Character> charValidator = Predicates.alwaysTrue();
+    @Setter
+    private Predicate<String[]> textValidator = Predicates.alwaysTrue();
+    @Setter
+    private Predicate<Character> charValidator = Predicates.alwaysTrue();
 
     // Style
-    @Getter private final TextAreaStyle textAreaStyle = new TextAreaStyle();
+    @Getter
+    private final TextAreaStyle textAreaStyle = new TextAreaStyle();
 
     // Raw edit buffer (what user is editing right now)
     protected final List<String> lines = new ArrayList<>();
@@ -254,21 +262,30 @@ public class TextArea extends BindableUIElement<String[]> {
     // runtime
     @Getter
     private final HistoryStack<History> historyStack = new HistoryStack<>(100);
-    @Getter private boolean isError = false;
+    @Getter
+    private boolean isError = false;
 
     // Cursor and selection
-    @Getter private int cursorLine = 0;
-    @Getter private int cursorCol = 0;
-    @Getter private int selStartLine = 0;
-    @Getter private int selStartCol = 0;
-    @Getter private int selEndLine = 0;
-    @Getter private int selEndCol = 0;
+    @Getter
+    private int cursorLine = 0;
+    @Getter
+    private int cursorCol = 0;
+    @Getter
+    private int selStartLine = 0;
+    @Getter
+    private int selStartCol = 0;
+    @Getter
+    private int selEndLine = 0;
+    @Getter
+    private int selEndCol = 0;
 
     // Scroll offsets
-    @Getter private float scrollY = 0f; // vertical pixels
-    @Getter private float scrollX = 0f; // horizontal pixels
+    @Getter
+    private float scrollY = 0f; // vertical pixels
+    @Getter
+    private float scrollX = 0f; // horizontal pixels
 
-    //runtime
+    // runtime
     private float lastWidth = -1;
     private float lastHeight = -1;
 
@@ -282,6 +299,7 @@ public class TextArea extends BindableUIElement<String[]> {
         getLayout().height(60);
 
         this.contentView = new UIElement() {
+
             @Override
             public void drawBackgroundAdditional(GUIContext guiContext) {
                 drawContentView(guiContext);
@@ -402,8 +420,7 @@ public class TextArea extends BindableUIElement<String[]> {
         var fontSize = textAreaStyle.fontSize();
         return Mth.clamp(Mth.abs(normalizedValue),
                 fontSize / containerWidth,
-                (fontSize + textAreaStyle.lineSpacing()) / containerWidth)
-                * (normalizedValue > 0 ? 1 : -1);
+                (fontSize + textAreaStyle.lineSpacing()) / containerWidth) * (normalizedValue > 0 ? 1 : -1);
     }
 
     protected float verticalClamp(float normalizedValue) {
@@ -411,8 +428,7 @@ public class TextArea extends BindableUIElement<String[]> {
         var fontSize = textAreaStyle.fontSize();
         return Mth.clamp(Mth.abs(normalizedValue),
                 fontSize / containerHeight,
-                (fontSize + textAreaStyle.lineSpacing()) / containerHeight)
-                * (normalizedValue > 0 ? 1 : -1);
+                (fontSize + textAreaStyle.lineSpacing()) / containerHeight) * (normalizedValue > 0 ? 1 : -1);
     }
 
     protected void updateScrollers() {
@@ -429,7 +445,8 @@ public class TextArea extends BindableUIElement<String[]> {
         verticalScroller.setValue(wP);
         var mode = textAreaStyle.viewMode();
         if (mode == ScrollerMode.HORIZONTAL || mode == ScrollerMode.BOTH) {
-            // cause we are using a flexbox, the width of the view container is not the same as the width of the view port
+            // cause we are using a flexbox, the width of the view container is not the same as the width of the view
+            // port
             // so we need to calculate the width ourselves
             var vp = Math.min(1, contentView.getContentWidth() / maxWidth);
             horizontalScroller.setScrollBarSize(vp * 100);
@@ -440,8 +457,7 @@ public class TextArea extends BindableUIElement<String[]> {
 
         if (horizontalScroller.getTaffyStyle().style.display == TaffyDisplay.FLEX) {
             horizontalScroller.layout(layout -> {
-                Style.importantPipeline(layout, l ->
-                        l.marginRight(verticalScroller.isDisplayed() ? textAreaStyle.scrollerViewMargin() : 0));
+                Style.importantPipeline(layout, l -> l.marginRight(verticalScroller.isDisplayed() ? textAreaStyle.scrollerViewMargin() : 0));
             });
         }
 
@@ -591,8 +607,10 @@ public class TextArea extends BindableUIElement<String[]> {
     }
 
     public void setSelection(Cursor a, Cursor b) {
-        selStartLine = a.line(); selStartCol = a.col();
-        selEndLine = b.line(); selEndCol = b.col();
+        selStartLine = a.line();
+        selStartCol = a.col();
+        selEndLine = b.line();
+        selEndCol = b.col();
     }
 
     public void collapseSelectionToCursor() {
@@ -1179,8 +1197,7 @@ public class TextArea extends BindableUIElement<String[]> {
                     0,
                     0,
                     isError ? textAreaStyle.errorColor() : textAreaStyle.textColor(),
-                    textAreaStyle.textShadow()
-            );
+                    textAreaStyle.textShadow());
             guiContext.pose.popPose();
         }
 
@@ -1201,8 +1218,7 @@ public class TextArea extends BindableUIElement<String[]> {
                 0,
                 0,
                 ColorPattern.LIGHT_GRAY.color,
-                false
-        );
+                false);
         guiContext.pose.popPose();
     }
 
@@ -1246,7 +1262,7 @@ public class TextArea extends BindableUIElement<String[]> {
                         maxX - minX,
                         textAreaStyle.fontSize(),
                         highlightColor);
-            };
+            } ;
         }
     }
 
@@ -1261,8 +1277,7 @@ public class TextArea extends BindableUIElement<String[]> {
                     cursorY,
                     1,
                     textAreaStyle.fontSize(),
-                    textAreaStyle.cursorColor()
-            );
+                    textAreaStyle.cursorColor());
         }
     }
 

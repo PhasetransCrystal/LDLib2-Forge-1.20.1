@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screens.Screen;
 import java.util.List;
 
 public final class REIDraggableStackBoundsHandler {
+
     public final DraggingContext<Screen> context;
     public final DraggableStack stack;
     public final List<DraggableStackVisitor.BoundsProvider> boundsProviders;

@@ -1,6 +1,7 @@
 package com.lowdragmc.lowdraglib2.nodegraphtookit.model;
 
 public interface IHasElementColor {
+
     /**
      * Get the color of the element.
      */

@@ -12,6 +12,7 @@ import java.util.Objects;
  * Collects graph diagnostics produced by {@link Graph#onGraphChanged(GraphLogger)}.
  */
 public class GraphLogger {
+
     private final List<Entry> entries = new ArrayList<>();
 
     public GraphLogger error(Component message) {
@@ -69,6 +70,7 @@ public class GraphLogger {
     }
 
     public enum Level {
+
         ERROR(0),
         WARNING(1),
         INFO(2);
@@ -80,6 +82,5 @@ public class GraphLogger {
         }
     }
 
-    public record Entry(Level level, Component message, @Nullable Object context) {
-    }
+    public record Entry(Level level, Component message, @Nullable Object context) {}
 }

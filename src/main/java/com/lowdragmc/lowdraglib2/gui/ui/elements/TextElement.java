@@ -2,20 +2,21 @@ package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.annotation.*;
+import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
+import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Vertical;
 import com.lowdragmc.lowdraglib2.gui.ui.layout.LayoutProperties;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
-import com.lowdragmc.lowdraglib2.gui.ui.Style;
 import com.lowdragmc.lowdraglib2.gui.ui.style.Property;
 import com.lowdragmc.lowdraglib2.gui.ui.style.PropertyRegistry;
-import com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StyleOrigin;
 import com.lowdragmc.lowdraglib2.integration.kjs.KJSBindings;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.TextUtilities;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
@@ -30,13 +31,14 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
 
-import org.jetbrains.annotations.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @RemapPrefixForJS("kjs$")
 @ParametersAreNonnullByDefault
@@ -44,8 +46,10 @@ import java.util.function.Consumer;
 @KJSBindings
 @LDLRegister(name = "text", group = "basic", registry = "ldlib2:ui_element")
 public class TextElement extends UIElement {
+
     @Configurable(name = "TextStyle")
     public class TextStyle extends Style {
+
         private static final Property<?>[] PROPERTIES = new Property[] {
                 PropertyRegistry.ADAPTIVE_HEIGHT,
                 PropertyRegistry.ADAPTIVE_WIDTH,
@@ -182,7 +186,6 @@ public class TextElement extends UIElement {
             set(PropertyRegistry.VERTICAL_ALIGN, textAlignVertical);
             return this;
         }
-
     }
 
     @Getter
@@ -211,8 +214,7 @@ public class TextElement extends UIElement {
                 getFont(),
                 TextUtilities.withFont(text, font),
                 getTextStyle().fontSize(),
-                maxWidth
-        );
+                maxWidth);
         if (getTextStyle().adaptiveWidth()) {
             Style.importantPipeline(getLayout(), layout -> layout.width(formattedLines.stream().findFirst().map(Tuple::getB).orElse(0f) + getSizeWidth() - getContentWidth()));
         } else {
@@ -251,7 +253,7 @@ public class TextElement extends UIElement {
 
     @HideFromJS
     public TextElement setText(String text) {
-        return setText(text,true);
+        return setText(text, true);
     }
 
     public TextElement setText(String text, boolean translate) {
@@ -286,7 +288,6 @@ public class TextElement extends UIElement {
             var dropShadow = getTextStyle().textShadow();
             var scale = lineHeight / defaultLineHeight;
 
-
             // calculate the total height of the text
             var displayLines = formattedLines;
             var textWrap = getTextStyle().textWrap();
@@ -318,7 +319,7 @@ public class TextElement extends UIElement {
                     // for rolling text, always align to the left
                     var rollSpeed = getTextStyle().rollSpeed();
                     float totalW = width + lineWidth + 10;
-                    var t = rollSpeed > 0 ? ((((rollSpeed * Math.abs((int)(System.currentTimeMillis() % 1000000)) / 10) % (totalW))) / (totalW)) : 0.5;
+                    var t = rollSpeed > 0 ? ((((rollSpeed * Math.abs((int) (System.currentTimeMillis() % 1000000)) / 10) % (totalW))) / (totalW)) : 0.5;
                     lineX = (float) (x + width - totalW * t);
                 } else {
                     switch (hAlign) {

@@ -8,8 +8,10 @@ import java.util.function.Function;
  * stream codec package name.
  */
 public interface StreamCodec<B, V> extends com.lowdragmc.lowdraglib2.compat.network.codec.StreamCodec<B, V> {
+
     static <B, V> StreamCodec<B, V> of(BiConsumer<B, V> encoder, Function<B, V> decoder) {
         return new StreamCodec<>() {
+
             @Override
             public void encode(B buffer, V value) {
                 encoder.accept(buffer, value);

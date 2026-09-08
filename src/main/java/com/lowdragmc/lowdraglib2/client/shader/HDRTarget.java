@@ -13,8 +13,10 @@ import org.lwjgl.opengl.GL30;
 
 @OnlyIn(Dist.CLIENT)
 public class HDRTarget extends RenderTarget {
+
     @Getter
     private int attachedDepthTexture = -1;
+
     public HDRTarget(int width, int height) {
         this(width, height, GL30.GL_NEAREST, true);
     }
