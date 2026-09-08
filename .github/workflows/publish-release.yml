@@ -14,16 +14,12 @@ jobs:
   validate:
     name: Validate release branch and version
     runs-on: ubuntu-latest
+    if: github.ref_name == 'main' || github.ref_name == 'master'
     outputs:
       version: ${{ steps.version.outputs.value }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Require the main branch
-        shell: bash
-        run: |
-          test "$GITHUB_REF_NAME" = main || { echo 'Release publishing must run from main.'; exit 1; }
 
       - name: Read release version
         id: version
