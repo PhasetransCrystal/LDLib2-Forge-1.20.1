@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[${loader_version},)"
+loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
 
 [[mods]]
@@ -18,20 +18,13 @@ config="${mod_id}.mixins.json"
 [[dependencies.${mod_id}]]
     modId = "forge"
     mandatory = true
-    versionRange = "[${loader_version},)"
+    versionRange = "${forge_version_range}"
     ordering = "NONE"
     side = "BOTH"
 
 [[dependencies.${mod_id}]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "[${minecraft_version}]"
-    ordering = "NONE"
-    side = "BOTH"
-
-[[dependencies.${mod_id}]]
-    modId = "kotlinforforge"
-    mandatory = true
-    versionRange = "[${kotlin_for_forge_version},)"
+    versionRange = "${minecraft_version_range}"
     ordering = "NONE"
     side = "BOTH"

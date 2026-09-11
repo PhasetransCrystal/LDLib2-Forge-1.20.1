@@ -56,6 +56,11 @@ public class ModularUIEMIWidget extends Widget {
         modularUI.getWidget().render(guiGraphics, (int) realMouse.x, (int) realMouse.y, partialTick);
     }
 
+    // EMI 1.1.12's Forge artifact exposes the SRG name on the compile classpath.
+    public void m_88315_(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        render(guiGraphics, mouseX, mouseY, partialTick);
+    }
+
     @Override
     public List<ClientTooltipComponent> getTooltip(int mouseX, int mouseY) {
         var tooltips = new ArrayList<ClientTooltipComponent>();
