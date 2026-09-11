@@ -7,7 +7,6 @@ plugins {
     alias libs.plugins.lombokLegacy
     alias libs.plugins.kotlinLombokLegacy
     alias libs.plugins.spotless
-    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = providers.gradleProperty('buildVersion').getOrElse(mod_version)
@@ -31,12 +30,15 @@ configurations {
     libraries
     api.extendsFrom libraries
 
-    localImplementation
-    runtimeClasspath.extendsFrom localImplementation
-    compileOnly.extendsFrom localImplementation
+    localRuntime
+    runtimeClasspath.extendsFrom localRuntime
 
     yogaSources
     taffyLibrary
+}
+
+obfuscation {
+    createRemappingConfiguration(configurations.localRuntime)
 }
 
 apply from: "$projectDir/gradle/scripts/moddevgradle.gradle"
@@ -49,6 +51,24 @@ apply from: "$projectDir/gradle/scripts/spotless.gradle"
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
     options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal"
+}
+
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
+}
+
+afterEvaluate {
+    tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
+        manifest.attributes([
+                //Optional mixin
+                'MixinConfigs': "${mod_id}.mixins.json",
+                'Specification-Title': project.name,
+                'Specification-Version': mod_version,
+                'Implementation-Title': base.archivesName,
+                'Implementation-Version': version,
+        ])
+    }
 }
 
 jar{

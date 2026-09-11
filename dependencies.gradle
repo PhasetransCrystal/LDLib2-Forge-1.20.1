@@ -1,41 +1,38 @@
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    localImplementation fg.deobf("maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}") {
-        transitive = false
-    }
+    jarJar(implementation('org.jetbrains.kotlin:kotlin-stdlib:2.1.0'))
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.0")
 
     // JEI
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}") { transitive = false }
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}") { transitive = false }
-    localImplementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}") { transitive = false }
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}") { transitive = false }
+    modImplementation("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
     // REI
-    compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rei_version}")
-    compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-api-forge:${rei_version}")
-    compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-forge:${rei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
 
     // EMI
-    compileOnly fg.deobf("dev.emi:emi-forge:${emi_version}:api")
-    compileOnly fg.deobf("dev.emi:emi-forge:${emi_version}")
+    modCompileOnly("dev.emi:emi-forge:${emi_version}:api")
+    modImplementation("dev.emi:emi-forge:${emi_version}")
 
     // AE2
-    localImplementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
+    modImplementation("appeng:appliedenergistics2-forge:${ae2_version}")
 
     // KubeJS
-    localImplementation fg.deobf("dev.latvian.mods:kubejs-forge:${kjs_version}")
-    localImplementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+    modImplementation("dev.latvian.mods:kubejs-forge:${kjs_version}")
+    modImplementation("dev.latvian.mods:rhino-forge:${rhino_version}")
 
     // REI and KubeJS publish parts of their 1.20.1 Forge API through these
     // dependencies, but ForgeGradle's remapped classpath does not keep them
     // transitively in this single-loader setup.
-    localImplementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
-    localImplementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
+    modImplementation("dev.architectury:architectury-forge:${architectury_version}")
+    modImplementation("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
     compileOnly "me.shedaniel.cloth:basic-math:${cloth_basic_math_version}"
 
     // Oculus / Embeddium are the Forge 1.20.1 equivalents for Iris / Sodium compatibility.
-    compileOnly fg.deobf("maven.modrinth:embeddium:${embeddium_version}") { transitive = false }
-    compileOnly fg.deobf("maven.modrinth:oculus:${oculus_version}") { transitive = true }
+    modCompileOnly("maven.modrinth:embeddium:${embeddium_version}") { transitive = false }
+    modCompileOnly("maven.modrinth:oculus:${oculus_version}") { transitive = true }
     runtimeOnly("org.anarres:jcpp:1.4.14")
 
     // Compile Yoga from source so its public API remains available to the Forge runtime.
@@ -48,15 +45,13 @@ dependencies {
         transitive = false
     }
 
-    annotationProcessor("org.spongepowered:mixin:0.8.5")
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     annotationProcessor("org.ow2.asm:asm-tree:9.8")
     annotationProcessor("com.google.code.gson:gson:2.10")
     annotationProcessor("com.google.guava:guava:31.1-jre")
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
     implementation("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")
-    jarJar("io.github.llamalad7:mixinextras-forge:${mixinextras_version}") {
-        jarJar.ranged(it, "[${mixinextras_version},)")
-    }
+    jarJar("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
     testImplementation("com.google.guava:guava:33.5.0-jre")

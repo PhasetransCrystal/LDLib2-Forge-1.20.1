@@ -61,12 +61,6 @@ LDLib2 是一个面向模组开发者的基础库，不是单独给玩家游玩�
 ./gradlew build
 ```
 
-如果 ForgeGradle 证书检查导致依赖下载失败，可以使用：
-
-```bash
-./gradlew -Dnet.minecraftforge.gradle.check.certs=false build
-```
-
 构建产物在：
 
 ```text

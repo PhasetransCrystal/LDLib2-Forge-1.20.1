@@ -19,8 +19,8 @@ dependencyResolutionManagement {
     versionCatalogs {
         libs {
             //修改此处修改NeoForge版本
-            version("modDevGradleLegacy", "[6.0,6.2)")
-            plugin("modDevGradleLegacy", "net.minecraftforge.gradle").versionRef("modDevGradleLegacy")
+            version("modDevGradleLegacy", "2.0.91")
+            plugin("modDevGradleLegacy", "net.neoforged.moddev.legacyforge").versionRef("modDevGradleLegacy")
 
             version("kotlinDevGradleLegacy", "2.1.0")
             plugin("kotlinDevGradleLegacy", "org.jetbrains.kotlin.jvm").versionRef("kotlinDevGradleLegacy")

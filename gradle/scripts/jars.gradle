@@ -11,6 +11,7 @@ tasks.register('extractYogaSources', Copy) {
 }
 
 tasks.named('compileJava') {
+    dependsOn tasks.named('createMinecraftArtifacts')
     dependsOn tasks.named('extractYogaSources')
 }
 
@@ -39,11 +40,12 @@ tasks.register('syncMixinRefmapForRuns', Copy) {
 }
 
 tasks.configureEach {
-    if (name in ['prepareRunClient', 'prepareRunServer', 'prepareRunGameTestServer', 'prepareRunData']) {
+    if (name in ['prepareClientRun', 'prepareServerRun', 'prepareGameTestServerRun', 'prepareDataRun']) {
         dependsOn tasks.named('syncMixinRefmapForRuns')
     }
 }
 
 tasks.named('sourcesJar') {
+    dependsOn tasks.named('extractYogaSources')
     dependsOn tasks.named('vendorTaffyClasses')
 }

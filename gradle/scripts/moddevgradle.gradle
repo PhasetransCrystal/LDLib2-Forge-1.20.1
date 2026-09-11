@@ -7,44 +7,66 @@ test {
     }
 }
 
-minecraft {
-    mappings channel: 'official', version: minecraft_version
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+legacyForge {
+    // Forge userdev environment used by ModDevGradle.
+    version = "${minecraft_version}-${forge_version}"
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
 
     runs {
-        configureEach {
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
-        }
-
         client {
-            workingDirectory project.file('run/client')
-            property 'forge.enabledGameTestNamespaces', mod_id
+            client()
+            gameDirectory = project.file('run/client')
+            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         }
 
         server {
-            workingDirectory project.file('run/server')
-            property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
+            server()
+            gameDirectory = project.file('run/server')
+            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+            programArgument '--nogui'
         }
 
         gameTestServer {
-            workingDirectory project.file('run/testServer')
-            property 'forge.enabledGameTestNamespaces', mod_id
+            type = 'gameTestServer'
+            gameDirectory = project.file('run/testServer')
+            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         }
 
         data {
-            workingDirectory project.file('run/data')
-            args '--mod', mod_id, '--all',
-                    '--output', file('src/generated/resources/'),
-                    '--existing', file('src/main/resources/')
+            data()
+            gameDirectory = project.file('run/data')
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
         }
     }
 }
 
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    srcDir(layout.buildDirectory.dir("generated/resources/taffy"))
+}
+sourceSets.main.kotlin {
+    srcDir("src/main/java")
+}
+sourceSets.main.java {
+    srcDir(layout.buildDirectory.dir("generated/sources/yoga"))
+}
+
+configurations.testCompileOnly.extendsFrom(configurations.modDevCompileDependencies)
+configurations.testRuntimeOnly.extendsFrom(configurations.modDevRuntimeDependencies)
