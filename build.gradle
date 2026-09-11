@@ -57,9 +57,17 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-AreobfTsrgFile=${layout.buildDirectory.file('moddev/artifacts/namedToIntermediate.tsrg').get().asFile}"
 }
 
+mixin {
+    //add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
+}
+
 jar{
     exclude "**/.cache"
     exclude "**/SimplifiedToTraditional.properties"
+    manifest.attributes([
+            "MixinConfigs": "${mod_id}.mixins.json"
+    ])
 }
 
 tasks.register("printVersion") {
