@@ -71,14 +71,14 @@ public abstract class RecipeScreenMixin {
     }
 
     @Inject(method = "mouseScrolled", at = @At(value = "HEAD"), cancellable = true)
-    private void ldlib2$mouseScrolled(double mouseX, double mouseY, double horizontal, double vertical, CallbackInfoReturnable<Boolean> cir) {
+    private void ldlib2$mouseScrolled(double mouseX, double mouseY, double amount, CallbackInfoReturnable<Boolean> cir) {
         for (var group : currentPage) {
             for (var widget : group.widgets) {
                 if (widget instanceof ModularUIEMIWidget modularUIWidget) {
                     var ox = mouseX - group.x();
                     var oy = mouseY - group.y();
                     if (modularUIWidget.getBounds().contains((int) ox, (int) oy) &&
-                            modularUIWidget.modularUI.getWidget().mouseScrolled(mouseX, mouseY, horizontal, vertical)) {
+                            modularUIWidget.modularUI.getWidget().mouseScrolled(mouseX, mouseY, 0, amount)) {
                         cir.setReturnValue(true);
                     }
                 }

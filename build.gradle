@@ -51,23 +51,29 @@ apply from: "$projectDir/gradle/scripts/spotless.gradle"
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
     options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal"
-    options.compilerArgs << "-AoutRefMapFile=${layout.buildDirectory.file('tmp/compileJava/' + mod_id + '.refmap.json').get().asFile}"
-    options.compilerArgs << "-AmappingTypes=tsrg"
-    options.compilerArgs << "-AdefaultObfuscationEnv=searge"
-    options.compilerArgs << "-AreobfTsrgFile=${layout.buildDirectory.file('moddev/artifacts/namedToIntermediate.tsrg').get().asFile}"
 }
 
 mixin {
-    //add sourceSets.main, "${mod_id}.refmap.json"
+    add sourceSets.main, "${mod_id}.refmap.json"
     config "${mod_id}.mixins.json"
+}
+
+afterEvaluate {
+    tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
+        manifest.attributes([
+                //Optional mixin
+                'MixinConfigs': "${mod_id}.mixins.json",
+                'Specification-Title': project.name,
+                'Specification-Version': mod_version,
+                'Implementation-Title': base.archivesName,
+                'Implementation-Version': version,
+        ])
+    }
 }
 
 jar{
     exclude "**/.cache"
     exclude "**/SimplifiedToTraditional.properties"
-    manifest.attributes([
-            "MixinConfigs": "${mod_id}.mixins.json"
-    ])
 }
 
 tasks.register("printVersion") {
